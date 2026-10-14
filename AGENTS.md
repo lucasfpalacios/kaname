@@ -35,7 +35,7 @@ Diseño de referencia: `docs/design/` (export de Stitch + tokens). Plan de traba
 4. Antes de decir "listo": `pnpm lint`, `pnpm typecheck` y `pnpm build` (o los tests del módulo) tienen que pasar. Mostrar la evidencia.
 5. Commits chicos con mensaje en español y prefijo convencional (`feat:`, `fix:`, `chore:`).
 6. Toda pieza visual reutilizable vive en `packages/ui` y se documenta con una story antes de usarse en `apps/web`. Si un componente no existe en el kit, se crea ahí primero; no se arman componentes visuales sueltos dentro de las páginas.
-7. Textos de UI siempre por i18n (`messages/es.json`, `messages/en.json`), nunca hardcodeados.
+7. Textos de UI siempre por i18n (`apps/web/messages/es.json` y `en.json`, con la misma clave en los dos), nunca hardcodeados.
 8. Respuestas directas y breves, sin halagos. No repetir en el chat el código que ya quedó en archivos.
 9. Dependencias: nunca desactivar ni saltear `minimumReleaseAge` de pnpm (sin `minimumReleaseAgeExclude`, sin bajar el valor). Elegir siempre la versión más reciente que ya cumpla la regla.
 10. Decisiones: cada vez que se toma una decisión técnica o de producto (elegir una librería, un patrón, un cambio de modelo de datos, descartar una alternativa), agregar una entrada al final de `docs/decisiones.md` en el mismo commit. Formato corto: fecha, decisión, por qué, alternativa descartada. No registrar detalles menores de implementación.

@@ -1,0 +1,24 @@
+{
+  "Metadata": {
+    "title": "Kaname",
+    "description": "Manage all your businesses from a single panel."
+  },
+  "Home": {
+    "title": "Kaname",
+    "intro": "Manage all your businesses from a single panel: products, orders, purchases and projects, with the same foundation for every workspace.",
+    "salesLabel": "Sales this month",
+    "paletteLabel": "Color palette"
+  },
+  "ThemeToggle": {
+    "toDark": "Switch to dark",
+    "toLight": "Switch to light",
+    "loading": "Theme"
+  },
+  "LocaleSwitcher": {
+    "label": "Language",
+    "locales": {
+      "es": "Spanish",
+      "en": "English"
+    }
+  }
+}

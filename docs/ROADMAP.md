@@ -8,7 +8,7 @@ Piloto: **Tank Vault TCG**. Cada fase termina con algo que se puede usar y con l
 - [x] Postgres local con Docker Compose
 - [x] Prisma en `apps/api` con el schema de `docs/data-model/` + primera migración + seed (cuenta de Lucas, 4 espacios, roles del sistema)
 - [x] Tailwind configurado para consumir los tokens de `@kaname/ui`, tema claro/oscuro
-- [ ] next-intl (es/en)
+- [x] next-intl (es/en)
 - [ ] ESLint + Prettier + scripts `lint`, `typecheck`, `build`, `dev`
 - [x] Repo en GitHub
 

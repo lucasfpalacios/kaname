@@ -111,3 +111,12 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-14 · pnpm descarga Node 24 para los scripts (`devEngines.runtime`)
 **Por qué:** una terminal abierta con otro Node (en este caso el 23.8 que quedaba en el PATH) rompía `pnpm dev` con un error confuso de Nest. Con `devEngines.runtime` y `onFail: "download"`, pnpm instala Node 24 como dependencia, lo fija en el lockfile y lo usa para todos los scripts del monorepo. El resultado es el mismo en cualquier terminal y en CI.
 **Descartado:** depender solo de `.nvmrc` y `nvm use`, porque es fácil olvidarlo. Validar la versión y cortar con un mensaje, porque avisa pero no lo resuelve.
+
+### 2026-10-14 · i18n con next-intl: prefijo solo para inglés
+**Por qué:** español sin prefijo (`/productos`) e inglés con `/en` (`/en/productos`), con `localePrefix: "as-needed"`. Las páginas se prerenderizan por idioma (`generateStaticParams` + `setRequestLocale`), lo que encaja con Cache Components. Cada URL sirve tal cual para compartir. El `proxy.ts` elige el idioma por la URL, la cookie `NEXT_LOCALE` (la guarda el selector) o `Accept-Language`. Los mensajes viven en `apps/web/messages/{es,en}.json` y están tipados: una clave que no existe da error de compilación. Montos y fechas se formatean con `Intl` en es-AR / en-US (`intlLocale`), no con el código corto del idioma.
+**Descartado:** prefijo siempre (`/es/...`), porque alarga las URLs del idioma principal. Idioma solo por cookie, porque con Cache Components obliga a renderizar todo en forma dinámica.
+**Pendiente:** cuando haya login, usar `User.locale` como preferencia inicial.
+
+### 2026-10-14 · El script de next-themes se marca como datos en el cliente
+**Por qué:** al cambiar de idioma cambia el layout raíz y React vuelve a renderizar el `<script>` de next-themes en el cliente, lo que dispara el error "Encountered a script tag". `ThemeProvider` le pasa `type="application/json"` solo en el cliente. En el servidor sigue siendo JavaScript y evita el parpadeo del tema.
+**Descartado:** escribir un script de tema propio, porque es más código para mantener por un aviso de desarrollo.

@@ -61,3 +61,15 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-14 · Nunca saltear `minimumReleaseAge` de pnpm
 **Por qué:** la mayoría de los paquetes comprometidos se detectan en los primeros días. Se usa la última versión que ya cumple la regla (turbo 2.11.7 en vez de 2.11.8).
 **Descartado:** excluir paquetes de la regla para usar la última versión.
+
+### 2026-10-14 · Node 24 LTS
+**Por qué:** el CLI de Nest 12 no corre en Node 23.8 (error de `require()` de módulos ES), y Node 23 ya no tiene soporte. Node 24 ("Krypton") es la LTS activa y la que ofrecen Vercel y Render. Se fija con `.nvmrc` y `engines`.
+**Descartado:** Node 26, que todavía no es LTS. Armar la API sin el CLI de Nest para seguir en Node 23.
+
+### 2026-10-14 · ESLint 9 y TypeScript 6 en vez de las últimas majors
+**Por qué:** los plugins que trae `eslint-config-next` 16.4 (react, jsx-a11y, import) soportan hasta ESLint 9, y `typescript-eslint` pide TypeScript < 6.1. El CLI de Nest 12 también usa TypeScript 6. Se revisa cuando el ecosistema soporte ESLint 10 y TypeScript 7.
+**Descartado:** ESLint 10 y TypeScript 7 con peer dependencies rotas.
+
+### 2026-10-14 · API con la configuración por defecto de Nest 12
+**Por qué:** ESM, oxlint para el lint y Vitest para los tests es lo que genera Nest 12; así se sigue el camino estándar. La API escucha en el puerto 4000 (`PORT`) y acepta CORS solo desde `WEB_ORIGIN` (por defecto `http://localhost:3000`).
+**Descartado:** `@nestjs/mau` y el script `nest deploy`, porque Mau es un servicio pago (choca con la regla de costo cero). Pasar la API a ESLint ahora: se decide en la tarea de ESLint + Prettier.

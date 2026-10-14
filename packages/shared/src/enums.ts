@@ -1,4 +1,4 @@
-// Enums del dominio. Reflejan los de docs/data-model/schema.prisma: si cambia uno, cambiar el otro.
+// Enums del dominio. Reflejan los de apps/api/prisma/schema.prisma: si cambia uno, cambiar el otro.
 // Cada enum se usa como valor (Currency.ARS) y como tipo (Currency).
 import { z } from "zod";
 

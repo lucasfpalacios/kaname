@@ -1,13 +1,18 @@
 // Kaname — modelo de datos v0.1
 // PostgreSQL + Prisma. Multi-tenant por Account; casi todo cuelga de Workspace.
 
+// Prisma 7: el cliente se genera en src/generated/prisma (ESM) y la URL de conexión
+// vive en prisma.config.ts, no acá.
 generator client {
-  provider = "prisma-client-js"
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  runtime             = "nodejs"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 // ─────────────────────────────────────────────

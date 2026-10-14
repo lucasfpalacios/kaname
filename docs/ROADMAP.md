@@ -5,8 +5,8 @@ Piloto: **Tank Vault TCG**. Cada fase termina con algo que se puede usar y con l
 ## Fase 0 — Base del proyecto
 - [x] Monorepo pnpm + Turborepo con `apps/web` (Next.js) y `apps/api` (NestJS)
 - [x] Paquete compartido `packages/shared` (tipos, enums, validaciones zod)
-- [ ] Postgres local con Docker Compose
-- [ ] Prisma en `apps/api` con el schema de `docs/data-model/` + primera migración + seed (cuenta de Lucas, 4 espacios, roles del sistema)
+- [x] Postgres local con Docker Compose
+- [x] Prisma en `apps/api` con el schema de `docs/data-model/` + primera migración + seed (cuenta de Lucas, 4 espacios, roles del sistema)
 - [ ] Tailwind configurado para consumir los tokens de `@kaname/ui`, tema claro/oscuro
 - [ ] next-intl (es/en)
 - [ ] ESLint + Prettier + scripts `lint`, `typecheck`, `build`, `dev`

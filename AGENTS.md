@@ -25,7 +25,7 @@ Plataforma web para administrar varios emprendimientos desde un solo panel. Hoy 
 - Toda tabla de negocio tiene `workspaceId`. **Toda query filtra por workspace y valida que el usuario pertenezca a él.**
 - Dinero: `Decimal`, nunca `float`. Moneda explícita (`ARS` / `USD`).
 
-Modelo completo: `docs/data-model/schema.prisma` (se mueve a `apps/api/prisma/` en la fase 0).
+Modelo completo: `apps/api/prisma/schema.prisma`.
 Diseño de referencia: `docs/design/` (export de Stitch + tokens). Plan de trabajo: `docs/ROADMAP.md`.
 
 ## Forma de trabajo
@@ -41,7 +41,16 @@ Diseño de referencia: `docs/design/` (export de Stitch + tokens). Plan de traba
 10. Decisiones: cada vez que se toma una decisión técnica o de producto (elegir una librería, un patrón, un cambio de modelo de datos, descartar una alternativa), agregar una entrada al final de `docs/decisiones.md` en el mismo commit. Formato corto: fecha, decisión, por qué, alternativa descartada. No registrar detalles menores de implementación.
 
 ## Comandos
-(Se completan en la fase 0.)
+Requisitos: Node 24 (`.nvmrc`), pnpm (lo fija `packageManager`), Docker.
+```bash
+pnpm install                              # dependencias (genera el cliente de Prisma)
+cp apps/api/.env.example apps/api/.env    # variables de la API
+pnpm db:up                                # Postgres en Docker (puerto 5434)
+pnpm --filter @kaname/api db:migrate      # aplica migraciones (crea una nueva si cambió el schema)
+pnpm --filter @kaname/api db:seed         # datos iniciales
+pnpm dev                                  # web :3000 + api :4000
+pnpm lint && pnpm typecheck && pnpm build && pnpm test
+```
 
 <!-- BEGIN:turborepo-agent-rules -->
 

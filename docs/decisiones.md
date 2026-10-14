@@ -78,3 +78,22 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 **Por qué:** la API corre en Node como ESM y no puede ejecutar TypeScript de otro paquete, así que `shared` se compila con `tsc` a `dist/` y Turborepo lo construye antes de `dev`, `lint`, `typecheck` y `build` de las apps. Cada enum del dominio es un `z.enum` que sirve como valor (`Currency.ARS`), como tipo y para validar. El dinero viaja como string decimal, nunca como `number`.
 **Descartado:** exportar el código TypeScript sin compilar (`transpilePackages` en Next), porque funciona en la web pero no en la API. Usar los enums que genera Prisma también en la web, porque arrastra el cliente de Prisma al front.
 **Riesgo conocido:** los enums están duplicados respecto de `schema.prisma` y hay que mantenerlos a mano. Se puede agregar un chequeo cuando Prisma esté en `apps/api`.
+
+### 2026-10-14 · Prisma 7.10 y ajustes del schema para Prisma 7
+**Por qué:** es la última estable (el tag `latest` de npm apunta a la 8.0.0-rc). Prisma 7 cambia la configuración, y el schema se ajustó así:
+- generator `prisma-client-js` → `prisma-client`, con `output` en `src/generated/prisma` (ESM, imports `.js`). El cliente generado no se commitea y lo regenera la tarea `db:generate` de Turborepo.
+- `url` sale del `datasource` y pasa a `prisma.config.ts`, que carga `.env` con dotenv. Se usa `process.env.DATABASE_URL` y no `env()`, para que `prisma generate` funcione sin `.env` (build, CI).
+- El cliente se conecta con el driver adapter `@prisma/adapter-pg`, que en Prisma 7 es obligatorio.
+- Los modelos y los enums no cambiaron.
+**Descartado:** Prisma 8 (todavía es RC). Quedarse en Prisma 6 con `prisma-client-js`.
+
+### 2026-10-14 · Postgres 18 en Docker, puerto 5434
+**Por qué:** 18.6 es la última estable (la 19 está en beta). Se expone en el 5434 porque el 5432 y el 5433 ya están ocupados en la máquina de desarrollo. En producción (Neon) hay que usar la misma versión mayor.
+**Descartado:** Postgres 15, la imagen que ya había descargada.
+
+### 2026-10-14 · Seed inicial: roles y módulos por espacio
+**Por qué:** roles del sistema con la misma matriz en todos los módulos: Dueño (todo), Colaborador (ver, crear y editar; no elimina), Cliente (solo ver). Módulos activos según el rubro: Tank Vault (12, sin proyectos ni presupuestos), Disanza (10, con compras e insumos), VISIÓ (8, con proyectos y presupuestos) y Shinka (6: clientes, proyectos, presupuestos, documentos, calendario y dashboard). Lucas es superadmin, dueño de la cuenta y miembro con rol Dueño en los 4 espacios. Todo se edita después desde la app.
+
+### 2026-10-14 · Configuración de la API con `@nestjs/config`
+**Por qué:** es el módulo estándar de Nest para leer `.env`. `PrismaService` toma `DATABASE_URL` de ahí y se conecta al iniciar la app, así que si la base no está disponible la API falla al arrancar, con un error claro.
+**Descartado:** `process.loadEnvFile()` de Node, que es más simple pero no se integra con la inyección de dependencias ni con la validación de variables que se va a sumar.

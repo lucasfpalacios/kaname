@@ -2,6 +2,10 @@ packages:
   - "apps/*"
   - "packages/*"
 
+# Solo versiones publicadas hace al menos 1 día (1440 min). Declararlo lo vuelve estricto:
+# pnpm frena en vez de agregar la versión a minimumReleaseAgeExclude. Ver AGENTS.md, regla 9.
+minimumReleaseAge: 1440
+
 allowBuilds:
   "@parcel/watcher": false
   "@prisma/engines": true

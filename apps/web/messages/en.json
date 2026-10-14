@@ -20,5 +20,13 @@
       "es": "Spanish",
       "en": "English"
     }
+  },
+  "Errors": {
+    "money_invalid": "Invalid amount: up to 12 digits and 2 decimals."
+  },
+  "Roles": {
+    "OWNER": "Owner",
+    "COLLABORATOR": "Collaborator",
+    "CLIENT": "Client"
   }
 }

@@ -7,6 +7,7 @@ import {
   AccountType,
   ModuleKey,
   PrismaClient,
+  SystemRoleKey,
   WorkspaceType,
 } from "../src/generated/prisma/client.js";
 
@@ -26,13 +27,16 @@ type Permission = {
   canDelete: boolean;
 };
 
-// Roles del sistema: misma matriz para todos los módulos.
+// Roles del sistema: misma matriz para todos los módulos. Se identifican por systemKey;
+// name queda como referencia en la base y la UI muestra el nombre traducido por la clave.
 const SYSTEM_ROLES: {
+  key: SystemRoleKey;
   name: string;
   description: string;
   permission: Permission;
 }[] = [
   {
+    key: SystemRoleKey.OWNER,
     name: "Dueño",
     description: "Acceso total a todos los módulos.",
     permission: {
@@ -43,6 +47,7 @@ const SYSTEM_ROLES: {
     },
   },
   {
+    key: SystemRoleKey.COLLABORATOR,
     name: "Colaborador",
     description: "Ve, crea y edita. No puede eliminar.",
     permission: {
@@ -53,6 +58,7 @@ const SYSTEM_ROLES: {
     },
   },
   {
+    key: SystemRoleKey.CLIENT,
     name: "Cliente",
     description: "Solo lectura.",
     permission: {
@@ -166,19 +172,21 @@ async function main() {
       },
     }));
 
-  const roles = new Map<string, string>();
+  const roles = new Map<SystemRoleKey, string>();
   for (const role of SYSTEM_ROLES) {
     const saved = await prisma.role.upsert({
-      where: { accountId_name: { accountId: account.id, name: role.name } },
-      update: { description: role.description, isSystem: true },
+      where: {
+        accountId_systemKey: { accountId: account.id, systemKey: role.key },
+      },
+      update: { description: role.description },
       create: {
         accountId: account.id,
+        systemKey: role.key,
         name: role.name,
         description: role.description,
-        isSystem: true,
       },
     });
-    roles.set(role.name, saved.id);
+    roles.set(role.key, saved.id);
 
     for (const module of ALL_MODULES) {
       await prisma.rolePermission.upsert({
@@ -189,7 +197,7 @@ async function main() {
     }
   }
 
-  const ownerRoleId = roles.get("Dueño")!;
+  const ownerRoleId = roles.get(SystemRoleKey.OWNER)!;
 
   for (const ws of WORKSPACES) {
     const workspace = await prisma.workspace.upsert({

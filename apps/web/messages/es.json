@@ -20,5 +20,13 @@
       "es": "Español",
       "en": "Inglés"
     }
+  },
+  "Errors": {
+    "money_invalid": "Monto inválido: hasta 12 enteros y 2 decimales."
+  },
+  "Roles": {
+    "OWNER": "Dueño",
+    "COLLABORATOR": "Colaborador",
+    "CLIENT": "Cliente"
   }
 }

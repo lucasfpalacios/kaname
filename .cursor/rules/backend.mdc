@@ -7,7 +7,8 @@ alwaysApply: false
 - Un módulo de Nest por módulo de negocio (`products`, `orders`, `calendar`...): controller + service + DTOs.
 - Validar entrada con `class-validator` o zod (compartido desde `packages/shared`).
 - Toda ruta de negocio cuelga de `/workspaces/:workspaceId/...` y pasa por el guard que verifica membresía y permiso del módulo (`RolePermission`).
-- Nunca consultar sin filtrar por `workspaceId`.
+- Nunca consultar sin filtrar por `workspaceId`. Las tablas hijas sin `workspaceId` (ítems, pagos, recetas...) se consultan siempre a través del padre filtrado por espacio.
+- Antes de guardar, validar que toda FK cruzada (por ejemplo `variantId`, `customerId`, `supplierId`) pertenezca al mismo `workspaceId`.
 - Dinero con `Prisma.Decimal`; no convertir a `number` para calcular.
 - Operaciones que tocan stock + pedido van en una transacción (`prisma.$transaction`).
 - Registrar acciones relevantes en `ActivityLog`.

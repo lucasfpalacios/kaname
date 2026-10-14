@@ -17,10 +17,10 @@
       "dependsOn": ["^build", "db:generate"]
     },
     "lint": {
-      "dependsOn": ["^build", "^lint", "db:generate"]
+      "dependsOn": ["^build", "db:generate"]
     },
     "typecheck": {
-      "dependsOn": ["^build", "^typecheck", "db:generate"]
+      "dependsOn": ["^build", "db:generate"]
     },
     "test": {
       "dependsOn": ["^build", "db:generate"]

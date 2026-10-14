@@ -2,11 +2,11 @@
 
 Piloto: **Tank Vault TCG**. Cada fase termina con algo que se puede usar y con lint/typecheck/build en verde.
 
-## Fase 0 — Base del proyecto
+## Fase 0 — Base del proyecto ✅
 - [x] Monorepo pnpm + Turborepo con `apps/web` (Next.js) y `apps/api` (NestJS)
 - [x] Paquete compartido `packages/shared` (tipos, enums, validaciones zod)
 - [x] Postgres local con Docker Compose
-- [x] Prisma en `apps/api` con el schema de `docs/data-model/` + primera migración + seed (cuenta de Lucas, 4 espacios, roles del sistema)
+- [x] Prisma en `apps/api` (`apps/api/prisma/schema.prisma`) + primera migración + seed (cuenta de Lucas, 4 espacios, roles del sistema)
 - [x] Tailwind configurado para consumir los tokens de `@kaname/ui`, tema claro/oscuro
 - [x] next-intl (es/en)
 - [x] ESLint + Prettier + scripts `lint`, `typecheck`, `build`, `dev`
@@ -15,7 +15,7 @@ Piloto: **Tank Vault TCG**. Cada fase termina con algo que se puede usar y con l
 ## Fase 0.5 — UI Kit (`packages/ui`)
 Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro y con su story.
 - [ ] Storybook con selector de tema (claro/oscuro) y de idioma (es/en)
-- [ ] Fundamentos: tokens como variables CSS (de `docs/design/tokens.md`), tipografía (Shippori Mincho B1 + Zen Kaku Gothic New), acentos kanji por módulo, espaciados, radios, íconos (lucide), `ThemeProvider`
+- [ ] Fundamentos: acentos kanji por módulo, espaciados, íconos (lucide) y stories de los fundamentos. Ya hechos en la Fase 0: tokens como variables CSS, tipografía (Shippori Mincho B1 + Zen Kaku Gothic New), radios y `ThemeProvider`
 - [ ] Acento dinámico por espacio: `Workspace.color` sobreescribe `--accent` en su contenedor
 - [ ] Base (shadcn/ui adaptado): Button, IconButton, Input, Textarea, Select, Combobox, Checkbox, Switch, RadioGroup, DatePicker, Badge, Card, Tabs, Dialog, Sheet/Drawer, DropdownMenu, Tooltip, Popover, Toast, Avatar, Skeleton, Separator
 - [ ] Formularios: FormField (label, ayuda, error), MoneyInput (ARS/USD), PercentInput

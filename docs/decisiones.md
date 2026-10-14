@@ -129,3 +129,26 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - **Lo que no se formatea:** el markdown y el export de Stitch, porque son documentación escrita a mano.
 
 **Descartado:** mantener oxlint en la API. Es más rápido, pero obliga a mantener dos configuraciones con reglas distintas. Correr Prettier como regla de ESLint, porque es más lento y los errores de formato se mezclan con los de lógica.
+
+### 2026-10-14 · Revisión de la Fase 0: aislamiento por espacio en tablas hijas
+**Por qué:** `ProductVariant` suma `workspaceId` (con índice y FK) porque se consulta directo por stock, costo y precio, y filtrar siempre por `Product` es fácil de olvidar. El resto de las tablas hijas (ítems, pagos, recetas, ítems de listas de precios, precios de mercado, snapshots) heredan el espacio del padre: se consultan a través de él, y toda FK cruzada (`variantId`, `customerId`, etc.) se valida contra el mismo espacio antes de guardar. La regla quedó escrita en `AGENTS.md` y `backend.mdc`.
+**Descartado:** `workspaceId` en todas las tablas hijas, porque son más columnas para mantener iguales a las del padre sin ganar casi nada. Solo documentar, porque deja la tabla más consultada sin filtro propio.
+
+### 2026-10-14 · Roles del sistema por clave y errores de validación por código
+**Por qué:** `Role.isSystem` se reemplaza por `Role.systemKey` (`OWNER` / `COLLABORATOR` / `CLIENT`, único por cuenta). La UI muestra el nombre traducido (`Roles.<clave>`), así un Dueño ve "Owner" en inglés. Los roles propios siguen usando `name`. Los schemas de `@kaname/shared` devuelven códigos (`money_invalid`) en vez de texto, y la web los traduce con `Errors.<código>`.
+**Descartado:** guardar los nombres traducidos en la base, porque obliga a una columna por idioma.
+
+### 2026-10-14 · Montos acotados a Decimal(14, 2)
+**Por qué:** `moneySchema` acepta hasta 12 enteros y 2 decimales y no acepta negativos. Para ajustes existe `signedMoneySchema`. Así un monto fuera de rango es un 400 de validación y no un 500 de la base.
+
+### 2026-10-14 · Categorías únicas con `NULLS NOT DISTINCT`
+**Por qué:** `@@unique([workspaceId, name, parentId])` no impedía dos categorías raíz con el mismo nombre, porque Postgres trata los `NULL` como distintos. La migración recrea el índice con `NULLS NOT DISTINCT` (Postgres 15 o más). Prisma no modela esa opción, así que está en el SQL de la migración y comentada en el schema.
+
+### 2026-10-14 · Preparación para producción en la API
+**Por qué:**
+- **CORS:** `WEB_ORIGIN` es obligatoria (la API no arranca sin ella) y acepta varios orígenes separados por coma, para producción y previews.
+- **Apagado:** `enableShutdownHooks` cierra Prisma cuando Render apaga el servicio.
+- **Conexiones:** las migraciones usan `DIRECT_URL` (Neon sin pooler) y la app usa `DATABASE_URL` (con pooler).
+- **Dependencias:** `prisma` y `dotenv` pasan a `dependencies`, porque las usan el `postinstall` y `migrate deploy`.
+- **Base local:** Postgres publica el puerto solo en `127.0.0.1`.
+- **`minimumReleaseAge: 1440` explícito:** el valor por defecto de pnpm no es estricto y agrega las versiones nuevas a `minimumReleaseAgeExclude` sin avisar. Declarado, pnpm frena.

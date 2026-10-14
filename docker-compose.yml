@@ -8,7 +8,8 @@ services:
       POSTGRES_PASSWORD: kaname
       POSTGRES_DB: kaname
     ports:
-      - "5434:5432"
+      # Solo localhost: no exponer la base a la red local.
+      - "127.0.0.1:5434:5432"
     volumes:
       # Postgres 18 guarda los datos en /var/lib/postgresql/18/docker: el volumen va en el padre.
       - postgres-data:/var/lib/postgresql

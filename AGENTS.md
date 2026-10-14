@@ -19,10 +19,10 @@ Plataforma web para administrar varios emprendimientos desde un solo panel. Hoy 
 ## Dominio
 - `Account` (tenant) → `Workspace` (espacio) → módulos activables (`WorkspaceModule`).
 - Tipos de espacio: `BUSINESS` (Tank Vault TCG, Disanza, VISIÓ) y `PROJECTS` (Shinka, con clientes como Hiru Cerámica).
-- Roles: superadmin de plataforma (`User.isSuperadmin`), y por cuenta: Dueño, Colaborador, Cliente (solo lectura) + roles custom. Permisos = matriz módulo × ver/crear/editar/eliminar (`RolePermission`).
+- Roles: superadmin de plataforma (`User.isSuperadmin`), y por cuenta: Dueño, Colaborador, Cliente (solo lectura) + roles custom. Los del sistema se identifican por `Role.systemKey` y la UI traduce su nombre (`Roles.<clave>`); los custom usan `name`. Permisos = matriz módulo × ver/crear/editar/eliminar (`RolePermission`).
 - Productos con variantes: el stock, costo y precio viven en `ProductVariant`, nunca en `Product`.
 - Pedido = venta (`Order` + `OrderItem` + `Payment`). Compras/importaciones (`Purchase`) cargan stock y costo.
-- Toda tabla de negocio tiene `workspaceId`. **Toda query filtra por workspace y valida que el usuario pertenezca a él.**
+- Las tablas de negocio de primer nivel (y `ProductVariant`, que se consulta directo) tienen `workspaceId`. Las tablas hijas (ítems de pedido/compra/presupuesto, pagos, recetas, ítems de lista de precios, precios de mercado, snapshots) heredan el espacio de su padre. **Toda query filtra por workspace (directo o por el padre) y valida que el usuario pertenezca a él.** Toda FK que cruce entidades (por ejemplo `variantId` en un ítem de pedido) se valida contra el mismo espacio antes de guardar.
 - Dinero: `Decimal`, nunca `float`. Moneda explícita (`ARS` / `USD`).
 
 Modelo completo: `apps/api/prisma/schema.prisma`.
@@ -74,6 +74,8 @@ db:studio    # Prisma Studio
 db:generate  # regenera el cliente (lo hace turbo solo antes de lint/typecheck/build/dev/test)
 test:e2e     # tests e2e de la api (necesita Postgres levantado)
 ```
+
+**Deploy** (todavía sin configurar): construir siempre con turbo para que `@kaname/shared` y el cliente de Prisma se generen antes, por ejemplo `pnpm turbo run build --filter=@kaname/web` en Vercel y `--filter=@kaname/api` en Render. En la API, `prisma migrate deploy` usa `DIRECT_URL` (conexión sin pooler de Neon) y la app usa `DATABASE_URL` (con pooler).
 
 **Antes de decir "listo"**
 ```bash

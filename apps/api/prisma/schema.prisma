@@ -29,6 +29,13 @@ enum AccountRole {
   MEMBER
 }
 
+// Roles que crea el sistema en cada cuenta. La UI muestra el nombre traducido por esta clave.
+enum SystemRoleKey {
+  OWNER // Dueño
+  COLLABORATOR // Colaborador
+  CLIENT // Cliente (solo lectura)
+}
+
 enum WorkspaceType {
   BUSINESS // Emprendimiento (Tank Vault, Disanza, VISIÓ)
   PROJECTS // Agrupa proyectos de clientes (Shinka)
@@ -229,15 +236,15 @@ model AccountMember {
   @@unique([accountId, userId])
 }
 
-// Roles por cuenta: Dueño / Colaborador / Cliente (solo lectura) vienen sembrados (isSystem)
+// Roles por cuenta: Dueño / Colaborador / Cliente (solo lectura) vienen sembrados (systemKey)
 // y la cuenta puede crear roles propios.
 model Role {
-  id          String   @id @default(cuid())
+  id          String         @id @default(cuid())
   accountId   String
-  name        String
+  name        String // nombre visible de los roles propios; los del sistema se traducen por systemKey
   description String?
-  isSystem    Boolean  @default(false)
-  createdAt   DateTime @default(now())
+  systemKey   SystemRoleKey? // null = rol propio de la cuenta
+  createdAt   DateTime       @default(now())
 
   account     Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
   permissions RolePermission[]
@@ -245,6 +252,7 @@ model Role {
   invitations Invitation[]
 
   @@unique([accountId, name])
+  @@unique([accountId, systemKey])
 }
 
 // Matriz de permisos de la pantalla Admin: módulo × (ver, crear, editar, eliminar)
@@ -302,6 +310,7 @@ model Workspace {
   members             WorkspaceMember[]
   categories          Category[]
   products            Product[]
+  productVariants     ProductVariant[]
   suppliers           Supplier[]
   customers           Customer[]
   priceLists          PriceList[]
@@ -366,6 +375,8 @@ model Category {
   children  Category[] @relation("CategoryTree")
   products  Product[]
 
+  // La migración lo crea con NULLS NOT DISTINCT: sin eso, dos categorías raíz (parentId null)
+  // con el mismo nombre no chocan. Prisma no modela esa opción; está en el SQL de la migración.
   @@unique([workspaceId, name, parentId])
 }
 
@@ -394,6 +405,7 @@ model Product {
 // La unidad real que tiene stock, costo y precio. Un producto sin variantes tiene 1 variante "default".
 model ProductVariant {
   id                String   @id @default(cuid())
+  workspaceId       String // redundante con product.workspaceId: se consulta directo (stock, precios)
   productId         String
   sku               String?
   barcode           String?
@@ -411,6 +423,7 @@ model ProductVariant {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
+  workspace       Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   product         Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
   defaultSupplier Supplier?       @relation(fields: [defaultSupplierId], references: [id])
   prices          PriceListItem[]
@@ -423,6 +436,7 @@ model ProductVariant {
   marketTracks    MarketTrack[]
 
   @@index([productId])
+  @@index([workspaceId])
 }
 
 // Receta / BOM: un producto final (combo Disanza) consume insumos

@@ -1,8 +1,10 @@
+import { localeSchema } from "@kaname/shared";
 import { defineRouting } from "next-intl/routing";
 
 // Español sin prefijo (/productos), inglés con /en (/en/productos).
+// Los idiomas salen del enum Locale del dominio (el mismo de User.locale en Prisma).
 export const routing = defineRouting({
-  locales: ["es", "en"],
+  locales: localeSchema.options,
   defaultLocale: "es",
   localePrefix: "as-needed",
 });

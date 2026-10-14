@@ -10,6 +10,10 @@ export const accountRoleSchema = z.enum(["OWNER", "MEMBER"]);
 export const AccountRole = accountRoleSchema.enum;
 export type AccountRole = z.infer<typeof accountRoleSchema>;
 
+export const systemRoleKeySchema = z.enum(["OWNER", "COLLABORATOR", "CLIENT"]);
+export const SystemRoleKey = systemRoleKeySchema.enum;
+export type SystemRoleKey = z.infer<typeof systemRoleKeySchema>;
+
 export const workspaceTypeSchema = z.enum(["BUSINESS", "PROJECTS"]);
 export const WorkspaceType = workspaceTypeSchema.enum;
 export type WorkspaceType = z.infer<typeof workspaceTypeSchema>;

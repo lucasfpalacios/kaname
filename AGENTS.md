@@ -41,7 +41,7 @@ Diseño de referencia: `docs/design/` (export de Stitch + tokens). Plan de traba
 10. Decisiones: cada vez que se toma una decisión técnica o de producto (elegir una librería, un patrón, un cambio de modelo de datos, descartar una alternativa), agregar una entrada al final de `docs/decisiones.md` en el mismo commit. Formato corto: fecha, decisión, por qué, alternativa descartada. No registrar detalles menores de implementación.
 
 ## Comandos
-Requisitos: Node 24 (`.nvmrc`), pnpm (lo fija `packageManager`), Docker.
+Requisitos: pnpm y Docker. pnpm usa la versión que fija `packageManager` y descarga Node 24 para los scripts (`devEngines.runtime`), sin importar qué Node tenga la terminal. `.nvmrc` queda para el editor y las herramientas que corren fuera de pnpm.
 ```bash
 pnpm install                              # dependencias (genera el cliente de Prisma)
 cp apps/api/.env.example apps/api/.env    # variables de la API

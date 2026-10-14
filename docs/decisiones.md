@@ -107,3 +107,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - **Tema:** `ThemeProvider` usa next-themes, que solo depende de React, con la clase `.dark` y "sistema" por defecto.
 
 **Descartado:** compilar el kit a `dist/` como `@kaname/shared`. Solo lo consumen bundlers, así que el build no aporta nada y obliga a resolver aparte el CSS y las directivas `"use client"`.
+
+### 2026-10-14 · pnpm descarga Node 24 para los scripts (`devEngines.runtime`)
+**Por qué:** una terminal abierta con otro Node (en este caso el 23.8 que quedaba en el PATH) rompía `pnpm dev` con un error confuso de Nest. Con `devEngines.runtime` y `onFail: "download"`, pnpm instala Node 24 como dependencia, lo fija en el lockfile y lo usa para todos los scripts del monorepo. El resultado es el mismo en cualquier terminal y en CI.
+**Descartado:** depender solo de `.nvmrc` y `nvm use`, porque es fácil olvidarlo. Validar la versión y cortar con un mensaje, porque avisa pero no lo resuelve.

@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Shippori_Mincho_B1, Zen_Kaku_Gothic_New } from "next/font/google";
+import { ThemeProvider } from "@kaname/ui";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Las variables las consume @kaname/ui (font-display / font-sans).
+const display = Shippori_Mincho_B1({
+  variable: "--kaname-font-display",
+  weight: ["600", "700", "800"],
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sans = Zen_Kaku_Gothic_New({
+  variable: "--kaname-font-sans",
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
 });
 
@@ -21,9 +25,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${display.variable} ${sans.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

@@ -1,0 +1,42 @@
+/*
+ * Tokens de color de Kaname. Fuente de verdad: docs/design/tokens.md.
+ * Claro en :root, oscuro en .dark (la clase la pone ThemeProvider).
+ * Los fondos suaves de estado que tokens.md no define en claro se derivan con color-mix.
+ */
+:root {
+  --background: #fffffc; /* Gofun-iro */
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --foreground: #1f2033; /* Sumi */
+  --primary: #1e50a2; /* Ruri-iro */
+  --primary-foreground: #ffffff;
+  --accent: #f09199; /* Momo-iro */
+  --accent-soft: #fef4f4; /* Sakura-iro */
+  --success: #2e7d5b;
+  --success-soft: color-mix(in oklab, var(--success) 10%, var(--card));
+  --warning: #c88a35;
+  --warning-soft: color-mix(in oklab, var(--warning) 12%, var(--card));
+  --destructive: #c93a40;
+  --destructive-soft: color-mix(in oklab, var(--destructive) 10%, var(--card));
+
+  color-scheme: light;
+}
+
+.dark {
+  --background: #0f1a33; /* Kon-iro */
+  --card: #1a2747;
+  --border: #293b63;
+  --foreground: #f3f1f6;
+  --primary: #89c3eb; /* Wasurenagusa-iro */
+  --primary-foreground: #0f1a33;
+  --accent: #f4b3c2; /* Toki-iro */
+  --accent-soft: #3a2a3f;
+  --success: #56c288;
+  --success-soft: #123326;
+  --warning: #f6c163;
+  --warning-soft: #382b12;
+  --destructive: #ff7b82;
+  --destructive-soft: #3e1b20;
+
+  color-scheme: dark;
+}

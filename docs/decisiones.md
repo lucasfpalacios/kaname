@@ -97,3 +97,13 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-14 · Configuración de la API con `@nestjs/config`
 **Por qué:** es el módulo estándar de Nest para leer `.env`. `PrismaService` toma `DATABASE_URL` de ahí y se conecta al iniciar la app, así que si la base no está disponible la API falla al arrancar, con un error claro.
 **Descartado:** `process.loadEnvFile()` de Node, que es más simple pero no se integra con la inyección de dependencias ni con la validación de variables que se va a sumar.
+
+### 2026-10-14 · `@kaname/ui` como código fuente, con tokens en CSS
+**Por qué:**
+- **Distribución:** el kit se consume como TypeScript y CSS sin compilar. Next lo compila con `transpilePackages` y Storybook lo va a compilar con su propio bundler. Así no hace falta un paso de build y Tailwind ve las clases del kit con `@source`.
+- **Tokens:** son variables CSS (claro en `:root`, oscuro en `.dark`) y Tailwind v4 los expone con `@theme inline`.
+- **Fondos suaves de estado:** en modo claro `tokens.md` no los define, así que se derivan con `color-mix` sobre el color de estado.
+- **Fuentes:** el kit no carga fuentes, para no depender de Next. La app las carga con `next/font` y las pasa en `--kaname-font-display` y `--kaname-font-sans`.
+- **Tema:** `ThemeProvider` usa next-themes, que solo depende de React, con la clase `.dark` y "sistema" por defecto.
+
+**Descartado:** compilar el kit a `dist/` como `@kaname/shared`. Solo lo consumen bundlers, así que el build no aporta nada y obliga a resolver aparte el CSS y las directivas `"use client"`.

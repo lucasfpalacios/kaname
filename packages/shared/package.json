@@ -12,12 +12,15 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch --preserveWatchOutput",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint"
   },
   "dependencies": {
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@kaname/eslint-config": "workspace:*",
+    "eslint": "9.39.5",
     "typescript": "6.0.3"
   }
 }

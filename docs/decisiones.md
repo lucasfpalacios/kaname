@@ -120,3 +120,12 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-14 · El script de next-themes se marca como datos en el cliente
 **Por qué:** al cambiar de idioma cambia el layout raíz y React vuelve a renderizar el `<script>` de next-themes en el cliente, lo que dispara el error "Encountered a script tag". `ThemeProvider` le pasa `type="application/json"` solo en el cliente. En el servidor sigue siendo JavaScript y evita el parpadeo del tema.
 **Descartado:** escribir un script de tema propio, porque es más código para mantener por un aviso de desarrollo.
+
+### 2026-10-14 · ESLint y Prettier compartidos; la API deja oxlint
+**Por qué:**
+- **Un solo linter:** la configuración de ESLint vive en `@kaname/eslint-config`, con cuatro variantes: `base`, `next`, `nest` y `react`. Todos los paquetes corren `eslint` por Turborepo.
+- **API:** pasa de oxlint a ESLint para tener una sola configuración y las mismas reglas que el resto, y conserva `no-floating-promises` con chequeo de tipos.
+- **Prettier:** hay uno solo, en la raíz, con la configuración por defecto (comillas dobles), así que la API dejó las comillas simples del template de Nest. `eslint-config-prettier` apaga las reglas de formato de ESLint.
+- **Lo que no se formatea:** el markdown y el export de Stitch, porque son documentación escrita a mano.
+
+**Descartado:** mantener oxlint en la API. Es más rápido, pero obliga a mantener dos configuraciones con reglas distintas. Correr Prettier como regla de ESLint, porque es más lento y los errores de formato se mezclan con los de lógica.

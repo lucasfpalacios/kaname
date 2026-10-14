@@ -1,17 +1,17 @@
 // Datos iniciales: usuario de Lucas, su cuenta, roles del sistema con su matriz de permisos
 // y los 4 espacios con sus módulos. Es idempotente: se puede correr varias veces.
-import 'dotenv/config';
-import { PrismaPg } from '@prisma/adapter-pg';
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
 import {
   AccountRole,
   AccountType,
   ModuleKey,
   PrismaClient,
   WorkspaceType,
-} from '../src/generated/prisma/client.js';
+} from "../src/generated/prisma/client.js";
 
 const databaseUrl = process.env.DATABASE_URL;
-if (!databaseUrl) throw new Error('Falta DATABASE_URL');
+if (!databaseUrl) throw new Error("Falta DATABASE_URL");
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: databaseUrl }),
@@ -33,8 +33,8 @@ const SYSTEM_ROLES: {
   permission: Permission;
 }[] = [
   {
-    name: 'Dueño',
-    description: 'Acceso total a todos los módulos.',
+    name: "Dueño",
+    description: "Acceso total a todos los módulos.",
     permission: {
       canView: true,
       canCreate: true,
@@ -43,8 +43,8 @@ const SYSTEM_ROLES: {
     },
   },
   {
-    name: 'Colaborador',
-    description: 'Ve, crea y edita. No puede eliminar.',
+    name: "Colaborador",
+    description: "Ve, crea y edita. No puede eliminar.",
     permission: {
       canView: true,
       canCreate: true,
@@ -53,8 +53,8 @@ const SYSTEM_ROLES: {
     },
   },
   {
-    name: 'Cliente',
-    description: 'Solo lectura.',
+    name: "Cliente",
+    description: "Solo lectura.",
     permission: {
       canView: true,
       canCreate: false,
@@ -72,10 +72,10 @@ const WORKSPACES: {
   modules: ModuleKey[];
 }[] = [
   {
-    slug: 'tank-vault-tcg',
-    name: 'Tank Vault TCG',
+    slug: "tank-vault-tcg",
+    name: "Tank Vault TCG",
     type: WorkspaceType.BUSINESS,
-    description: 'Cartas coleccionables: venta e importación.',
+    description: "Cartas coleccionables: venta e importación.",
     modules: [
       ModuleKey.DASHBOARD,
       ModuleKey.PRODUCTS,
@@ -92,10 +92,10 @@ const WORKSPACES: {
     ],
   },
   {
-    slug: 'disanza',
-    name: 'Disanza',
+    slug: "disanza",
+    name: "Disanza",
     type: WorkspaceType.BUSINESS,
-    description: 'Gastronomía y takeaway.',
+    description: "Gastronomía y takeaway.",
     modules: [
       ModuleKey.DASHBOARD,
       ModuleKey.PRODUCTS,
@@ -110,10 +110,10 @@ const WORKSPACES: {
     ],
   },
   {
-    slug: 'visio',
-    name: 'VISIÓ',
+    slug: "visio",
+    name: "VISIÓ",
     type: WorkspaceType.BUSINESS,
-    description: 'Estudio creativo.',
+    description: "Estudio creativo.",
     modules: [
       ModuleKey.DASHBOARD,
       ModuleKey.PRODUCTS,
@@ -126,10 +126,10 @@ const WORKSPACES: {
     ],
   },
   {
-    slug: 'shinka',
-    name: 'Shinka',
+    slug: "shinka",
+    name: "Shinka",
     type: WorkspaceType.PROJECTS,
-    description: 'Desarrollo de software para clientes.',
+    description: "Desarrollo de software para clientes.",
     modules: [
       ModuleKey.DASHBOARD,
       ModuleKey.CUSTOMERS,
@@ -143,11 +143,11 @@ const WORKSPACES: {
 
 async function main() {
   const user = await prisma.user.upsert({
-    where: { email: 'lucasfpalacios@gmail.com' },
+    where: { email: "lucasfpalacios@gmail.com" },
     update: {},
     create: {
-      email: 'lucasfpalacios@gmail.com',
-      name: 'Lucas Facundo Palacios',
+      email: "lucasfpalacios@gmail.com",
+      name: "Lucas Facundo Palacios",
       isSuperadmin: true,
     },
   });
@@ -160,7 +160,7 @@ async function main() {
     existingAccount ??
     (await prisma.account.create({
       data: {
-        name: 'Lucas Palacios',
+        name: "Lucas Palacios",
         type: AccountType.PERSONAL,
         members: { create: { userId: user.id, role: AccountRole.OWNER } },
       },
@@ -189,7 +189,7 @@ async function main() {
     }
   }
 
-  const ownerRoleId = roles.get('Dueño')!;
+  const ownerRoleId = roles.get("Dueño")!;
 
   for (const ws of WORKSPACES) {
     const workspace = await prisma.workspace.upsert({

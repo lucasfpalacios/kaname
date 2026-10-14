@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { HealthController } from './health.controller.js';
+import { Test, TestingModule } from "@nestjs/testing";
+import { HealthController } from "./health.controller.js";
 
-describe('HealthController', () => {
+describe("HealthController", () => {
   let healthController: HealthController;
 
   beforeEach(async () => {
@@ -12,7 +12,7 @@ describe('HealthController', () => {
     healthController = app.get<HealthController>(HealthController);
   });
 
-  it('devuelve { ok: true }', () => {
+  it("devuelve { ok: true }", () => {
     expect(healthController.check()).toEqual({ ok: true });
   });
 });

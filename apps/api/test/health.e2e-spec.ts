@@ -1,10 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
-import { App } from 'supertest/types.js';
-import { AppModule } from './../src/app.module.js';
+import { Test, TestingModule } from "@nestjs/testing";
+import { INestApplication } from "@nestjs/common";
+import request from "supertest";
+import { App } from "supertest/types.js";
+import { AppModule } from "./../src/app.module.js";
 
-describe('GET /health (e2e)', () => {
+describe("GET /health (e2e)", () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {
@@ -16,9 +16,9 @@ describe('GET /health (e2e)', () => {
     await app.init();
   });
 
-  it('responde 200 con { ok: true }', () => {
+  it("responde 200 con { ok: true }", () => {
     return request(app.getHttpServer())
-      .get('/health')
+      .get("/health")
       .expect(200)
       .expect({ ok: true });
   });

@@ -1,0 +1,13 @@
+# Generados y dependencias
+pnpm-lock.yaml
+**/dist
+**/.next
+**/.turbo
+**/coverage
+**/next-env.d.ts
+apps/api/src/generated
+apps/api/prisma/migrations
+
+# Documentación escrita a mano y export de Stitch: no se reformatean
+*.md
+docs/design

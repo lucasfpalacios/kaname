@@ -22,7 +22,9 @@
   --color-destructive-soft: var(--destructive-soft);
 
   --font-display: var(--kaname-font-display), "Hiragino Mincho ProN", serif;
-  --font-sans: var(--kaname-font-sans), "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+  --font-sans:
+    var(--kaname-font-sans), "Hiragino Sans", "Noto Sans JP", system-ui,
+    sans-serif;
 }
 
 @theme {

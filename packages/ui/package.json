@@ -8,7 +8,8 @@
     "./styles.css": "./src/styles/index.css"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint"
   },
   "dependencies": {
     "next-themes": "0.4.6"
@@ -18,8 +19,10 @@
     "react-dom": "^19"
   },
   "devDependencies": {
+    "@kaname/eslint-config": "workspace:*",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "eslint": "9.39.5",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "typescript": "6.0.3"

@@ -8,7 +8,10 @@ import { ThemeToggle } from "./theme-toggle";
 
 // Página de prueba de los fundamentos (tokens, fuentes, tema, idioma).
 // Se reemplaza por el launcher en la Fase 2.
-const monto = moneySchema.parse({ amount: "1234567.50", currency: Currency.ARS });
+const monto = moneySchema.parse({
+  amount: "1234567.50",
+  currency: Currency.ARS,
+});
 
 // Nombres de tokens (identificadores de código, no texto de interfaz).
 const swatches = [

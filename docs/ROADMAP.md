@@ -9,7 +9,7 @@ Piloto: **Tank Vault TCG**. Cada fase termina con algo que se puede usar y con l
 - [x] Prisma en `apps/api` con el schema de `docs/data-model/` + primera migración + seed (cuenta de Lucas, 4 espacios, roles del sistema)
 - [x] Tailwind configurado para consumir los tokens de `@kaname/ui`, tema claro/oscuro
 - [x] next-intl (es/en)
-- [ ] ESLint + Prettier + scripts `lint`, `typecheck`, `build`, `dev`
+- [x] ESLint + Prettier + scripts `lint`, `typecheck`, `build`, `dev`
 - [x] Repo en GitHub
 
 ## Fase 0.5 — UI Kit (`packages/ui`)

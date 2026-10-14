@@ -32,7 +32,7 @@ Diseño de referencia: `docs/design/` (export de Stitch + tokens). Plan de traba
 1. Antes de escribir código, leer los archivos relevantes. Si falta contexto, preguntar; no asumir.
 2. Cambios chicos y enfocados. Editar solo lo necesario; no reescribir archivos enteros ni "limpiar" código ajeno a la tarea.
 3. Una tarea del ROADMAP por vez. Al terminar, marcarla en `docs/ROADMAP.md`.
-4. Antes de decir "listo": `pnpm lint`, `pnpm typecheck` y `pnpm build` (o los tests del módulo) tienen que pasar. Mostrar la evidencia.
+4. Antes de decir "listo": `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm test` y `pnpm format:check` tienen que pasar. Mostrar la evidencia.
 5. Commits chicos con mensaje en español y prefijo convencional (`feat:`, `fix:`, `chore:`).
 6. Toda pieza visual reutilizable vive en `packages/ui` y se documenta con una story antes de usarse en `apps/web`. Si un componente no existe en el kit, se crea ahí primero; no se arman componentes visuales sueltos dentro de las páginas.
 7. Textos de UI siempre por i18n (`apps/web/messages/es.json` y `en.json`, con la misma clave en los dos), nunca hardcodeados.
@@ -42,14 +42,42 @@ Diseño de referencia: `docs/design/` (export de Stitch + tokens). Plan de traba
 
 ## Comandos
 Requisitos: pnpm y Docker. pnpm usa la versión que fija `packageManager` y descarga Node 24 para los scripts (`devEngines.runtime`), sin importar qué Node tenga la terminal. `.nvmrc` queda para el editor y las herramientas que corren fuera de pnpm.
+
+Todo se corre desde la raíz. `lint`, `typecheck`, `build`, `dev` y `test` pasan por Turborepo: corren en cada paquete que tenga el script, en orden de dependencias (primero `@kaname/shared` y el cliente de Prisma) y con caché.
+
+**Primera vez**
 ```bash
 pnpm install                              # dependencias (genera el cliente de Prisma)
 cp apps/api/.env.example apps/api/.env    # variables de la API
 pnpm db:up                                # Postgres en Docker (puerto 5434)
-pnpm --filter @kaname/api db:migrate      # aplica migraciones (crea una nueva si cambió el schema)
+pnpm --filter @kaname/api db:migrate      # aplica las migraciones
 pnpm --filter @kaname/api db:seed         # datos iniciales
-pnpm dev                                  # web :3000 + api :4000
-pnpm lint && pnpm typecheck && pnpm build && pnpm test
+```
+
+**Día a día**
+```bash
+pnpm dev            # web :3000 + api :4000 + shared en watch
+pnpm lint           # ESLint en todos los paquetes (config en @kaname/eslint-config)
+pnpm typecheck      # tsc en todos los paquetes
+pnpm build          # build de producción (shared, api, web)
+pnpm test           # tests unitarios (Vitest en la api)
+pnpm format         # Prettier en todo el repo
+pnpm format:check   # verifica el formato sin escribir
+pnpm db:up / db:down
+```
+
+**Base de datos** (`pnpm --filter @kaname/api <script>`)
+```bash
+db:migrate   # crea y aplica una migración si cambió schema.prisma
+db:seed      # vuelve a correr el seed (es idempotente)
+db:studio    # Prisma Studio
+db:generate  # regenera el cliente (lo hace turbo solo antes de lint/typecheck/build/dev/test)
+test:e2e     # tests e2e de la api (necesita Postgres levantado)
+```
+
+**Antes de decir "listo"**
+```bash
+pnpm lint && pnpm typecheck && pnpm build && pnpm test && pnpm format:check
 ```
 
 <!-- BEGIN:turborepo-agent-rules -->

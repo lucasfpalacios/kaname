@@ -11,7 +11,11 @@ export function ThemeToggle() {
   const t = useTranslations("ThemeToggle");
   const { resolvedTheme, setTheme } = useTheme();
   // En el servidor no se conoce el tema: se muestra recién en el cliente.
-  const mounted = useSyncExternalStore(subscribe, () => true, () => false);
+  const mounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
   const isDark = mounted && resolvedTheme === "dark";
 
   return (

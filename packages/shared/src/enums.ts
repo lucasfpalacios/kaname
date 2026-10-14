@@ -14,7 +14,22 @@ export const workspaceTypeSchema = z.enum(["BUSINESS", "PROJECTS"]);
 export const WorkspaceType = workspaceTypeSchema.enum;
 export type WorkspaceType = z.infer<typeof workspaceTypeSchema>;
 
-export const moduleKeySchema = z.enum(["DASHBOARD", "PRODUCTS", "CUSTOMERS", "SUPPLIERS", "PRICE_LISTS", "CALCULATOR", "MARKET_PRICES", "ORDERS", "PURCHASES", "DOCUMENTS", "QUOTES", "CALENDAR", "SOCIAL_METRICS", "PROJECTS"]);
+export const moduleKeySchema = z.enum([
+  "DASHBOARD",
+  "PRODUCTS",
+  "CUSTOMERS",
+  "SUPPLIERS",
+  "PRICE_LISTS",
+  "CALCULATOR",
+  "MARKET_PRICES",
+  "ORDERS",
+  "PURCHASES",
+  "DOCUMENTS",
+  "QUOTES",
+  "CALENDAR",
+  "SOCIAL_METRICS",
+  "PROJECTS",
+]);
 export const ModuleKey = moduleKeySchema.enum;
 export type ModuleKey = z.infer<typeof moduleKeySchema>;
 
@@ -34,27 +49,64 @@ export const productKindSchema = z.enum(["FINISHED", "SUPPLY", "SERVICE"]);
 export const ProductKind = productKindSchema.enum;
 export type ProductKind = z.infer<typeof productKindSchema>;
 
-export const stockMovementTypeSchema = z.enum(["PURCHASE", "SALE", "ADJUSTMENT", "RETURN", "PRODUCTION"]);
+export const stockMovementTypeSchema = z.enum([
+  "PURCHASE",
+  "SALE",
+  "ADJUSTMENT",
+  "RETURN",
+  "PRODUCTION",
+]);
 export const StockMovementType = stockMovementTypeSchema.enum;
 export type StockMovementType = z.infer<typeof stockMovementTypeSchema>;
 
-export const orderStatusSchema = z.enum(["DRAFT", "PENDING", "CONFIRMED", "PREPARING", "SHIPPED", "DELIVERED", "CANCELLED"]);
+export const orderStatusSchema = z.enum([
+  "DRAFT",
+  "PENDING",
+  "CONFIRMED",
+  "PREPARING",
+  "SHIPPED",
+  "DELIVERED",
+  "CANCELLED",
+]);
 export const OrderStatus = orderStatusSchema.enum;
 export type OrderStatus = z.infer<typeof orderStatusSchema>;
 
-export const paymentStatusSchema = z.enum(["UNPAID", "PARTIAL", "PAID", "REFUNDED"]);
+export const paymentStatusSchema = z.enum([
+  "UNPAID",
+  "PARTIAL",
+  "PAID",
+  "REFUNDED",
+]);
 export const PaymentStatus = paymentStatusSchema.enum;
 export type PaymentStatus = z.infer<typeof paymentStatusSchema>;
 
-export const purchaseStatusSchema = z.enum(["DRAFT", "ORDERED", "IN_TRANSIT", "RECEIVED", "CANCELLED"]);
+export const purchaseStatusSchema = z.enum([
+  "DRAFT",
+  "ORDERED",
+  "IN_TRANSIT",
+  "RECEIVED",
+  "CANCELLED",
+]);
 export const PurchaseStatus = purchaseStatusSchema.enum;
 export type PurchaseStatus = z.infer<typeof purchaseStatusSchema>;
 
-export const quoteStatusSchema = z.enum(["DRAFT", "SENT", "ACCEPTED", "REJECTED", "EXPIRED"]);
+export const quoteStatusSchema = z.enum([
+  "DRAFT",
+  "SENT",
+  "ACCEPTED",
+  "REJECTED",
+  "EXPIRED",
+]);
 export const QuoteStatus = quoteStatusSchema.enum;
 export type QuoteStatus = z.infer<typeof quoteStatusSchema>;
 
-export const projectStatusSchema = z.enum(["LEAD", "ACTIVE", "PAUSED", "DONE", "CANCELLED"]);
+export const projectStatusSchema = z.enum([
+  "LEAD",
+  "ACTIVE",
+  "PAUSED",
+  "DONE",
+  "CANCELLED",
+]);
 export const ProjectStatus = projectStatusSchema.enum;
 export type ProjectStatus = z.infer<typeof projectStatusSchema>;
 
@@ -66,11 +118,22 @@ export const marketSourceKindSchema = z.enum(["SCRAPER", "API", "MANUAL"]);
 export const MarketSourceKind = marketSourceKindSchema.enum;
 export type MarketSourceKind = z.infer<typeof marketSourceKindSchema>;
 
-export const exchangeRateTypeSchema = z.enum(["OFICIAL", "MEP", "TARJETA", "BLUE"]);
+export const exchangeRateTypeSchema = z.enum([
+  "OFICIAL",
+  "MEP",
+  "TARJETA",
+  "BLUE",
+]);
 export const ExchangeRateType = exchangeRateTypeSchema.enum;
 export type ExchangeRateType = z.infer<typeof exchangeRateTypeSchema>;
 
-export const eventTypeSchema = z.enum(["ORDER", "QUOTE", "POST", "MEETING", "OTHER"]);
+export const eventTypeSchema = z.enum([
+  "ORDER",
+  "QUOTE",
+  "POST",
+  "MEETING",
+  "OTHER",
+]);
 export const EventType = eventTypeSchema.enum;
 export type EventType = z.infer<typeof eventTypeSchema>;
 

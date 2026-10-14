@@ -1,0 +1,690 @@
+<!DOCTYPE html><html lang="es"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendario - Dark</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primaryDark: {
+              DEFAULT: '#89C3EB',
+              button: '#1E50A2',
+              buttonHover: '#163E7E',
+            },
+            darkBg: '#0F1A33',
+            darkCard: '#1A2747',
+            darkBorder: '#24355A',
+            darkInput: '#131F3B',
+            textLight: '#F3F1F6',
+            textMuted: '#94A3B8',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #0F1A33; color: #F3F1F6; }
+    .nowrap { white-space: nowrap; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0F1A33; }
+    ::-webkit-scrollbar-thumb { background: #24355A; border-radius: 3px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#0F1A33] text-[#F3F1F6] antialiased">
+
+  <!-- TOP BAR DARK -->
+  <header class="h-16 bg-[#0F1A33] border-b border-[#24355A] px-6 flex items-center justify-between sticky top-0 z-40 shrink-0">
+    <!-- Left: Brand & Quick Search -->
+    <div class="flex items-center space-x-6">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-lg bg-[#1E50A2] flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          N
+        </div>
+        <span class="font-bold text-lg text-[#F3F1F6] tracking-tight">Nexo</span>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-[#1A2747] text-[#89C3EB] font-semibold border border-[#24355A]">v2.4</span>
+      </div>
+
+      <div class="relative w-96 hidden md:block">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#94A3B8]">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+        <input type="text" placeholder="Buscar en productos, SKU, pedidos o eventos..." class="w-full pl-9 pr-12 py-1.5 text-sm bg-[#131F3B] border border-[#24355A] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#89C3EB]/40 focus:border-[#89C3EB] text-[#F3F1F6] placeholder-[#94A3B8]">
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+          <kbd class="text-[11px] font-medium text-[#94A3B8] bg-[#1A2747] px-1.5 py-0.5 rounded border border-[#24355A]">⌘K</kbd>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="flex items-center space-x-4">
+      <!-- Language -->
+      <div class="flex items-center bg-[#131F3B] p-0.5 rounded-lg border border-[#24355A] text-xs font-semibold">
+        <button class="px-2 py-1 rounded bg-[#1E50A2] text-white shadow-sm">ES</button>
+        <button class="px-2 py-1 rounded text-[#94A3B8] hover:text-[#F3F1F6]">EN</button>
+      </div>
+
+      <!-- Theme Switcher -->
+      <button class="p-2 text-[#94A3B8] hover:text-[#F3F1F6] hover:bg-[#1A2747] rounded-lg transition-colors" title="Modo Oscuro activo">
+        <svg class="w-5 h-5 text-[#89C3EB]" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+        </svg>
+      </button>
+
+      <!-- Notifications -->
+      <button class="relative p-2 text-[#94A3B8] hover:text-[#F3F1F6] hover:bg-[#1A2747] rounded-lg transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-[#0F1A33]"></span>
+      </button>
+
+      <!-- User Profile -->
+      <div class="flex items-center space-x-3 pl-3 border-l border-[#24355A]">
+        <div class="w-8 h-8 rounded-full bg-[#1E50A2] border border-[#89C3EB]/40 flex items-center justify-center font-bold text-white text-xs">
+          L
+        </div>
+        <div class="hidden lg:block text-left leading-tight">
+          <p class="text-xs font-semibold text-[#F3F1F6]">Lucas</p>
+          <p class="text-[10px] text-[#94A3B8]">Superadmin</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- EXPANDED SIDEBAR DARK -->
+    <aside class="w-64 bg-[#0F1A33] border-r border-[#24355A] flex flex-col justify-between shrink-0 overflow-y-auto">
+      <div class="p-4 space-y-5">
+        <!-- Workspace Switcher Selector -->
+        <div class="bg-[#1A2747] border border-[#24355A] rounded-xl p-3 flex items-center justify-between cursor-pointer hover:border-[#89C3EB]/40 transition-colors">
+          <div class="flex items-center space-x-3 min-w-0">
+            <div class="w-9 h-9 rounded-lg bg-[#1E50A2] text-white font-bold flex items-center justify-center text-xs shrink-0 shadow-sm border border-[#89C3EB]/30">
+              TV
+            </div>
+            <div class="truncate">
+              <h4 class="text-xs font-bold text-[#F3F1F6] truncate">Tank Vault TCG</h4>
+              <p class="text-[11px] text-[#89C3EB] font-medium flex items-center">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 inline-block"></span>
+                Workspace activo
+              </p>
+            </div>
+          </div>
+          <svg class="w-4 h-4 text-[#94A3B8] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="space-y-1">
+          <!-- Resumen -->
+          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0] hover:bg-[#1A2747] hover:text-white transition-colors">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+              <span>Resumen</span>
+            </div>
+          </a>
+
+          <!-- Productos -->
+          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0] hover:bg-[#1A2747] hover:text-white transition-colors">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+              <span>Productos</span>
+            </div>
+            <span class="text-[10px] bg-[#1A2747] text-[#89C3EB] font-semibold px-2 py-0.5 rounded-full border border-[#24355A]">148</span>
+          </a>
+
+          <!-- Clientes -->
+          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0] hover:bg-[#1A2747] hover:text-white transition-colors">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+              <span>Clientes</span>
+            </div>
+          </a>
+
+          <!-- Proveedores -->
+          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0] hover:bg-[#1A2747] hover:text-white transition-colors">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path></svg>
+              <span>Proveedores</span>
+            </div>
+          </a>
+
+          <!-- Listas de precios -->
+          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0] hover:bg-[#1A2747] hover:text-white transition-colors">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+              <span>Listas de precios</span>
+            </div>
+          </a>
+
+          <!-- Calculadora -->
+          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0] hover:bg-[#1A2747] hover:text-white transition-colors">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+              <span>Calculadora</span>
+            </div>
+          </a>
+
+          <!-- Precios de mercado -->
+          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0] hover:bg-[#1A2747] hover:text-white transition-colors">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+              <span>Precios de mercado</span>
+            </div>
+          </a>
+
+          <!-- Documentos y presupuestos -->
+          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0] hover:bg-[#1A2747] hover:text-white transition-colors">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              <span>Documentos y presupuestos</span>
+            </div>
+          </a>
+
+          <!-- CALENDARIO (ACTIVE DARK) -->
+          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold bg-[#1E50A2] text-white shadow-sm border border-[#89C3EB]/40 transition-colors">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              <span>Calendario</span>
+            </div>
+            <span class="text-[10px] bg-white/20 text-white font-bold px-1.5 py-0.5 rounded-full">5</span>
+          </a>
+
+          <!-- Métricas de redes -->
+          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0] hover:bg-[#1A2747] hover:text-white transition-colors">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path></svg>
+              <span>Métricas de redes</span>
+            </div>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="p-4 border-t border-[#24355A]">
+        <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0] hover:bg-[#1A2747] hover:text-white transition-colors">
+          <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <span>Configuración del espacio</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CALENDAR WORKSPACE DARK -->
+    <main class="flex-1 flex flex-col min-w-0 bg-[#0F1A33] overflow-y-auto">
+      
+      <!-- PAGE HEADER & CONTROLS -->
+      <div class="p-6 pb-4 border-b border-[#24355A] bg-[#0F1A33]">
+        <!-- Breadcrumbs -->
+        <div class="flex items-center space-x-2 text-xs text-[#94A3B8] mb-2">
+          <a href="#" class="hover:text-[#F3F1F6] transition-colors">← Inicio</a>
+          <span>/</span>
+          <span>Tank Vault TCG</span>
+          <span>/</span>
+          <span class="text-[#F3F1F6] font-semibold">Calendario</span>
+        </div>
+
+        <!-- Main Title & Action Bar -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl font-bold text-[#F3F1F6] tracking-tight">Calendario de Operaciones</h1>
+            <p class="text-xs text-[#94A3B8] mt-0.5">Gestión de despachos, lanzamientos oficiales, cotizaciones y eventos presenciales</p>
+          </div>
+
+          <div class="flex items-center flex-wrap gap-2.5">
+            <!-- Navigation & Today -->
+            <div class="flex items-center bg-[#131F3B] rounded-lg p-1 border border-[#24355A]">
+              <button class="px-3 py-1 text-xs font-semibold text-[#F3F1F6] bg-[#1A2747] rounded shadow-sm hover:text-white border border-[#24355A]">Hoy</button>
+              <div class="flex items-center ml-1 border-l border-[#24355A] pl-1">
+                <button class="p-1 text-[#94A3B8] hover:text-[#F3F1F6] rounded hover:bg-[#1A2747]" title="Mes anterior">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <span class="text-xs font-bold text-[#F3F1F6] px-2 select-none">Octubre 2026</span>
+                <button class="p-1 text-[#94A3B8] hover:text-[#F3F1F6] rounded hover:bg-[#1A2747]" title="Mes siguiente">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- View Switcher (Mes / Semana / Día / Agenda) -->
+            <div class="flex items-center bg-[#131F3B] rounded-lg p-1 border border-[#24355A] text-xs font-medium text-[#94A3B8]">
+              <button class="px-3 py-1 rounded bg-[#1E50A2] text-white font-semibold shadow-sm">Mes</button>
+              <button class="px-3 py-1 rounded hover:text-[#F3F1F6] transition-colors">Semana</button>
+              <button class="px-3 py-1 rounded hover:text-[#F3F1F6] transition-colors">Día</button>
+              <button class="px-3 py-1 rounded hover:text-[#F3F1F6] transition-colors">Agenda</button>
+            </div>
+
+            <!-- "+ Nuevo evento" Button -->
+            <button class="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-[#1E50A2] hover:bg-[#163E7E] text-white text-xs font-semibold shadow-sm border border-[#89C3EB]/30 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+              <span>+ Nuevo evento</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Bar: Type Chips & Responsible User -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4 pt-3 border-t border-[#24355A]">
+          <!-- Type Filter Chips -->
+          <div class="flex items-center flex-wrap gap-1.5 text-xs">
+            <span class="text-[#94A3B8] font-medium mr-1 text-[11px]">Filtrar por tipo:</span>
+            <!-- Pedido (#89C3EB) -->
+            <button class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-[#16274E] text-[#89C3EB] border border-[#2B4B87] hover:bg-[#1B3163] transition-colors">
+              <span class="w-2 h-2 rounded-full bg-[#89C3EB] mr-1.5"></span>
+              Pedido
+            </button>
+            <!-- Presupuesto (#34D399) -->
+            <button class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-[#0E3529] text-[#34D399] border border-[#165B46] hover:bg-[#134837] transition-colors">
+              <span class="w-2 h-2 rounded-full bg-[#34D399] mr-1.5"></span>
+              Presupuesto
+            </button>
+            <!-- Publicación (#F09199) -->
+            <button class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-[#3F1A24] text-[#F09199] border border-[#6B2C3D] hover:bg-[#52212E] transition-colors">
+              <span class="w-2 h-2 rounded-full bg-[#F09199] mr-1.5"></span>
+              Publicación
+            </button>
+            <!-- Reunión (#FBBF24) -->
+            <button class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-[#3B290E] text-[#FBBF24] border border-[#6B4B18] hover:bg-[#4E3612] transition-colors">
+              <span class="w-2 h-2 rounded-full bg-[#FBBF24] mr-1.5"></span>
+              Reunión
+            </button>
+            <!-- Otro (#A78BFA) -->
+            <button class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-[#2C1D4D] text-[#C4B5FD] border border-[#4C3385] hover:bg-[#3B2666] transition-colors">
+              <span class="w-2 h-2 rounded-full bg-[#A78BFA] mr-1.5"></span>
+              Otro
+            </button>
+          </div>
+
+          <!-- Responsible User Filter -->
+          <div class="flex items-center space-x-2 text-xs">
+            <span class="text-[#94A3B8] font-medium text-[11px]">Responsable:</span>
+            <select class="bg-[#131F3B] border border-[#24355A] text-[#F3F1F6] rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-[#89C3EB]">
+              <option value="all">Todos los miembros (4)</option>
+              <option value="lucas">Lucas (Superadmin)</option>
+              <option value="martin">Martín Palermo (Logística)</option>
+              <option value="sofia">Sofía Carrizo (Ventas)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- BODY GRID: CALENDAR (75%) + RIGHT PANEL (25%) -->
+      <div class="flex-1 p-6 flex flex-col lg:flex-row gap-6">
+        
+        <!-- CALENDAR MONTH VIEW (Left 3/4) -->
+        <div class="flex-1 bg-[#1A2747] rounded-xl border border-[#24355A] shadow-sm flex flex-col overflow-hidden">
+          
+          <!-- Day Header Row -->
+          <div class="grid grid-cols-7 border-b border-[#24355A] bg-[#131F3B] text-center text-xs font-semibold text-[#94A3B8] py-2.5">
+            <div>Lunes</div>
+            <div>Martes</div>
+            <div>Miércoles</div>
+            <div>Jueves</div>
+            <div>Viernes</div>
+            <div class="text-[#89C3EB]">Sábado</div>
+            <div class="text-[#89C3EB]">Domingo</div>
+          </div>
+
+          <!-- Calendar Days Grid (5 rows x 7 cols) -->
+          <div class="flex-1 grid grid-cols-7 grid-rows-5 divide-x divide-y divide-[#24355A] text-xs min-h-[580px]">
+            
+            <!-- Row 1: Sept 28 - Oct 4 -->
+            <div class="p-2 bg-[#101B35]/70 text-[#64748B] min-h-[110px] flex flex-col">
+              <span class="text-xs font-medium">28</span>
+            </div>
+            <div class="p-2 bg-[#101B35]/70 text-[#64748B] min-h-[110px] flex flex-col">
+              <span class="text-xs font-medium">29</span>
+            </div>
+            <div class="p-2 bg-[#101B35]/70 text-[#64748B] min-h-[110px] flex flex-col">
+              <span class="text-xs font-medium">30</span>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">1</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#16274E] text-[#89C3EB] border border-[#2B4B87] truncate cursor-pointer hover:bg-[#1E3466]" title="Despacho Andreani #8491">
+                  📦 Pedido #8491 Andreani
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">2</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#2C1D4D] text-[#C4B5FD] border border-[#4C3385] truncate cursor-pointer" title="Cierre contable septiembre">
+                  📑 Cierre mensual Sep
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold text-[#89C3EB]">3</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#3B290E] text-[#FBBF24] border border-[#6B4B18] truncate cursor-pointer">
+                  👥 Torneo Liga Local Belgrano
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold text-[#89C3EB]">4</span>
+            </div>
+
+            <!-- Row 2: Oct 5 - 11 -->
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">5</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#0E3529] text-[#34D399] border border-[#165B46] truncate cursor-pointer" title="Presupuesto Mayorista Lote 50x">
+                  💼 Presupuesto #PR-204
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">6</span>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">7</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#3F1A24] text-[#F09199] border border-[#6B2C3D] truncate cursor-pointer" title="Reel Instagram Unboxing ETB 151">
+                  📱 Reel Unboxing 151
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">8</span>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">9</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#16274E] text-[#89C3EB] border border-[#2B4B87] truncate cursor-pointer">
+                  📦 Arribo Courier Miami
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold text-[#89C3EB]">10</span>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold text-[#89C3EB]">11</span>
+            </div>
+
+            <!-- Row 3: Oct 12 - 18 -->
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">12</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#3B290E] text-[#FBBF24] border border-[#6B4B18] truncate cursor-pointer">
+                  🤝 Reunión GTS Distribuidor
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">13</span>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">14</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#3F1A24] text-[#F09199] border border-[#6B2C3D] truncate cursor-pointer">
+                  🎥 TikTok Live Box Break
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">15</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#0E3529] text-[#34D399] border border-[#165B46] truncate cursor-pointer">
+                  💼 Vencimiento Cotiz. #PR-198
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">16</span>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold text-[#89C3EB]">17</span>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold text-[#89C3EB]">18</span>
+            </div>
+
+            <!-- Row 4: Oct 19 - 25 -->
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">19</span>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">20</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#16274E] text-[#89C3EB] border border-[#2B4B87] truncate cursor-pointer">
+                  📦 Pedidos Showroom CABA (x8)
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">21</span>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">22</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#3B290E] text-[#FBBF24] border border-[#6B4B18] truncate cursor-pointer">
+                  👥 Reunión Staff Preventa
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">23</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#3F1A24] text-[#F09199] border border-[#6B2C3D] truncate cursor-pointer">
+                  📢 Teaser Surging Sparks
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold text-[#89C3EB]">24</span>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold text-[#89C3EB]">25</span>
+            </div>
+
+            <!-- Row 5: Oct 26 - Nov 1 -->
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">26</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#16274E] text-[#89C3EB] border border-[#2B4B87] truncate cursor-pointer">
+                  📦 Envío Correo Argentino
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">27</span>
+            </div>
+            <div class="p-2 bg-[#142347] text-[#F3F1F6] min-h-[110px] flex flex-col border-2 border-[#89C3EB]/50 rounded-lg relative">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-[#89C3EB] bg-[#1E376E] px-1.5 py-0.5 rounded">28 • Hoy</span>
+              </div>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#1E50A2] text-white truncate shadow-xs">
+                  📦 5 Pedidos listos despacho
+                </div>
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#3B290E] text-[#FBBF24] border border-[#6B4B18] truncate">
+                  👥 Sync Proveedor Courier
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">29</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#3F1A24] text-[#F09199] border border-[#6B2C3D] truncate cursor-pointer" title="Lanzamiento oficial preventa Surging Sparks">
+                  🚀 Preventa Surging Sparks
+                </div>
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#0E3529] text-[#34D399] border border-[#165B46] truncate cursor-pointer">
+                  💼 Lista precios v2.5 mayorista
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold">30</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#2C1D4D] text-[#C4B5FD] border border-[#4C3385] truncate cursor-pointer">
+                  ⚙️ Recuento stock mensual
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#1A2747] text-[#F3F1F6] min-h-[110px] flex flex-col hover:bg-[#1E2E54] transition-colors">
+              <span class="text-xs font-semibold text-[#89C3EB]">31</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#3B290E] text-[#FBBF24] border border-[#6B4B18] truncate cursor-pointer font-bold">
+                  🏆 Torneo sellado CABA (32 cupos)
+                </div>
+              </div>
+            </div>
+            <div class="p-2 bg-[#101B35]/70 text-[#64748B] min-h-[110px] flex flex-col">
+              <span class="text-xs font-medium">1</span>
+              <div class="mt-1 space-y-1">
+                <div class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-[#131F3B] text-[#94A3B8] truncate">
+                  📦 Despachos Noviembre
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL (Right 1/4): Mini Picker & Próximos Eventos DARK -->
+        <div class="w-full lg:w-80 space-y-5 shrink-0">
+          
+          <!-- Mini Month Picker -->
+          <div class="bg-[#1A2747] rounded-xl border border-[#24355A] p-4 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-xs font-bold text-[#F3F1F6]">Octubre 2026</h3>
+              <div class="flex items-center space-x-1">
+                <button class="p-1 text-[#94A3B8] hover:text-[#F3F1F6] rounded hover:bg-[#131F3B]">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button class="p-1 text-[#94A3B8] hover:text-[#F3F1F6] rounded hover:bg-[#131F3B]">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Mini grid days -->
+            <div class="grid grid-cols-7 text-center text-[10px] font-semibold text-[#94A3B8] mb-2">
+              <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+            </div>
+            <div class="grid grid-cols-7 text-center text-[11px] gap-y-1 font-medium">
+              <span class="text-[#475569] py-1">28</span><span class="text-[#475569] py-1">29</span><span class="text-[#475569] py-1">30</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">1</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">2</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">3</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">4</span>
+              
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">5</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">6</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">7</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">8</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">9</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">10</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">11</span>
+
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">12</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">13</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">14</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">15</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">16</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">17</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">18</span>
+
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">19</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">20</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">21</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">22</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">23</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">24</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">25</span>
+
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">26</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">27</span>
+              <span class="bg-[#1E50A2] text-white font-bold rounded cursor-pointer py-1 shadow-xs border border-[#89C3EB]/40">28</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">29</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">30</span>
+              <span class="text-[#E2E8F0] hover:bg-[#131F3B] rounded cursor-pointer py-1">31</span>
+              <span class="text-[#475569] py-1">1</span>
+            </div>
+          </div>
+
+          <!-- Próximos Eventos List -->
+          <div class="bg-[#1A2747] rounded-xl border border-[#24355A] p-4 shadow-sm flex flex-col">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-[#24355A]">
+              <h3 class="text-xs font-bold text-[#F3F1F6]">Próximos eventos</h3>
+              <span class="text-[10px] font-semibold text-[#89C3EB] bg-[#16274E] px-2 py-0.5 rounded-full border border-[#2B4B87]">4 esta semana</span>
+            </div>
+
+            <div class="space-y-3">
+              <!-- Event 1: Hoy 28 Oct -->
+              <div class="p-2.5 rounded-lg border border-[#2B4B87] bg-[#16274E]/60 hover:bg-[#16274E] transition-colors">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-[10px] font-bold text-[#89C3EB] uppercase tracking-wider">Hoy • 15:30 hs</span>
+                  <span class="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-semibold bg-[#1A3469] text-[#89C3EB] border border-[#2B4B87]">Pedido</span>
+                </div>
+                <h4 class="text-xs font-semibold text-[#F3F1F6]">Despacho 5 Pedidos Andreani</h4>
+                <p class="text-[11px] text-[#94A3B8] mt-0.5">Retiro programado en depósito Belgrano</p>
+                <div class="flex items-center space-x-2 mt-2 pt-1.5 border-t border-[#24355A] text-[10px] text-[#94A3B8]">
+                  <span class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-[#89C3EB] mr-1"></span>Martín P.</span>
+                  <span>•</span>
+                  <span class="text-[#E2E8F0] font-medium">Vinculado a: Pedidos #8490-#8494</span>
+                </div>
+              </div>
+
+              <!-- Event 2: 29 Oct -->
+              <div class="p-2.5 rounded-lg border border-[#6B2C3D] bg-[#3F1A24]/60 hover:bg-[#3F1A24] transition-colors">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-[10px] font-bold text-[#F09199] uppercase tracking-wider">Mañana 29 Oct • 00:00 hs</span>
+                  <span class="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-semibold bg-[#541C2A] text-[#F09199] border border-[#6B2C3D]">Publicación</span>
+                </div>
+                <h4 class="text-xs font-semibold text-[#F3F1F6]">Lanzamiento Preventa Surging Sparks</h4>
+                <p class="text-[11px] text-[#94A3B8] mt-0.5">Apertura web y campaña en Instagram/TikTok</p>
+                <div class="flex items-center space-x-2 mt-2 pt-1.5 border-t border-[#24355A] text-[10px] text-[#94A3B8]">
+                  <span class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-[#F09199] mr-1"></span>Lucas</span>
+                  <span>•</span>
+                  <span class="text-[#E2E8F0] font-medium">Producto: SSP Booster Box</span>
+                </div>
+              </div>
+
+              <!-- Event 3: 31 Oct -->
+              <div class="p-2.5 rounded-lg border border-[#6B4B18] bg-[#3B290E]/60 hover:bg-[#3B290E] transition-colors">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-[10px] font-bold text-[#FBBF24] uppercase tracking-wider">Sáb 31 Oct • 14:00 hs</span>
+                  <span class="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-semibold bg-[#4E3510] text-[#FBBF24] border border-[#6B4B18]">Reunión</span>
+                </div>
+                <h4 class="text-xs font-semibold text-[#F3F1F6]">Torneo Sellado CABA (32 cupos)</h4>
+                <p class="text-[11px] text-[#94A3B8] mt-0.5">Showroom Belgrano • Arbitraje y entrega de kits</p>
+                <div class="flex items-center space-x-2 mt-2 pt-1.5 border-t border-[#24355A] text-[10px] text-[#94A3B8]">
+                  <span class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-[#FBBF24] mr-1"></span>Sofía C.</span>
+                  <span>•</span>
+                  <span class="text-[#E2E8F0] font-medium">Evento presencial</span>
+                </div>
+              </div>
+
+              <!-- Event 4: 02 Nov -->
+              <div class="p-2.5 rounded-lg border border-[#165B46] bg-[#0E3529]/60 hover:bg-[#0E3529] transition-colors">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-[10px] font-bold text-[#34D399] uppercase tracking-wider">Lun 02 Nov • 10:00 hs</span>
+                  <span class="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-semibold bg-[#114535] text-[#34D399] border border-[#165B46]">Presupuesto</span>
+                </div>
+                <h4 class="text-xs font-semibold text-[#F3F1F6]">Seguimiento Cotización #PR-204</h4>
+                <p class="text-[11px] text-[#94A3B8] mt-0.5">Cliente: HobbyStore Córdoba (Lote Mayorista)</p>
+                <div class="flex items-center space-x-2 mt-2 pt-1.5 border-t border-[#24355A] text-[10px] text-[#94A3B8]">
+                  <span class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-[#34D399] mr-1"></span>Sofía C.</span>
+                  <span>•</span>
+                  <span class="text-[#E2E8F0] font-semibold">$ 1.840.000 ARS</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+
+</body></html>

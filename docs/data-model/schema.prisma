@@ -1,0 +1,927 @@
+// Nexo — modelo de datos v0.1
+// PostgreSQL + Prisma. Multi-tenant por Account; casi todo cuelga de Workspace.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────
+
+enum AccountType {
+  PERSONAL
+  COMPANY
+}
+
+enum AccountRole {
+  OWNER
+  MEMBER
+}
+
+enum WorkspaceType {
+  BUSINESS // Emprendimiento (Tank Vault, Disanza, VISIÓ)
+  PROJECTS // Agrupa proyectos de clientes (Shinka)
+}
+
+enum ModuleKey {
+  DASHBOARD
+  PRODUCTS
+  CUSTOMERS
+  SUPPLIERS
+  PRICE_LISTS
+  CALCULATOR
+  MARKET_PRICES
+  ORDERS
+  PURCHASES
+  DOCUMENTS
+  QUOTES
+  CALENDAR
+  SOCIAL_METRICS
+  PROJECTS
+}
+
+enum Currency {
+  ARS
+  USD
+}
+
+enum Locale {
+  es
+  en
+}
+
+enum Theme {
+  LIGHT
+  DARK
+  SYSTEM
+}
+
+enum ProductKind {
+  FINISHED // producto final que se vende
+  SUPPLY // insumo (pan, carne, film, fundas)
+  SERVICE // servicio (VISIÓ, Shinka)
+}
+
+enum StockMovementType {
+  PURCHASE
+  SALE
+  ADJUSTMENT
+  RETURN
+  PRODUCTION // consumo de insumos por receta
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING
+  CONFIRMED
+  PREPARING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PARTIAL
+  PAID
+  REFUNDED
+}
+
+enum PurchaseStatus {
+  DRAFT
+  ORDERED
+  IN_TRANSIT
+  RECEIVED
+  CANCELLED
+}
+
+enum QuoteStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+enum ProjectStatus {
+  LEAD
+  ACTIVE
+  PAUSED
+  DONE
+  CANCELLED
+}
+
+enum DocumentSource {
+  UPLOADED
+  GENERATED
+}
+
+enum MarketSourceKind {
+  SCRAPER
+  API
+  MANUAL
+}
+
+enum ExchangeRateType {
+  OFICIAL
+  MEP
+  TARJETA
+  BLUE
+}
+
+enum EventType {
+  ORDER
+  QUOTE
+  POST
+  MEETING
+  OTHER
+}
+
+enum SocialPlatform {
+  INSTAGRAM
+  TIKTOK
+  YOUTUBE
+}
+
+// ─────────────────────────────────────────────
+// AUTH, CUENTAS Y ROLES
+// ─────────────────────────────────────────────
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  avatarUrl    String?
+  passwordHash String? // null si solo entra con Google
+  isSuperadmin Boolean   @default(false) // superadmin de la plataforma
+  locale       Locale    @default(es)
+  theme        Theme     @default(SYSTEM)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  oauthAccounts    OAuthAccount[]
+  sessions         Session[]
+  accountMembers   AccountMember[]
+  workspaceMembers WorkspaceMember[]
+  dashboards       Dashboard[]
+  assignedEvents   Event[]           @relation("EventAssignee")
+  activity         ActivityLog[]
+}
+
+model OAuthAccount {
+  id             String @id @default(cuid())
+  userId         String
+  provider       String // "google"
+  providerUserId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerUserId])
+}
+
+model Session {
+  id               String   @id @default(cuid())
+  userId           String
+  refreshTokenHash String   @unique
+  userAgent        String?
+  expiresAt        DateTime
+  createdAt        DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Cliente del SaaS (tenant). Vos sos una Account PERSONAL con 4 workspaces.
+model Account {
+  id        String      @id @default(cuid())
+  name      String
+  type      AccountType @default(PERSONAL)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  members     AccountMember[]
+  workspaces  Workspace[]
+  roles       Role[]
+  invitations Invitation[]
+}
+
+model AccountMember {
+  id        String      @id @default(cuid())
+  accountId String
+  userId    String
+  role      AccountRole @default(MEMBER)
+  createdAt DateTime    @default(now())
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, userId])
+}
+
+// Roles por cuenta: Dueño / Colaborador / Cliente (solo lectura) vienen sembrados (isSystem)
+// y la cuenta puede crear roles propios.
+model Role {
+  id          String   @id @default(cuid())
+  accountId   String
+  name        String
+  description String?
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  account     Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  permissions RolePermission[]
+  members     WorkspaceMember[]
+  invitations Invitation[]
+
+  @@unique([accountId, name])
+}
+
+// Matriz de permisos de la pantalla Admin: módulo × (ver, crear, editar, eliminar)
+model RolePermission {
+  id        String    @id @default(cuid())
+  roleId    String
+  module    ModuleKey
+  canView   Boolean   @default(false)
+  canCreate Boolean   @default(false)
+  canEdit   Boolean   @default(false)
+  canDelete Boolean   @default(false)
+
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, module])
+}
+
+model Invitation {
+  id           String    @id @default(cuid())
+  accountId    String
+  email        String
+  roleId       String
+  workspaceIds String[]
+  tokenHash    String    @unique
+  expiresAt    DateTime
+  acceptedAt   DateTime?
+  createdAt    DateTime  @default(now())
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  role    Role    @relation(fields: [roleId], references: [id])
+}
+
+// ─────────────────────────────────────────────
+// ESPACIOS Y MÓDULOS
+// ─────────────────────────────────────────────
+
+model Workspace {
+  id           String        @id @default(cuid())
+  accountId    String
+  name         String
+  slug         String
+  type         WorkspaceType @default(BUSINESS)
+  description  String?
+  logoUrl      String?
+  color        String? // acento del espacio
+  baseCurrency Currency      @default(ARS)
+  settings     Json          @default("{}") // config libre por espacio
+  archivedAt   DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  modules             WorkspaceModule[]
+  members             WorkspaceMember[]
+  categories          Category[]
+  products            Product[]
+  suppliers           Supplier[]
+  customers           Customer[]
+  priceLists          PriceList[]
+  orders              Order[]
+  purchases           Purchase[]
+  stockMovements      StockMovement[]
+  calculatorTemplates CalculatorTemplate[]
+  marketSources       MarketSource[]
+  marketTracks        MarketTrack[]
+  projects            Project[]
+  quotes              Quote[]
+  documents           Document[]
+  documentTemplates   DocumentTemplate[]
+  events              Event[]
+  socialAccounts      SocialAccount[]
+  dashboards          Dashboard[]
+  activity            ActivityLog[]
+
+  @@unique([accountId, slug])
+}
+
+model WorkspaceModule {
+  id          String    @id @default(cuid())
+  workspaceId String
+  module      ModuleKey
+  enabled     Boolean   @default(true)
+  config      Json      @default("{}")
+  sortOrder   Int       @default(0)
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, module])
+}
+
+// Qué rol tiene cada usuario en cada espacio
+model WorkspaceMember {
+  id          String   @id @default(cuid())
+  workspaceId String
+  userId      String
+  roleId      String
+  createdAt   DateTime @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role      @relation(fields: [roleId], references: [id])
+
+  @@unique([workspaceId, userId])
+}
+
+// ─────────────────────────────────────────────
+// CATÁLOGO: PRODUCTOS, VARIANTES, RECETAS
+// ─────────────────────────────────────────────
+
+model Category {
+  id          String  @id @default(cuid())
+  workspaceId String
+  name        String
+  parentId    String?
+
+  workspace Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  parent    Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryTree")
+  products  Product[]
+
+  @@unique([workspaceId, name, parentId])
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  workspaceId String
+  categoryId  String?
+  kind        ProductKind @default(FINISHED)
+  name        String
+  description String?
+  imageUrl    String?
+  // Definición de opciones de variante, ej: [{ "name": "Idioma", "values": ["EN","ES","JP"] }, { "name": "Estado", "values": ["NM","LP"] }]
+  options     Json        @default("[]")
+  attributes  Json        @default("{}") // campos propios del negocio (expansión, set, etc.)
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  workspace Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  category  Category?        @relation(fields: [categoryId], references: [id])
+  variants  ProductVariant[]
+
+  @@index([workspaceId, kind])
+}
+
+// La unidad real que tiene stock, costo y precio. Un producto sin variantes tiene 1 variante "default".
+model ProductVariant {
+  id                String   @id @default(cuid())
+  productId         String
+  sku               String?
+  barcode           String?
+  name              String? // ej: "EN · NM" o "Combo doble"
+  optionValues      Json     @default("{}") // { "Idioma": "EN", "Estado": "NM" }
+  costAmount        Decimal  @default(0) @db.Decimal(14, 2)
+  costCurrency      Currency @default(ARS)
+  stock             Decimal  @default(0) @db.Decimal(14, 3) // decimales para insumos (kg, lt)
+  unit              String   @default("u")
+  reorderPoint      Decimal? @db.Decimal(14, 3)
+  trackStock        Boolean  @default(true)
+  defaultSupplierId String?
+  isDefault         Boolean  @default(false)
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  product         Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  defaultSupplier Supplier?       @relation(fields: [defaultSupplierId], references: [id])
+  prices          PriceListItem[]
+  components      RecipeItem[]    @relation("RecipeParent")
+  usedIn          RecipeItem[]    @relation("RecipeComponent")
+  stockMovements  StockMovement[]
+  orderItems      OrderItem[]
+  purchaseItems   PurchaseItem[]
+  quoteItems      QuoteItem[]
+  marketTracks    MarketTrack[]
+
+  @@index([productId])
+}
+
+// Receta / BOM: un producto final (combo Disanza) consume insumos
+model RecipeItem {
+  id          String  @id @default(cuid())
+  parentId    String
+  componentId String
+  quantity    Decimal @db.Decimal(14, 4)
+  wastePct    Decimal @default(0) @db.Decimal(5, 2) // merma
+
+  parent    ProductVariant @relation("RecipeParent", fields: [parentId], references: [id], onDelete: Cascade)
+  component ProductVariant @relation("RecipeComponent", fields: [componentId], references: [id])
+
+  @@unique([parentId, componentId])
+}
+
+model StockMovement {
+  id          String            @id @default(cuid())
+  workspaceId String
+  variantId   String
+  type        StockMovementType
+  quantity    Decimal           @db.Decimal(14, 3) // + entra / - sale
+  unitCost    Decimal?          @db.Decimal(14, 2)
+  orderId     String?
+  purchaseId  String?
+  note        String?
+  createdAt   DateTime          @default(now())
+
+  workspace Workspace      @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  order     Order?         @relation(fields: [orderId], references: [id])
+  purchase  Purchase?      @relation(fields: [purchaseId], references: [id])
+
+  @@index([variantId, createdAt])
+}
+
+// ─────────────────────────────────────────────
+// CLIENTES, PROVEEDORES, LISTAS DE PRECIOS
+// ─────────────────────────────────────────────
+
+model Customer {
+  id          String   @id @default(cuid())
+  workspaceId String
+  name        String
+  email       String?
+  phone       String?
+  taxId       String? // CUIT/DNI
+  address     String?
+  city        String?
+  instagram   String?
+  notes       String?
+  tags        String[]
+  priceListId String? // lista por defecto (mayorista/minorista)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workspace Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  priceList PriceList? @relation(fields: [priceListId], references: [id])
+  orders    Order[]
+  quotes    Quote[]
+  projects  Project[]
+
+  @@index([workspaceId, name])
+}
+
+model Supplier {
+  id           String   @id @default(cuid())
+  workspaceId  String
+  name         String
+  contactName  String?
+  email        String?
+  phone        String?
+  taxId        String?
+  country      String?
+  website      String?
+  leadTimeDays Int?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  workspace Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  variants  ProductVariant[]
+  purchases Purchase[]
+}
+
+model PriceList {
+  id          String    @id @default(cuid())
+  workspaceId String
+  name        String // Minorista, Mayorista, Preventa
+  currency    Currency  @default(ARS)
+  isDefault   Boolean   @default(false)
+  validFrom   DateTime?
+  validTo     DateTime?
+  createdAt   DateTime  @default(now())
+
+  workspace Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  items     PriceListItem[]
+  customers Customer[]
+  orders    Order[]
+
+  @@unique([workspaceId, name])
+}
+
+model PriceListItem {
+  id          String   @id @default(cuid())
+  priceListId String
+  variantId   String
+  price       Decimal  @db.Decimal(14, 2)
+  updatedAt   DateTime @updatedAt
+
+  priceList PriceList      @relation(fields: [priceListId], references: [id], onDelete: Cascade)
+  variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  @@unique([priceListId, variantId])
+}
+
+// ─────────────────────────────────────────────
+// VENTAS / PEDIDOS Y COMPRAS
+// ─────────────────────────────────────────────
+
+// Pedido = venta. Una venta es un pedido CONFIRMED/DELIVERED con pago.
+model Order {
+  id             String        @id @default(cuid())
+  workspaceId    String
+  number         Int // correlativo por espacio (#TK-1084)
+  customerId     String?
+  priceListId    String?
+  status         OrderStatus   @default(PENDING)
+  paymentStatus  PaymentStatus @default(UNPAID)
+  channel        String? // Instagram, local, MercadoLibre, delivery
+  currency       Currency      @default(ARS)
+  subtotal       Decimal       @default(0) @db.Decimal(14, 2)
+  discount       Decimal       @default(0) @db.Decimal(14, 2)
+  shippingCost   Decimal       @default(0) @db.Decimal(14, 2)
+  total          Decimal       @default(0) @db.Decimal(14, 2)
+  shippingMethod String?
+  trackingCode   String?
+  notes          String?
+  orderedAt      DateTime      @default(now())
+  dueAt          DateTime? // entrega prometida → aparece en el calendario
+  deliveredAt    DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  workspace      Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  customer       Customer?       @relation(fields: [customerId], references: [id])
+  priceList      PriceList?      @relation(fields: [priceListId], references: [id])
+  items          OrderItem[]
+  payments       Payment[]
+  stockMovements StockMovement[]
+
+  @@unique([workspaceId, number])
+  @@index([workspaceId, status, orderedAt])
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String
+  variantId   String?
+  description String // snapshot del nombre
+  quantity    Decimal @db.Decimal(14, 3)
+  unitPrice   Decimal @db.Decimal(14, 2)
+  unitCost    Decimal @default(0) @db.Decimal(14, 2) // snapshot para calcular margen real
+  discount    Decimal @default(0) @db.Decimal(14, 2)
+  total       Decimal @db.Decimal(14, 2)
+
+  order   Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  orderId   String
+  method    String // efectivo, transferencia, Mercado Pago
+  amount    Decimal  @db.Decimal(14, 2)
+  currency  Currency @default(ARS)
+  paidAt    DateTime @default(now())
+  reference String?
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+// Compras a proveedores / importaciones: es lo que alimenta stock y costo
+model Purchase {
+  id           String            @id @default(cuid())
+  workspaceId  String
+  number       Int
+  supplierId   String?
+  status       PurchaseStatus    @default(DRAFT)
+  currency     Currency          @default(USD)
+  exchangeRate Decimal?          @db.Decimal(14, 4) // dólar usado (MEP, tarjeta)
+  rateType     ExchangeRateType?
+  subtotal     Decimal           @default(0) @db.Decimal(14, 2)
+  extraCosts   Json              @default("{}") // envío, aranceles, courier, impuestos
+  total        Decimal           @default(0) @db.Decimal(14, 2)
+  orderedAt    DateTime          @default(now())
+  expectedAt   DateTime?
+  receivedAt   DateTime?
+  notes        String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  workspace      Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  supplier       Supplier?       @relation(fields: [supplierId], references: [id])
+  items          PurchaseItem[]
+  stockMovements StockMovement[]
+
+  @@unique([workspaceId, number])
+}
+
+model PurchaseItem {
+  id         String   @id @default(cuid())
+  purchaseId String
+  variantId  String
+  quantity   Decimal  @db.Decimal(14, 3)
+  unitCost   Decimal  @db.Decimal(14, 2)
+  landedCost Decimal? @db.Decimal(14, 2) // costo final en ARS con todo prorrateado
+
+  purchase Purchase       @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  variant  ProductVariant @relation(fields: [variantId], references: [id])
+}
+
+// ─────────────────────────────────────────────
+// CALCULADORA
+// ─────────────────────────────────────────────
+
+// Plantilla = variables + fórmula. Ej: "Importación USD → ARS", "Costeo por receta"
+model CalculatorTemplate {
+  id          String   @id @default(cuid())
+  workspaceId String
+  name        String
+  description String?
+  // [{ "key": "costo_usd", "label": "Costo USD", "type": "number", "default": 0, "source": "manual|variant.cost|exchange.MEP" }]
+  variables   Json
+  // { "costo_final": "(costo_usd * dolar + envio) * (1 + impuestos_pct/100)", "precio": "costo_final / (1 - margen_pct/100)" }
+  formulas    Json
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, name])
+}
+
+// ─────────────────────────────────────────────
+// PRECIOS DE MERCADO (scraping) Y COTIZACIONES
+// ─────────────────────────────────────────────
+
+model MarketSource {
+  id          String           @id @default(cuid())
+  workspaceId String
+  name        String // MercadoLibre, TCGplayer, Cardmarket, Coto
+  kind        MarketSourceKind @default(SCRAPER)
+  baseUrl     String?
+  config      Json             @default("{}") // selectores CSS, parámetros de API
+  schedule    String? // cron, ej "0 9 * * *"
+  isActive    Boolean          @default(true)
+  lastRunAt   DateTime?
+  lastError   String?
+
+  workspace Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  tracks    MarketTrack[]
+}
+
+// Qué se sigue en cada fuente: una variante propia o un insumo/producto libre
+model MarketTrack {
+  id          String  @id @default(cuid())
+  workspaceId String
+  sourceId    String
+  variantId   String?
+  label       String // nombre a mostrar si no hay variante
+  url         String? // URL concreta a scrapear
+  query       String? // o búsqueda
+  isActive    Boolean @default(true)
+
+  workspace Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  source    MarketSource    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  variant   ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+  prices    MarketPrice[]
+}
+
+model MarketPrice {
+  id         String   @id @default(cuid())
+  trackId    String
+  price      Decimal  @db.Decimal(14, 2)
+  currency   Currency
+  capturedAt DateTime @default(now())
+  raw        Json? // datos extra (vendedor, stock, condición)
+
+  track MarketTrack @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@index([trackId, capturedAt])
+}
+
+// Global (no por espacio): dólar oficial, MEP, tarjeta, blue
+model ExchangeRate {
+  id         String           @id @default(cuid())
+  type       ExchangeRateType
+  buy        Decimal?         @db.Decimal(14, 4)
+  sell       Decimal          @db.Decimal(14, 4)
+  source     String
+  capturedAt DateTime         @default(now())
+
+  @@index([type, capturedAt])
+}
+
+// ─────────────────────────────────────────────
+// PROYECTOS (Shinka), PRESUPUESTOS Y DOCUMENTOS
+// ─────────────────────────────────────────────
+
+model Project {
+  id          String        @id @default(cuid())
+  workspaceId String
+  customerId  String?
+  name        String // ej: "Web Hiru Cerámica"
+  status      ProjectStatus @default(ACTIVE)
+  description String?
+  startDate   DateTime?
+  dueDate     DateTime?
+  budget      Decimal?      @db.Decimal(14, 2)
+  currency    Currency      @default(ARS)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  workspace Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  customer  Customer?  @relation(fields: [customerId], references: [id])
+  quotes    Quote[]
+  documents Document[]
+}
+
+model Quote {
+  id            String      @id @default(cuid())
+  workspaceId   String
+  number        Int
+  customerId    String?
+  projectId     String?
+  status        QuoteStatus @default(DRAFT)
+  currency      Currency    @default(ARS)
+  subtotal      Decimal     @default(0) @db.Decimal(14, 2)
+  discount      Decimal     @default(0) @db.Decimal(14, 2)
+  total         Decimal     @default(0) @db.Decimal(14, 2)
+  validUntil    DateTime?
+  terms         String?
+  pdfDocumentId String?     @unique
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  workspace   Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  customer    Customer?   @relation(fields: [customerId], references: [id])
+  project     Project?    @relation(fields: [projectId], references: [id])
+  items       QuoteItem[]
+  pdfDocument Document?   @relation("QuotePdf", fields: [pdfDocumentId], references: [id])
+
+  @@unique([workspaceId, number])
+}
+
+model QuoteItem {
+  id          String  @id @default(cuid())
+  quoteId     String
+  variantId   String?
+  description String
+  quantity    Decimal @db.Decimal(14, 3)
+  unitPrice   Decimal @db.Decimal(14, 2)
+  total       Decimal @db.Decimal(14, 2)
+
+  quote   Quote           @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
+}
+
+// Archivos subidos o generados (PDF). Se guardan en Cloudflare R2; acá solo la referencia.
+model Document {
+  id           String         @id @default(cuid())
+  workspaceId  String
+  projectId    String?
+  name         String
+  source       DocumentSource @default(UPLOADED)
+  storageKey   String // ruta en R2
+  mimeType     String
+  sizeBytes    Int
+  tags         String[]
+  entityType   String? // vínculo genérico: "order", "customer", "supplier"...
+  entityId     String?
+  uploadedById String?
+  createdAt    DateTime       @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  project   Project?  @relation(fields: [projectId], references: [id])
+  quote     Quote?    @relation("QuotePdf")
+
+  @@index([workspaceId, entityType, entityId])
+}
+
+// Plantillas para generar documentos (presupuesto, remito, recibo)
+model DocumentTemplate {
+  id          String   @id @default(cuid())
+  workspaceId String
+  name        String
+  kind        String // "quote", "delivery_note", "receipt"
+  content     String // HTML/Handlebars
+  isDefault   Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────────────────────
+// CALENDARIO
+// ─────────────────────────────────────────────
+
+model Event {
+  id          String    @id @default(cuid())
+  workspaceId String
+  title       String
+  description String?
+  type        EventType @default(OTHER)
+  color       String?
+  startsAt    DateTime
+  endsAt      DateTime?
+  allDay      Boolean   @default(false)
+  rrule       String? // repetición (RFC 5545), ej "FREQ=WEEKLY;BYDAY=MO"
+  assigneeId  String?
+  entityType  String? // "order", "quote", "customer"...
+  entityId    String?
+  externalId  String? // futuro: id de Google Calendar
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  assignee  User?     @relation("EventAssignee", fields: [assigneeId], references: [id])
+
+  @@index([workspaceId, startsAt])
+}
+
+// ─────────────────────────────────────────────
+// REDES SOCIALES
+// ─────────────────────────────────────────────
+
+model SocialAccount {
+  id              String         @id @default(cuid())
+  workspaceId     String
+  platform        SocialPlatform
+  handle          String
+  externalId      String?
+  accessTokenEnc  String? // cifrado
+  refreshTokenEnc String?
+  tokenExpiresAt  DateTime?
+  isActive        Boolean        @default(true)
+  lastSyncAt      DateTime?
+
+  workspace Workspace              @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  snapshots SocialMetricSnapshot[]
+
+  @@unique([workspaceId, platform, handle])
+}
+
+// Una foto diaria de métricas (seguidores, vistas, engagement...)
+model SocialMetricSnapshot {
+  id        String   @id @default(cuid())
+  accountId String
+  date      DateTime @db.Date
+  followers Int?
+  views     Int?
+  likes     Int?
+  comments  Int?
+  metrics   Json     @default("{}") // métricas propias de cada plataforma
+
+  account SocialAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, date])
+}
+
+// ─────────────────────────────────────────────
+// DASHBOARDS Y AUDITORÍA
+// ─────────────────────────────────────────────
+
+// workspaceId null = dashboard "General". userId null = dashboard compartido del espacio.
+model Dashboard {
+  id          String   @id @default(cuid())
+  workspaceId String?
+  userId      String?
+  name        String   @default("Resumen")
+  // [{ "id": "w1", "type": "kpi.sales_month", "x": 0, "y": 0, "w": 3, "h": 2, "config": {} }]
+  layout      Json     @default("[]")
+  isDefault   Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Alimenta "Actividad reciente"
+model ActivityLog {
+  id          String   @id @default(cuid())
+  workspaceId String?
+  userId      String?
+  action      String // "order.created", "product.price_updated"
+  entityType  String?
+  entityId    String?
+  metadata    Json     @default("{}")
+  createdAt   DateTime @default(now())
+
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([workspaceId, createdAt])
+}

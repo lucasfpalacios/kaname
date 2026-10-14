@@ -1,0 +1,15 @@
+---
+description: Convenciones del backend NestJS + Prisma
+globs: apps/api/**
+alwaysApply: false
+---
+
+- Un módulo de Nest por módulo de negocio (`products`, `orders`, `calendar`...): controller + service + DTOs.
+- Validar entrada con `class-validator` o zod (compartido desde `packages/shared`).
+- Toda ruta de negocio cuelga de `/workspaces/:workspaceId/...` y pasa por el guard que verifica membresía y permiso del módulo (`RolePermission`).
+- Nunca consultar sin filtrar por `workspaceId`.
+- Dinero con `Prisma.Decimal`; no convertir a `number` para calcular.
+- Operaciones que tocan stock + pedido van en una transacción (`prisma.$transaction`).
+- Registrar acciones relevantes en `ActivityLog`.
+- Cambios de schema: editar `schema.prisma` y crear migración con `prisma migrate dev --name <descripcion>`. Nunca editar migraciones ya aplicadas.
+- Errores con las excepciones HTTP de Nest; no devolver stack traces.

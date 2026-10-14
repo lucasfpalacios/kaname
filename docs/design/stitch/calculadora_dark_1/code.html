@@ -1,0 +1,713 @@
+<!DOCTYPE html><html class="light" lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#ffffff", "tertiary-fixed-dim": "#93ccff", "on-tertiary-fixed-variant": "#004b73", "tertiary-fixed": "#cce5ff", "surface-dim": "#cbdbf5", "on-tertiary-fixed": "#001d31", "inverse-surface": "#213145", "error": "#ba1a1a", "on-primary-fixed": "#100069", "primary-fixed-dim": "#c3c0ff", "secondary-container": "#dae2fd", "surface-container-lowest": "#ffffff", "on-tertiary-container": "#8fcbff", "on-secondary": "#ffffff", "on-primary-container": "#c1beff", "on-background": "#0b1c30", "outline": "#777586", "on-error": "#ffffff", "primary-container": "#4338ca", "inverse-on-surface": "#eaf1ff", "surface": "#f8f9ff", "on-error-container": "#93000a", "on-primary": "#ffffff", "secondary-fixed-dim": "#bec6e0", "surface-container-highest": "#d3e4fe", "on-secondary-fixed-variant": "#3f465c", "surface-variant": "#d3e4fe", "on-surface-variant": "#464554", "surface-container": "#e5eeff", "error-container": "#ffdad6", "on-surface": "#0b1c30", "primary": "#2a14b4", "surface-bright": "#f8f9ff", "on-primary-fixed-variant": "#372abf", "background": "#f8f9ff", "secondary-fixed": "#dae2fd", "on-secondary-container": "#5c647a", "inverse-primary": "#c3c0ff", "tertiary-container": "#005684", "surface-tint": "#5148d7", "primary-fixed": "#e3dfff", "outline-variant": "#c7c4d7", "tertiary": "#003e61", "surface-container-high": "#dce9ff", "on-secondary-fixed": "#131b2e", "secondary": "#565e74", "surface-container-low": "#eff4ff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-2xl": "2rem", "space-xl": "1.5rem", "margin": "1rem", "margin-lg": "2rem", "margin-md": "1.5rem", "space-2xs": "0.125rem", "space-md": "0.75rem", "gutter-lg": "1.5rem", "space-xs": "0.25rem", "gutter": "1rem", "space-lg": "1rem", "space-sm": "0.5rem" }, "fontFamily": { "label-md": [ "Inter" ], "kpi-metric": [ "Inter" ], "display-lg-mobile": [ "Inter" ], "display-lg": [ "Inter" ], "headline-sm": [ "Inter" ], "data-mono": [ "JetBrains Mono" ], "headline-lg": [ "Inter" ], "label-sm": [ "Inter" ], "headline-md": [ "Inter" ], "body-md": [ "Inter" ], "body-lg": [ "Inter" ], "body-sm": [ "Inter" ] }, "fontSize": { "label-md": [ "13px", { "lineHeight": "16px", "fontWeight": "500" } ], "kpi-metric": [ "28px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "display-lg-mobile": [ "26px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" } ], "display-lg": [ "32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" } ], "data-mono": [ "12px", { "lineHeight": "16px", "fontWeight": "500" } ], "headline-lg": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "label-sm": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "body-md": [ "13px", { "lineHeight": "18px", "fontWeight": "400" } ], "body-lg": [ "15px", { "lineHeight": "22px", "fontWeight": "400" } ], "body-sm": [ "12px", { "lineHeight": "16px", "fontWeight": "400" } ] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-on-primary"><header class="fixed top-0 left-0 right-0 h-14 bg-surface-container-lowest/90 backdrop-blur-md z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 w-full px-gutter-lg flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center shadow-sm"><span class="font-headline-sm text-headline-sm text-on-primary font-bold">N</span></div><span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight">Nexo</span><span class="font-label-sm text-label-sm px-space-sm py-space-2xs bg-surface-container text-on-surface-variant rounded-full font-semibold">v2.4</span></div><div class="flex-1 max-w-xl mx-auto hidden md:block"><div class="relative flex items-center w-full"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px] pointer-events-none">search</span><input class="w-full h-9 pl-9 pr-14 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all" placeholder="Buscar en productos, SKU, pedidos o clientes..." type="text"><kbd class="absolute right-2.5 px-space-xs py-space-2xs font-data-mono text-data-mono bg-surface-container-highest text-on-surface-variant rounded text-[10px]">⌘K</kbd></div></div><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center bg-surface-container p-space-2xs rounded-lg"><button class="px-space-sm py-space-2xs rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm shadow-sm font-semibold" type="button">ES</button><button class="px-space-sm py-space-2xs rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">EN</button></div><button aria-label="Cambiar tema" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">light_mode</span></button><button aria-label="Notificaciones" class="relative w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-label-md text-label-md font-bold"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden lg:flex flex-col text-left leading-tight"><span class="font-label-md text-label-md font-semibold text-on-surface">Lucas</span><span class="font-label-sm text-label-sm text-on-surface-variant">Superadmin</span></div></div></div></div></header><aside class="fixed left-0 top-14 bottom-0 w-64 bg-surface-container-lowest z-30 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col w-full"><div class="p-space-md"><div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer"><div class="flex items-center gap-space-sm min-w-0"><div class="w-8 h-8 rounded-lg bg-primary-container/20 text-primary-container font-headline-sm text-headline-sm flex items-center justify-center shrink-0 font-bold">TV</div><div class="flex flex-col min-w-0"><span class="font-label-md text-label-md font-semibold text-on-surface truncate">Tank Vault TCG</span><span class="font-label-sm text-label-sm text-on-surface-variant truncate">Workspace activo</span></div></div><span class="material-symbols-outlined text-on-surface-variant text-[20px]">unfold_more</span></div></div><nav class="px-space-sm flex flex-col gap-space-2xs" data-active-classes="bg-primary-container text-on-primary font-semibold"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="resumen" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-label-md text-label-md">Resumen</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="productos" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span class="font-label-md text-label-md">Productos</span></div><span class="px-space-sm py-space-2xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">148</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="clientes" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-label-md text-label-md">Clientes</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="proveedores" href="#"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span class="font-label-md text-label-md">Proveedores</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="listas-de-precios" href="#"><span class="material-symbols-outlined text-[20px]">sell</span><span class="font-label-md text-label-md">Listas de precios</span></a><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg transition-all bg-primary-container text-on-primary font-semibold" data-path="calculadora" href="#"><span class="material-symbols-outlined text-[20px]">calculate</span><span class="font-label-md text-label-md">Calculadora</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="precios-de-mercado" href="#"><span class="material-symbols-outlined text-[20px]">trending_up</span><span class="font-label-md text-label-md">Precios de mercado</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="documentos-y-presupuestos" href="#"><span class="material-symbols-outlined text-[20px]">description</span><span class="font-label-md text-label-md">Documentos y presupuestos</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="calendario" href="#"><span class="material-symbols-outlined text-[20px]">calendar_today</span><span class="font-label-md text-label-md">Calendario</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="metricas-de-redes" href="#"><span class="material-symbols-outlined text-[20px]">insights</span><span class="font-label-md text-label-md">Métricas de redes</span></a></nav></div><div class="p-space-sm"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="configuracion-del-espacio" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-md text-label-md">Configuración del espacio</span></a></div></aside><div class="pl-64"><main class="w-full pt-14 bg-surface min-h-screen"><div class="w-full px-gutter-lg pt-space-md pb-space-sm"><div class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><a class="hover:text-on-surface transition-colors flex items-center gap-1" href="#"><span class="material-symbols-outlined text-[16px]">arrow_back</span><span>Inicio</span></a><span class="text-outline-variant">/</span><span class="text-on-surface-variant">Tank Vault TCG</span><span class="text-outline-variant">/</span><span class="text-on-surface font-semibold">Calculadora</span></div></div><div class="w-full px-gutter-lg pb-space-2xl"><div class="flex flex-col w-full">
+<!-- Interactive & Reactive Simulation Canvas -->
+<div class="w-full flex flex-col gap-space-lg text-on-surface">
+<!-- Header Actions & Breadcrumb Title Bar -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg tracking-tight font-bold text-surface-container-lowest">
+            Calculadora de Precios
+          </h1>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container/20 text-tertiary-fixed-dim font-data-mono text-data-mono font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim animate-pulse"></span>
+            Motor V2.4 TCG
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+          Simulación de costos de importación, alícuotas arancelarias y fijación dinámica con paridad cambiaria en tiempo real para Pokémon TCG.
+        </p>
+</div>
+<!-- Top Utility Controls -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="relative flex items-center">
+<label class="sr-only" for="template-select">Seleccionar Plantilla</label>
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-2 hidden sm:inline">Plantilla:</span>
+<div class="relative">
+<select class="h-9 pl-3 pr-8 bg-surface-container-low rounded-lg font-label-md text-label-md text-surface-container-lowest focus:outline-none focus:bg-surface-container-lowest focus:text-on-surface transition-all appearance-none cursor-pointer" id="template-select">
+<option selected="" value="import-sealed">Importación USD → ARS (Sellado / Booster Boxes)</option>
+<option value="import-singles">Importación Singles TCGPlayer</option>
+<option value="distributor-local">Distribuidor Local ARS</option>
+<option value="wholesale-preorder">Preventa Mayorista (Cases)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 text-on-surface-variant text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<button class="h-9 px-3.5 bg-surface-container-low hover:bg-surface-container text-surface-container-lowest rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all shadow-sm" id="btn-toggle-formula" type="button">
+<span class="material-symbols-outlined text-[17px] text-tertiary-fixed-dim">tune</span>
+<span>Editar fórmula</span>
+</button>
+<button class="h-9 px-3.5 bg-primary-container hover:bg-primary text-on-primary rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[17px]">bookmark</span>
+<span>Guardar plantilla</span>
+</button>
+</div>
+</div>
+<!-- Main Workspace Grid: Inputs (Left) & Results/Visualizations (Right) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: Parameter Inputs & Operational Controls (7 Cols) -->
+<section class="xl:col-span-7 flex flex-col gap-space-md">
+<div class="rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between pb-space-sm border-b border-surface-container">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-tertiary-fixed-dim/10 flex items-center justify-center text-tertiary-fixed-dim">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-surface-container-lowest">Parámetros de Costo &amp; Venta</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Ajusta las variables base para proyectar el precio final de góndola</span>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-surface-container text-tertiary-fixed-dim rounded font-data-mono text-data-mono">
+              ARG • USD/ARS
+            </span>
+</div>
+<!-- Form Fields Container -->
+<div class="flex flex-col gap-space-md">
+<!-- 1. Producto Asociado -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-surface-container-lowest">Producto asociado (Opcional)</label>
+<span class="font-label-sm text-label-sm text-tertiary-fixed-dim cursor-pointer hover:underline">Vincular a inventario</span>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">search</span>
+<div class="w-full h-10 pl-9 pr-24 bg-surface-container rounded-lg flex items-center justify-between text-body-sm font-body-sm text-surface-container-lowest">
+<div class="flex items-center gap-2 truncate">
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed-dim shrink-0">inventory_2</span>
+<span class="truncate font-medium">Booster Box Surging Sparks (36 sobres) — SKU: PKM-SS-BB-EN</span>
+</div>
+<span class="shrink-0 ml-2 px-2 py-0.5 rounded-full bg-emerald-950/60 text-emerald-400 font-label-sm text-label-sm font-semibold">
+                    Stock: 2 u.
+                  </span>
+</div>
+</div>
+</div>
+<!-- 2. Costo Unitario USD & Envío Internacional Prorrateado -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-surface-container-lowest" for="input-cost-usd">Costo unitario (USD)</label>
+<span class="font-body-sm text-body-sm text-on-surface-variant">FOB Miami</span>
+</div>
+<div class="relative flex items-center">
+<span class="absolute left-3 font-data-mono text-data-mono text-on-surface-variant pointer-events-none">$ USD</span>
+<input class="w-full h-10 pl-16 pr-3 bg-surface-container rounded-lg font-data-mono text-headline-sm font-bold text-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-tertiary-fixed-dim transition-all" id="input-cost-usd" step="0.5" type="number" value="135.00">
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Distribuidor oficial Pokémon USA</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-surface-container-lowest" for="input-freight-usd">Flete internacional (USD)</label>
+<span class="font-data-mono text-label-sm text-tertiary-fixed-dim whitespace-nowrap" id="label-freight-ars">$ 17.110 ARS</span>
+</div>
+<div class="relative flex items-center">
+<span class="absolute left-3 font-data-mono text-data-mono text-on-surface-variant pointer-events-none">$ USD</span>
+<input class="w-full h-10 pl-16 pr-3 bg-surface-container rounded-lg font-data-mono text-headline-sm font-bold text-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-tertiary-fixed-dim transition-all" id="input-freight-usd" step="0.25" type="number" value="14.50">
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Prorrateado por peso (0,85 kg/box)</span>
+</div>
+</div>
+<!-- 3. Cotización del Dólar (ARS) con Selector de Fuente MEP/Tarjeta/Manual -->
+<div class="flex flex-col gap-2 p-3 rounded-lg bg-surface-container/60">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim">currency_exchange</span>
+<span class="font-label-md text-label-md text-surface-container-lowest font-semibold">Cotización del Dólar (ARS)</span>
+</div>
+<!-- Pills Segmented Controls -->
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-lg">
+<button class="rate-tab-btn px-2.5 py-1 rounded bg-tertiary-fixed-dim/20 text-tertiary-fixed-dim font-label-sm text-label-sm font-semibold transition-all shadow-sm" id="tab-rate-mep" type="button">
+                    MEP ($ 1.180)
+                  </button>
+<button class="rate-tab-btn px-2.5 py-1 rounded text-on-surface-variant hover:text-surface-container-lowest font-label-sm text-label-sm transition-all" id="tab-rate-card" type="button">
+                    Tarjeta ($ 1.580)
+                  </button>
+<button class="rate-tab-btn px-2.5 py-1 rounded text-on-surface-variant hover:text-surface-container-lowest font-label-sm text-label-sm transition-all" id="tab-rate-manual" type="button">
+                    Manual
+                  </button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center pt-1">
+<div class="sm:col-span-8 relative flex items-center">
+<span class="absolute left-3 font-data-mono text-data-mono text-on-surface-variant pointer-events-none">$ ARS</span>
+<input class="w-full h-10 pl-16 pr-3 bg-surface-container rounded-lg font-data-mono text-headline-sm font-bold text-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-tertiary-fixed-dim transition-all" id="input-exchange-rate" step="1" type="number" value="1180.00">
+</div>
+<div class="sm:col-span-4 flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-emerald-400">check_circle</span>
+<span class="font-body-sm text-body-sm leading-tight">Actualizado hace 12 min (API BCRA/Ámbito)</span>
+</div>
+</div>
+</div>
+<!-- 4. Impuestos & Aranceles Aduaneros (%) -->
+<div class="flex flex-col gap-1.5 p-3 rounded-lg bg-surface-container/30">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-surface-container-lowest">Impuestos &amp; Aranceles aduaneros</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">DJVE / Courier</span>
+</div>
+<span class="font-data-mono text-label-sm text-amber-300 font-medium whitespace-nowrap" id="label-tax-ars">$ 36.980 ARS est.</span>
+</div>
+<div class="flex items-center gap-3">
+<input class="flex-1 accent-tertiary-fixed-dim h-2 rounded bg-surface-container cursor-pointer" id="slider-tax" max="60" min="0" step="0.5" type="range" value="21">
+<div class="relative w-24 shrink-0">
+<input class="w-full h-9 px-2 text-right bg-surface-container rounded-lg font-data-mono text-body-md font-semibold text-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-tertiary-fixed-dim" id="input-tax" max="100" min="0" step="0.5" type="number" value="21.0">
+<span class="absolute right-2 top-2 font-data-mono text-label-sm text-on-surface-variant pointer-events-none">%</span>
+</div>
+</div>
+</div>
+<!-- 5. Comisiones de Plataforma y Pasarela (%) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-surface-container-lowest" for="input-comm">Comisión plataforma (%)</label>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ML / MPago</span>
+</div>
+<div class="relative flex items-center">
+<input class="w-full h-10 px-3 pr-8 bg-surface-container rounded-lg font-data-mono text-body-md font-semibold text-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-tertiary-fixed-dim" id="input-comm" max="30" min="0" step="0.1" type="number" value="11.5">
+<span class="absolute right-3 font-data-mono text-data-mono text-on-surface-variant pointer-events-none">%</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cobro en 1 cuota + IIBB CABA</span>
+</div>
+<!-- 6. Margen de Ganancia Deseado (%) -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-surface-container-lowest" for="input-margin">Margen deseado (%)</label>
+<span class="px-1.5 py-0.5 rounded bg-tertiary-fixed-dim/20 text-tertiary-fixed-dim font-label-sm text-label-sm font-semibold">Target</span>
+</div>
+<div class="relative flex items-center">
+<input class="w-full h-10 px-3 pr-8 bg-surface-container rounded-lg font-data-mono text-body-md font-bold text-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-tertiary-fixed-dim" id="input-margin" max="80" min="5" step="0.5" type="number" value="35.0">
+<span class="absolute right-3 font-data-mono text-data-mono text-on-surface-variant pointer-events-none">%</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Margen sobre costo total ponderado</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Mini Visual Quick Insight / Stock context -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm">
+<div class="rounded-xl bg-surface-container-low p-3 flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-tertiary-fixed-dim/15 flex items-center justify-center text-tertiary-fixed-dim shrink-0">
+<span class="material-symbols-outlined text-[20px]">layers</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">Cajas por Case</span>
+<span class="font-data-mono text-body-md font-bold text-surface-container-lowest truncate">6 Booster Boxes</span>
+</div>
+</div>
+<div class="rounded-xl bg-surface-container-low p-3 flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-indigo-500/15 flex items-center justify-center text-indigo-400 shrink-0">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">Tránsito estimado</span>
+<span class="font-data-mono text-body-md font-bold text-surface-container-lowest truncate">7 - 10 días hab.</span>
+</div>
+</div>
+<div class="rounded-xl bg-surface-container-low p-3 flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-pink-500/15 flex items-center justify-center text-pink-300 shrink-0">
+<span class="material-symbols-outlined text-[20px]">savings</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">Punto de equilibrio</span>
+<span class="font-data-mono text-body-md font-bold text-surface-container-lowest truncate whitespace-nowrap" id="stat-breakeven">$ 252.875</span>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Live Calculation Engine, Key Metrics, & Market Comparison (5 Cols) -->
+<section class="xl:col-span-5 flex flex-col gap-space-md">
+<!-- Live Calculation Box with High Contrast Finish -->
+<div class="rounded-xl bg-surface-container-low p-space-lg shadow-md flex flex-col gap-space-lg relative overflow-hidden">
+<!-- Subtle Accent Ambient Lighting Glow -->
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-tertiary-fixed-dim/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex items-center justify-between pb-space-sm border-b border-surface-container">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-tertiary-fixed-dim/20 flex items-center justify-center text-tertiary-fixed-dim">
+<span class="material-symbols-outlined text-[20px]">calculate</span>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-surface-container-lowest">Resultado &amp; Fijación en Vivo</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cálculo dinámico en tiempo real</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-emerald-950/60 text-emerald-400 font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+              Sincronizado
+            </span>
+</div>
+<!-- Hero Metrics Bento Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<!-- Metric 1: Costo Final Unitario -->
+<div class="p-3.5 rounded-xl bg-surface-container flex flex-col justify-between min-h-[110px]">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Costo Final Unitario</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">account_balance_wallet</span>
+</div>
+<div class="my-1">
+<span class="font-kpi-metric text-kpi-metric text-surface-container-lowest whitespace-nowrap block tracking-tight font-bold" id="metric-final-cost-ars">
+                  $ 213.250
+                </span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="font-data-mono text-data-mono text-on-surface-variant whitespace-nowrap" id="metric-final-cost-usd">USD ref: $ 180,72</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Puesto en depósito</span>
+</div>
+</div>
+<!-- Metric 2: Precio de Venta Sugerido (HERO VALUE) -->
+<div class="p-3.5 rounded-xl bg-gradient-to-br from-primary-container/40 via-surface-container to-surface-container flex flex-col justify-between min-h-[110px]">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-tertiary-fixed-dim uppercase tracking-wider font-bold">Precio Sugerido Venta</span>
+<span class="px-1.5 py-0.5 rounded bg-tertiary-fixed-dim/20 text-tertiary-fixed-dim font-label-sm text-label-sm font-bold">RECOMENDADO</span>
+</div>
+<div class="my-1">
+<span class="font-kpi-metric text-kpi-metric text-tertiary-fixed-dim whitespace-nowrap block tracking-tight font-extrabold" id="metric-suggested-price">
+                  $ 345.000
+                </span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">PVP Mercado Libre / Tienda</span>
+<span class="font-data-mono text-data-mono text-tertiary-fixed-dim font-medium">U$S 292,37</span>
+</div>
+</div>
+<!-- Metric 3: Ganancia Neta Por Unidad -->
+<div class="p-3.5 rounded-xl bg-surface-container flex flex-col justify-between min-h-[110px]">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Ganancia Neta / Unidad</span>
+<span class="material-symbols-outlined text-[16px] text-emerald-400">payments</span>
+</div>
+<div class="my-1">
+<span class="font-headline-lg text-headline-lg text-emerald-400 whitespace-nowrap block font-bold" id="metric-net-profit-ars">
+                  $ 92.125
+                </span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded-full bg-emerald-950/70 text-emerald-300 font-data-mono text-label-sm font-semibold whitespace-nowrap">
+                  ▲ +35,2% neto
+                </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">libre de comisión</span>
+</div>
+</div>
+<!-- Metric 4: Margen Comercial Real -->
+<div class="p-3.5 rounded-xl bg-surface-container flex flex-col justify-between min-h-[110px]">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Margen Comercial Real</span>
+<span class="material-symbols-outlined text-[16px] text-indigo-300">trending_up</span>
+</div>
+<div class="my-1">
+<span class="font-headline-lg text-headline-lg text-surface-container-lowest whitespace-nowrap block font-bold" id="metric-real-margin-pct">
+                  41,8 %
+                </span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-data-mono text-data-mono text-on-surface-variant">ROI Bruto: 61,8%</span>
+<span class="font-label-sm text-label-sm text-tertiary-fixed-dim">Óptimo</span>
+</div>
+</div>
+</div>
+<!-- Market Comparison Engine (TCGPlayer vs Plaza Local Argentina) -->
+<div class="flex flex-col gap-2 p-3.5 rounded-xl bg-surface-container/70">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-surface-container-lowest font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim">query_stats</span>
+                Benchmark de Mercado
+              </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">TCGPlayer / Plaza Local</span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-1">
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">TCGPlayer Market Promedio</span>
+<span class="font-data-mono text-body-md font-bold text-surface-container-lowest whitespace-nowrap">
+                  $ 328.000 ARS <span class="text-on-surface-variant font-normal text-label-sm">($ 277.96 USD)</span>
+</span>
+</div>
+<div class="flex sm:flex-col sm:items-end">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Spread de Competitividad</span>
+<span class="font-data-mono text-body-md font-bold text-emerald-400 whitespace-nowrap">
+                  +$ 17.000 ARS (+5,2%)
+                </span>
+</div>
+</div>
+<!-- Status Indicator Pill -->
+<div class="w-full p-2 rounded-lg bg-emerald-950/40 flex items-center gap-2 text-emerald-300">
+<span class="material-symbols-outlined text-[18px] shrink-0 text-emerald-400">verified</span>
+<span class="font-body-sm text-body-sm leading-tight font-medium">
+                ▲ +5,2% competitivo vs plaza local (Excelente rentabilidad con alta absorción de demanda).
+              </span>
+</div>
+</div>
+<!-- Cost Breakdown Interactive Bar & Visualization -->
+<div class="flex flex-col gap-space-sm pt-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-surface-container-lowest font-semibold">
+                Desglose de Composición del Costo
+              </span>
+<span class="font-data-mono text-label-sm text-on-surface-variant">Base: 100% PVP</span>
+</div>
+<!-- Segmented Horizontal Bar -->
+<div class="w-full h-3 rounded-full overflow-hidden flex bg-surface-container shadow-inner">
+<div class="h-full transition-all duration-300" id="bar-fob" style="width: 46.2%; background-color: #89C3EB;" title="Costo FOB Base (46.2%)"></div>
+<div class="h-full transition-all duration-300" id="bar-freight" style="width: 8.0%; background-color: #60A5FA;" title="Flete Internacional (8.0%)"></div>
+<div class="h-full transition-all duration-300" id="bar-customs" style="width: 17.3%; background-color: #FBBF24;" title="Aranceles e IVA (17.3%)"></div>
+<div class="h-full transition-all duration-300" id="bar-comm" style="width: 11.5%; background-color: #A78BFA;" title="Comisión de Venta (11.5%)"></div>
+<div class="h-full transition-all duration-300" id="bar-profit" style="width: 26.7%; background-color: #34D399;" title="Margen Neto Estimado (26.7%)"></div>
+</div>
+<!-- Legend Grid Detailing Values -->
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="w-2.5 h-2.5 rounded-sm shrink-0" style="background-color: #89C3EB;"></span>
+<span class="text-on-surface-variant truncate">Costo FOB:</span>
+<span class="font-data-mono font-medium text-surface-container-lowest ml-auto whitespace-nowrap" id="legend-fob">$ 159.300</span>
+</div>
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="w-2.5 h-2.5 rounded-sm shrink-0" style="background-color: #60A5FA;"></span>
+<span class="text-on-surface-variant truncate">Flete:</span>
+<span class="font-data-mono font-medium text-surface-container-lowest ml-auto whitespace-nowrap" id="legend-freight">$ 17.110</span>
+</div>
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="w-2.5 h-2.5 rounded-sm shrink-0" style="background-color: #FBBF24;"></span>
+<span class="text-on-surface-variant truncate">Aduana/IVA:</span>
+<span class="font-data-mono font-medium text-surface-container-lowest ml-auto whitespace-nowrap" id="legend-tax">$ 36.980</span>
+</div>
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="w-2.5 h-2.5 rounded-sm shrink-0" style="background-color: #A78BFA;"></span>
+<span class="text-on-surface-variant truncate">Comisión ML:</span>
+<span class="font-data-mono font-medium text-surface-container-lowest ml-auto whitespace-nowrap" id="legend-comm">$ 39.675</span>
+</div>
+<div class="flex items-center gap-1.5 min-w-0 col-span-2 sm:col-span-1">
+<span class="w-2.5 h-2.5 rounded-sm shrink-0" style="background-color: #34D399;"></span>
+<span class="text-on-surface-variant truncate">Margen Neto:</span>
+<span class="font-data-mono font-medium text-emerald-400 ml-auto whitespace-nowrap" id="legend-profit">$ 92.125</span>
+</div>
+</div>
+</div>
+<!-- Bottom Action Buttons in Right Panel -->
+<div class="flex flex-col sm:flex-row gap-2 pt-2">
+<button class="flex-1 h-10 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-surface-container-lowest font-label-md text-label-md flex items-center justify-center gap-2 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">price_change</span>
+<span>Aplicar al producto</span>
+</button>
+<button class="h-10 px-4 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">publish</span>
+<span>Publicar en e-commerce</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- BOTTOM SECTION: Formula Expression Editor (Dynamic Engine Builder) -->
+<section class="w-full flex flex-col gap-space-sm transition-all duration-200" id="formula-section">
+<div class="rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-space-sm border-b border-surface-container">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-tertiary-fixed-dim">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm text-surface-container-lowest">Editor de Fórmulas Dinámicas</h3>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed-dim/20 text-tertiary-fixed-dim font-data-mono text-label-sm font-semibold">
+                  Fórmula activa: Importación Estándar v1.4
+                </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Configura algoritmos matemáticos personalizados para evaluar costos y rentabilidades</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-surface-container-lowest flex items-center gap-1 transition-colors" id="btn-reset-formula" type="button">
+<span class="material-symbols-outlined text-[15px]">restart_alt</span>
+              Restablecer por defecto
+            </button>
+<span class="text-surface-container">|</span>
+<button class="font-label-sm text-label-sm text-tertiary-fixed-dim hover:underline flex items-center gap-1" id="btn-test-data" type="button">
+<span class="material-symbols-outlined text-[15px]">science</span>
+              Probar datos de prueba
+            </button>
+</div>
+</div>
+<!-- Available Variables (Click to Insert Chips) -->
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">
+            Variables disponibles (Haz clic para insertar):
+          </span>
+<div class="flex flex-wrap gap-1.5 font-data-mono text-data-mono">
+<button class="var-chip px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-tertiary-fixed-dim transition-colors flex items-center gap-1" data-var="costo_usd" type="button">
+<code>costo_usd</code>
+</button>
+<button class="var-chip px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-tertiary-fixed-dim transition-colors flex items-center gap-1" data-var="cotizacion_dolar" type="button">
+<code>cotizacion_dolar</code>
+</button>
+<button class="var-chip px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-tertiary-fixed-dim transition-colors flex items-center gap-1" data-var="envio_usd" type="button">
+<code>envio_usd</code>
+</button>
+<button class="var-chip px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-tertiary-fixed-dim transition-colors flex items-center gap-1" data-var="impuestos_pct" type="button">
+<code>impuestos_pct</code>
+</button>
+<button class="var-chip px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-tertiary-fixed-dim transition-colors flex items-center gap-1" data-var="comision_pct" type="button">
+<code>comision_pct</code>
+</button>
+<button class="var-chip px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-tertiary-fixed-dim transition-colors flex items-center gap-1" data-var="margen_pct" type="button">
+<code>margen_pct</code>
+</button>
+<button class="var-chip px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-tertiary-fixed-dim transition-colors flex items-center gap-1" data-var="costo_flete_ars" type="button">
+<code>costo_flete_ars</code>
+</button>
+<button class="var-chip px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-tertiary-fixed-dim transition-colors flex items-center gap-1" data-var="tasa_aduanera_fija" type="button">
+<code>tasa_aduanera_fija</code>
+</button>
+</div>
+</div>
+<!-- Formula Expression Console Editor -->
+<div class="relative flex flex-col rounded-lg bg-surface-container overflow-hidden">
+<div class="flex items-center justify-between px-3 py-1.5 bg-surface-container-low text-label-sm font-data-mono text-on-surface-variant">
+<span class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-red-400/80 inline-block"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-yellow-400/80 inline-block"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-green-400/80 inline-block"></span>
+<span class="ml-2 font-medium">expresion_calculo.formula</span>
+</span>
+<span>Motor Math Evaluator JS</span>
+</div>
+<div class="p-3 font-data-mono text-body-md">
+<textarea class="w-full bg-transparent text-emerald-400 font-data-mono text-body-md focus:outline-none resize-none leading-relaxed tracking-wide" id="formula-input" rows="2" spellcheck="false">((costo_usd * cotizacion_dolar) + (envio_usd * cotizacion_dolar)) * (1 + (impuestos_pct / 100)) / (1 - (comision_pct / 100) - (margen_pct / 100))</textarea>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between px-3 py-2 bg-surface-container-low/70 gap-2">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-emerald-400 font-medium">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                Sintaxis válida • Salida numérica verificada
+              </span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-data-mono text-label-sm text-on-surface-variant">Resultado actual:</span>
+<span class="font-data-mono text-body-md font-bold text-surface-container-lowest whitespace-nowrap" id="formula-eval-preview">$ 345.000,00 ARS</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Client-side Interactive Logic (Auto-recalculating simulation) -->
+<script>
+    (function initPricingCalculator() {
+      // DOM Elements
+      const costUsdInput = document.getElementById('input-cost-usd');
+      const freightUsdInput = document.getElementById('input-freight-usd');
+      const rateInput = document.getElementById('input-exchange-rate');
+      const taxSlider = document.getElementById('slider-tax');
+      const taxInput = document.getElementById('input-tax');
+      const commInput = document.getElementById('input-comm');
+      const marginInput = document.getElementById('input-margin');
+
+      // Labels & KPIs
+      const freightArsLabel = document.getElementById('label-freight-ars');
+      const taxArsLabel = document.getElementById('label-tax-ars');
+      const metricFinalCostArs = document.getElementById('metric-final-cost-ars');
+      const metricFinalCostUsd = document.getElementById('metric-final-cost-usd');
+      const metricSuggestedPrice = document.getElementById('metric-suggested-price');
+      const metricNetProfitArs = document.getElementById('metric-net-profit-ars');
+      const metricRealMarginPct = document.getElementById('metric-real-margin-pct');
+      const statBreakeven = document.getElementById('stat-breakeven');
+      const formulaEvalPreview = document.getElementById('formula-eval-preview');
+
+      // Breakdown bars & legends
+      const barFob = document.getElementById('bar-fob');
+      const barFreight = document.getElementById('bar-freight');
+      const barCustoms = document.getElementById('bar-customs');
+      const barComm = document.getElementById('bar-comm');
+      const barProfit = document.getElementById('bar-profit');
+      const legendFob = document.getElementById('legend-fob');
+      const legendFreight = document.getElementById('legend-freight');
+      const legendTax = document.getElementById('legend-tax');
+      const legendComm = document.getElementById('legend-comm');
+      const legendProfit = document.getElementById('legend-profit');
+
+      // Helper Formatter
+      function formatARS(val) {
+        return '$ ' + Math.round(val).toLocaleString('es-AR');
+      }
+
+      function formatARSExact(val) {
+        return '$ ' + Number(val).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      function recalculate() {
+        const costUsd = parseFloat(costUsdInput.value) || 0;
+        const freightUsd = parseFloat(freightUsdInput.value) || 0;
+        const rate = parseFloat(rateInput.value) || 1180;
+        const taxPct = parseFloat(taxInput.value) || 0;
+        const commPct = parseFloat(commInput.value) || 0;
+        const marginPct = parseFloat(marginInput.value) || 0;
+
+        // Argentine Peso direct costs
+        const fobArs = costUsd * rate;
+        const freightArs = freightUsd * rate;
+        const subtotalArs = fobArs + freightArs;
+        const customsArs = subtotalArs * (taxPct / 100);
+        const finalLandedCostArs = subtotalArs + customsArs;
+        const finalLandedCostUsd = rate > 0 ? (finalLandedCostArs / rate) : 0;
+
+        // Pricing formula with margin & platform commission:
+        // Price = LandedCost / (1 - (Commission% + Margin%))
+        const divisor = 1 - (commPct / 100) - (marginPct / 100);
+        let suggestedPrice = 0;
+        if (divisor > 0.05) {
+          suggestedPrice = finalLandedCostArs / divisor;
+        } else {
+          suggestedPrice = finalLandedCostArs * (1 + (marginPct / 100) + (commPct / 100));
+        }
+
+        const commVal = suggestedPrice * (commPct / 100);
+        const netProfit = suggestedPrice - finalLandedCostArs - commVal;
+        const realMargin = suggestedPrice > 0 ? (netProfit / suggestedPrice) * 100 : 0;
+        const breakeven = finalLandedCostArs + (suggestedPrice * (commPct / 100));
+
+        // Update Labels
+        if (freightArsLabel) freightArsLabel.textContent = formatARS(freightArs) + ' ARS';
+        if (taxArsLabel) taxArsLabel.textContent = formatARS(customsArs) + ' ARS est.';
+
+        // Update KPIs
+        if (metricFinalCostArs) metricFinalCostArs.textContent = formatARS(finalLandedCostArs);
+        if (metricFinalCostUsd) metricFinalCostUsd.textContent = 'USD ref: $ ' + finalLandedCostUsd.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (metricSuggestedPrice) metricSuggestedPrice.textContent = formatARS(suggestedPrice);
+        if (metricNetProfitArs) metricNetProfitArs.textContent = formatARS(netProfit);
+        if (metricRealMarginPct) metricRealMarginPct.textContent = realMargin.toFixed(1).replace('.', ',') + ' %';
+        if (statBreakeven) statBreakeven.textContent = formatARS(breakeven);
+        if (formulaEvalPreview) formulaEvalPreview.textContent = formatARSExact(suggestedPrice) + ' ARS';
+
+        // Update Segmented Bar Percentages
+        if (suggestedPrice > 0) {
+          const pFob = Math.max(2, (fobArs / suggestedPrice) * 100);
+          const pFreight = Math.max(2, (freightArs / suggestedPrice) * 100);
+          const pCustoms = Math.max(2, (customsArs / suggestedPrice) * 100);
+          const pComm = Math.max(2, (commVal / suggestedPrice) * 100);
+          const pProfit = Math.max(2, (netProfit / suggestedPrice) * 100);
+
+          if (barFob) barFob.style.width = pFob.toFixed(1) + '%';
+          if (barFreight) barFreight.style.width = pFreight.toFixed(1) + '%';
+          if (barCustoms) barCustoms.style.width = pCustoms.toFixed(1) + '%';
+          if (barComm) barComm.style.width = pComm.toFixed(1) + '%';
+          if (barProfit) barProfit.style.width = pProfit.toFixed(1) + '%';
+
+          if (legendFob) legendFob.textContent = formatARS(fobArs);
+          if (legendFreight) legendFreight.textContent = formatARS(freightArs);
+          if (legendTax) legendTax.textContent = formatARS(customsArs);
+          if (legendComm) legendComm.textContent = formatARS(commVal);
+          if (legendProfit) legendProfit.textContent = formatARS(netProfit);
+        }
+      }
+
+      // Sync Tax Slider & Number Input
+      taxSlider?.addEventListener('input', (e) => {
+        taxInput.value = parseFloat(e.target.value).toFixed(1);
+        recalculate();
+      });
+
+      taxInput?.addEventListener('input', (e) => {
+        taxSlider.value = e.target.value;
+        recalculate();
+      });
+
+      // Bind all inputs
+      [costUsdInput, freightUsdInput, rateInput, commInput, marginInput].forEach(el => {
+        el?.addEventListener('input', recalculate);
+      });
+
+      // Exchange Rate Quick Tabs
+      const tabMep = document.getElementById('tab-rate-mep');
+      const tabCard = document.getElementById('tab-rate-card');
+      const tabManual = document.getElementById('tab-rate-manual');
+      const allTabs = [tabMep, tabCard, tabManual];
+
+      function setActiveTab(activeBtn) {
+        allTabs.forEach(btn => {
+          if (!btn) return;
+          btn.className = 'rate-tab-btn px-2.5 py-1 rounded text-on-surface-variant hover:text-surface-container-lowest font-label-sm text-label-sm transition-all';
+        });
+        if (activeBtn) {
+          activeBtn.className = 'rate-tab-btn px-2.5 py-1 rounded bg-tertiary-fixed-dim/20 text-tertiary-fixed-dim font-label-sm text-label-sm font-semibold transition-all shadow-sm';
+        }
+      }
+
+      tabMep?.addEventListener('click', () => {
+        rateInput.value = "1180.00";
+        setActiveTab(tabMep);
+        recalculate();
+      });
+
+      tabCard?.addEventListener('click', () => {
+        rateInput.value = "1580.00";
+        setActiveTab(tabCard);
+        recalculate();
+      });
+
+      tabManual?.addEventListener('click', () => {
+        setActiveTab(tabManual);
+        rateInput.focus();
+      });
+
+      // Formula Chips Click Insert
+      const formulaInput = document.getElementById('formula-input');
+      document.querySelectorAll('.var-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const varName = chip.getAttribute('data-var');
+          if (formulaInput && varName) {
+            formulaInput.value += ' ' + varName;
+            formulaInput.focus();
+          }
+        });
+      });
+
+      // Reset Formula Button
+      document.getElementById('btn-reset-formula')?.addEventListener('click', () => {
+        if (formulaInput) {
+          formulaInput.value = '((costo_usd * cotizacion_dolar) + (envio_usd * cotizacion_dolar)) * (1 + (impuestos_pct / 100)) / (1 - (comision_pct / 100) - (margen_pct / 100))';
+          recalculate();
+        }
+      });
+
+      // Template Selector Change
+      document.getElementById('template-select')?.addEventListener('change', (e) => {
+        const val = e.target.value;
+        if (val === 'import-singles') {
+          costUsdInput.value = "45.00";
+          freightUsdInput.value = "3.50";
+          marginInput.value = "45.0";
+          taxInput.value = "0.0";
+          if (taxSlider) taxSlider.value = "0";
+        } else if (val === 'wholesale-preorder') {
+          costUsdInput.value = "780.00";
+          freightUsdInput.value = "42.00";
+          marginInput.value = "25.0";
+          taxInput.value = "21.0";
+          if (taxSlider) taxSlider.value = "21";
+        } else if (val === 'distributor-local') {
+          costUsdInput.value = "110.00";
+          freightUsdInput.value = "0.00";
+          marginInput.value = "30.0";
+          taxInput.value = "10.5";
+          if (taxSlider) taxSlider.value = "10.5";
+        } else {
+          costUsdInput.value = "135.00";
+          freightUsdInput.value = "14.50";
+          marginInput.value = "35.0";
+          taxInput.value = "21.0";
+          if (taxSlider) taxSlider.value = "21";
+        }
+        recalculate();
+      });
+
+      // Toggle Formula section smooth scroll
+      document.getElementById('btn-toggle-formula')?.addEventListener('click', () => {
+        const sec = document.getElementById('formula-section');
+        if (sec) {
+          sec.scrollIntoView({ behavior: 'smooth' });
+          formulaInput?.focus();
+        }
+      });
+
+      // Initial calculation run
+      recalculate();
+    })();
+  </script>
+</div></div></main></div></body></html>

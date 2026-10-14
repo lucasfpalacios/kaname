@@ -1,0 +1,668 @@
+<!DOCTYPE html><html class="dark" lang="es"><head><title>Tank Vault - Dark</title><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-lowest":"#ffffff","bg-canvas-dark":"#0F1A33","bg-canvas-light":"#FFFFFC","surface-tint":"#2d5cae","text-sumi-light":"#1F2033","error-container":"#ffdad6","on-tertiary-fixed-variant":"#772f38","on-secondary":"#ffffff","semantic-warning":"#C88A35","surface-container-low":"#f5f2ff","tertiary-fixed-dim":"#ffb2b8","border-subtle-dark":"#23335A","primary-wasurenagusa-dark":"#89C3EB","inverse-primary":"#aec6ff","secondary-fixed":"#dce2f9","on-primary-container":"#afc7ff","on-tertiary-container":"#ffb3b8","tertiary":"#69252e","primary-fixed-dim":"#aec6ff","outline-variant":"#c3c6d3","on-tertiary":"#ffffff","semantic-error-soft":"#FDF2F2","secondary-fixed-dim":"#c0c6dd","surface-container-highest":"#e1e0fa","surface-card-dark":"#1A2747","on-secondary-fixed":"#151b2c","semantic-success":"#2E7D5B","accent-soft-sakura":"#FEF4F4","surface-card-light":"#FFFFFF","primary-fixed":"#d8e2ff","on-primary-fixed-variant":"#064395","border-subtle-light":"#EAEAEA","on-tertiary-fixed":"#3e0410","background":"#fbf8ff","semantic-info":"#3B72AF","on-error-container":"#93000a","outline":"#737783","error":"#ba1a1a","tertiary-container":"#863b44","on-surface-variant":"#434751","semantic-warning-soft":"#FBF5EB","semantic-error":"#C93A40","surface-container":"#eeecff","surface-dim":"#d9d8f2","accent-momo":"#F09199","tertiary-fixed":"#ffdadb","on-secondary-fixed-variant":"#404659","primary":"#003982","inverse-surface":"#2e2f43","semantic-info-soft":"#EFF5FC","secondary":"#585e72","on-error":"#ffffff","on-background":"#191a2d","text-sumi-dark":"#F3F1F6","accent-toki-dark":"#F4B3C2","semantic-success-soft":"#EDF6F1","on-primary-fixed":"#001a43","surface-container-high":"#e7e6ff","primary-container":"#1e50a2","on-secondary-container":"#5c6276","inverse-on-surface":"#f1efff","on-primary":"#ffffff","on-surface":"#191a2d","surface-bright":"#fbf8ff","surface":"#fbf8ff","secondary-container":"#d9dff6","text-secondary-dark":"#9AA5BE","text-secondary-light":"#5E6478","surface-variant":"#e1e0fa"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"gutter-lg":"1.5rem","space-lg":"1rem","margin":"1rem","gutter":"1rem","space-xl":"1.5rem","space-md":"0.75rem","margin-lg":"2rem","margin-md":"1.5rem","space-sm":"0.5rem","space-xs":"0.25rem"},fontFamily:{"headline-sm":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"label-sm":["Inter"],"display-lg-mobile":["Inter"],"kpi-metric-mobile":["Inter"],"body-sm":["Inter"],"headline-md":["Inter"],"display-lg":["Inter"],"body-lg":["Inter"],"body-md":["Inter"],"kpi-metric":["Inter"]},fontSize:{"headline-sm":["15px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"16px","fontWeight":"500"}],"headline-lg":["22px",{"lineHeight":"30px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"display-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"kpi-metric-mobile":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"700"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-md":["18px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["15px",{"lineHeight":"22px","fontWeight":"400"}],"body-md":["13px",{"lineHeight":"18px","fontWeight":"400"}],"kpi-metric":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}};</script></head><body class="bg-[#0b1329] font-body-md text-body-md text-[#F3F1F6] antialiased"><aside class="fixed left-0 top-0 h-full w-[68px] z-50 bg-[#0F1A33] border-r border-[#1F2D4D] flex flex-col items-center py-space-md shadow-[0_1px_8px_rgba(0,0,0,0.2)]"><div class="flex items-center justify-center w-10 h-10 rounded-xl bg-primary text-on-primary font-headline-lg text-headline-lg shadow-sm mb-space-xl select-none">N</div><nav class="flex-1 flex flex-col items-center gap-space-sm w-full px-space-xs" data-active-classes="bg-primary-container text-on-primary rounded-xl"><a class="flex items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="inicio" href="#" title="Inicio"><span class="material-symbols-outlined text-[22px]">dashboard</span></a><a class="flex items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="espacios-de-trabajo" href="#" title="Espacios de trabajo"><span class="material-symbols-outlined text-[22px]">domain</span></a><a class="flex items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="calendario-consolidado" href="#" title="Calendario consolidado"><span class="material-symbols-outlined text-[22px]">calendar_month</span></a><a class="flex items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="analiticas" href="#" title="Analíticas"><span class="material-symbols-outlined text-[22px]">analytics</span></a><a class="flex items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="configuracion-global" href="#" title="Configuración global"><span class="material-symbols-outlined text-[22px]">settings</span></a></nav><div class="flex flex-col items-center gap-space-sm w-full px-space-xs"><button class="flex items-center justify-center w-10 h-10 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Contraer o expandir menú" type="button"><span class="material-symbols-outlined text-[20px]">keyboard_double_arrow_right</span></button></div></aside><div class="pl-[68px]"><header class="fixed top-0 left-[68px] right-0 h-14 bg-[#0F1A33]/90 backdrop-blur-xl z-40 border-b border-[#1F2D4D] shadow-[0_1px_8px_rgba(0,0,0,0.2)]"><div class="h-14 w-full px-space-xl flex items-center justify-between gap-space-lg"><div class="flex-1 max-w-xl"><div class="flex items-center w-full h-9 px-space-md rounded-lg bg-[#142342] text-[#94A3B8] cursor-pointer hover:bg-[#1A2E55] transition-colors"><span class="material-symbols-outlined text-[18px] mr-space-sm text-[#89C3EB]">search</span><span class="font-body-sm text-body-sm text-[#94A3B8] flex-1 select-none">Buscar espacios, métricas, atajos...</span><kbd class="px-space-xs py-0.5 rounded bg-[#0F1A33] text-[#89C3EB] border border-[#233863] shadow-sm font-label-sm text-label-sm select-none">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><div class="flex items-center rounded-lg bg-[#142342] p-0.5 border border-[#233863]"><button class="px-space-sm py-1 rounded font-label-sm text-label-sm bg-[#1E3A66] text-[#89C3EB] font-semibold shadow-sm" type="button">ES</button><button class="px-space-sm py-1 rounded font-label-sm text-label-sm text-[#94A3B8] hover:text-[#F3F1F6]" type="button">EN</button></div><button class="w-8 h-8 rounded-lg flex items-center justify-center text-[#94A3B8] hover:bg-[#162444] hover:text-[#F3F1F6] transition-colors" title="Cambiar tema" type="button"><span class="material-symbols-outlined text-[20px]">dark_mode</span></button><button class="relative w-8 h-8 rounded-lg flex items-center justify-center text-[#94A3B8] hover:bg-[#162444] hover:text-[#F3F1F6] transition-colors" title="Notificaciones" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-accent-momo ring-2 ring-[#0F1A33]"></span></button><div class="h-5 w-[1px] bg-[#233863] mx-space-xs"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-[#1E3A66] text-[#89C3EB] flex items-center justify-center font-semibold text-xs border border-[#2A487D]"><span class="material-symbols-outlined text-[18px]">person</span></div><div class="hidden md:flex flex-col text-left"><span class="font-label-md text-label-md text-[#F3F1F6] leading-tight">Lucas</span><span class="font-label-sm text-label-sm text-[#89C3EB] leading-tight">Superadmin</span></div></div></div></div></header><main class="w-full pt-14 bg-[#0b1329] min-h-screen text-[#F3F1F6]"><div class="flex flex-col w-full">
+<!-- Top Workspace Context Strip & Action Bar -->
+<section class="w-full bg-[#0F1A33] px-6 py-4 shadow-sm">
+<div class="max-w-[1580px] mx-auto flex flex-col gap-4">
+<!-- Breadcrumb row -->
+<div class="flex items-center gap-2 font-label-md text-label-md">
+<a class="flex items-center gap-1.5 text-[#94A3B8] hover:text-[#89C3EB] transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Volver al resumen</span>
+</a>
+<span class="text-[#435377]">/</span>
+<span class="text-[#89C3EB] font-semibold">Tank Vault TCG</span>
+<span class="text-[#435377]">•</span>
+<span class="text-[#CBD5E1] bg-[#142342] px-2 py-0.5 rounded text-xs">Producción AR</span>
+</div>
+<!-- Title row with edit status & buttons -->
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#131F3B] text-[#89C3EB] font-label-sm text-label-sm tracking-wide">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#89C3EB] opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-[#89C3EB]"></span>
+</span>
+              MODO EDICIÓN ACTIVO
+            </span>
+<h1 class="font-headline-lg text-headline-lg text-[#F3F1F6] tracking-tight">Editando dashboard principal</h1>
+</div>
+<p class="font-body-sm text-body-sm text-[#94A3B8] max-w-2xl">
+            Personalizá la disposición de tarjetas, gráficos y métricas arrastrando los bloques o añadiendo nuevos desde la biblioteca lateral.
+          </p>
+</div>
+<!-- Global Action Cluster -->
+<div class="flex items-center gap-2.5">
+<button class="px-3.5 py-2 rounded-lg bg-[#1A2747] text-[#E2E8F0] hover:bg-[#23355A] font-label-md text-label-md transition-colors flex items-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-[#94A3B8]">close</span>
+            Cancelar
+          </button>
+<button class="px-3.5 py-2 rounded-lg bg-[#1A2747] text-[#89C3EB] hover:bg-[#23355A] font-label-md text-label-md transition-colors flex items-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+            + Añadir sección
+          </button>
+<button class="px-4 py-2 rounded-lg bg-[#1E50A2] hover:bg-[#184080] text-[#FFFFFF] font-label-md text-label-md font-semibold transition-all flex items-center gap-2 shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+            Guardar cambios
+          </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Canvas split layout: Grid (Left 72%) vs Library (Right 28%) -->
+<div class="w-full bg-[#0b1329] px-6 py-6">
+<div class="max-w-[1580px] mx-auto grid grid-cols-12 gap-6 items-start">
+<!-- ================= LEFT: CANVAS WORKSPACE (approx 72%) ================= -->
+<section class="col-span-12 xl:col-span-8 2xl:col-span-9 flex flex-col gap-6">
+<!-- Operational notification notice -->
+<div class="rounded-xl bg-[#131F3B] p-4 flex items-start sm:items-center justify-between gap-3 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-[#1E3A66] text-[#89C3EB] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</div>
+<p class="font-body-sm text-body-sm text-[#94A3B8] leading-relaxed">
+<strong class="text-[#F3F1F6]">Modo cuadrícula flexible activo (12 columnas).</strong>
+              Arrastrá desde el control superior para reordenar bloques, redimensioná desde las esquinas o eliminá elementos no esenciales.
+            </p>
+</div>
+<span class="hidden sm:inline-flex px-2 py-0.5 rounded text-[11px] font-mono text-[#89C3EB] bg-[#0F1A33] shrink-0">
+            AUTO-SAVE LISTO
+          </span>
+</div>
+<!-- 1. KPI ROW (4 WIDGETS) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- KPI 1 -->
+<div class="group relative rounded-xl bg-[#1A2747] p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<!-- Edit Bar Inside Card -->
+<div class="flex items-center justify-between mb-3 text-xs">
+<div class="flex items-center gap-1.5 text-[#89C3EB] cursor-grab active:cursor-grabbing font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">drag_indicator</span>
+<span>Arrastrar</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-6 h-6 rounded flex items-center justify-center text-[#94A3B8] hover:text-[#89C3EB] hover:bg-[#131F3B]/80 transition-colors" title="Ajustes de KPI">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+</button>
+<button class="w-6 h-6 rounded flex items-center justify-center text-[#94A3B8] hover:text-red-400 hover:bg-[#131F3B]/80 transition-colors" title="Quitar widget">
+<span class="material-symbols-outlined text-[15px]">close</span>
+</button>
+</div>
+</div>
+<!-- KPI Body -->
+<div>
+<span class="font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider block">Ventas del mes</span>
+<div class="font-kpi-metric text-kpi-metric text-[#F3F1F6] mt-1 whitespace-nowrap">$ 4.620.000</div>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 text-xs">
+<span class="inline-flex items-center gap-1 text-emerald-400 font-semibold bg-emerald-950/40 px-2 py-0.5 rounded-full text-[11px]">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span> +14,2%
+              </span>
+<span class="text-[#94A3B8] text-[11px]">vs. mes anterior</span>
+</div>
+<!-- Resize Anchor -->
+<div class="absolute bottom-1 right-1 text-[#89C3EB]/40 group-hover:text-[#89C3EB] cursor-se-resize">
+<span class="material-symbols-outlined text-[14px]">south_east</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="group relative rounded-xl bg-[#1A2747] p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3 text-xs">
+<div class="flex items-center gap-1.5 text-[#89C3EB] cursor-grab active:cursor-grabbing font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">drag_indicator</span>
+<span>Arrastrar</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-6 h-6 rounded flex items-center justify-center text-[#94A3B8] hover:text-[#89C3EB] hover:bg-[#131F3B]/80 transition-colors" title="Ajustes de KPI">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+</button>
+<button class="w-6 h-6 rounded flex items-center justify-center text-[#94A3B8] hover:text-red-400 hover:bg-[#131F3B]/80 transition-colors" title="Quitar widget">
+<span class="material-symbols-outlined text-[15px]">close</span>
+</button>
+</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider block">Margen promedio</span>
+<div class="font-kpi-metric text-kpi-metric text-[#F3F1F6] mt-1 whitespace-nowrap">38,5%</div>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 text-xs">
+<span class="inline-flex items-center gap-1 text-[#89C3EB] font-semibold bg-[#131F3B] px-2 py-0.5 rounded-full text-[11px]">
+<span class="material-symbols-outlined text-[13px]">trending_up</span> +3,5 pp
+              </span>
+<span class="text-[#94A3B8] text-[11px]">sobre objetivo</span>
+</div>
+<div class="absolute bottom-1 right-1 text-[#89C3EB]/40 group-hover:text-[#89C3EB] cursor-se-resize">
+<span class="material-symbols-outlined text-[14px]">south_east</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="group relative rounded-xl bg-[#1A2747] p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3 text-xs">
+<div class="flex items-center gap-1.5 text-[#89C3EB] cursor-grab active:cursor-grabbing font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">drag_indicator</span>
+<span>Arrastrar</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-6 h-6 rounded flex items-center justify-center text-[#94A3B8] hover:text-[#89C3EB] hover:bg-[#131F3B]/80 transition-colors" title="Ajustes de KPI">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+</button>
+<button class="w-6 h-6 rounded flex items-center justify-center text-[#94A3B8] hover:text-red-400 hover:bg-[#131F3B]/80 transition-colors" title="Quitar widget">
+<span class="material-symbols-outlined text-[15px]">close</span>
+</button>
+</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider block">Stock total TCG</span>
+<div class="font-kpi-metric text-kpi-metric text-[#F3F1F6] mt-1 whitespace-nowrap">1.420 u.</div>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 text-xs">
+<span class="inline-flex items-center gap-1 text-[#94A3B8] bg-[#131F3B] px-2 py-0.5 rounded-full text-[11px]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#89C3EB]"></span> 34 líneas
+              </span>
+<span class="text-[#94A3B8] text-[11px]">almacén CABA</span>
+</div>
+<div class="absolute bottom-1 right-1 text-[#89C3EB]/40 group-hover:text-[#89C3EB] cursor-se-resize">
+<span class="material-symbols-outlined text-[14px]">south_east</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="group relative rounded-xl bg-[#1A2747] p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3 text-xs">
+<div class="flex items-center gap-1.5 text-[#89C3EB] cursor-grab active:cursor-grabbing font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">drag_indicator</span>
+<span>Arrastrar</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-6 h-6 rounded flex items-center justify-center text-[#94A3B8] hover:text-[#89C3EB] hover:bg-[#131F3B]/80 transition-colors" title="Ajustes de KPI">
+<span class="material-symbols-outlined text-[15px]">tune</span>
+</button>
+<button class="w-6 h-6 rounded flex items-center justify-center text-[#94A3B8] hover:text-red-400 hover:bg-[#131F3B]/80 transition-colors" title="Quitar widget">
+<span class="material-symbols-outlined text-[15px]">close</span>
+</button>
+</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider block">Pedidos pendientes</span>
+<div class="font-kpi-metric text-kpi-metric text-[#F3F1F6] mt-1 whitespace-nowrap">8 pedidos</div>
+</div>
+<div class="flex items-center justify-between mt-3 pt-2 text-xs">
+<span class="inline-flex items-center gap-1 text-amber-400 font-semibold bg-amber-950/40 px-2 py-0.5 rounded-full text-[11px]">
+<span class="material-symbols-outlined text-[13px]">local_shipping</span> 5 listos
+              </span>
+<span class="text-[#94A3B8] text-[11px]">para despacho</span>
+</div>
+<div class="absolute bottom-1 right-1 text-[#89C3EB]/40 group-hover:text-[#89C3EB] cursor-se-resize">
+<span class="material-symbols-outlined text-[14px]">south_east</span>
+</div>
+</div>
+</div>
+<!-- 2. LARGE CHART WIDGET: VENTAS 6 MESES -->
+<div class="group relative rounded-xl bg-[#1A2747] p-5 shadow-sm hover:shadow-md transition-all">
+<!-- Widget Header bar -->
+<div class="flex items-center justify-between pb-3.5 mb-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-[#89C3EB] cursor-grab active:cursor-grabbing">drag_indicator</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-[#F3F1F6]">Ventas y Despachos — Últimos 6 meses</h3>
+<p class="font-body-sm text-body-sm text-[#94A3B8]">Comparativa mensual: Envíos Correo Argentino / Andreani vs. Retiro en Showroom</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<!-- Chart Legend -->
+<div class="hidden md:flex items-center gap-4 text-xs">
+<span class="flex items-center gap-1.5 text-[#CBD5E1]">
+<span class="w-3 h-3 rounded bg-[#89C3EB]"></span> Envíos Nacionales
+                </span>
+<span class="flex items-center gap-1.5 text-[#CBD5E1]">
+<span class="w-3 h-3 rounded bg-[#F472B6]"></span> Ventas Showroom / Local
+                </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded text-[#94A3B8] hover:text-[#89C3EB] hover:bg-[#131F3B] transition-colors" title="Configurar gráfico">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="p-1 rounded text-[#94A3B8] hover:text-red-400 hover:bg-[#131F3B] transition-colors" title="Eliminar gráfico">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Dual Bar Chart Visual -->
+<div class="h-64 w-full flex flex-col justify-between pt-2">
+<!-- Y-Axis labels and chart bars -->
+<div class="h-48 w-full flex items-end justify-between gap-3 px-2">
+<!-- Mayo -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<span class="text-[10px] text-[#94A3B8]">$ 2,1M</span>
+<div class="w-full max-w-[42px] flex items-end justify-center gap-1 h-32">
+<div class="w-1/2 bg-[#89C3EB] rounded-t hover:opacity-90 transition-all h-[55%]" title="Envíos: $ 1.150.000"></div>
+<div class="w-1/2 bg-[#F472B6] rounded-t hover:opacity-90 transition-all h-[45%]" title="Local: $ 950.000"></div>
+</div>
+<span class="font-label-sm text-label-sm text-[#94A3B8]">May</span>
+</div>
+<!-- Junio -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<span class="text-[10px] text-[#94A3B8]">$ 2,6M</span>
+<div class="w-full max-w-[42px] flex items-end justify-center gap-1 h-32">
+<div class="w-1/2 bg-[#89C3EB] rounded-t hover:opacity-90 transition-all h-[65%]" title="Envíos: $ 1.690.000"></div>
+<div class="w-1/2 bg-[#F472B6] rounded-t hover:opacity-90 transition-all h-[35%]" title="Local: $ 910.000"></div>
+</div>
+<span class="font-label-sm text-label-sm text-[#94A3B8]">Jun</span>
+</div>
+<!-- Julio -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<span class="text-[10px] text-[#94A3B8]">$ 3,1M</span>
+<div class="w-full max-w-[42px] flex items-end justify-center gap-1 h-32">
+<div class="w-1/2 bg-[#89C3EB] rounded-t hover:opacity-90 transition-all h-[70%]" title="Envíos: $ 2.170.000"></div>
+<div class="w-1/2 bg-[#F472B6] rounded-t hover:opacity-90 transition-all h-[40%]" title="Local: $ 930.000"></div>
+</div>
+<span class="font-label-sm text-label-sm text-[#94A3B8]">Jul</span>
+</div>
+<!-- Agosto -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<span class="text-[10px] text-[#94A3B8]">$ 2,9M</span>
+<div class="w-full max-w-[42px] flex items-end justify-center gap-1 h-32">
+<div class="w-1/2 bg-[#89C3EB] rounded-t hover:opacity-90 transition-all h-[60%]" title="Envíos: $ 1.740.000"></div>
+<div class="w-1/2 bg-[#F472B6] rounded-t hover:opacity-90 transition-all h-[48%]" title="Local: $ 1.160.000"></div>
+</div>
+<span class="font-label-sm text-label-sm text-[#94A3B8]">Ago</span>
+</div>
+<!-- Septiembre -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<span class="text-[10px] text-[#94A3B8]">$ 3,8M</span>
+<div class="w-full max-w-[42px] flex items-end justify-center gap-1 h-32">
+<div class="w-1/2 bg-[#89C3EB] rounded-t hover:opacity-90 transition-all h-[80%]" title="Envíos: $ 2.850.000"></div>
+<div class="w-1/2 bg-[#F472B6] rounded-t hover:opacity-90 transition-all h-[40%]" title="Local: $ 950.000"></div>
+</div>
+<span class="font-label-sm text-label-sm text-[#94A3B8]">Sep</span>
+</div>
+<!-- Octubre (Peak) -->
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end bg-[#131F3B]/50 rounded-lg py-1">
+<span class="text-[10px] font-bold text-[#89C3EB]">$ 4,62M</span>
+<div class="w-full max-w-[42px] flex items-end justify-center gap-1 h-32">
+<div class="w-1/2 bg-[#89C3EB] rounded-t shadow-[0_0_12px_rgba(137,195,235,0.4)] h-[95%]" title="Envíos: $ 3.320.000"></div>
+<div class="w-1/2 bg-[#F472B6] rounded-t shadow-[0_0_12px_rgba(244,114,182,0.3)] h-[55%]" title="Local: $ 1.300.000"></div>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-[#89C3EB]">Oct (Activo)</span>
+</div>
+</div>
+<!-- Chart Footer Metadata -->
+<div class="flex items-center justify-between text-xs text-[#94A3B8] pt-2">
+<span>Lanzamiento destacado: Booster Box Pokémon TCG Surging Sparks</span>
+<span class="font-mono text-[#89C3EB]">Total semestre: $ 19.120.000 ARS</span>
+</div>
+</div>
+<div class="absolute bottom-1 right-1 text-[#89C3EB]/40 group-hover:text-[#89C3EB] cursor-se-resize">
+<span class="material-symbols-outlined text-[14px]">south_east</span>
+</div>
+</div>
+<!-- 3. SOCIAL MEDIA METRICS CLUSTER (3 WIDGETS) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Instagram Widget -->
+<div class="group relative rounded-xl bg-[#1A2747] p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3 text-xs">
+<div class="flex items-center gap-1.5 text-[#89C3EB] cursor-grab active:cursor-grabbing font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">drag_indicator</span>
+<span>Instagram</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-5 h-5 rounded flex items-center justify-center text-[#94A3B8] hover:text-red-400" title="Quitar">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined text-[22px]">photo_camera</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-[#F3F1F6]">18.4K</div>
+<div class="text-[11px] text-[#94A3B8]">@tankvault.tcg (+850 nov)</div>
+</div>
+</div>
+<div class="mt-3 pt-2 text-xs flex flex-col gap-1 text-[#94A3B8]">
+<div class="flex justify-between">
+<span>Engagement:</span>
+<span class="text-emerald-400 font-semibold">4,2%</span>
+</div>
+<div class="flex justify-between">
+<span>Último Reel:</span>
+<span class="text-[#CBD5E1]">12,5K vistas</span>
+</div>
+</div>
+<div class="absolute bottom-1 right-1 text-[#89C3EB]/40 group-hover:text-[#89C3EB] cursor-se-resize">
+<span class="material-symbols-outlined text-[14px]">south_east</span>
+</div>
+</div>
+<!-- TikTok Widget -->
+<div class="group relative rounded-xl bg-[#1A2747] p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3 text-xs">
+<div class="flex items-center gap-1.5 text-[#89C3EB] cursor-grab active:cursor-grabbing font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">drag_indicator</span>
+<span>TikTok</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-5 h-5 rounded flex items-center justify-center text-[#94A3B8] hover:text-red-400" title="Quitar">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-[#010101] text-white flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px] text-[#00f2fe]">music_note</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-[#F3F1F6]">42.1K</div>
+<div class="text-[11px] text-[#94A3B8]">@tankvault (Viral)</div>
+</div>
+</div>
+<div class="mt-3 pt-2 text-xs flex flex-col gap-1 text-[#94A3B8]">
+<div class="flex justify-between">
+<span>Vistas mensuales:</span>
+<span class="text-[#89C3EB] font-semibold">310K</span>
+</div>
+<div class="truncate text-[11px] text-[#94A3B8]">
+                🔥 Apertura sobres Surging Sparks
+              </div>
+</div>
+<div class="absolute bottom-1 right-1 text-[#89C3EB]/40 group-hover:text-[#89C3EB] cursor-se-resize">
+<span class="material-symbols-outlined text-[14px]">south_east</span>
+</div>
+</div>
+<!-- YouTube Widget -->
+<div class="group relative rounded-xl bg-[#1A2747] p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3 text-xs">
+<div class="flex items-center gap-1.5 text-[#89C3EB] cursor-grab active:cursor-grabbing font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">drag_indicator</span>
+<span>YouTube Live</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-5 h-5 rounded flex items-center justify-center text-[#94A3B8] hover:text-red-400" title="Quitar">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">play_circle</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-[#F3F1F6]">9.85K</div>
+<div class="text-[11px] text-[#94A3B8]">@TankVaultTCG</div>
+</div>
+</div>
+<div class="mt-3 pt-2 text-xs flex flex-col gap-1 text-[#94A3B8]">
+<div class="flex justify-between">
+<span>Reproducciones:</span>
+<span class="text-[#CBD5E1] font-semibold">45K / mes</span>
+</div>
+<div class="truncate text-[11px] text-[#94A3B8]">
+                🔴 Box Breaks en Vivo Domingos
+              </div>
+</div>
+<div class="absolute bottom-1 right-1 text-[#89C3EB]/40 group-hover:text-[#89C3EB] cursor-se-resize">
+<span class="material-symbols-outlined text-[14px]">south_east</span>
+</div>
+</div>
+</div>
+<!-- 4. TABLE WIDGET: ÚLTIMOS PEDIDOS -->
+<div class="group relative rounded-xl bg-[#1A2747] p-5 shadow-sm hover:shadow-md transition-all">
+<div class="flex items-center justify-between pb-3.5 mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-[#89C3EB] cursor-grab active:cursor-grabbing">drag_indicator</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-[#F3F1F6]">Últimos pedidos despachados y en curso</h3>
+<p class="font-body-sm text-body-sm text-[#94A3B8]">Monitoreo en tiempo real de facturación y paquetería</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-[#94A3B8]">8 de 34 órdenes</span>
+<button class="p-1 rounded text-[#94A3B8] hover:text-red-400 hover:bg-[#131F3B] transition-colors" title="Quitar tabla">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Table Container -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead class="bg-[#131F3B] text-[#94A3B8] font-label-sm text-label-sm uppercase tracking-wider">
+<tr>
+<th class="py-2.5 px-3 rounded-l-lg">ID Pedido</th>
+<th class="py-2.5 px-3">Cliente</th>
+<th class="py-2.5 px-3">Artículos</th>
+<th class="py-2.5 px-3">Monto Total</th>
+<th class="py-2.5 px-3">Canal</th>
+<th class="py-2.5 px-3 rounded-r-lg">Estado</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#24355A]/40 text-[#CBD5E1]">
+<tr class="hover:bg-[#131F3B]/50 transition-colors">
+<td class="py-2.5 px-3 font-mono font-medium text-[#89C3EB]">#TV-8492</td>
+<td class="py-2.5 px-3 text-[#F3F1F6] font-medium">Martín Palermo</td>
+<td class="py-2.5 px-3">2x Booster Box Stellar Crown</td>
+<td class="py-2.5 px-3 font-semibold text-[#F3F1F6] whitespace-nowrap">$ 345.000 ARS</td>
+<td class="py-2.5 px-3 text-[#94A3B8]">Andreani Express</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-950/60 text-emerald-400">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Listo despacho
+                    </span>
+</td>
+</tr>
+<tr class="hover:bg-[#131F3B]/50 transition-colors">
+<td class="py-2.5 px-3 font-mono font-medium text-[#89C3EB]">#TV-8491</td>
+<td class="py-2.5 px-3 text-[#F3F1F6] font-medium">Sofía Carrizo</td>
+<td class="py-2.5 px-3">1x Elite Trainer Box 151</td>
+<td class="py-2.5 px-3 font-semibold text-[#F3F1F6] whitespace-nowrap">$ 118.000 ARS</td>
+<td class="py-2.5 px-3 text-[#94A3B8]">Retiro Showroom CABA</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-950/60 text-[#89C3EB]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#89C3EB]"></span> Preparando
+                    </span>
+</td>
+</tr>
+<tr class="hover:bg-[#131F3B]/50 transition-colors">
+<td class="py-2.5 px-3 font-mono font-medium text-[#89C3EB]">#TV-8490</td>
+<td class="py-2.5 px-3 text-[#F3F1F6] font-medium">Gonzalo Higuaín</td>
+<td class="py-2.5 px-3">4x Sleeves Ultra Pro + Carpetas</td>
+<td class="py-2.5 px-3 font-semibold text-[#F3F1F6] whitespace-nowrap">$ 64.500 ARS</td>
+<td class="py-2.5 px-3 text-[#94A3B8]">Correo Argentino Clásico</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-950/60 text-emerald-400">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Entregado
+                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="absolute bottom-1 right-1 text-[#89C3EB]/40 group-hover:text-[#89C3EB] cursor-se-resize">
+<span class="material-symbols-outlined text-[14px]">south_east</span>
+</div>
+</div>
+<!-- 5. EMPTY DROP ZONE (TARGET BOX) -->
+<div class="rounded-xl bg-[#131F3B]/80 h-44 flex flex-col items-center justify-center p-6 text-center cursor-pointer hover:bg-[#1A2747] transition-all group">
+<div class="w-12 h-12 rounded-full bg-[#1E3A66] text-[#89C3EB] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Soltá un widget acá</span>
+<p class="font-body-sm text-body-sm text-[#94A3B8] max-w-md mt-1">
+            Arrastrá cualquier elemento disponible desde la biblioteca lateral derecha para insertarlo en este espacio.
+          </p>
+</div>
+</section>
+<!-- ================= RIGHT: WIDGET PALETTE / BIBLIOTECA (approx 28%) ================= -->
+<aside class="col-span-12 xl:col-span-4 2xl:col-span-3 sticky top-20 flex flex-col gap-4">
+<div class="rounded-2xl bg-[#1A2747] p-5 shadow-md flex flex-col gap-4">
+<!-- Palette Header -->
+<div class="flex items-center justify-between pb-3">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-[#F3F1F6]">Biblioteca</h2>
+<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#131F3B] text-[#89C3EB]">
+                  14 disponibles
+                </span>
+</div>
+<p class="font-body-sm text-body-sm text-[#94A3B8]">Arrastrá los componentes al lienzo</p>
+</div>
+<button class="w-7 h-7 rounded-lg text-[#94A3B8] hover:text-[#F3F1F6] hover:bg-[#131F3B] flex items-center justify-center transition-colors" title="Contraer biblioteca">
+<span class="material-symbols-outlined text-[18px]">side_navigation</span>
+</button>
+</div>
+<!-- Search widgets -->
+<div class="relative">
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB] absolute left-3 top-2.5">search</span>
+<input class="w-full h-9 pl-9 pr-3 rounded-lg bg-[#131F3B] text-body-sm text-[#F3F1F6] placeholder-[#94A3B8] focus:outline-none transition-colors" placeholder="Buscar widgets..." type="text">
+</div>
+<!-- Filter categories pill row -->
+<div class="flex flex-wrap gap-1.5 pb-1">
+<button class="px-2.5 py-1 rounded-md text-xs font-semibold bg-[#1E50A2] text-[#89C3EB]">Todos</button>
+<button class="px-2.5 py-1 rounded-md text-xs text-[#CBD5E1] bg-[#131F3B] hover:text-[#89C3EB]">KPIs</button>
+<button class="px-2.5 py-1 rounded-md text-xs text-[#CBD5E1] bg-[#131F3B] hover:text-[#89C3EB]">Gráficos</button>
+<button class="px-2.5 py-1 rounded-md text-xs text-[#CBD5E1] bg-[#131F3B] hover:text-[#89C3EB]">Tablas</button>
+<button class="px-2.5 py-1 rounded-md text-xs text-[#CBD5E1] bg-[#131F3B] hover:text-[#89C3EB]">Redes</button>
+<button class="px-2.5 py-1 rounded-md text-xs text-[#CBD5E1] bg-[#131F3B] hover:text-[#89C3EB]">Agenda</button>
+</div>
+<!-- Draggable Widget Categories Container -->
+<div class="flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-320px)] pr-1">
+<!-- Category: Métricas y KPIs -->
+<div class="flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider">Métricas y KPIs</span>
+<!-- Draggable Card 1 -->
+<div class="group p-3 rounded-xl bg-[#131F3B] hover:bg-[#1E3A66]/40 cursor-grab active:cursor-grabbing transition-all flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB]">drag_indicator</span>
+<div>
+<h4 class="font-label-md text-label-md text-[#F3F1F6]">Ticket promedio</h4>
+<span class="text-[11px] text-[#94A3B8]">Monto medio por factura</span>
+</div>
+</div>
+<div class="text-right">
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-[#1E50A2]/50 text-[#89C3EB] font-mono">KPI</span>
+<div class="font-mono text-xs text-[#F3F1F6] mt-0.5">$ 82.500</div>
+</div>
+</div>
+<!-- Draggable Card 2 -->
+<div class="group p-3 rounded-xl bg-[#131F3B] hover:bg-[#1E3A66]/40 cursor-grab active:cursor-grabbing transition-all flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB]">drag_indicator</span>
+<div>
+<h4 class="font-label-md text-label-md text-[#F3F1F6]">Tasa de conversión</h4>
+<span class="text-[11px] text-[#94A3B8]">Visitas web vs. Checkout</span>
+</div>
+</div>
+<div class="text-right">
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-[#1E50A2]/50 text-[#89C3EB] font-mono">KPI</span>
+<div class="font-mono text-xs text-emerald-400 mt-0.5">3,8%</div>
+</div>
+</div>
+</div>
+<!-- Category: Gráficos y Análisis -->
+<div class="flex flex-col gap-2 pt-1">
+<span class="font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider">Gráficos y Análisis</span>
+<!-- Draggable Card 3 -->
+<div class="group p-3 rounded-xl bg-[#131F3B] hover:bg-[#1E3A66]/40 cursor-grab active:cursor-grabbing transition-all flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB]">drag_indicator</span>
+<div>
+<h4 class="font-label-md text-label-md text-[#F3F1F6]">Evolución Costo vs PVP</h4>
+<span class="text-[11px] text-[#94A3B8]">Tendencia margen TCG</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-[#1E50A2]/50 text-[#89C3EB] font-mono">Líneas</span>
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB]">show_chart</span>
+</div>
+</div>
+<!-- Draggable Card 4 -->
+<div class="group p-3 rounded-xl bg-[#131F3B] hover:bg-[#1E3A66]/40 cursor-grab active:cursor-grabbing transition-all flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB]">drag_indicator</span>
+<div>
+<h4 class="font-label-md text-label-md text-[#F3F1F6]">Distribución Categorías</h4>
+<span class="text-[11px] text-[#94A3B8]">Pokémon, One Piece, Yu-Gi-Oh</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-[#1E50A2]/50 text-[#89C3EB] font-mono">Dona</span>
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB]">pie_chart</span>
+</div>
+</div>
+</div>
+<!-- Category: Redes Sociales -->
+<div class="flex flex-col gap-2 pt-1">
+<span class="font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider">Redes Sociales</span>
+<!-- Draggable Card 5 -->
+<div class="group p-3 rounded-xl bg-[#131F3B] hover:bg-[#1E3A66]/40 cursor-grab active:cursor-grabbing transition-all flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB]">drag_indicator</span>
+<div>
+<h4 class="font-label-md text-label-md text-[#F3F1F6]">Redes Consolidadas</h4>
+<span class="text-[11px] text-[#94A3B8]">Tráfico IG / TikTok / YT</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-xs text-[#89C3EB]">
+<span class="material-symbols-outlined text-[16px]">hub</span>
+<span class="font-mono text-[10px]">3 feeds</span>
+</div>
+</div>
+</div>
+<!-- Category: Tablas y Listados -->
+<div class="flex flex-col gap-2 pt-1">
+<span class="font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider">Tablas y Alertas</span>
+<!-- Draggable Card 6 -->
+<div class="group p-3 rounded-xl bg-[#131F3B] hover:bg-[#1E3A66]/40 cursor-grab active:cursor-grabbing transition-all flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB]">drag_indicator</span>
+<div>
+<h4 class="font-label-md text-label-md text-[#F3F1F6]">Top 5 Productos Rentables</h4>
+<span class="text-[11px] text-[#94A3B8]">Mayor margen neto ARS</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-[#1E50A2]/50 text-[#89C3EB] font-mono">Tabla</span>
+</div>
+<!-- Draggable Card 7 -->
+<div class="group p-3 rounded-xl bg-[#131F3B] hover:bg-[#1E3A66]/40 cursor-grab active:cursor-grabbing transition-all flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB]">drag_indicator</span>
+<div>
+<h4 class="font-label-md text-label-md text-[#F3F1F6]">Stock Crítico &amp; Quiebres</h4>
+<span class="text-[11px] text-[#94A3B8]">3 ítems por agotarse</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-rose-950/60 text-rose-300 font-mono">3 alert</span>
+</div>
+</div>
+<!-- Category: Calendario y Eventos -->
+<div class="flex flex-col gap-2 pt-1">
+<span class="font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider">Calendario TCG</span>
+<!-- Draggable Card 8 -->
+<div class="group p-3 rounded-xl bg-[#131F3B] hover:bg-[#1E3A66]/40 cursor-grab active:cursor-grabbing transition-all flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#89C3EB]">drag_indicator</span>
+<div>
+<h4 class="font-label-md text-label-md text-[#F3F1F6]">Lanzamientos &amp; Preventas</h4>
+<span class="text-[11px] text-[#94A3B8]">Oct 29, 31 y Torneo CABA</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded text-[10px] bg-[#1E50A2]/50 text-[#89C3EB] font-mono">Agenda</span>
+</div>
+</div>
+</div>
+<!-- Footer custom widget creator callout -->
+<div class="mt-2 pt-3 text-xs text-[#94A3B8] flex flex-col gap-2">
+<p class="leading-relaxed">
+              ¿Necesitás una métrica personalizada? Creá un bloque con fórmulas y variables avanzadas.
+            </p>
+<button class="text-left text-[#89C3EB] hover:underline font-semibold flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[15px]">add_chart</span>
+              Crear bloque con fórmula propia
+            </button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div></main></div>
+</body></html>

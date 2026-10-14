@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-secondary-fixed": "#131b2e", "on-error": "#ffffff", "surface-dim": "#cbdbf5", "secondary": "#565e74", "on-surface": "#0b1c30", "on-error-container": "#93000a", "surface-container": "#e5eeff", "surface-container-high": "#dce9ff", "on-secondary-fixed-variant": "#3f465c", "surface": "#f8f9ff", "secondary-fixed": "#dae2fd", "surface-bright": "#f8f9ff", "primary": "#2a14b4", "tertiary-fixed": "#cce5ff", "secondary-fixed-dim": "#bec6e0", "on-primary-fixed": "#100069", "on-tertiary": "#ffffff", "error": "#ba1a1a", "inverse-on-surface": "#eaf1ff", "on-tertiary-container": "#8fcbff", "on-surface-variant": "#464554", "inverse-primary": "#c3c0ff", "secondary-container": "#dae2fd", "on-secondary": "#ffffff", "surface-container-low": "#eff4ff", "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#004b73", "background": "#f8f9ff", "on-tertiary-fixed": "#001d31", "tertiary-container": "#005684", "on-secondary-container": "#5c647a", "on-primary": "#ffffff", "surface-tint": "#5148d7", "tertiary": "#003e61", "on-primary-container": "#c1beff", "inverse-surface": "#213145", "primary-container": "#4338ca", "on-primary-fixed-variant": "#372abf", "surface-variant": "#d3e4fe", "surface-container-highest": "#d3e4fe", "surface-container-lowest": "#ffffff", "on-background": "#0b1c30", "primary-fixed-dim": "#c3c0ff", "primary-fixed": "#e3dfff", "outline": "#777586", "tertiary-fixed-dim": "#93ccff", "outline-variant": "#c7c4d7" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-lg": "1rem", "margin-md": "1.5rem", "space-xl": "1.5rem", "margin": "1rem", "space-2xs": "0.125rem", "space-md": "0.75rem", "gutter-lg": "1.5rem", "space-xs": "0.25rem", "gutter": "1rem", "space-2xl": "2rem", "margin-lg": "2rem", "space-sm": "0.5rem" }, fontFamily: { "display-lg": ["Inter"], "body-md": ["Inter"], "display-lg-mobile": ["Inter"], "data-mono": ["JetBrains Mono"], "label-md": ["Inter"], "headline-lg": ["Inter"], "headline-md": ["Inter"], "body-lg": ["Inter"], "kpi-metric": ["Inter"], "body-sm": ["Inter"], "label-sm": ["Inter"], "headline-sm": ["Inter"] }, fontSize: { "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "display-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "data-mono": ["12px", { "lineHeight": "16px", "fontWeight": "500" }], "label-md": ["13px", { "lineHeight": "16px", "fontWeight": "500" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }], "kpi-metric": ["28px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }], "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }] } } } };</script><style id="dark-theme-overrides">
+  :root {
+    --bg-canvas: #0F1A33;
+    --bg-card: #1A2747;
+    --bg-input: #131F3B;
+    --border-color: #24355A;
+    --text-primary: #F3F1F6;
+    --text-secondary: #94A3B8;
+    --brand-primary: #89C3EB;
+    --brand-btn-hover: #A5D3F2;
+  }
+  body, main {
+    background-color: #0F1A33 !important;
+    color: #F3F1F6 !important;
+  }
+  aside {
+    background-color: #1A2747 !important;
+    border-right: 1px solid #24355A !important;
+  }
+  aside nav a[data-path="administracion"], aside nav a[aria-current="page"] {
+    background-color: #1E50A2 !important;
+    color: #ffffff !important;
+  }
+  aside nav a:not([data-path="administracion"]) {
+    color: #94A3B8 !important;
+  }
+  aside nav a:not([data-path="administracion"]):hover {
+    background-color: #131F3B !important;
+    color: #F3F1F6 !important;
+  }
+  header {
+    background-color: rgba(26, 39, 71, 0.9) !important;
+    border-bottom: 1px solid #24355A !important;
+  }
+  input[type="text"] {
+    background-color: #131F3B !important;
+    border: 1px solid #24355A !important;
+    color: #F3F1F6 !important;
+  }
+  input[type="checkbox"], .perm-checkbox {
+    accent-color: #89C3EB !important;
+  }
+  .bg-surface-container-lowest, .bg-surface-container-low, .bg-surface-container, .bg-surface-container-high, .bg-surface-container-highest {
+    border-color: #24355A !important;
+  }
+  #roleDropdownBtn {
+    background-color: #131F3B !important;
+    border: 1px solid #24355A !important;
+    color: #F3F1F6 !important;
+  }
+  #roleDropdownMenu {
+    background-color: #1A2747 !important;
+    border: 1px solid #24355A !important;
+  }
+  #roleDropdownMenu button:hover {
+    background-color: #131F3B !important;
+  }
+  #matrixTable th {
+    background-color: #131F3B !important;
+    color: #94A3B8 !important;
+    border-bottom: 1px solid #24355A !important;
+  }
+  #matrixTable tr {
+    border-bottom: 1px solid #24355A !important;
+  }
+  #matrixTable tr:hover {
+    background-color: rgba(19, 31, 59, 0.6) !important;
+  }
+  .btn-save-primary {
+    background-color: #89C3EB !important;
+    color: #0F1A33 !important;
+    font-weight: 700 !important;
+  }
+  .btn-save-primary:hover {
+    background-color: #A5D3F2 !important;
+  }
+</style></head><body class="bg-surface text-on-surface font-body-md text-body-md antialiased min-h-screen"><aside class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-14 px-margin-md flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-headline-sm text-headline-sm">N</div><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Nexo</span><span class="px-space-xs py-space-2xs rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">v2.4</span></div></div><div class="px-margin-md py-space-xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Administración Global</span></div><nav class="flex flex-col gap-space-2xs px-space-sm" data-active-classes="bg-primary-container text-on-primary font-headline-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="inicio-espacios" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-label-md text-label-md">Inicio / Espacios</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="metricas-globales" href="#"><span class="material-symbols-outlined text-[20px]">monitoring</span><span class="font-label-md text-label-md">Métricas globales</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-primary-container text-on-primary font-headline-sm" data-path="administracion" href="#"><span class="material-symbols-outlined text-[20px]">admin_panel_settings</span><span class="font-label-md text-label-md">Administración</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="facturacion-planes" href="#"><span class="material-symbols-outlined text-[20px]">credit_card</span><span class="font-label-md text-label-md">Facturación &amp; Planes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="configuracion-de-plataforma" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-md text-label-md">Configuración de plataforma</span></a></nav></div><div class="p-margin-md flex flex-col gap-space-sm"><div class="flex items-center gap-space-sm px-space-md py-space-xs rounded-lg bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-[#059669]"></span><span class="font-label-sm text-label-sm text-on-surface-variant">Sistema operativo • v2.4.2</span></div></div></aside><div class="pl-[260px]"><header class="fixed top-0 left-[260px] right-0 h-14 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-margin-lg"><div class="flex items-center gap-space-md flex-1 max-w-[480px]"><div class="relative w-full flex items-center"><span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[18px]">search</span><input class="w-full h-9 pl-9 pr-12 rounded-lg bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-sm text-body-sm outline-none focus:bg-surface-container" placeholder="Buscar usuarios, espacios, roles... ⌘K" type="text"/><div class="absolute right-2 px-space-xs py-space-2xs rounded bg-surface-container-highest text-on-surface-variant font-data-mono text-data-mono pointer-events-none">⌘K</div></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-lg bg-surface-container-low font-label-sm text-label-sm text-on-surface-variant"><span class="text-on-surface font-semibold">ES</span><span class="text-outline-variant">|</span><span class="hover:text-on-surface cursor-pointer">EN</span></div><button aria-label="Cambiar tema" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px] text-[#89C3EB]">dark_mode</span></button><div class="relative"><button aria-label="Notificaciones" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></div><div class="flex items-center gap-space-sm pl-space-sm"><div class="flex flex-col items-end leading-tight"><span class="font-label-md text-label-md text-on-surface font-semibold">Lucas</span><span class="px-space-xs py-space-2xs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">Superadmin</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-14 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Dynamic Script To Sync Active Sidebar State -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const navLinks = document.querySelectorAll('aside nav a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('data-path') === 'administracion') {
+          link.className = 'flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary font-headline-sm transition-colors shadow-sm';
+        } else {
+          link.className = 'flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors';
+        }
+      });
+    });
+  </script>
+<!-- Main View Container -->
+<div class="px-margin-lg py-margin-md max-w-[1520px] mx-auto w-full flex flex-col gap-space-xl">
+<!-- Top Header Breadcrumb & Actions Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md pb-space-sm">
+<div class="flex flex-col gap-space-2xs">
+<nav aria-label="Migas de pan" class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="hover:text-primary cursor-pointer transition-colors">Inicio</span>
+<span>/</span>
+<span class="hover:text-primary cursor-pointer transition-colors">Plataforma</span>
+<span>/</span>
+<span class="hover:text-primary cursor-pointer transition-colors">Administración</span>
+<span>/</span>
+<span class="text-on-surface font-semibold">Admin roles - Dark</span>
+</nav>
+<div class="flex items-center gap-space-md mt-space-2xs">
+<h1 class="font-headline-lg text-headline-lg text-[#F3F1F6] tracking-tight">Admin roles - Dark</h1>
+<span class="px-space-sm py-space-2xs rounded-full bg-surface-container-high text-primary font-data-mono text-data-mono" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;">
+            SYS_AUTH_v2.4
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant" style="color: #94A3B8;">
+          Gestión global de accesos, roles y matriz de permisos por módulo del ecosistema corporativo.
+        </p>
+</div>
+<!-- Header Action Cluster -->
+<div class="flex items-center gap-space-sm flex-wrap self-start md:self-auto">
+<button class="h-9 px-space-md rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-low shadow-sm font-label-md text-label-md flex items-center gap-space-xs transition-colors" onclick="resetDefaultMatrix()" style="background-color: #131F3B; border: 1px solid #24355A; color: #F3F1F6;" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">restart_alt</span>
+<span>Restablecer valores predeterminados</span>
+</button>
+<button class="h-9 px-space-lg rounded-lg bg-primary-container text-on-primary hover:opacity-95 shadow-md font-label-md text-label-md flex items-center gap-space-xs transition-all" onclick="showSaveToast()" style="background-color: #89C3EB; color: #0F1A33; font-weight: 700; border: none;" type="button">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Guardar matriz</span>
+</button>
+</div>
+</div>
+<!-- Navigation Tabs Section -->
+<div class="flex items-center justify-between border-b-0 pb-0 bg-surface-container-low p-space-xs rounded-xl shadow-sm" style="background-color: #131F3B; border: 1px solid #24355A;">
+<div class="flex items-center gap-space-xs" role="tablist">
+<!-- Tab 1: Usuarios -->
+<button aria-selected="false" class="h-9 px-space-lg rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center gap-space-sm transition-all font-label-md text-label-md" role="tab" type="button">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span>Usuarios</span>
+<span class="px-space-xs py-space-2xs rounded-full bg-surface-container-highest text-on-surface font-data-mono text-data-mono">24</span>
+</button>
+<!-- Tab 2: Roles y permisos (ACTIVE) -->
+<button aria-selected="true" class="h-9 px-space-lg rounded-lg bg-surface-container-lowest text-primary font-headline-sm text-headline-sm shadow-sm flex items-center gap-space-sm transition-all" role="tab" style="background-color: #1A2747; color: #89C3EB; border: 1px solid #24355A;" type="button">
+<span class="material-symbols-outlined text-[18px]">key</span>
+<span>Roles y permisos</span>
+<span class="px-space-xs py-space-2xs rounded-full bg-primary-fixed text-on-primary-fixed font-data-mono text-data-mono" style="background-color: rgba(137, 195, 235, 0.15); color: #89C3EB;">4</span>
+</button>
+<!-- Tab 3: Espacios -->
+<button aria-selected="false" class="h-9 px-space-lg rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container flex items-center gap-space-sm transition-all font-label-md text-label-md" role="tab" type="button">
+<span class="material-symbols-outlined text-[18px]">domain</span>
+<span>Espacios</span>
+<span class="px-space-xs py-space-2xs rounded-full bg-surface-container-highest text-on-surface font-data-mono text-data-mono">4</span>
+</button>
+</div>
+<!-- Quick Metrics Pill Indicator -->
+<div class="hidden lg:flex items-center gap-space-md pr-space-md text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-space-2xs">
+<span class="w-2 h-2 rounded-full bg-[#059669]"></span>
+<span>Matriz activa en 4 organizaciones</span>
+</span>
+<span class="text-outline-variant">|</span>
+<span class="font-data-mono text-data-mono">Actualizado: Hoy, 10:42 hs</span>
+</div>
+</div>
+<!-- Active Role Context Card & Controls Bar -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md" style="background-color: #1A2747; border: 1px solid #24355A;">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<!-- Role Selector & Status Indicator -->
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant">Rol seleccionado:</span>
+<div class="relative inline-block text-left">
+<button class="h-10 px-space-md rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-headline-sm text-headline-sm flex items-center gap-space-sm shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary-container" id="roleDropdownBtn" onclick="toggleRoleDropdown()" style="background-color: #131F3B; border: 1px solid #24355A; color: #F3F1F6;" type="button">
+<span class="w-2.5 h-2.5 rounded-full bg-primary" style="background-color: #89C3EB;"></span>
+<span id="currentRoleText">Colaborador</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">arrow_drop_down</span>
+</button>
+<!-- Dropdown Menu -->
+<div class="hidden absolute left-0 mt-space-2xs w-64 rounded-xl bg-surface-container-lowest shadow-xl z-30 p-space-xs flex flex-col gap-space-2xs" id="roleDropdownMenu">
+<button class="w-full text-left px-space-md py-space-sm rounded-lg hover:bg-surface-container-low flex flex-col" onclick="selectRole('Superadmin', 'Privilegios absolutos sobre toda la infraestructura y facturación central.')" type="button">
+<span class="font-headline-sm text-headline-sm text-on-surface">Superadmin</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Control maestro de plataforma</span>
+</button>
+<button class="w-full text-left px-space-md py-space-sm rounded-lg hover:bg-surface-container-low flex flex-col" onclick="selectRole('Dueño', 'Acceso pleno a finanzas, facturación, y gestión integral del espacio.')" type="button">
+<span class="font-headline-sm text-headline-sm text-on-surface">Dueño</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Titular de cuenta y sucursales</span>
+</button>
+<button class="w-full text-left px-space-md py-space-sm rounded-lg bg-surface-container-low text-primary flex flex-col" onclick="selectRole('Colaborador', 'Permisos operativos estándar en espacios asignados, sin facultades de facturación.')" type="button">
+<span class="font-headline-sm text-headline-sm text-primary font-semibold">Colaborador</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Operador de gestión diario</span>
+</button>
+<button class="w-full text-left px-space-md py-space-sm rounded-lg hover:bg-surface-container-low flex flex-col" onclick="selectRole('Cliente - solo lectura', 'Acceso restringido únicamente a visualización de presupuestos y pedidos.')" type="button">
+<span class="font-headline-sm text-headline-sm text-on-surface">Cliente - solo lectura</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Consulta externa pasiva</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-space-2xs rounded-full bg-[#ECFDF5] text-[#065F46] font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-[#059669]"></span>
+<span class="font-semibold">Activo</span>
+<span class="text-[#065F46]/60">• 14 usuarios asignados</span>
+</div>
+<div class="px-space-sm py-space-2xs rounded-lg bg-surface-container-high font-data-mono text-data-mono text-on-surface-variant">
+            ID: <span class="font-bold text-on-surface">ROL-CLB-03</span>
+</div>
+</div>
+<!-- Quick Matrix Preset Actions -->
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mr-space-2xs">Presets rápidos:</span>
+<button class="h-8 px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-all flex items-center gap-space-xs" onclick="setPreset('view_only')" type="button">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">visibility</span>
+<span>Solo lectura</span>
+</button>
+<button class="h-8 px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-all flex items-center gap-space-xs" onclick="setPreset('mark_view')" type="button">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">checklist</span>
+<span>Marcar todos como Ver</span>
+</button>
+<button class="h-8 px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-all flex items-center gap-space-xs" onclick="setPreset('full_access')" type="button">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">select_all</span>
+<span>Acceso total</span>
+</button>
+</div>
+</div>
+<!-- Description Banner Card -->
+<div class="bg-surface-container-low rounded-lg p-space-md flex items-start gap-space-md" style="background-color: #131F3B; border: 1px solid #24355A; color: #94A3B8;">
+<div class="p-space-xs rounded-lg bg-surface-container-lowest text-primary mt-0.5 shadow-sm" style="background-color: #1A2747; color: #89C3EB; border: 1px solid #24355A;">
+<span class="material-symbols-outlined text-[20px]">info</span>
+</div>
+<div class="flex flex-col gap-space-2xs flex-1">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Alcance de seguridad y restricciones</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">Nivel de autorización: 3 / 5</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed" id="roleDescriptionText" style="color: #94A3B8;">
+            El rol <strong class="text-on-surface font-semibold">'Colaborador'</strong> tiene permisos operativos estándar en los espacios asignados, sin facultades de facturación ni eliminación de entidades críticas de catálogo o finanzas.
+          </p>
+</div>
+</div>
+</div>
+<!-- Permissions Matrix Data Table Container -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col" style="background-color: #1A2747; border: 1px solid #24355A;">
+<!-- Table Header Bar -->
+<div class="px-space-lg py-space-md bg-surface-container-lowest flex items-center justify-between flex-wrap gap-space-md" style="background-color: #1A2747; border-bottom: 1px solid #24355A;">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-sm text-headline-sm text-on-surface">Matriz por módulos funcionales</span>
+<span class="px-space-sm py-space-2xs rounded-full bg-surface-container text-on-surface font-data-mono text-data-mono">
+            10 Módulos de Nexo
+          </span>
+</div>
+<div class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant">
+<span class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded bg-primary-container"></span> Permitido
+          </span>
+<span class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded bg-surface-container-highest"></span> Denegado
+          </span>
+</div>
+</div>
+<!-- High Density Matrix Table -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse" id="matrixTable">
+<thead>
+<tr class="h-10 bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm select-none">
+<th class="py-space-xs px-space-lg w-[380px] font-semibold uppercase tracking-wider" scope="col">
+                Módulo del Sistema
+              </th>
+<!-- Column 1: Ver -->
+<th class="py-space-xs px-space-md text-center w-[130px]" scope="col">
+<div class="flex items-center justify-center gap-space-xs">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer accent-[#4338CA]" id="master-ver" onchange="toggleMasterColumn('ver', this.checked)" type="checkbox"/>
+<label class="cursor-pointer font-semibold uppercase tracking-wider text-on-surface" for="master-ver">Ver</label>
+</div>
+<span class="block text-[10px] text-on-surface-variant font-normal lowercase tracking-normal">Lectura</span>
+</th>
+<!-- Column 2: Crear -->
+<th class="py-space-xs px-space-md text-center w-[130px]" scope="col">
+<div class="flex items-center justify-center gap-space-xs">
+<input class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer accent-[#4338CA]" id="master-crear" onchange="toggleMasterColumn('crear', this.checked)" type="checkbox"/>
+<label class="cursor-pointer font-semibold uppercase tracking-wider text-on-surface" for="master-crear">Crear</label>
+</div>
+<span class="block text-[10px] text-on-surface-variant font-normal lowercase tracking-normal">Alta</span>
+</th>
+<!-- Column 3: Editar -->
+<th class="py-space-xs px-space-md text-center w-[130px]" scope="col">
+<div class="flex items-center justify-center gap-space-xs">
+<input class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer accent-[#4338CA]" id="master-editar" onchange="toggleMasterColumn('editar', this.checked)" type="checkbox"/>
+<label class="cursor-pointer font-semibold uppercase tracking-wider text-on-surface" for="master-editar">Editar</label>
+</div>
+<span class="block text-[10px] text-on-surface-variant font-normal lowercase tracking-normal">Modificación</span>
+</th>
+<!-- Column 4: Eliminar -->
+<th class="py-space-xs px-space-md text-center w-[130px]" scope="col">
+<div class="flex items-center justify-center gap-space-xs">
+<input class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer accent-[#4338CA]" id="master-eliminar" onchange="toggleMasterColumn('eliminar', this.checked)" type="checkbox"/>
+<label class="cursor-pointer font-semibold uppercase tracking-wider text-on-surface" for="master-eliminar">Eliminar</label>
+</div>
+<span class="block text-[10px] text-on-surface-variant font-normal lowercase tracking-normal">Baja / Archivo</span>
+</th>
+<th class="py-space-xs px-space-lg text-right font-semibold uppercase tracking-wider w-[220px]" scope="col">
+                Nivel Asignado
+              </th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-on-surface font-body-md text-body-md"><tr class="h-12 hover:bg-[#131F3B]/60 transition-colors group" style="border-bottom: 1px solid #24355A;"><td class="py-space-xs px-space-lg"><div class="flex items-center gap-space-md"><div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[18px]">inventory_2</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Productos</span><span class="font-body-sm text-body-sm text-[#94A3B8]">Gestión de catálogo, SKU y stock centralizado</span></div></div></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="ver" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="crear" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="editar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="eliminar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-right py-space-xs px-space-lg"><span class="row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm" style="background-color: rgba(56, 189, 248, 0.2); color: #38BDF8;"><span class="w-1.5 h-1.5 rounded-full" style="background-color: #38BDF8;"></span>Lectura y escritura</span></td></tr><tr class="h-12 hover:bg-[#131F3B]/60 transition-colors group" style="border-bottom: 1px solid #24355A;"><td class="py-space-xs px-space-lg"><div class="flex items-center gap-space-md"><div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[18px]">badge</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Clientes</span><span class="font-body-sm text-body-sm text-[#94A3B8]">Directorio, CUIT y fichas comerciales de cuenta</span></div></div></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="ver" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="crear" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="editar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="eliminar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-right py-space-xs px-space-lg"><span class="row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm" style="background-color: rgba(56, 189, 248, 0.2); color: #38BDF8;"><span class="w-1.5 h-1.5 rounded-full" style="background-color: #38BDF8;"></span>Lectura y escritura</span></td></tr><tr class="h-12 hover:bg-[#131F3B]/60 transition-colors group" style="border-bottom: 1px solid #24355A;"><td class="py-space-xs px-space-lg"><div class="flex items-center gap-space-md"><div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[18px]">local_shipping</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Proveedores</span><span class="font-body-sm text-body-sm text-[#94A3B8]">Contactos, padrón fiscal y órdenes de compra</span></div></div></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="ver" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="crear" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="editar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="eliminar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-right py-space-xs px-space-lg"><span class="row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm" style="background-color: rgba(56, 189, 248, 0.2); color: #38BDF8;"><span class="w-1.5 h-1.5 rounded-full" style="background-color: #38BDF8;"></span>Lectura y escritura</span></td></tr><tr class="h-12 hover:bg-[#131F3B]/60 transition-colors group" style="border-bottom: 1px solid #24355A;"><td class="py-space-xs px-space-lg"><div class="flex items-center gap-space-md"><div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[18px]">sell</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Listas de precios</span><span class="font-body-sm text-body-sm text-[#94A3B8]">Tarifarios ARS/USD y márgenes aplicados</span></div></div></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="ver" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="crear" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="editar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="eliminar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-right py-space-xs px-space-lg"><span class="row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm" style="background-color: rgba(148, 163, 184, 0.2); color: #CBD5E1;"><span class="w-1.5 h-1.5 rounded-full" style="background-color: #CBD5E1;"></span>Solo lectura</span></td></tr><tr class="h-12 hover:bg-[#131F3B]/60 transition-colors group" style="border-bottom: 1px solid #24355A;"><td class="py-space-xs px-space-lg"><div class="flex items-center gap-space-md"><div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[18px]">calculate</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Calculadora</span><span class="font-body-sm text-body-sm text-[#94A3B8]">Simulador de costos de importación y fórmulas de venta</span></div></div></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="ver" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="crear" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="editar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="eliminar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-right py-space-xs px-space-lg"><span class="row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm" style="background-color: rgba(56, 189, 248, 0.2); color: #38BDF8;"><span class="w-1.5 h-1.5 rounded-full" style="background-color: #38BDF8;"></span>Lectura y escritura</span></td></tr><tr class="h-12 hover:bg-[#131F3B]/60 transition-colors group" style="border-bottom: 1px solid #24355A;"><td class="py-space-xs px-space-lg"><div class="flex items-center gap-space-md"><div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[18px]">query_stats</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Precios de mercado</span><span class="font-body-sm text-body-sm text-[#94A3B8]">Scraping de competencia y cotizaciones mayoristas</span></div></div></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="ver" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="crear" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="editar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="eliminar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-right py-space-xs px-space-lg"><span class="row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm" style="background-color: rgba(148, 163, 184, 0.2); color: #CBD5E1;"><span class="w-1.5 h-1.5 rounded-full" style="background-color: #CBD5E1;"></span>Solo lectura</span></td></tr><tr class="h-12 hover:bg-[#131F3B]/60 transition-colors group" style="border-bottom: 1px solid #24355A;"><td class="py-space-xs px-space-lg"><div class="flex items-center gap-space-md"><div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[18px]">description</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Documentos</span><span class="font-body-sm text-body-sm text-[#94A3B8]">Facturas electrónicas AFIP, remitos y presupuestos</span></div></div></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="ver" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="crear" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="editar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="eliminar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-right py-space-xs px-space-lg"><span class="row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm" style="background-color: rgba(251, 191, 36, 0.2); color: #FBBF24;"><span class="w-1.5 h-1.5 rounded-full" style="background-color: #FBBF24;"></span>Acceso parcial</span></td></tr><tr class="h-12 hover:bg-[#131F3B]/60 transition-colors group" style="border-bottom: 1px solid #24355A;"><td class="py-space-xs px-space-lg"><div class="flex items-center gap-space-md"><div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[18px]">calendar_month</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Calendario</span><span class="font-body-sm text-body-sm text-[#94A3B8]">Eventos de entrega, despachos logísticos y vencimientos</span></div></div></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="ver" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="crear" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="editar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="eliminar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-right py-space-xs px-space-lg"><span class="row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm" style="background-color: rgba(52, 211, 153, 0.2); color: #34D399;"><span class="w-1.5 h-1.5 rounded-full" style="background-color: #34D399;"></span>Acceso total</span></td></tr><tr class="h-12 hover:bg-[#131F3B]/60 transition-colors group" style="border-bottom: 1px solid #24355A;"><td class="py-space-xs px-space-lg"><div class="flex items-center gap-space-md"><div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[18px]">monitoring</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Métricas</span><span class="font-body-sm text-body-sm text-[#94A3B8]">Estadísticas comerciales, márgenes y reportes de rendimiento</span></div></div></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="ver" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="crear" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="editar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="eliminar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-right py-space-xs px-space-lg"><span class="row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm" style="background-color: rgba(148, 163, 184, 0.2); color: #CBD5E1;"><span class="w-1.5 h-1.5 rounded-full" style="background-color: #CBD5E1;"></span>Solo lectura</span></td></tr><tr class="h-12 hover:bg-[#131F3B]/60 transition-colors group" style="border-bottom: 1px solid #24355A;"><td class="py-space-xs px-space-lg"><div class="flex items-center gap-space-md"><div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: #131F3B; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[18px]">space_dashboard</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-[#F3F1F6]">Dashboard</span><span class="font-body-sm text-body-sm text-[#94A3B8]">Visualización del panel central y edición de widgets</span></div></div></td><td class="text-center py-space-xs px-space-md"><input checked="" class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="ver" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="crear" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="editar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-center py-space-xs px-space-md"><input class="perm-checkbox w-4 h-4 rounded cursor-pointer" data-col="eliminar" onchange="recalculateState()" style="accent-color: #89C3EB;" type="checkbox"/></td><td class="text-right py-space-xs px-space-lg"><span class="row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full font-label-sm text-label-sm" style="background-color: rgba(148, 163, 184, 0.2); color: #CBD5E1;"><span class="w-1.5 h-1.5 rounded-full" style="background-color: #CBD5E1;"></span>Solo lectura</span></td></tr></tbody>
+</table>
+</div>
+<!-- Footer Micro Audit Note -->
+<div class="px-space-lg py-space-sm bg-surface-container-low flex items-center justify-between flex-wrap gap-space-sm font-label-sm text-label-sm text-on-surface-variant" style="background-color: #131F3B; border-top: 1px solid #24355A; color: #94A3B8;">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px]">security_update_good</span>
+<span>Reglas compiladas para entorno de producción LATAM</span>
+</span>
+<span class="font-data-mono text-data-mono">MD5: e7f2a8c309bc081</span>
+</div>
+</div>
+<!-- Live Execution Alert Banner -->
+<div class="rounded-xl p-space-md flex items-center justify-between gap-space-md shadow-sm" style="background-color: #131F3B; border: 1px solid #24355A;"><div class="flex items-center gap-space-md"><div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background-color: #1A2747; color: #89C3EB; border: 1px solid #24355A;"><span class="material-symbols-outlined text-[20px]">info</span></div><p class="font-body-md text-body-md" style="color: #94A3B8;"><strong class="text-[#F3F1F6]">Aviso de aplicación:</strong> Los cambios en la matriz de permisos aplicarán de forma inmediata a los <strong class="text-[#F3F1F6]">14 usuarios</strong> asignados actualmente al rol <span class="font-semibold" style="color: #89C3EB;">Colaborador</span>.</p></div><button class="px-space-md py-space-xs rounded-lg font-label-sm text-label-sm shadow-sm shrink-0 transition-colors" style="background-color: #1A2747; color: #F3F1F6; border: 1px solid #24355A;" type="button">Ver lista de usuarios</button></div>
+<!-- Sticky Bottom Action Tray -->
+<div class="sticky bottom-4 z-30 backdrop-blur-md rounded-xl p-space-md shadow-xl flex items-center justify-between flex-wrap gap-space-md" style="background-color: rgba(26, 39, 71, 0.95); border: 1px solid #24355A;"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs font-label-md text-label-md text-[#F3F1F6]"><span class="w-2.5 h-2.5 rounded-full animate-pulse" style="background-color: #89C3EB;"></span><span>Edición activa para:</span><strong class="font-semibold" id="footerRoleLabel" style="color: #89C3EB;">Colaborador</strong></div><span class="text-[#24355A] hidden sm:inline">|</span><span class="font-body-sm text-body-sm hidden sm:inline" id="changesIndicator" style="color: #94A3B8;">Todos los cambios están sincronizados.</span></div><div class="flex items-center gap-space-sm ml-auto"><button class="h-10 px-space-lg rounded-lg font-label-md text-label-md transition-colors" onclick="cancelChanges()" style="background-color: #131F3B; border: 1px solid #24355A; color: #F3F1F6;" type="button">Cancelar</button><button class="h-10 px-space-xl rounded-lg shadow-md font-label-md text-label-md flex items-center gap-space-xs transition-all" onclick="savePermissions()" style="background-color: #89C3EB; color: #0F1A33; font-weight: 700; border: none;" type="button"><span class="material-symbols-outlined text-[18px]">save</span><span>Guardar cambios en permisos</span></button></div></div>
+</div>
+<!-- Notification Toast Modal -->
+<div class="fixed bottom-20 right-8 z-50 transform translate-y-32 opacity-0 transition-all duration-300 pointer-events-none" id="saveToast">
+<div class="bg-inverse-surface text-inverse-on-surface px-space-lg py-space-md rounded-xl shadow-xl flex items-center gap-space-md">
+<span class="material-symbols-outlined text-[24px] text-[#059669]">check_circle</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-inverse-on-surface">Matriz guardada con éxito</span>
+<span class="font-body-sm text-body-sm text-inverse-on-surface/80">Permisos sincronizados para 14 usuarios del rol Colaborador.</span>
+</div>
+</div>
+</div>
+<!-- Interactive Logic Engine -->
+<script>
+    // State of default Colaborador permissions
+    const defaultMatrixState = [
+      [true, true, true, false],   // Productos
+      [true, true, true, false],   // Clientes
+      [true, true, true, false],   // Proveedores
+      [true, false, false, false], // Listas de precios
+      [true, true, true, false],   // Calculadora
+      [true, false, false, false], // Precios de mercado
+      [true, true, false, false],  // Documentos
+      [true, true, true, true],    // Calendario
+      [true, false, false, false], // Métricas
+      [true, false, false, false]  // Dashboard
+    ];
+
+    function toggleRoleDropdown() {
+      const menu = document.getElementById('roleDropdownMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+      const btn = document.getElementById('roleDropdownBtn');
+      const menu = document.getElementById('roleDropdownMenu');
+      if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+
+    function selectRole(roleName, description) {
+      document.getElementById('currentRoleText').textContent = roleName;
+      document.getElementById('footerRoleLabel').textContent = roleName;
+      document.getElementById('roleDescriptionText').innerHTML = `El rol <strong class="text-on-surface font-semibold">'${roleName}'</strong>: ${description}`;
+      toggleRoleDropdown();
+
+      // Configure preset depending on role
+      if (roleName === 'Superadmin') {
+        setPreset('full_access');
+      } else if (roleName === 'Dueño') {
+        setPreset('full_access');
+      } else if (roleName === 'Cliente - solo lectura') {
+        setPreset('view_only');
+      } else {
+        resetDefaultMatrix();
+      }
+      markChanged();
+    }
+
+    function toggleMasterColumn(colType, isChecked) {
+      const colCheckboxes = document.querySelectorAll(`input[data-col="${colType}"]`);
+      colCheckboxes.forEach(cb => {
+        cb.checked = isChecked;
+      });
+      recalculateState();
+      markChanged();
+    }
+
+    function setPreset(presetType) {
+      const rows = document.querySelectorAll('#matrixTable tbody tr');
+      rows.forEach(row => {
+        const checks = row.querySelectorAll('.perm-checkbox');
+        if (presetType === 'view_only') {
+          checks[0].checked = true;  // Ver
+          checks[1].checked = false; // Crear
+          checks[2].checked = false; // Editar
+          checks[3].checked = false; // Eliminar
+        } else if (presetType === 'mark_view') {
+          checks[0].checked = true;
+        } else if (presetType === 'full_access') {
+          checks.forEach(c => c.checked = true);
+        }
+      });
+      syncMasterCheckboxes();
+      recalculateState();
+      markChanged();
+    }
+
+    function resetDefaultMatrix() {
+      const rows = document.querySelectorAll('#matrixTable tbody tr');
+      rows.forEach((row, rIdx) => {
+        const checks = row.querySelectorAll('.perm-checkbox');
+        const state = defaultMatrixState[rIdx];
+        if (state) {
+          checks.forEach((cb, cIdx) => {
+            cb.checked = state[cIdx];
+          });
+        }
+      });
+      syncMasterCheckboxes();
+      recalculateState();
+      const indicator = document.getElementById('changesIndicator');
+      if (indicator) indicator.textContent = 'Valores predeterminados restaurados.';
+    }
+
+    function syncMasterCheckboxes() {
+      ['ver', 'crear', 'editar', 'eliminar'].forEach(col => {
+        const cbs = Array.from(document.querySelectorAll(`input[data-col="${col}"]`));
+        const allChecked = cbs.every(c => c.checked);
+        const master = document.getElementById(`master-${col}`);
+        if (master) master.checked = allChecked;
+      });
+    }
+
+    function recalculateState() {
+      const rows = document.querySelectorAll('#matrixTable tbody tr');
+      rows.forEach(row => {
+        const checks = Array.from(row.querySelectorAll('.perm-checkbox'));
+        const checkedCount = checks.filter(c => c.checked).length;
+        const statusSpan = row.querySelector('.row-status');
+        
+        if (!statusSpan) return;
+
+        if (checkedCount === 4) {
+          statusSpan.className = 'row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-[#ECFDF5] text-[#065F46] font-label-sm text-label-sm';
+          statusSpan.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-[#059669]"></span> Acceso total';
+        } else if (checkedCount === 0) {
+          statusSpan.className = 'row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm';
+          statusSpan.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Sin acceso';
+        } else if (checks[0].checked && checkedCount === 1) {
+          statusSpan.className = 'row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm';
+          statusSpan.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Solo lectura';
+        } else if (checks[0].checked && checks[1].checked && checks[2].checked && !checks[3].checked) {
+          statusSpan.className = 'row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-secondary-container text-on-secondary-fixed-variant font-label-sm text-label-sm';
+          statusSpan.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Lectura y escritura';
+        } else {
+          statusSpan.className = 'row-status inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm';
+          statusSpan.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> Acceso parcial';
+        }
+      });
+      syncMasterCheckboxes();
+      markChanged();
+    }
+
+    function markChanged() {
+      const ind = document.getElementById('changesIndicator');
+      if (ind) {
+        ind.innerHTML = '<span class="text-error font-medium">Hay modificaciones sin guardar</span>';
+      }
+    }
+
+    function cancelChanges() {
+      resetDefaultMatrix();
+      const ind = document.getElementById('changesIndicator');
+      if (ind) ind.textContent = 'Cambios descartados.';
+    }
+
+    function showSaveToast() {
+      const toast = document.getElementById('saveToast');
+      toast.classList.remove('translate-y-32', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      const ind = document.getElementById('changesIndicator');
+      if (ind) {
+        ind.innerHTML = '<span class="text-[#059669] font-medium">Todos los cambios guardados</span>';
+      }
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-32', 'opacity-0');
+      }, 3500);
+    }
+
+    function savePermissions() {
+      showSaveToast();
+    }
+  </script>
+</div></main></div></body></html>

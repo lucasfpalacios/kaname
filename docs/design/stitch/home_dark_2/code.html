@@ -1,0 +1,602 @@
+<!DOCTYPE html><html class="light" lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-lowest":"#ffffff","bg-canvas-dark":"#0F1A33","bg-canvas-light":"#FFFFFC","surface-tint":"#2d5cae","text-sumi-light":"#1F2033","error-container":"#ffdad6","on-tertiary-fixed-variant":"#772f38","on-secondary":"#ffffff","semantic-warning":"#C88A35","surface-container-low":"#f5f2ff","tertiary-fixed-dim":"#ffb2b8","border-subtle-dark":"#23335A","primary-wasurenagusa-dark":"#89C3EB","inverse-primary":"#aec6ff","secondary-fixed":"#dce2f9","on-primary-container":"#afc7ff","on-tertiary-container":"#ffb3b8","tertiary":"#69252e","primary-fixed-dim":"#aec6ff","outline-variant":"#c3c6d3","on-tertiary":"#ffffff","semantic-error-soft":"#FDF2F2","secondary-fixed-dim":"#c0c6dd","surface-container-highest":"#e1e0fa","surface-card-dark":"#1A2747","on-secondary-fixed":"#151b2c","semantic-success":"#2E7D5B","accent-soft-sakura":"#FEF4F4","surface-card-light":"#FFFFFF","primary-fixed":"#d8e2ff","on-primary-fixed-variant":"#064395","border-subtle-light":"#EAEAEA","on-tertiary-fixed":"#3e0410","background":"#fbf8ff","semantic-info":"#3B72AF","on-error-container":"#93000a","outline":"#737783","error":"#ba1a1a","tertiary-container":"#863b44","on-surface-variant":"#434751","semantic-warning-soft":"#FBF5EB","semantic-error":"#C93A40","surface-container":"#eeecff","surface-dim":"#d9d8f2","accent-momo":"#F09199","tertiary-fixed":"#ffdadb","on-secondary-fixed-variant":"#404659","primary":"#003982","inverse-surface":"#2e2f43","semantic-info-soft":"#EFF5FC","secondary":"#585e72","on-error":"#ffffff","on-background":"#191a2d","text-sumi-dark":"#F3F1F6","accent-toki-dark":"#F4B3C2","semantic-success-soft":"#EDF6F1","on-primary-fixed":"#001a43","surface-container-high":"#e7e6ff","primary-container":"#1e50a2","on-secondary-container":"#5c6276","inverse-on-surface":"#f1efff","on-primary":"#ffffff","on-surface":"#191a2d","surface-bright":"#fbf8ff","surface":"#fbf8ff","secondary-container":"#d9dff6","text-secondary-dark":"#9AA5BE","text-secondary-light":"#5E6478","surface-variant":"#e1e0fa"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"gutter-lg":"1.5rem","space-lg":"1rem","margin":"1rem","gutter":"1rem","space-xl":"1.5rem","space-md":"0.75rem","margin-lg":"2rem","margin-md":"1.5rem","space-sm":"0.5rem","space-xs":"0.25rem"},fontFamily:{"headline-sm":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"label-sm":["Inter"],"display-lg-mobile":["Inter"],"kpi-metric-mobile":["Inter"],"body-sm":["Inter"],"headline-md":["Inter"],"display-lg":["Inter"],"body-lg":["Inter"],"body-md":["Inter"],"kpi-metric":["Inter"]},fontSize:{"headline-sm":["15px",{"lineHeight":"22px","letterSpacing":"-0.005em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"16px","fontWeight":"500"}],"headline-lg":["22px",{"lineHeight":"30px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"display-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"kpi-metric-mobile":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"700"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-md":["18px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["15px",{"lineHeight":"22px","fontWeight":"400"}],"body-md":["13px",{"lineHeight":"18px","fontWeight":"400"}],"kpi-metric":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-[68px] z-50 bg-surface-container-lowest flex flex-col items-center py-space-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center justify-center w-10 h-10 rounded-xl bg-primary text-on-primary font-headline-lg text-headline-lg shadow-sm mb-space-xl select-none">N</div><nav class="flex-1 flex flex-col items-center gap-space-sm w-full px-space-xs" data-active-classes="bg-primary-container text-on-primary rounded-xl"><a aria-current="page" class="flex items-center justify-center w-12 h-12 transition-colors bg-primary-container text-on-primary rounded-xl" data-path="inicio" href="#" title="Inicio"><span class="material-symbols-outlined text-[22px]">dashboard</span></a><a class="flex items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="espacios-de-trabajo" href="#" title="Espacios de trabajo"><span class="material-symbols-outlined text-[22px]">domain</span></a><a class="flex items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="calendario-consolidado" href="#" title="Calendario consolidado"><span class="material-symbols-outlined text-[22px]">calendar_month</span></a><a class="flex items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="analiticas" href="#" title="Analíticas"><span class="material-symbols-outlined text-[22px]">analytics</span></a><a class="flex items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="configuracion-global" href="#" title="Configuración global"><span class="material-symbols-outlined text-[22px]">settings</span></a></nav><div class="flex flex-col items-center gap-space-sm w-full px-space-xs"><button class="flex items-center justify-center w-10 h-10 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Contraer o expandir menú" type="button"><span class="material-symbols-outlined text-[20px]">keyboard_double_arrow_right</span></button></div></aside><div class="pl-[68px]"><header class="fixed top-0 left-[68px] right-0 h-14 bg-surface-container-lowest/80 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 w-full px-space-xl flex items-center justify-between gap-space-lg"><div class="flex-1 max-w-xl"><div class="flex items-center w-full h-9 px-space-md rounded-lg bg-surface-container-low text-on-surface-variant cursor-pointer hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[18px] mr-space-sm text-secondary">search</span><span class="font-body-sm text-body-sm text-text-secondary-light flex-1 select-none">Buscar espacios, métricas, atajos...</span><kbd class="px-space-xs py-0.5 rounded bg-surface-container-lowest shadow-sm font-label-sm text-label-sm text-on-surface-variant select-none">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><div class="flex items-center rounded-lg bg-surface-container-low p-0.5"><button class="px-space-sm py-1 rounded font-label-sm text-label-sm bg-surface-container-lowest text-primary font-semibold shadow-sm" type="button">ES</button><button class="px-space-sm py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface" type="button">EN</button></div><button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Cambiar tema" type="button"><span class="material-symbols-outlined text-[20px]">light_mode</span></button><button class="relative w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Notificaciones" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-accent-momo ring-2 ring-surface-container-lowest"></span></button><div class="h-5 w-[1px] bg-outline-variant/40 mx-space-xs"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden md:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">Lucas</span><span class="font-label-sm text-label-sm text-text-secondary-light leading-tight">Superadmin</span></div></div></div></div></header><main class="w-full pt-14 bg-background min-h-screen"><div class="flex flex-col w-full bg-[#0F1A33] text-[#F3F1F6] min-h-[calc(100vh-56px)] p-6 md:p-8 space-y-8">
+<!-- HERO / HEADER OPERATIVO -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline-lg text-headline-lg font-bold text-[#F3F1F6] tracking-tight">Hola, Lucas</h1>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#162D50] text-[#89C3EB] border border-[#26375E]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#89C3EB] mr-1.5 animate-pulse"></span>
+          Producción
+        </span>
+</div>
+<p class="font-body-md text-body-md text-[#94A3B8] mt-1 flex items-center gap-2">
+<span>Jueves, 22 de Octubre de 2026</span>
+<span class="text-[#26375E]">·</span>
+<span class="text-[#89C3EB] font-medium">4 espacios activos y sincronizados</span>
+<span class="text-[#26375E]">·</span>
+<span class="text-[#94A3B8] text-xs">Latencia AFIP: 142ms</span>
+</p>
+</div>
+<!-- QUICK ACTIONS & CTAS -->
+<div class="flex items-center gap-3">
+<button class="px-3.5 py-2 rounded-lg bg-[#1A2747] text-[#CBD5E1] hover:text-[#F3F1F6] hover:bg-[#203158] border border-[#26375E] text-xs font-semibold flex items-center gap-2 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">sync_alt</span>
+<span>Sincronizar todo</span>
+</button>
+<button class="px-4 py-2 rounded-lg bg-[#89C3EB] hover:bg-[#A3D3F2] text-[#0F1A33] font-semibold text-xs flex items-center gap-1.5 transition-all shadow-sm shadow-[#89C3EB]/10 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Nuevo espacio</span>
+</button>
+</div>
+</header>
+<!-- QUICK METRICS BAR (CONSOLIDADO GLOBAL) -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-[#1A2747] border border-[#26375E] rounded-xl p-4 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Facturación consolidada</span>
+<span class="material-symbols-outlined text-[#89C3EB] text-[18px]">payments</span>
+</div>
+<div class="mt-3">
+<div class="text-xl md:text-2xl font-bold text-[#F3F1F6]">$14.670.000</div>
+<div class="text-[11px] text-[#4ADE80] font-medium flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +18.4% vs mes anterior
+        </div>
+</div>
+</div>
+<div class="bg-[#1A2747] border border-[#26375E] rounded-xl p-4 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Comprobantes emitidos</span>
+<span class="material-symbols-outlined text-[#89C3EB] text-[18px]">receipt_long</span>
+</div>
+<div class="mt-3">
+<div class="text-xl md:text-2xl font-bold text-[#F3F1F6]">1.284</div>
+<div class="text-[11px] text-[#4ADE80] font-medium flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">verified</span> 100% CAE AFIP autorizado
+        </div>
+</div>
+</div>
+<div class="bg-[#1A2747] border border-[#26375E] rounded-xl p-4 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Cuentas por cobrar</span>
+<span class="material-symbols-outlined text-[#F4B3C2] text-[18px]">schedule</span>
+</div>
+<div class="mt-3">
+<div class="text-xl md:text-2xl font-bold text-[#F3F1F6]">$2.140.000</div>
+<div class="text-[11px] text-[#FBBF24] font-medium flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">info</span> 3 comprobantes próximos a vencer
+        </div>
+</div>
+</div>
+<div class="bg-[#1A2747] border border-[#26375E] rounded-xl p-4 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Operaciones activas</span>
+<span class="material-symbols-outlined text-[#89C3EB] text-[18px]">swap_calls</span>
+</div>
+<div class="mt-3">
+<div class="text-xl md:text-2xl font-bold text-[#F3F1F6]">98.2%</div>
+<div class="text-[11px] text-[#89C3EB] font-medium flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> 4 nodos operativos sin mora
+        </div>
+</div>
+</div>
+</section>
+<!-- MAIN TWO-COLUMN DASHBOARD GRID -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- LEFT COLUMN (2/3 -> 8 COLS): ESPACIOS DE TRABAJO -->
+<main class="lg:col-span-8 flex flex-col space-y-5">
+<!-- SECTION BAR -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<h2 class="text-base font-semibold text-[#F3F1F6] tracking-tight">Tus Espacios de Trabajo</h2>
+<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide bg-[#1E3A66] text-[#89C3EB] border border-[#2A487D]">
+            4 ACTIVOS
+          </span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-[#94A3B8]">Vista resumida</span>
+<button class="w-7 h-7 rounded bg-[#162444] border border-[#26375E] flex items-center justify-center text-[#89C3EB] hover:bg-[#1E335D]" type="button">
+<span class="material-symbols-outlined text-[16px]">grid_view</span>
+</button>
+</div>
+</div>
+<!-- WORKSPACES 2x2 GRID -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- CARD 1: TANK VAULT TCG -->
+<article class="bg-[#1A2747] border border-[#26375E] hover:border-[#38538C] rounded-xl p-6 flex flex-col justify-between transition-all duration-200 group">
+<div>
+<!-- Header -->
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-lg bg-[#0F2344] border border-[#224578] flex items-center justify-center font-bold text-sm text-[#89C3EB] tracking-wider shrink-0 shadow-inner">
+                  TV
+                </div>
+<div>
+<h3 class="text-base font-bold text-[#F3F1F6] group-hover:text-[#89C3EB] transition-colors leading-tight">
+                    Tank Vault TCG
+                  </h3>
+<p class="text-xs text-[#94A3B8] mt-0.5">Importación y reventa Pokémon TCG</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#162D50] text-[#89C3EB] border border-[#1E3E6E]">
+                  Emprendimiento
+                </span>
+<span class="px-2 py-0.5 rounded text-[10px] font-medium bg-[#1E293B] text-[#CBD5E1]">
+                  Propietario
+                </span>
+</div>
+</div>
+<!-- KPIs (Label TOP, Value BELOW) -->
+<div class="grid grid-cols-3 gap-2 mt-5 py-3 px-3.5 bg-[#121E36] rounded-lg border border-[#1F3155]">
+<div class="flex flex-col">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Ventas del mes</span>
+<span class="text-sm md:text-base font-bold text-[#F3F1F6] mt-1">$4.620.000</span>
+</div>
+<div class="flex flex-col border-l border-[#1F3155] pl-2.5">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Margen prom.</span>
+<span class="text-sm md:text-base font-bold text-[#4ADE80] mt-1">38.5%</span>
+</div>
+<div class="flex flex-col border-l border-[#1F3155] pl-2.5">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Stock disp.</span>
+<span class="text-sm md:text-base font-bold text-[#F3F1F6] mt-1">1.420 u.</span>
+</div>
+</div>
+<!-- Active Modules -->
+<div class="mt-4">
+<span class="text-[10px] uppercase font-semibold text-[#64748B] tracking-wider block mb-1.5">Módulos habilitados</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>📦</span> Productos
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>👥</span> Clientes
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>🏷️</span> Listas precio
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>🧮</span> Calculadora
+                </span>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="mt-6 pt-4 border-t border-[#23355B] flex items-center justify-between">
+<span class="text-[11px] text-[#94A3B8] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4ADE80]"></span> AFIP Punto 0002 OK
+            </span>
+<a class="inline-flex items-center gap-1 text-xs font-semibold text-[#89C3EB] hover:text-[#B6DCF5] group-hover:translate-x-0.5 transition-all" href="#">
+              Abrir espacio <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- CARD 2: DISANZA -->
+<article class="bg-[#1A2747] border border-[#26375E] hover:border-[#38538C] rounded-xl p-6 flex flex-col justify-between transition-all duration-200 group">
+<div>
+<!-- Header -->
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-lg bg-[#2E1F30] border border-[#522944] flex items-center justify-center font-bold text-sm text-[#F4B3C2] tracking-wider shrink-0 shadow-inner">
+                  DZ
+                </div>
+<div>
+<h3 class="text-base font-bold text-[#F3F1F6] group-hover:text-[#F4B3C2] transition-colors leading-tight">
+                    Disanza
+                  </h3>
+<p class="text-xs text-[#94A3B8] mt-0.5">Gastronomía: burgers &amp; bondiola take-away</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#162D50] text-[#89C3EB] border border-[#1E3E6E]">
+                  Emprendimiento
+                </span>
+<span class="px-2 py-0.5 rounded text-[10px] font-medium bg-[#1E293B] text-[#CBD5E1]">
+                  Propietario
+                </span>
+</div>
+</div>
+<!-- KPIs (Label TOP, Value BELOW) -->
+<div class="grid grid-cols-3 gap-2 mt-5 py-3 px-3.5 bg-[#121E36] rounded-lg border border-[#1F3155]">
+<div class="flex flex-col">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Pedidos del mes</span>
+<span class="text-sm md:text-base font-bold text-[#F3F1F6] mt-1">840 pedidos</span>
+</div>
+<div class="flex flex-col border-l border-[#1F3155] pl-2.5">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Ticket prom.</span>
+<span class="text-sm md:text-base font-bold text-[#F3F1F6] mt-1">$14.850</span>
+</div>
+<div class="flex flex-col border-l border-[#1F3155] pl-2.5">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Costo insumos</span>
+<span class="text-sm md:text-base font-bold text-[#FBBF24] mt-1">31.2%</span>
+</div>
+</div>
+<!-- Active Modules -->
+<div class="mt-4">
+<span class="text-[10px] uppercase font-semibold text-[#64748B] tracking-wider block mb-1.5">Módulos habilitados</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>🍔</span> Menú &amp; Cocina
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>🛵</span> Envíos
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>🧾</span> Caja diaria
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>📊</span> Proveedores
+                </span>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="mt-6 pt-4 border-t border-[#23355B] flex items-center justify-between">
+<span class="text-[11px] text-[#94A3B8] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4ADE80]"></span> Caja abierta (Turno cena)
+            </span>
+<a class="inline-flex items-center gap-1 text-xs font-semibold text-[#89C3EB] hover:text-[#B6DCF5] group-hover:translate-x-0.5 transition-all" href="#">
+              Abrir espacio <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- CARD 3: VISIÓ -->
+<article class="bg-[#1A2747] border border-[#26375E] hover:border-[#38538C] rounded-xl p-6 flex flex-col justify-between transition-all duration-200 group">
+<div>
+<!-- Header -->
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-lg bg-[#2A1D3D] border border-[#4E3170] flex items-center justify-center font-bold text-sm text-[#D8B4FE] tracking-wider shrink-0 shadow-inner">
+                  VS
+                </div>
+<div>
+<h3 class="text-base font-bold text-[#F3F1F6] group-hover:text-[#D8B4FE] transition-colors leading-tight">
+                    VISIÓ
+                  </h3>
+<p class="text-xs text-[#94A3B8] mt-0.5">Estudio creativo: branding &amp; social media</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#162D50] text-[#89C3EB] border border-[#1E3E6E]">
+                  Emprendimiento
+                </span>
+<span class="px-2 py-0.5 rounded text-[10px] font-medium bg-[#1E293B] text-[#CBD5E1]">
+                  Administrador
+                </span>
+</div>
+</div>
+<!-- KPIs (Label TOP, Value BELOW) -->
+<div class="grid grid-cols-3 gap-2 mt-5 py-3 px-3.5 bg-[#121E36] rounded-lg border border-[#1F3155]">
+<div class="flex flex-col">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Clientes act.</span>
+<span class="text-sm md:text-base font-bold text-[#F3F1F6] mt-1">12 cuentas</span>
+</div>
+<div class="flex flex-col border-l border-[#1F3155] pl-2.5">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Fact. mensual</span>
+<span class="text-sm md:text-base font-bold text-[#F3F1F6] mt-1">$3.250.000</span>
+</div>
+<div class="flex flex-col border-l border-[#1F3155] pl-2.5">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Entregas pend.</span>
+<span class="text-sm md:text-base font-bold text-[#89C3EB] mt-1">4 entregas</span>
+</div>
+</div>
+<!-- Active Modules -->
+<div class="mt-4">
+<span class="text-[10px] uppercase font-semibold text-[#64748B] tracking-wider block mb-1.5">Módulos habilitados</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>🎨</span> Proyectos
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>📅</span> Calendario
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>📁</span> Assets
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>💰</span> Cobranzas
+                </span>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="mt-6 pt-4 border-t border-[#23355B] flex items-center justify-between">
+<span class="text-[11px] text-[#94A3B8] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#89C3EB]"></span> 2 reviews pendientes hoy
+            </span>
+<a class="inline-flex items-center gap-1 text-xs font-semibold text-[#89C3EB] hover:text-[#B6DCF5] group-hover:translate-x-0.5 transition-all" href="#">
+              Abrir espacio <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- CARD 4: SHINKA -->
+<article class="bg-[#1A2747] border border-[#26375E] hover:border-[#38538C] rounded-xl p-6 flex flex-col justify-between transition-all duration-200 group">
+<div>
+<!-- Header -->
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-lg bg-[#142B48] border border-[#26538C] flex items-center justify-center font-bold text-sm text-[#89C3EB] tracking-wider shrink-0 shadow-inner">
+                  SK
+                </div>
+<div>
+<h3 class="text-base font-bold text-[#F3F1F6] group-hover:text-[#89C3EB] transition-colors leading-tight">
+                    Shinka
+                  </h3>
+<p class="text-xs text-[#94A3B8] mt-0.5">Desarrollo a medida (ej. Hiru Cerámica)</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#1C3354] text-[#89C3EB] border border-[#264977]">
+                  Proyectos
+                </span>
+<span class="px-2 py-0.5 rounded text-[10px] font-medium bg-[#1E293B] text-[#CBD5E1]">
+                  Propietario
+                </span>
+</div>
+</div>
+<!-- KPIs (Label TOP, Value BELOW) -->
+<div class="grid grid-cols-3 gap-2 mt-5 py-3 px-3.5 bg-[#121E36] rounded-lg border border-[#1F3155]">
+<div class="flex flex-col">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Proyectos act.</span>
+<span class="text-sm md:text-base font-bold text-[#F3F1F6] mt-1">5 proyectos</span>
+</div>
+<div class="flex flex-col border-l border-[#1F3155] pl-2.5">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Presupuestos</span>
+<span class="text-sm md:text-base font-bold text-[#FBBF24] mt-1">3 cotiz.</span>
+</div>
+<div class="flex flex-col border-l border-[#1F3155] pl-2.5">
+<span class="text-[11px] font-medium text-[#94A3B8] leading-tight">Fact. del mes</span>
+<span class="text-sm md:text-base font-bold text-[#F3F1F6] mt-1">$6.800.000</span>
+</div>
+</div>
+<!-- Active Modules -->
+<div class="mt-4">
+<span class="text-[10px] uppercase font-semibold text-[#64748B] tracking-wider block mb-1.5">Módulos habilitados</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>💻</span> Sprints
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>⏱️</span> Horas &amp; Fact.
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>📑</span> Presupuestos
+                </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#121E36] text-[#CBD5E1] text-[11px] font-medium border border-[#1D2E4E]">
+<span>🤝</span> Clientes
+                </span>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="mt-6 pt-4 border-t border-[#23355B] flex items-center justify-between">
+<span class="text-[11px] text-[#94A3B8] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4ADE80]"></span> Sprints al día (v2.4 deploy)
+            </span>
+<a class="inline-flex items-center gap-1 text-xs font-semibold text-[#89C3EB] hover:text-[#B6DCF5] group-hover:translate-x-0.5 transition-all" href="#">
+              Abrir espacio <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+<!-- BOTTOM DASHED ACTION CARD -->
+<button class="w-full border-2 border-dashed border-[#26375E] hover:border-[#89C3EB] rounded-xl p-4 flex items-center justify-center gap-2.5 text-sm font-medium text-[#94A3B8] hover:text-[#F3F1F6] bg-[#121E36]/40 hover:bg-[#1A2747] transition-all cursor-pointer group" type="button">
+<span class="w-6 h-6 rounded-full bg-[#1C2C4E] flex items-center justify-center text-[#89C3EB] group-hover:bg-[#89C3EB] group-hover:text-[#0F1A33] transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</span>
+<span>Crear nuevo espacio de trabajo (CUIT / Empresa / Proyecto)</span>
+</button>
+<!-- VISUAL COMPARATIVE PERFORMANCE CHART (INLINE SVG) -->
+<div class="bg-[#1A2747] border border-[#26375E] rounded-xl p-5 mt-2">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h4 class="text-sm font-semibold text-[#F3F1F6]">Rendimiento comparativo mensual</h4>
+<p class="text-xs text-[#94A3B8]">Participación porcentual en ventas consolidadas de Octubre 2026</p>
+</div>
+<span class="text-xs font-mono text-[#89C3EB] bg-[#162D50] px-2 py-1 rounded border border-[#26375E]">Total: $14.67M</span>
+</div>
+<div class="space-y-3">
+<!-- Shinka -->
+<div>
+<div class="flex justify-between text-xs mb-1">
+<span class="text-[#CBD5E1] font-medium">Shinka (Desarrollo)</span>
+<span class="text-[#F3F1F6] font-mono">$6.800.000 <span class="text-[#94A3B8]">(46.3%)</span></span>
+</div>
+<div class="w-full h-2 rounded-full bg-[#121E36] overflow-hidden">
+<div class="h-full bg-[#89C3EB] rounded-full" style="width: 46.3%"></div>
+</div>
+</div>
+<!-- Tank Vault TCG -->
+<div>
+<div class="flex justify-between text-xs mb-1">
+<span class="text-[#CBD5E1] font-medium">Tank Vault TCG (Retail/Import)</span>
+<span class="text-[#F3F1F6] font-mono">$4.620.000 <span class="text-[#94A3B8]">(31.5%)</span></span>
+</div>
+<div class="w-full h-2 rounded-full bg-[#121E36] overflow-hidden">
+<div class="h-full bg-[#4ADE80] rounded-full" style="width: 31.5%"></div>
+</div>
+</div>
+<!-- VISIÓ -->
+<div>
+<div class="flex justify-between text-xs mb-1">
+<span class="text-[#CBD5E1] font-medium">VISIÓ (Estudio Creativo)</span>
+<span class="text-[#F3F1F6] font-mono">$3.250.000 <span class="text-[#94A3B8]">(22.2%)</span></span>
+</div>
+<div class="w-full h-2 rounded-full bg-[#121E36] overflow-hidden">
+<div class="h-full bg-[#D8B4FE] rounded-full" style="width: 22.2%"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- RIGHT COLUMN (1/3 -> 4 COLS): AGENDA & ACTIVIDAD -->
+<aside class="lg:col-span-4 flex flex-col space-y-5">
+<!-- CARD: PRÓXIMOS EVENTOS -->
+<section class="bg-[#1A2747] border border-[#26375E] rounded-xl p-5 flex flex-col">
+<div class="flex items-center justify-between pb-3 border-b border-[#23355B]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#89C3EB] text-[20px]">calendar_today</span>
+<h3 class="text-sm font-semibold text-[#F3F1F6]">Próximos eventos</h3>
+</div>
+<span class="text-[11px] font-medium text-[#94A3B8] bg-[#121E36] px-2 py-0.5 rounded border border-[#23355B]">Oct 2026</span>
+</div>
+<div class="divide-y divide-[#213256] mt-1">
+<!-- Evento 1 -->
+<div class="py-3.5 first:pt-3">
+<div class="flex items-center justify-between text-xs mb-1">
+<span class="font-semibold text-[#89C3EB]">Vie 23 Oct · 10:30</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#142B48] text-[#89C3EB] border border-[#20406F]">Shinka</span>
+</div>
+<p class="text-xs text-[#F3F1F6] leading-relaxed">
+              Entrega de sprint y demo ecommerce con <span class="font-medium text-[#89C3EB]">Hiru Cerámica</span>.
+            </p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[10px] text-[#94A3B8] flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">video_camera_front</span> Google Meet
+              </span>
+</div>
+</div>
+<!-- Evento 2 -->
+<div class="py-3.5">
+<div class="flex items-center justify-between text-xs mb-1">
+<span class="font-semibold text-[#F4B3C2]">Sáb 24 Oct · 19:00</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#2E1F30] text-[#F4B3C2] border border-[#4F2741]">Disanza</span>
+</div>
+<p class="text-xs text-[#F3F1F6] leading-relaxed">
+              Apertura turno noche y control de stock de carne/panes en local.
+            </p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[10px] text-[#94A3B8] flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">storefront</span> Local Palermo
+              </span>
+</div>
+</div>
+<!-- Evento 3 -->
+<div class="py-3.5">
+<div class="flex items-center justify-between text-xs mb-1">
+<span class="font-semibold text-[#89C3EB]">Lun 26 Oct · 15:00</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#0F2344] text-[#89C3EB] border border-[#1C3E6E]">Tank Vault</span>
+</div>
+<p class="text-xs text-[#F3F1F6] leading-relaxed">
+              Recepción de importación lote Pokémon Surging Sparks con despacho aduanero.
+            </p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[10px] text-[#94A3B8] flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">local_shipping</span> DHL Express #91823
+              </span>
+</div>
+</div>
+<!-- Evento 4 -->
+<div class="py-3.5 pb-1">
+<div class="flex items-center justify-between text-xs mb-1">
+<span class="font-semibold text-[#D8B4FE]">Mar 27 Oct · 11:00</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#2A1D3D] text-[#D8B4FE] border border-[#492B69]">VISIÓ</span>
+</div>
+<p class="text-xs text-[#F3F1F6] leading-relaxed">
+              Presentación de identidad de marca para nuevo cliente gastronómico.
+            </p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[10px] text-[#94A3B8] flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">co_present</span> Presentación Pitch deck
+              </span>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 py-2 rounded bg-[#142342] text-xs font-semibold text-[#89C3EB] hover:bg-[#1A2E55] transition-colors border border-[#233863]" type="button">
+          Ver calendario unificado
+        </button>
+</section>
+<!-- CARD: ACTIVIDAD RECIENTE -->
+<section class="bg-[#1A2747] border border-[#26375E] rounded-xl p-5 flex flex-col">
+<div class="flex items-center justify-between pb-3 border-b border-[#23355B]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#89C3EB] text-[20px]">history</span>
+<h3 class="text-sm font-semibold text-[#F3F1F6]">Actividad reciente</h3>
+</div>
+<span class="w-2 h-2 rounded-full bg-[#4ADE80]"></span>
+</div>
+<div class="mt-3 space-y-4">
+<!-- Actividad 1 -->
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-[#2E1F30] border border-[#4F2741] flex items-center justify-center text-xs text-[#F4B3C2] shrink-0 font-bold">
+              DZ
+            </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-[#F3F1F6]">Disanza</span>
+<span class="text-[10px] text-[#94A3B8]">Hace 25 min</span>
+</div>
+<p class="text-xs text-[#CBD5E1] mt-0.5 leading-snug">
+                48 pedidos despachados en turno vespertino mediante delivery integrado.
+              </p>
+</div>
+</div>
+<!-- Actividad 2 -->
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-[#0F2344] border border-[#1C3E6E] flex items-center justify-center text-xs text-[#89C3EB] shrink-0 font-bold">
+              TV
+            </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-[#F3F1F6]">Tank Vault TCG</span>
+<span class="text-[10px] text-[#94A3B8]">Hace 2 h</span>
+</div>
+<p class="text-xs text-[#CBD5E1] mt-0.5 leading-snug">
+                Lucas cargó 15 cajas selladas al inventario mayorista con precio dolarizado.
+              </p>
+</div>
+</div>
+<!-- Actividad 3 -->
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-[#142B48] border border-[#20406F] flex items-center justify-center text-xs text-[#89C3EB] shrink-0 font-bold">
+              SK
+            </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-[#F3F1F6]">Shinka</span>
+<span class="text-[10px] text-[#94A3B8]">Hace 4 h</span>
+</div>
+<p class="text-xs text-[#CBD5E1] mt-0.5 leading-snug">
+                Presupuesto #018 enviado a cliente <span class="text-[#89C3EB]">Hiru Cerámica</span> ($1.450.000).
+              </p>
+</div>
+</div>
+<!-- Actividad 4 -->
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-[#2A1D3D] border border-[#492B69] flex items-center justify-center text-xs text-[#D8B4FE] shrink-0 font-bold">
+              VS
+            </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-[#F3F1F6]">VISIÓ</span>
+<span class="text-[10px] text-[#94A3B8]">Ayer</span>
+</div>
+<p class="text-xs text-[#CBD5E1] mt-0.5 leading-snug">
+                Sofía subió entregables finales de branding al repositorio central de Figma.
+              </p>
+</div>
+</div>
+</div>
+<!-- NOTIFICACIONES CRÍTICAS / ACCIÓN DE SEGURIDAD -->
+<div class="mt-5 p-3 rounded-lg bg-[#3E1B20] border border-[#6B242C] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#FF7B82] text-[18px]">warning</span>
+<span class="text-xs text-[#F3F1F6] font-medium">Certificado AFIP vence en 12 días</span>
+</div>
+<button class="text-[11px] font-bold text-[#FF7B82] hover:text-[#FFAAB0] underline cursor-pointer" type="button">
+            Renovar
+          </button>
+</div>
+</section>
+<!-- SYSTEM STATUS WIDGET -->
+<div class="bg-[#14213D] border border-[#21355E] rounded-xl p-4 text-xs text-[#94A3B8] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#4ADE80]"></span>
+<span>Nexo Multi-tenant Engine v4.12</span>
+</div>
+<span class="font-mono text-[#89C3EB] text-[11px]">SLA 99.98%</span>
+</div>
+</aside>
+</div>
+</div></main></div></body></html>

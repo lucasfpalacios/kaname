@@ -1,0 +1,306 @@
+<!DOCTYPE html><html lang="es"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendario modal - Light</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              DEFAULT: '#1E50A2',
+              hover: '#163E7E',
+              light: '#EBF3FC',
+            },
+            surface: {
+              bg: '#F8F9FA',
+              card: '#FFFFFF',
+              border: '#E2E8F0',
+            },
+            coral: '#F09199',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #F8F9FA; color: #1E293B; }
+    .nowrap { white-space: nowrap; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#F8F9FA] text-[#1E293B] antialiased relative overflow-hidden">
+
+  <!-- TOP BAR (BACKGROUND) -->
+  <header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between sticky top-0 z-10 shrink-0 select-none">
+    <div class="flex items-center space-x-6">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-lg bg-[#1E50A2] flex items-center justify-center text-white font-bold text-lg shadow-sm">N</div>
+        <span class="font-bold text-lg text-gray-900 tracking-tight">Nexo</span>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-[#1E50A2] font-semibold border border-blue-100">v2.4</span>
+      </div>
+      <div class="relative w-96 hidden md:block">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+        <input type="text" placeholder="Buscar en productos, SKU, pedidos o eventos..." class="w-full pl-9 pr-12 py-1.5 text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-700" disabled="">
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+          <kbd class="text-[11px] font-medium text-gray-400 bg-white px-1.5 py-0.5 rounded border border-gray-200">⌘K</kbd>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-4">
+      <div class="flex items-center bg-gray-100 p-0.5 rounded-lg border border-gray-200 text-xs font-semibold">
+        <button class="px-2 py-1 rounded bg-white text-[#1E50A2] shadow-sm">ES</button>
+        <button class="px-2 py-1 rounded text-gray-500">EN</button>
+      </div>
+      <div class="p-2 text-gray-500 rounded-lg">
+        <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+      </div>
+      <div class="flex items-center space-x-3 pl-3 border-l border-gray-200">
+        <div class="w-8 h-8 rounded-full bg-[#1E50A2]/10 border border-[#1E50A2]/20 flex items-center justify-center font-bold text-[#1E50A2] text-xs">L</div>
+        <div class="text-left leading-tight">
+          <p class="text-xs font-semibold text-gray-800">Lucas</p>
+          <p class="text-[10px] text-gray-500">Superadmin</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden select-none">
+    <!-- SIDEBAR (BACKGROUND) -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col justify-between shrink-0">
+      <div class="p-4 space-y-5">
+        <div class="bg-blue-50/50 border border-blue-100/80 rounded-xl p-3 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-lg bg-[#1E50A2] text-white font-bold flex items-center justify-center text-xs">TV</div>
+            <div>
+              <h4 class="text-xs font-bold text-gray-900">Tank Vault TCG</h4>
+              <p class="text-[11px] text-[#1E50A2] font-medium flex items-center">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 inline-block"></span>Workspace activo
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <nav class="space-y-1">
+          <div class="px-3 py-2 text-xs font-medium text-gray-600">Resumen</div>
+          <div class="px-3 py-2 text-xs font-medium text-gray-600">Productos</div>
+          <div class="px-3 py-2 text-xs font-medium text-gray-600">Clientes</div>
+          <div class="px-3 py-2 text-xs font-medium text-gray-600">Proveedores</div>
+          <div class="px-3 py-2 text-xs font-medium text-gray-600">Calculadora</div>
+          <!-- Calendario activo -->
+          <div class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold bg-[#1E50A2] text-white">
+            <div class="flex items-center space-x-3">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              <span class="">Calendario</span>
+            </div>
+            <span class="text-[10px] bg-white/20 text-white font-bold px-1.5 py-0.5 rounded-full">5</span>
+          </div>
+          <div class="px-3 py-2 text-xs font-medium text-gray-600">Métricas de redes</div>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- MAIN CALENDAR BACKGROUND (Blurred / Dimmable) -->
+    <main class="flex-1 p-6 bg-[#F8F9FA] opacity-40 filter blur-[1px]">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Calendario de Operaciones</h1>
+          <p class="text-xs text-gray-500">Gestión de despachos, lanzamientos y cotizaciones</p>
+        </div>
+        <div class="flex space-x-2">
+          <div class="px-3 py-1 bg-gray-200 rounded text-xs font-semibold">Octubre 2026</div>
+          <div class="px-3.5 py-1.5 bg-[#1E50A2] text-white rounded text-xs font-semibold">+ Nuevo evento</div>
+        </div>
+      </div>
+      <div class="h-96 bg-white rounded-xl border border-gray-200"></div>
+    </main>
+  </div>
+
+  <!-- MODAL BACKDROP -->
+  <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    
+    <!-- MODAL DIALOG CONTAINER -->
+    <div class="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-xl max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 max-h-[90vh]">
+      
+      <!-- MODAL HEADER -->
+      <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-white shrink-0">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-[#1E50A2]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-gray-900 leading-tight">Nuevo evento</h3>
+            <p class="text-[11px] text-gray-500">Programá una actividad para el equipo de Tank Vault TCG</p>
+          </div>
+        </div>
+        <button class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors" title="Cerrar modal">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- MODAL BODY FORM (Scrollable) -->
+      <form class="p-6 space-y-4 overflow-y-auto text-xs flex-1 min-h-0">
+        
+        <!-- 1. TÍTULO DEL EVENTO -->
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Título del evento <span class="text-rose-500">*</span></label>
+          <input type="text" value="Despacho de Preventa Surging Sparks (50 Booster Boxes)" placeholder="Ej. Lanzamiento oficial, Despacho Andreani, Reunión..." class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1E50A2]/30 focus:border-[#1E50A2] font-medium text-gray-900">
+        </div>
+
+        <!-- 2. TODO EL DÍA TOGGLE -->
+        <div class="flex items-center justify-between p-2.5 bg-gray-50 rounded-lg border border-gray-200">
+          <div>
+            <span class="font-semibold text-gray-800">Todo el día</span>
+            <p class="text-[11px] text-gray-500">El evento no tiene un rango horario específico</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" value="" class="sr-only peer">
+            <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#1E50A2]"></div>
+          </label>
+        </div>
+
+        <!-- 3. FECHA Y HORA (INICIO Y FIN) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Inicio -->
+          <div class="space-y-1">
+            <label class="block font-semibold text-gray-700">Inicio <span class="text-rose-500">*</span></label>
+            <div class="flex space-x-1.5">
+              <input type="date" value="2026-10-29" class="w-3/5 px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:ring-1 focus:ring-[#1E50A2] text-gray-800">
+              <input type="time" value="09:00" class="w-2/5 px-2 py-1.5 border border-gray-300 rounded-lg text-xs focus:ring-1 focus:ring-[#1E50A2] text-gray-800">
+            </div>
+          </div>
+          <!-- Fin -->
+          <div class="space-y-1">
+            <label class="block font-semibold text-gray-700">Fin <span class="text-rose-500">*</span></label>
+            <div class="flex space-x-1.5">
+              <input type="date" value="2026-10-29" class="w-3/5 px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:ring-1 focus:ring-[#1E50A2] text-gray-800">
+              <input type="time" value="13:30" class="w-2/5 px-2 py-1.5 border border-gray-300 rounded-lg text-xs focus:ring-1 focus:ring-[#1E50A2] text-gray-800">
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. TIPO DE EVENTO Y COLOR -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Tipo -->
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Tipo de evento <span class="text-rose-500">*</span></label>
+            <select class="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-xs focus:ring-1 focus:ring-[#1E50A2] text-gray-800 bg-white">
+              <option value="pedido" selected="">Pedido (Logística &amp; Despacho)</option>
+              <option value="presupuesto">Presupuesto (Cotización comercial)</option>
+              <option value="publicacion">Publicación (Redes y contenido)</option>
+              <option value="reunion">Reunión / Torneo presencial</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+
+          <!-- Color de la paleta -->
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Color de etiqueta</label>
+            <div class="flex items-center space-x-2 pt-0.5">
+              <!-- #1E50A2 (Selected) -->
+              <button type="button" class="w-6 h-6 rounded-full bg-[#1E50A2] ring-2 ring-offset-2 ring-[#1E50A2] transition-transform"></button>
+              <!-- #10B981 -->
+              <button type="button" class="w-6 h-6 rounded-full bg-[#10B981] hover:scale-110 transition-transform"></button>
+              <!-- #F09199 -->
+              <button type="button" class="w-6 h-6 rounded-full bg-[#F09199] hover:scale-110 transition-transform"></button>
+              <!-- #F59E0B -->
+              <button type="button" class="w-6 h-6 rounded-full bg-[#F59E0B] hover:scale-110 transition-transform"></button>
+              <!-- #8B5CF6 -->
+              <button type="button" class="w-6 h-6 rounded-full bg-[#8B5CF6] hover:scale-110 transition-transform"></button>
+              <span class="text-[11px] text-gray-500 pl-1 font-medium">Primario (#1E50A2)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. RESPONSABLE Y REPETICIÓN -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Responsable -->
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Responsable <span class="text-rose-500">*</span></label>
+            <select class="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-xs focus:ring-1 focus:ring-[#1E50A2] text-gray-800 bg-white">
+              <option value="martin" selected="">Martín Palermo (Logística &amp; Depósito)</option>
+              <option value="lucas">Lucas (Superadmin)</option>
+              <option value="sofia">Sofía Carrizo (Ventas &amp; Showroom)</option>
+              <option value="gonzalo">Gonzalo Higuaín (Atención al cliente)</option>
+            </select>
+          </div>
+
+          <!-- Repetición -->
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Repetición</label>
+            <select class="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-xs focus:ring-1 focus:ring-[#1E50A2] text-gray-800 bg-white">
+              <option value="none" selected="">No se repite</option>
+              <option value="daily">Todos los días</option>
+              <option value="weekly">Semanalmente (cada jueves)</option>
+              <option value="monthly">Mensualmente (último jueves)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 6. VÍNCULO A ENTIDAD (PEDIDO / PRESUPUESTO / CLIENTE) -->
+        <div class="p-3 bg-blue-50/50 rounded-xl border border-blue-100 space-y-2">
+          <label class="block font-semibold text-gray-800">Vínculo a entidad comercial</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <span class="text-[11px] text-gray-500 block mb-0.5">Tipo de entidad</span>
+              <select class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs bg-white focus:ring-1 focus:ring-[#1E50A2] text-gray-800">
+                <option value="pedido" selected="">📦 Pedido</option>
+                <option value="presupuesto">💼 Presupuesto / Cotización</option>
+                <option value="cliente">👤 Cliente</option>
+                <option value="ninguno">Ninguno</option>
+              </select>
+            </div>
+            <div>
+              <span class="text-[11px] text-gray-500 block mb-0.5">Elemento vinculado</span>
+              <div class="relative">
+                <input type="text" value="Orden #TV-8492 — Martín Palermo (Stellar Crown + SSP)" class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs bg-white focus:ring-1 focus:ring-[#1E50A2] text-gray-800 font-medium truncate">
+                <span class="absolute right-2 top-1.5 text-[10px] text-emerald-600 bg-emerald-50 px-1 py-0.5 rounded font-semibold">$345.000 ARS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. DESCRIPCIÓN Y NOTAS -->
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Descripción y notas operativas</label>
+          <textarea rows="3" placeholder="Detalles de embalaje, etiquetas de courier, notas de entrega o preparativos..." class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1E50A2]/30 focus:border-[#1E50A2] text-gray-800">Prioridad despacho por Andreani Express. Verificar precintos de seguridad oficiales de The Pokémon Company en las cajas selladas antes de embalar con papel burbuja.</textarea>
+        </div>
+
+      </form>
+
+      <!-- MODAL FOOTER BUTTONS -->
+      <div class="px-6 py-3.5 bg-gray-50 border-t border-gray-200 flex items-center justify-between shrink-0">
+        <button type="button" class="text-xs text-rose-600 hover:text-rose-800 font-medium transition-colors">
+          Descartar borrador
+        </button>
+        <div class="flex items-center space-x-2.5">
+          <button type="button" class="px-4 py-2 rounded-lg border border-gray-300 text-xs font-semibold text-gray-700 bg-white hover:bg-gray-100 transition-colors shadow-xs">
+            Cancelar
+          </button>
+          <button type="button" class="px-5 py-2 rounded-lg bg-[#1E50A2] hover:bg-[#163E7E] text-xs font-semibold text-white transition-colors shadow-sm flex items-center space-x-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span class="">Crear evento</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+</body></html>

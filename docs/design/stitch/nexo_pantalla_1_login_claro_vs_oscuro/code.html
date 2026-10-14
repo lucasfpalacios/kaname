@@ -1,0 +1,374 @@
+<!DOCTYPE html><html lang="es" style="width: 1280px; height: 1130px; overflow: hidden; position: relative;"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexo - Login (Modo Claro &amp; Modo Oscuro)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            // Light palette
+            'light-bg': '#FFFFFC',
+            'light-surface': '#FFFFFF',
+            'light-primary': '#1E50A2',
+            'light-primary-hover': '#173E80',
+            'light-accent': '#F09199',
+            'light-accent-soft': '#FEF4F4',
+            'light-text': '#1F2033',
+            'light-muted': '#6B7280',
+            'light-border': '#E5E7EB',
+            'light-input-bg': '#FAFAFA',
+
+            // Dark palette
+            'dark-bg': '#0F1A33',
+            'dark-surface': '#1A2747',
+            'dark-primary': '#89C3EB',
+            'dark-primary-hover': '#71B1DC',
+            'dark-accent': '#F4B3C2',
+            'dark-text': '#F3F1F6',
+            'dark-muted': '#9CA3AF',
+            'dark-border': '#293B63',
+            'dark-input-bg': '#14203D',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#F3F4F6] min-h-screen text-[#1F2033] antialiased">
+  <!-- Header / Presentation Bar -->
+  <header class="w-full bg-white border-b border-gray-200 px-8 py-3.5 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="w-7 h-7 rounded-lg bg-[#1E50A2] flex items-center justify-center text-white font-bold text-sm tracking-wider">
+        N
+      </div>
+      <div>
+        <h1 class="text-sm font-semibold text-gray-900 tracking-tight flex items-center gap-2">
+          <span>Nexo SaaS</span>
+          <span class="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-[#1E50A2] font-medium border border-blue-100">Pantalla 1: Login</span>
+        </h1>
+        <p class="text-xs text-gray-500">Comparativa lado a lado: Modo Claro (Gofun-iro) &amp; Modo Oscuro (Kon-iro)</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-3 text-xs text-gray-500 font-medium">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gray-100 text-gray-700">
+        <span class="w-2 h-2 rounded-full bg-[#1E50A2]"></span>
+        Ruri-iro #1E50A2
+      </span>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gray-100 text-gray-700">
+        <span class="w-2 h-2 rounded-full bg-[#89C3EB]"></span>
+        Wasurenagusa-iro #89C3EB
+      </span>
+      <span class="text-gray-400">|</span>
+      <span>Español (Argentina)</span>
+    </div>
+  </header>
+
+  <!-- Split View Container -->
+  <main class="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-61px)]">
+    
+    <!-- ========================================== -->
+    <!-- LEFT PANEL: MODO CLARO (LIGHT MODE)       -->
+    <!-- ========================================== -->
+    <section class="bg-[#FFFFFC] border-r border-gray-200/80 flex flex-col justify-between p-6 sm:p-10 relative">
+      <!-- Top controls & Mode badge -->
+      <div class="w-full flex items-center justify-between z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-[#E5E7EB] text-xs font-semibold text-[#1F2033] shadow-xs">
+          <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Modo Claro</span>
+          <span class="text-gray-400 font-normal">#FFFFFC</span>
+        </div>
+
+        <!-- Top-right corner controls: Language + Mode toggle -->
+        <div class="flex items-center gap-2">
+          <!-- Language Toggle (ES/EN) -->
+          <div class="inline-flex items-center bg-white border border-[#E5E7EB] rounded-lg p-0.5 text-xs font-medium text-gray-600 shadow-xs">
+            <button type="button" class="px-2.5 py-1 rounded bg-[#1E50A2] text-white font-semibold shadow-xs">ES</button>
+            <button type="button" class="px-2.5 py-1 rounded text-gray-500 hover:text-gray-800 transition">EN</button>
+          </div>
+
+          <!-- Light/Dark Toggle -->
+          <button type="button" aria-label="Cambiar a modo oscuro" class="p-2 rounded-lg bg-white border border-[#E5E7EB] text-gray-600 hover:text-gray-900 shadow-xs transition">
+            <svg class="w-4 h-4 text-[#1E50A2]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Centered Card Form -->
+      <div class="my-auto py-8 flex justify-center">
+        <div class="w-full max-w-[420px] bg-white rounded-xl border border-[#E5E7EB] shadow-sm p-8 sm:p-9 transition-all">
+          
+          <!-- Brand Logo / Wordmark -->
+          <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#1E50A2] text-white font-bold text-2xl tracking-tight shadow-sm mb-3">
+              N
+            </div>
+            <h2 class="text-2xl font-bold tracking-tight text-[#1F2033]">Nexo</h2>
+            <p class="text-xs text-gray-500 mt-1">Plataforma de gestión multi-empresa</p>
+          </div>
+
+          <!-- Login Form -->
+          <form class="space-y-4" onsubmit="event.preventDefault();">
+            <div>
+              <label for="light-email" class="block text-xs font-semibold text-[#1F2033] mb-1.5">
+                Correo electrónico
+              </label>
+              <input id="light-email" type="email" placeholder="nombre@tuempresa.com" value="marcelo.gomez@distribuidoranorte.com.ar" class="w-full px-3.5 py-2.5 rounded-lg border border-[#D1D5DB] bg-[#FAFAFA] text-sm text-[#1F2033] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E50A2]/20 focus:border-[#1E50A2] transition">
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="light-password" class="block text-xs font-semibold text-[#1F2033]">
+                  Contraseña
+                </label>
+                <a href="#" class="text-xs text-[#1E50A2] hover:underline font-medium">
+                  ¿Olvidaste tu contraseña?
+                </a>
+              </div>
+              <div class="relative">
+                <input id="light-password" type="password" value="••••••••••••" class="w-full px-3.5 py-2.5 rounded-lg border border-[#D1D5DB] bg-[#FAFAFA] text-sm text-[#1F2033] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E50A2]/20 focus:border-[#1E50A2] transition">
+                <button type="button" aria-label="Mostrar contraseña" class="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Remember me & Status Hint -->
+            <div class="flex items-center justify-between pt-1">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked="" class="w-4 h-4 rounded text-[#1E50A2] focus:ring-[#1E50A2] border-gray-300">
+                <span class="text-xs text-gray-600">Recordar este dispositivo</span>
+              </label>
+            </div>
+
+            <!-- Primary Button: Iniciar sesión -->
+            <button type="submit" class="w-full py-2.5 px-4 rounded-lg bg-[#1E50A2] hover:bg-[#173E80] text-white text-sm font-semibold shadow-sm transition flex items-center justify-center gap-2 mt-2">
+              <span>Iniciar sesión</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </button>
+          </form>
+
+          <!-- Divider "o" -->
+          <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-[#E5E7EB]"></div>
+            </div>
+            <div class="relative flex justify-center text-xs">
+              <span class="px-3 bg-white text-gray-500 font-medium">o</span>
+            </div>
+          </div>
+
+          <!-- Secondary Button: Continuar con Google -->
+          <button type="button" class="w-full py-2.5 px-4 rounded-lg bg-white border border-[#D1D5DB] hover:bg-gray-50 text-sm font-medium text-[#1F2033] shadow-xs transition flex items-center justify-center gap-2.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"></path>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"></path>
+            </svg>
+            <span>Continuar con Google</span>
+          </button>
+
+          <!-- Bottom link: Registrate -->
+          <div class="mt-7 text-center">
+            <p class="text-xs text-gray-500">
+              ¿No tenés cuenta? 
+              <a href="#" class="text-[#1E50A2] font-semibold hover:underline ml-1">
+                Registrate
+              </a>
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Subtle Footer Note -->
+      <div class="text-center text-[11px] text-gray-400">
+        Nexo Enterprise v2.4 • Seguridad bancaria TLS 1.3 • Argentina
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- RIGHT PANEL: MODO OSCURO (DARK MODE)       -->
+    <!-- ========================================== -->
+    <section class="bg-[#0F1A33] flex flex-col justify-between p-6 sm:p-10 relative">
+      <!-- Top controls & Mode badge -->
+      <div class="w-full flex items-center justify-between z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1A2747] border border-[#293B63] text-xs font-semibold text-[#F3F1F6] shadow-xs">
+          <svg class="w-3.5 h-3.5 text-[#89C3EB]" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <span>Modo Oscuro</span>
+          <span class="text-slate-400 font-normal">#0F1A33</span>
+        </div>
+
+        <!-- Top-right corner controls: Language + Mode toggle -->
+        <div class="flex items-center gap-2">
+          <!-- Language Toggle (ES/EN) -->
+          <div class="inline-flex items-center bg-[#1A2747] border border-[#293B63] rounded-lg p-0.5 text-xs font-medium shadow-xs">
+            <button type="button" class="px-2.5 py-1 rounded bg-[#89C3EB] text-[#0F1A33] font-bold shadow-xs">ES</button>
+            <button type="button" class="px-2.5 py-1 rounded text-slate-300 hover:text-white transition">EN</button>
+          </div>
+
+          <!-- Light/Dark Toggle -->
+          <button type="button" aria-label="Cambiar a modo claro" class="p-2 rounded-lg bg-[#1A2747] border border-[#293B63] text-slate-300 hover:text-white shadow-xs transition">
+            <svg class="w-4 h-4 text-[#89C3EB]" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Centered Card Form -->
+      <div class="my-auto py-8 flex justify-center">
+        <div class="w-full max-w-[420px] bg-[#1A2747] rounded-xl border border-[#293B63] shadow-lg p-8 sm:p-9 transition-all">
+          
+          <!-- Brand Logo / Wordmark -->
+          <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#89C3EB] text-[#0F1A33] font-bold text-2xl tracking-tight shadow-sm mb-3">
+              N
+            </div>
+            <h2 class="text-2xl font-bold tracking-tight text-[#F3F1F6]">Nexo</h2>
+            <p class="text-xs text-slate-400 mt-1">Plataforma de gestión multi-empresa</p>
+          </div>
+
+          <!-- Login Form -->
+          <form class="space-y-4" onsubmit="event.preventDefault();">
+            <div>
+              <label for="dark-email" class="block text-xs font-semibold text-[#F3F1F6] mb-1.5">
+                Correo electrónico
+              </label>
+              <input id="dark-email" type="email" placeholder="nombre@tuempresa.com" value="marcelo.gomez@distribuidoranorte.com.ar" class="w-full px-3.5 py-2.5 rounded-lg border border-[#293B63] bg-[#14203D] text-sm text-[#F3F1F6] placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#89C3EB]/30 focus:border-[#89C3EB] transition">
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="dark-password" class="block text-xs font-semibold text-[#F3F1F6]">
+                  Contraseña
+                </label>
+                <a href="#" class="text-xs text-[#89C3EB] hover:underline font-medium">
+                  ¿Olvidaste tu contraseña?
+                </a>
+              </div>
+              <div class="relative">
+                <input id="dark-password" type="password" value="••••••••••••" class="w-full px-3.5 py-2.5 rounded-lg border border-[#293B63] bg-[#14203D] text-sm text-[#F3F1F6] placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#89C3EB]/30 focus:border-[#89C3EB] transition">
+                <button type="button" aria-label="Mostrar contraseña" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-200">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Remember me & Status Hint -->
+            <div class="flex items-center justify-between pt-1">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked="" class="w-4 h-4 rounded text-[#89C3EB] bg-[#14203D] border-[#293B63] focus:ring-[#89C3EB]">
+                <span class="text-xs text-slate-300">Recordar este dispositivo</span>
+              </label>
+            </div>
+
+            <!-- Primary Button: Iniciar sesión -->
+            <button type="submit" class="w-full py-2.5 px-4 rounded-lg bg-[#89C3EB] hover:bg-[#71B1DC] text-[#0F1A33] text-sm font-bold shadow-sm transition flex items-center justify-center gap-2 mt-2">
+              <span>Iniciar sesión</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </button>
+          </form>
+
+          <!-- Divider "o" -->
+          <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-[#293B63]"></div>
+            </div>
+            <div class="relative flex justify-center text-xs">
+              <span class="px-3 bg-[#1A2747] text-slate-400 font-medium">o</span>
+            </div>
+          </div>
+
+          <!-- Secondary Button: Continuar con Google -->
+          <button type="button" class="w-full py-2.5 px-4 rounded-lg bg-[#14203D] border border-[#293B63] hover:bg-[#1f2f54] text-sm font-medium text-[#F3F1F6] shadow-xs transition flex items-center justify-center gap-2.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"></path>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"></path>
+            </svg>
+            <span>Continuar con Google</span>
+          </button>
+
+          <!-- Bottom link: Registrate -->
+          <div class="mt-7 text-center">
+            <p class="text-xs text-slate-400">
+              ¿No tenés cuenta? 
+              <a href="#" class="text-[#89C3EB] font-semibold hover:underline ml-1">
+                Registrate
+              </a>
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Subtle Footer Note -->
+      <div class="text-center text-[11px] text-slate-500">
+        Nexo Enterprise v2.4 • Seguridad bancaria TLS 1.3 • Argentina
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Semantic Contrast Floating Drawer / Token Reference -->
+  <aside class="border-t border-gray-200 bg-white py-3 px-8 text-xs flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <span class="font-semibold text-gray-700">Contraste Semántico Calibrado:</span>
+      <span class="text-gray-500">Optimizados para legibilidad sobre #0F1A33 y #1A2747</span>
+    </div>
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2">
+        <span class="text-gray-400">Éxito (Dark):</span>
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#123326] text-[#56C288] border border-[#1b4b38]">
+          +4.8% Activo
+        </span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-gray-400">Alerta (Dark):</span>
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#382B12] text-[#F6C163] border border-[#54411a]">
+          Stock crítico
+        </span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-gray-400">Error (Dark):</span>
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#3E1B20] text-[#FF7B82] border border-[#5d2830]">
+          Pago rechazado
+        </span>
+      </div>
+    </div>
+  </aside>
+
+
+</body></html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html><html lang="es" class="h-full" style=""><head></head><body class="h-full flex flex-col antialiased bg-[#0b1329] text-slate-100"><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos - Dark</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: '#1E50A2',
+            'primary-dark': '#89C3EB',
+            accent: '#F4B3C2',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #0b1329; color: #f1f5f9; }
+    .nowrap { white-space: nowrap; }
+    /* Dark scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+  </style>
+
+
+  <!-- Top Global Navbar Dark -->
+  <header class="h-14 bg-[#0d1630] border-b border-slate-800/80 px-4 flex items-center justify-between sticky top-0 z-30 flex-shrink-0">
+    <div class="flex items-center space-x-3 w-72">
+      <div class="w-8 h-8 rounded-lg bg-[#1E50A2] flex items-center justify-center text-white font-bold text-base shadow-sm">
+        N
+      </div>
+      <span class="font-bold text-white tracking-tight text-lg">Nexo</span>
+      <span class="text-xs px-2 py-0.5 bg-slate-800 text-slate-400 rounded font-medium border border-slate-700/60">v2.4</span>
+    </div>
+
+    <!-- Search bar center -->
+    <div class="flex-1 max-w-xl mx-4">
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </span>
+        <input type="text" placeholder="Buscar en productos, SKU, pedidos o clientes..." class="w-full pl-9 pr-12 py-1.5 text-xs bg-slate-900/90 border border-slate-700/80 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#89C3EB] text-slate-200 placeholder-slate-500 transition">
+        <span class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none text-[10px] text-slate-500 font-mono">⌘K</span>
+      </div>
+    </div>
+
+    <!-- Header Actions & Profile -->
+    <div class="flex items-center space-x-3">
+      <!-- Lang Toggle -->
+      <div class="flex items-center text-xs font-semibold bg-slate-800/90 rounded-lg p-0.5 text-slate-400 border border-slate-700/60">
+        <button class="px-2 py-1 rounded bg-[#1e293b] text-white shadow-xs">ES</button>
+        <button class="px-2 py-1 text-slate-400 hover:text-white">EN</button>
+      </div>
+
+      <!-- Theme icon (Moon / Dark Active) -->
+      <button class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition" title="Modo Oscuro activo">
+        <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      </button>
+
+      <!-- Notifications -->
+      <button class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 relative transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+        <span class="w-2 h-2 bg-[#F4B3C2] rounded-full absolute top-1 right-1 ring-2 ring-[#0d1630]"></span>
+      </button>
+
+      <!-- Profile avatar -->
+      <div class="flex items-center pl-2 space-x-2 border-l border-slate-800">
+        <div class="w-7 h-7 rounded-full bg-[#1E50A2] text-white flex items-center justify-center font-bold text-xs ring-1 ring-slate-700">
+          L
+        </div>
+        <div class="hidden sm:block text-left text-xs leading-tight">
+          <div class="font-semibold text-slate-200">Lucas</div>
+          <div class="text-[10px] text-slate-500">Superadmin</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Body Content: Sidebar + Workspace Main -->
+  <div class="flex-1 flex overflow-hidden">
+    <!-- Persistent Left Sidebar Dark -->
+    <aside class="w-64 bg-[#0d1630] border-r border-slate-800/80 flex flex-col justify-between flex-shrink-0 z-20">
+      <div class="p-3 space-y-4">
+        <!-- Workspace Switcher & Monogram -->
+        <div class="bg-slate-900/70 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between shadow-xs">
+          <div class="flex items-center space-x-2.5 overflow-hidden">
+            <div class="w-8 h-8 rounded-lg bg-[#1E50A2] text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-xs">
+              TV
+            </div>
+            <div class="truncate">
+              <div class="font-bold text-xs text-white truncate">Tank Vault TCG</div>
+              <div class="text-[10px] text-slate-400 font-medium">Workspace activo</div>
+            </div>
+          </div>
+          <button class="p-1 text-slate-400 hover:text-white rounded">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+          </button>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="space-y-0.5">
+          <a href="#" class="flex items-center px-3 py-2 text-xs font-medium text-slate-400 rounded-lg hover:bg-slate-800/60 hover:text-slate-200 transition group">
+            <svg class="w-4 h-4 mr-2.5 text-slate-500 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            Resumen
+          </a>
+
+          <!-- ACTIVE ITEM: Productos Dark -->
+          <a href="#" class="flex items-center px-3 py-2 text-xs font-semibold text-[#89C3EB] bg-[#1E50A2]/25 rounded-lg border-l-2 border-[#89C3EB] transition">
+            <svg class="w-4 h-4 mr-2.5 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+            Productos
+            <span class="ml-auto bg-[#1E50A2] text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold">148</span>
+          </a>
+
+          <a href="#" class="flex items-center px-3 py-2 text-xs font-medium text-slate-400 rounded-lg hover:bg-slate-800/60 hover:text-slate-200 transition group">
+            <svg class="w-4 h-4 mr-2.5 text-slate-500 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            Clientes
+          </a>
+
+          <a href="#" class="flex items-center px-3 py-2 text-xs font-medium text-slate-400 rounded-lg hover:bg-slate-800/60 hover:text-slate-200 transition group">
+            <svg class="w-4 h-4 mr-2.5 text-slate-500 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v11a2 2 0 002 2h14m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            Proveedores
+          </a>
+
+          <a href="#" class="flex items-center px-3 py-2 text-xs font-medium text-slate-400 rounded-lg hover:bg-slate-800/60 hover:text-slate-200 transition group">
+            <svg class="w-4 h-4 mr-2.5 text-slate-500 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+            Listas de precios
+          </a>
+
+          <a href="#" class="flex items-center px-3 py-2 text-xs font-medium text-slate-400 rounded-lg hover:bg-slate-800/60 hover:text-slate-200 transition group">
+            <svg class="w-4 h-4 mr-2.5 text-slate-500 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+            Calculadora
+          </a>
+
+          <a href="#" class="flex items-center px-3 py-2 text-xs font-medium text-slate-400 rounded-lg hover:bg-slate-800/60 hover:text-slate-200 transition group">
+            <svg class="w-4 h-4 mr-2.5 text-slate-500 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+            Precios de mercado
+          </a>
+
+          <a href="#" class="flex items-center px-3 py-2 text-xs font-medium text-slate-400 rounded-lg hover:bg-slate-800/60 hover:text-slate-200 transition group">
+            <svg class="w-4 h-4 mr-2.5 text-slate-500 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            Documentos y presupuestos
+          </a>
+
+          <a href="#" class="flex items-center px-3 py-2 text-xs font-medium text-slate-400 rounded-lg hover:bg-slate-800/60 hover:text-slate-200 transition group">
+            <svg class="w-4 h-4 mr-2.5 text-slate-500 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            Calendario
+          </a>
+
+          <a href="#" class="flex items-center px-3 py-2 text-xs font-medium text-slate-400 rounded-lg hover:bg-slate-800/60 hover:text-slate-200 transition group">
+            <svg class="w-4 h-4 mr-2.5 text-slate-500 group-hover:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+            Métricas de redes
+          </a>
+        </nav>
+      </div>
+
+      <!-- Sidebar footer Dark -->
+      <div class="p-3 border-t border-slate-800">
+        <a href="#" class="flex items-center px-3 py-2 text-xs font-medium text-slate-400 hover:text-white rounded-lg hover:bg-slate-800/60 transition">
+          <svg class="w-4 h-4 mr-2.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          Configuración del espacio
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Content Area Dark -->
+    <main class="flex-1 flex overflow-hidden bg-[#0b1329] relative">
+      <!-- Catalog Center View -->
+      <div class="flex-1 overflow-y-auto p-6 space-y-5">
+        <!-- Back Link & Workspace breadcrumb -->
+        <div class="flex items-center space-x-2 text-xs text-slate-400">
+          <a href="#" class="inline-flex items-center text-slate-400 hover:text-[#89C3EB] font-medium transition">
+            <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Inicio
+          </a>
+          <span class="text-slate-600">/</span>
+          <span class="text-slate-300 font-medium">Tank Vault TCG</span>
+          <span class="text-slate-600">/</span>
+          <span class="text-white font-semibold">Productos</span>
+        </div>
+
+        <!-- Header: Title, count & Action buttons -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div class="flex items-center space-x-3">
+            <h1 class="text-2xl font-bold text-white tracking-tight">Productos</h1>
+            <span class="bg-slate-800/90 text-slate-300 font-semibold text-xs px-2.5 py-1 rounded-full border border-slate-700/70">
+              148 productos registrados
+            </span>
+          </div>
+          <div class="flex items-center space-x-2.5">
+            <button class="inline-flex items-center px-3.5 py-2 text-xs font-semibold text-slate-200 bg-slate-800/90 border border-slate-700 rounded-lg hover:bg-slate-700 shadow-xs transition">
+              <svg class="w-3.5 h-3.5 mr-1.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+              Importar CSV / TCGPlayer
+            </button>
+            <button class="inline-flex items-center px-4 py-2 text-xs font-semibold text-white bg-[#1E50A2] hover:bg-[#153A77] rounded-lg shadow-sm transition">
+              <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+              + Nuevo producto
+            </button>
+          </div>
+        </div>
+
+        <!-- Toolbar: Search, Filters, View Toggle Dark -->
+        <div class="bg-[#0e1733] border border-slate-800/90 rounded-xl p-3 shadow-xs flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center flex-1 min-w-[280px] max-w-md">
+            <div class="relative w-full">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              </span>
+              <input type="text" placeholder="Buscar por nombre, código de set, SKU..." value="Surging Sparks" class="w-full pl-9 pr-4 py-1.5 text-xs bg-slate-900/90 border border-slate-700/80 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#89C3EB] text-slate-200">
+            </div>
+          </div>
+
+          <div class="flex items-center flex-wrap gap-2">
+            <!-- Filter: Categoría -->
+            <div class="relative">
+              <select class="appearance-none bg-slate-900/90 border border-slate-700/80 text-xs font-medium text-slate-300 pl-3 pr-7 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#89C3EB] cursor-pointer">
+                <option>Categoría: Todas</option>
+                <option selected="">Booster Boxes (Sellado)</option>
+                <option>Elite Trainer Boxes (ETB)</option>
+                <option>Sobres sueltos</option>
+                <option>Cartas sueltas (Singles)</option>
+                <option>Accesorios &amp; Fundas</option>
+              </select>
+              <span class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none text-slate-400">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </span>
+            </div>
+
+            <!-- Filter: Proveedor -->
+            <div class="relative">
+              <select class="appearance-none bg-slate-900/90 border border-slate-700/80 text-xs font-medium text-slate-300 pl-3 pr-7 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#89C3EB] cursor-pointer">
+                <option selected="">Proveedor: Todos</option>
+                <option>DHL Express Miami</option>
+                <option>Kanto Imports Tokio</option>
+                <option>GTS Distribution USA</option>
+                <option>Ultra Pro Oficial</option>
+              </select>
+              <span class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none text-slate-400">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </span>
+            </div>
+
+            <!-- Filter: Stock -->
+            <div class="relative">
+              <select class="appearance-none bg-slate-900/90 border border-slate-700/80 text-xs font-medium text-slate-300 pl-3 pr-7 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#89C3EB] cursor-pointer">
+                <option selected="">Stock: Todos los estados</option>
+                <option>Crítico (&lt; 5 u.)</option>
+                <option>Disponible (&gt; 10 u.)</option>
+                <option>Agotado (0 u.)</option>
+              </select>
+              <span class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none text-slate-400">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </span>
+            </div>
+
+            <div class="h-5 w-px bg-slate-800 mx-0.5"></div>
+
+            <!-- View Toggle -->
+            <div class="flex items-center bg-slate-900 p-0.5 rounded-lg border border-slate-800">
+              <button class="p-1 rounded bg-[#1E50A2] text-white shadow-xs" title="Vista Tabla">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+              </button>
+              <button class="p-1 rounded text-slate-500 hover:text-slate-300" title="Vista Cuadrícula">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bulk Action Banner Dark -->
+        <div class="bg-[#132247] border border-blue-900/80 rounded-lg px-3.5 py-2 flex items-center justify-between text-xs">
+          <div class="flex items-center space-x-2 text-[#89C3EB] font-medium">
+            <svg class="w-4 h-4 text-[#89C3EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span class=""><strong class="text-white">1 producto seleccionado</strong> para acciones masivas</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button class="px-2.5 py-1 bg-slate-900/80 border border-slate-700 rounded text-slate-200 font-medium hover:bg-slate-800 transition">Actualizar precios (+10%)</button>
+            <button class="px-2.5 py-1 bg-slate-900/80 border border-slate-700 rounded text-slate-200 font-medium hover:bg-slate-800 transition">Exportar selección</button>
+            <button class="px-2 py-1 text-[#F4B3C2] hover:text-rose-300 font-medium">Desmarcar</button>
+          </div>
+        </div>
+
+        <!-- Table Container Dark -->
+        <div class="bg-[#0e1733] border border-slate-800/90 rounded-xl shadow-xs overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-[#0a1126] border-b border-slate-800 text-slate-400 uppercase font-semibold text-[11px] tracking-wider">
+                <tr><th class="py-3 px-3.5 w-10 text-center"><input type="checkbox" checked="" class="rounded border-slate-700 bg-slate-900 text-[#1E50A2] focus:ring-[#89C3EB] cursor-pointer"></th><th class="py-3 px-3 w-14 text-center">IMAGEN</th><th class="py-3 px-4 min-w-[280px] text-left">PRODUCTO / SKU</th><th class="py-3 px-3 text-left">CATEGORÍA</th><th class="py-3 px-3 text-center">STOCK</th><th class="py-3 px-3 text-right">COSTO (USD)</th><th class="py-3 px-4 text-right nowrap">PRECIO VENTA (ARS)</th><th class="py-3 px-3 text-right nowrap">MARGEN NETO</th><th class="py-3 px-4 text-left">PROVEEDOR</th><th class="py-3 px-3 text-center">ACCIONES</th></tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60"><tr class="bg-[#14234b]/80 hover:bg-[#14234b] transition cursor-pointer border-l-4 border-l-[#89C3EB]"><td class="py-3.5 px-3.5 text-center"><input type="checkbox" checked="" class="rounded border-slate-700 bg-slate-900 text-[#1E50A2] focus:ring-[#89C3EB] cursor-pointer"></td><td class="py-3.5 px-3 text-center"><div class="w-10 h-10 mx-auto rounded-lg bg-slate-900 border border-slate-700 p-1 flex items-center justify-center flex-shrink-0 shadow-xs relative overflow-hidden"><div class="w-full h-full rounded bg-gradient-to-tr from-amber-600 via-yellow-500 to-indigo-700 flex items-center justify-center text-[9px] font-black text-white shadow-inner">SSP</div></div></td><td class="py-3.5 px-4 min-w-[280px]"><div class="font-bold text-white hover:text-[#89C3EB] text-xs leading-tight line-clamp-2">Booster Box Surging Sparks (36 sobres)</div><div class="text-[10px] text-slate-400 font-mono mt-0.5">SKU: PKM-SV8-BB-EN • Inglés sellado</div></td><td class="py-3.5 px-3"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-800 text-slate-300 border border-slate-700">Booster Boxes</span></td><td class="py-3.5 px-3 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-950/60 text-amber-300 border border-amber-800/80" title="Bajo stock"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>2 u. (Bajo)</span></td><td class="py-3.5 px-3 text-right font-medium text-slate-300 nowrap">$135.00 USD</td><td class="py-3.5 px-4 text-right font-bold text-white nowrap text-sm">$ 345.000</td><td class="py-3.5 px-3 text-right nowrap"><span class="inline-flex items-center font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/70 px-1.5 py-0.5 rounded text-[11px]">+41.8%</span></td><td class="py-3.5 px-4 text-slate-300 font-medium">GTS Distribution USA</td><td class="py-3.5 px-3 text-center"><div class="flex items-center justify-center space-x-1"><button class="p-1 text-[#89C3EB] hover:bg-slate-800 rounded transition" title="Ver detalle"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Editar"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Más opciones"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg></button></div></td></tr><tr class="hover:bg-slate-800/40 transition"><td class="py-3.5 px-3.5 text-center"><input type="checkbox" class="rounded border-slate-700 bg-slate-900 text-[#1E50A2] focus:ring-[#89C3EB] cursor-pointer"></td><td class="py-3.5 px-3 text-center"><div class="w-10 h-10 mx-auto rounded-lg bg-slate-900 border border-slate-700 p-1 flex items-center justify-center flex-shrink-0 shadow-xs relative overflow-hidden"><div class="w-full h-full rounded bg-gradient-to-tr from-pink-600 via-rose-500 to-indigo-600 flex items-center justify-center text-[9px] font-black text-white shadow-inner">151</div></div></td><td class="py-3.5 px-4 min-w-[280px]"><div class="font-bold text-white text-xs leading-tight line-clamp-2">Elite Trainer Box (ETB) Pokémon 151</div><div class="text-[10px] text-slate-400 font-mono mt-0.5">SKU: PKM-151-ETB-EN • Snorlax Promo</div></td><td class="py-3.5 px-3"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-800 text-slate-300 border border-slate-700">ETBs</span></td><td class="py-3.5 px-3 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-950/60 text-amber-300 border border-amber-800/80" title="Bajo stock"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>3 u. (Bajo)</span></td><td class="py-3.5 px-3 text-right font-medium text-slate-300 nowrap">$48.50 USD</td><td class="py-3.5 px-4 text-right font-bold text-white nowrap text-sm">$ 118.000</td><td class="py-3.5 px-3 text-right nowrap"><span class="inline-flex items-center font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/70 px-1.5 py-0.5 rounded text-[11px]">+38.5%</span></td><td class="py-3.5 px-4 text-slate-300 font-medium">DHL Express Miami</td><td class="py-3.5 px-3 text-center"><div class="flex items-center justify-center space-x-1"><button class="p-1 text-slate-400 hover:text-[#89C3EB] hover:bg-slate-800 rounded transition" title="Ver detalle"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Editar"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Más opciones"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg></button></div></td></tr><tr class="hover:bg-slate-800/40 transition"><td class="py-3.5 px-3.5 text-center"><input type="checkbox" class="rounded border-slate-700 bg-slate-900 text-[#1E50A2] focus:ring-[#89C3EB] cursor-pointer"></td><td class="py-3.5 px-3 text-center"><div class="w-10 h-10 mx-auto rounded-lg bg-slate-900 border border-slate-700 p-1 flex items-center justify-center flex-shrink-0 shadow-xs relative overflow-hidden"><div class="w-full h-full rounded bg-gradient-to-tr from-orange-600 via-amber-600 to-red-700 flex items-center justify-center text-[9px] font-black text-white shadow-inner">SAR</div></div></td><td class="py-3.5 px-4 min-w-[280px]"><div class="font-bold text-white text-xs leading-tight line-clamp-2">Charizard ex Special Art Rare #199/165</div><div class="text-[10px] text-slate-400 font-mono mt-0.5">SKU: SNG-151-199-NM • Graded Raw NM</div></td><td class="py-3.5 px-3"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-purple-950/60 text-purple-300 border border-purple-800/70">Singles (Cartas)</span></td><td class="py-3.5 px-3 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5"></span>1 u. (Única)</span></td><td class="py-3.5 px-3 text-right font-medium text-slate-300 nowrap">$62.00 USD</td><td class="py-3.5 px-4 text-right font-bold text-white nowrap text-sm">$ 145.000</td><td class="py-3.5 px-3 text-right nowrap"><span class="inline-flex items-center font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/70 px-1.5 py-0.5 rounded text-[11px]">+44.2%</span></td><td class="py-3.5 px-4 text-slate-300 font-medium">Kanto Imports Tokio</td><td class="py-3.5 px-3 text-center"><div class="flex items-center justify-center space-x-1"><button class="p-1 text-slate-400 hover:text-[#89C3EB] hover:bg-slate-800 rounded transition" title="Ver detalle"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Editar"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Más opciones"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg></button></div></td></tr><tr class="hover:bg-slate-800/40 transition"><td class="py-3.5 px-3.5 text-center"><input type="checkbox" class="rounded border-slate-700 bg-slate-900 text-[#1E50A2] focus:ring-[#89C3EB] cursor-pointer"></td><td class="py-3.5 px-3 text-center"><div class="w-10 h-10 mx-auto rounded-lg bg-slate-900 border border-slate-700 p-1 flex items-center justify-center flex-shrink-0 shadow-xs relative overflow-hidden"><div class="w-full h-full rounded bg-gradient-to-tr from-violet-700 via-fuchsia-600 to-indigo-700 flex items-center justify-center text-[9px] font-black text-white shadow-inner">PRE</div></div></td><td class="py-3.5 px-4 min-w-[280px]"><div class="font-bold text-white text-xs leading-tight line-clamp-2">Pack 6x Sobres Prismatic Evolutions</div><div class="text-[10px] text-slate-400 font-mono mt-0.5">SKU: PKM-PRE-6BP • Preventa oficial</div></td><td class="py-3.5 px-3"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-800 text-slate-300 border border-slate-700">Sobres sueltos</span></td><td class="py-3.5 px-3 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950/60 text-emerald-300 border border-emerald-800/80"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5"></span>24 u. (Normal)</span></td><td class="py-3.5 px-3 text-right font-medium text-slate-300 nowrap">$28.00 USD</td><td class="py-3.5 px-4 text-right font-bold text-white nowrap text-sm">$ 68.000</td><td class="py-3.5 px-3 text-right nowrap"><span class="inline-flex items-center font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/70 px-1.5 py-0.5 rounded text-[11px]">+39.1%</span></td><td class="py-3.5 px-4 text-slate-300 font-medium">DHL Express Miami</td><td class="py-3.5 px-3 text-center"><div class="flex items-center justify-center space-x-1"><button class="p-1 text-slate-400 hover:text-[#89C3EB] hover:bg-slate-800 rounded transition" title="Ver detalle"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Editar"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Más opciones"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg></button></div></td></tr><tr class="hover:bg-slate-800/40 transition"><td class="py-3.5 px-3.5 text-center"><input type="checkbox" class="rounded border-slate-700 bg-slate-900 text-[#1E50A2] focus:ring-[#89C3EB] cursor-pointer"></td><td class="py-3.5 px-3 text-center"><div class="w-10 h-10 mx-auto rounded-lg bg-slate-900 border border-slate-700 p-1 flex items-center justify-center flex-shrink-0 shadow-xs relative overflow-hidden"><div class="w-full h-full rounded bg-gradient-to-tr from-teal-600 via-emerald-500 to-cyan-700 flex items-center justify-center text-[9px] font-black text-white shadow-inner">TWM</div></div></td><td class="py-3.5 px-4 min-w-[280px]"><div class="font-bold text-white text-xs leading-tight line-clamp-2">Booster Box Twilight Masquerade</div><div class="text-[10px] text-slate-400 font-mono mt-0.5">SKU: PKM-TWM-BB-EN • 36 sobres</div></td><td class="py-3.5 px-3"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-800 text-slate-300 border border-slate-700">Booster Boxes</span></td><td class="py-3.5 px-3 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950/60 text-emerald-300 border border-emerald-800/80"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5"></span>8 u. (Normal)</span></td><td class="py-3.5 px-3 text-right font-medium text-slate-300 nowrap">$102.00 USD</td><td class="py-3.5 px-4 text-right font-bold text-white nowrap text-sm">$ 240.000</td><td class="py-3.5 px-3 text-right nowrap"><span class="inline-flex items-center font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/70 px-1.5 py-0.5 rounded text-[11px]">+36.0%</span></td><td class="py-3.5 px-4 text-slate-300 font-medium">GTS Distribution USA</td><td class="py-3.5 px-3 text-center"><div class="flex items-center justify-center space-x-1"><button class="p-1 text-slate-400 hover:text-[#89C3EB] hover:bg-slate-800 rounded transition" title="Ver detalle"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Editar"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Más opciones"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg></button></div></td></tr><tr class="hover:bg-slate-800/40 transition"><td class="py-3.5 px-3.5 text-center"><input type="checkbox" class="rounded border-slate-700 bg-slate-900 text-[#1E50A2] focus:ring-[#89C3EB] cursor-pointer"></td><td class="py-3.5 px-3 text-center"><div class="w-10 h-10 mx-auto rounded-lg bg-slate-900 border border-slate-700 p-1 flex items-center justify-center flex-shrink-0 shadow-xs relative overflow-hidden"><div class="w-full h-full rounded bg-gradient-to-tr from-slate-700 via-slate-800 to-slate-900 flex items-center justify-center text-[9px] font-black text-amber-300 shadow-inner">DS</div></div></td><td class="py-3.5 px-4 min-w-[280px]"><div class="font-bold text-white text-xs leading-tight line-clamp-2">Fundas Dragon Shield Matte Dual (100 u.)</div><div class="text-[10px] text-slate-400 font-mono mt-0.5">SKU: ACC-DS-DUAL-BK • Color Orchid / Black</div></td><td class="py-3.5 px-3"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-800 text-slate-300 border border-slate-700">Accesorios &amp; Fundas</span></td><td class="py-3.5 px-3 text-center"><span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-950/60 text-amber-300 border border-amber-800/80" title="Bajo stock"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5"></span>5 u. (Bajo)</span></td><td class="py-3.5 px-3 text-right font-medium text-slate-300 nowrap">$7.20 USD</td><td class="py-3.5 px-4 text-right font-bold text-white nowrap text-sm">$ 21.500</td><td class="py-3.5 px-3 text-right nowrap"><span class="inline-flex items-center font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/70 px-1.5 py-0.5 rounded text-[11px]">+44.0%</span></td><td class="py-3.5 px-4 text-slate-300 font-medium">Ultra Pro Oficial</td><td class="py-3.5 px-3 text-center"><div class="flex items-center justify-center space-x-1"><button class="p-1 text-slate-400 hover:text-[#89C3EB] hover:bg-slate-800 rounded transition" title="Ver detalle"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Editar"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button><button class="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition" title="Más opciones"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg></button></div></td></tr></tbody>
+            </table>
+          </div>
+
+          <!-- Pagination Bar Dark -->
+          <div class="px-4 py-3 bg-[#0a1126] border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+            <div class="">
+              Mostrando <span class="font-semibold text-white">1</span> a <span class="font-semibold text-white">6</span> de <span class="font-semibold text-white">148</span> productos
+            </div>
+            <div class="flex items-center space-x-1">
+              <button class="px-2.5 py-1 rounded border border-slate-800 text-slate-600 bg-slate-900 cursor-not-allowed">
+                Anterior
+              </button>
+              <button class="px-2.5 py-1 rounded border border-[#1E50A2] bg-[#1E50A2] text-white font-semibold">
+                1
+              </button>
+              <button class="px-2.5 py-1 rounded border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300">
+                2
+              </button>
+              <button class="px-2.5 py-1 rounded border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300">
+                3
+              </button>
+              <span class="px-1.5 text-slate-600">...</span>
+              <button class="px-2.5 py-1 rounded border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300">
+                25
+              </button>
+              <button class="px-2.5 py-1 rounded border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300">
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE DRAWER OPEN ON SELECTED PRODUCT (DARK) -->
+      <div id="drawer-backdrop" class="absolute inset-0 bg-[#0b1329]/60 backdrop-blur-xs z-30 transition-opacity"></div><aside class="w-96 bg-[#0e1733] border-l border-slate-800 shadow-2xl flex flex-col flex-shrink-0 overflow-y-auto absolute right-0 top-0 h-full z-30">
+        <!-- Drawer Header Dark -->
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-[#0a1126] sticky top-0 z-10">
+          <div class="flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-[#89C3EB]"></span>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Detalle de producto</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button class="inline-flex items-center px-2.5 py-1 bg-[#1E50A2] text-white rounded-md text-xs font-semibold hover:bg-[#153A77] shadow-xs transition">
+              <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+              Editar
+            </button>
+            <button class="p-1 text-slate-400 hover:text-white rounded-md hover:bg-slate-800 transition" title="Cerrar panel">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Drawer Content Dark -->
+        <div class="p-5 space-y-5 flex-1">
+          <!-- Product Hero Image Box & Status -->
+          <div class="relative bg-gradient-to-b from-slate-900 to-[#0b1329] border border-slate-800 rounded-xl p-4 text-center overflow-hidden">
+            <span class="absolute top-2.5 left-2.5 bg-amber-950/70 text-amber-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-800">
+              Stock bajo: 2 u.
+            </span>
+            <span class="absolute top-2.5 right-2.5 bg-blue-950/70 text-[#89C3EB] text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-800">
+              Scarlet &amp; Violet 8
+            </span>
+
+            <div class="w-24 h-24 mx-auto my-2 rounded-xl bg-gradient-to-tr from-amber-600 via-yellow-500 to-indigo-700 shadow-lg flex items-center justify-center text-white font-black text-xl tracking-wider">
+              SSP
+            </div>
+            <div class="text-xs font-semibold text-slate-200">Caja sellada 36 sobres</div>
+            <div class="text-[10px] text-slate-500">Barcode: 0820650853401</div>
+          </div>
+
+          <!-- Product Title and Quick Identifiers -->
+          <div>
+            <h2 class="text-base font-bold text-white leading-tight">Booster Box Surging Sparks (36 sobres)</h2>
+            <p class="text-xs text-slate-400 mt-1">Expansión oficial Pokémon TCG en idioma inglés. Sellado de fábrica con film oficial de Pokéball.</p>
+          </div>
+
+          <!-- Financial Summary Cards Dark -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <div class="p-2.5 bg-slate-900/80 border border-slate-800 rounded-lg">
+              <div class="text-[10px] text-slate-400 uppercase font-semibold">Precio de venta</div>
+              <div class="text-base font-bold text-white mt-0.5 nowrap">$ 345.000</div>
+              <div class="text-[10px] text-slate-500">ARS final facturado</div>
+            </div>
+            <div class="p-2.5 bg-emerald-950/40 border border-emerald-900/60 rounded-lg">
+              <div class="text-[10px] text-emerald-400 uppercase font-semibold">Margen neto</div>
+              <div class="text-base font-bold text-emerald-400 mt-0.5 nowrap">+41.8%</div>
+              <div class="text-[10px] text-emerald-500">+$101.500 ARS/u.</div>
+            </div>
+            <div class="p-2.5 bg-slate-900/80 border border-slate-800 rounded-lg">
+              <div class="text-[10px] text-slate-400 uppercase font-semibold">Costo importación</div>
+              <div class="text-sm font-bold text-slate-200 mt-0.5 nowrap">$135.00 USD</div>
+              <div class="text-[10px] text-slate-500">TC ref: $1.180 ARS</div>
+            </div>
+            <div class="p-2.5 bg-slate-900/80 border border-slate-800 rounded-lg">
+              <div class="text-[10px] text-slate-400 uppercase font-semibold">TCGPlayer Market</div>
+              <div class="text-sm font-bold text-[#89C3EB] mt-0.5 nowrap">$189.90 USD</div>
+              <div class="text-[10px] text-emerald-400 font-medium">▲ +4.2% esta semana</div>
+            </div>
+          </div>
+
+          <!-- Price History Mini Chart Dark -->
+          <div class="p-3.5 bg-slate-900/80 border border-slate-800 rounded-xl space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-200">Historial de precio (6 meses)</span>
+              <span class="text-[10px] text-[#89C3EB] font-semibold bg-blue-950/60 px-1.5 py-0.5 rounded border border-blue-800">
+                +27.8% acumulado
+              </span>
+            </div>
+            <div class="text-[10px] text-slate-400">Tendencia de valor en pesos argentinos (ARS)</div>
+            
+            <!-- Mini SVG Sparkline Dark -->
+            <div class="pt-2">
+              <svg class="w-full h-16" viewBox="0 0 280 60" fill="none">
+                <defs>
+                  <linearGradient id="darkPriceGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#89C3EB" stop-opacity="0.3"></stop>
+                    <stop offset="100%" stop-color="#89C3EB" stop-opacity="0.0"></stop>
+                  </linearGradient>
+                </defs>
+                <!-- Grid dashed lines -->
+                <line x1="0" y1="15" x2="280" y2="15" stroke="#1e293b" stroke-dasharray="2 2" stroke-width="1"></line>
+                <line x1="0" y1="40" x2="280" y2="40" stroke="#1e293b" stroke-dasharray="2 2" stroke-width="1"></line>
+                <!-- Area Path -->
+                <path d="M 10 52 L 60 48 L 110 42 L 160 30 L 210 24 L 270 12 L 270 58 L 10 58 Z" fill="url(#darkPriceGrad)"></path>
+                <!-- Trend Line -->
+                <path d="M 10 52 L 60 48 L 110 42 L 160 30 L 210 24 L 270 12" stroke="#89C3EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <!-- Dots on points -->
+                <circle cx="10" cy="52" r="2.5" fill="#89C3EB"></circle>
+                <circle cx="60" cy="48" r="2.5" fill="#89C3EB"></circle>
+                <circle cx="110" cy="42" r="2.5" fill="#89C3EB"></circle>
+                <circle cx="160" cy="30" r="2.5" fill="#89C3EB"></circle>
+                <circle cx="210" cy="24" r="2.5" fill="#89C3EB"></circle>
+                <circle cx="270" cy="12" r="4" fill="#89C3EB" stroke="#0e1733" stroke-width="2"></circle>
+              </svg>
+              <!-- Timeline labels below chart -->
+              <div class="flex justify-between text-[9px] text-slate-500 font-medium pt-1">
+                <span class="">May ($270k)</span>
+                <span class="">Jul ($295k)</span>
+                <span class="">Sep ($320k)</span>
+                <span class="text-[#89C3EB] font-bold">Oct ($345k)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Technical Specs / Data list Dark -->
+          <div class="space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Ficha técnica y stock</h3>
+            <div class="bg-slate-900/80 border border-slate-800 rounded-lg p-3 text-xs space-y-2">
+              <div class="flex justify-between py-1 border-b border-slate-800">
+                <span class="text-slate-400">Categoría</span>
+                <span class="font-semibold text-slate-200">Booster Box Sellada</span>
+              </div>
+              <div class="flex justify-between py-1 border-b border-slate-800">
+                <span class="text-slate-400">Unidades en stock</span>
+                <span class="font-bold text-amber-400">2 unidades disponibles</span>
+              </div>
+              <div class="flex justify-between py-1 border-b border-slate-800">
+                <span class="text-slate-400">Punto de reorden</span>
+                <span class="font-semibold text-slate-200">10 unidades</span>
+              </div>
+              <div class="flex justify-between py-1 border-b border-slate-800">
+                <span class="text-slate-400">Proveedor principal</span>
+                <span class="font-semibold text-slate-200">GTS Distribution USA</span>
+              </div>
+              <div class="flex justify-between py-1 border-b border-slate-800">
+                <span class="text-slate-400">Tiempo de reposición</span>
+                <span class="font-semibold text-slate-200">12 a 15 días hábiles</span>
+              </div>
+              <div class="flex justify-between py-1">
+                <span class="text-slate-400">Ubicación depósito</span>
+                <span class="font-semibold text-slate-200">Estante B3 - Belgrano Showroom</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action buttons inside drawer Dark -->
+          <div class="pt-2 flex items-center space-x-2">
+            <button class="flex-1 py-2 px-3 text-xs font-bold text-white bg-[#1E50A2] rounded-lg hover:bg-[#153A77] transition shadow-xs flex items-center justify-center">
+              <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              Solicitar reorden (15 u.)
+            </button>
+            <button class="py-2 px-3 text-xs font-semibold text-slate-300 bg-slate-900 border border-slate-700 rounded-lg hover:bg-slate-800 transition">
+              Imprimir etiqueta
+            </button>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+
+
+
+</body></html>

@@ -1,0 +1,13 @@
+---
+description: Convenciones del frontend Next.js
+globs: apps/web/**
+alwaysApply: false
+---
+
+- App Router. Server Components por defecto; `"use client"` solo cuando hace falta interacción.
+- UI con shadcn/ui + Tailwind. Colores solo vía tokens CSS (`bg-background`, `text-primary`...), nunca hex sueltos. Ver `docs/design/tokens.md`.
+- Toda pantalla tiene que verse bien en claro y oscuro. Probar los dos.
+- Textos por next-intl (`useTranslations`). Agregar la clave en `es.json` y `en.json` a la vez.
+- Datos del servidor con TanStack Query; formularios con react-hook-form + zod (schemas de `packages/shared`).
+- Montos y fechas con `Intl` (locale es-AR / en-US). Montos con `tabular-nums` y sin salto de línea.
+- Para replicar una pantalla, mirar su `code.html` y `screen.png` en el export de Stitch (`docs/design/stitch/`), pero reconstruirla con componentes propios.

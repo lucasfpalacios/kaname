@@ -12,5 +12,6 @@ alwaysApply: false
 - Estructura: `src/components/<nombre>/` con `<nombre>.tsx`, `<nombre>.stories.tsx` e `index.ts`. Exportar todo desde `src/index.ts`.
 - Cada componente nuevo necesita su story con: variantes, estados (hover, disabled, loading, error, vacío) y vista en claro y oscuro.
 - Accesibilidad: foco visible, roles ARIA (Radix ya los trae), contraste AA en ambos temas.
+- Tipografía: títulos con `font-display` (Shippori Mincho B1), todo lo demás con `font-sans` (Zen Kaku Gothic New). Kanji de cada módulo según la tabla de `docs/design/tokens.md`, como acento decorativo con `aria-hidden`.
 - Montos con `tabular-nums` y `whitespace-nowrap`. Fechas y monedas formateadas por props de locale.
 - Antes de cerrar: `pnpm --filter @kaname/ui typecheck` y `pnpm --filter @kaname/ui build-storybook` en verde.

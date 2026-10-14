@@ -8,7 +8,7 @@ Plataforma web para administrar varios emprendimientos desde un solo panel. Hoy 
 - Monorepo: pnpm workspaces + Turborepo
 - `apps/web`: Next.js (App Router) + TypeScript + Tailwind + shadcn/ui
 - `apps/api`: NestJS + TypeScript + Prisma
-- `packages/ui`: **UI Kit** de Nexo (`@kaname/ui`): tokens, componentes base (shadcn/ui) y componentes propios, documentados en Storybook
+- `packages/ui`: **UI Kit** de Kaname (`@kaname/ui`): tokens, componentes base (shadcn/ui) y componentes propios, documentados en Storybook
 - Base de datos: PostgreSQL (Neon free en prod, Docker en local)
 - i18n: next-intl (es por defecto, en). Tema: next-themes (claro / oscuro / sistema)
 - Auth: JWT propio en Nest (access + refresh) + Google OAuth

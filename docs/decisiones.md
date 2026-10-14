@@ -73,3 +73,8 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-14 · API con la configuración por defecto de Nest 12
 **Por qué:** ESM, oxlint para el lint y Vitest para los tests es lo que genera Nest 12; así se sigue el camino estándar. La API escucha en el puerto 4000 (`PORT`) y acepta CORS solo desde `WEB_ORIGIN` (por defecto `http://localhost:3000`).
 **Descartado:** `@nestjs/mau` y el script `nest deploy`, porque Mau es un servicio pago (choca con la regla de costo cero). Pasar la API a ESLint ahora: se decide en la tarea de ESLint + Prettier.
+
+### 2026-10-14 · `@kaname/shared` compilado a JS, con enums como `z.enum`
+**Por qué:** la API corre en Node como ESM y no puede ejecutar TypeScript de otro paquete, así que `shared` se compila con `tsc` a `dist/` y Turborepo lo construye antes de `dev`, `lint`, `typecheck` y `build` de las apps. Cada enum del dominio es un `z.enum` que sirve como valor (`Currency.ARS`), como tipo y para validar. El dinero viaja como string decimal, nunca como `number`.
+**Descartado:** exportar el código TypeScript sin compilar (`transpilePackages` en Next), porque funciona en la web pero no en la API. Usar los enums que genera Prisma también en la web, porque arrastra el cliente de Prisma al front.
+**Riesgo conocido:** los enums están duplicados respecto de `schema.prisma` y hay que mantenerlos a mano. Se puede agregar un chequeo cuando Prisma esté en `apps/api`.

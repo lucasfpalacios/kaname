@@ -1,4 +1,4 @@
-// Nexo — modelo de datos v0.1
+// Kaname — modelo de datos v0.1
 // PostgreSQL + Prisma. Multi-tenant por Account; casi todo cuelga de Workspace.
 
 generator client {

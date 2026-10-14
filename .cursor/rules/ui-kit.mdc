@@ -1,5 +1,5 @@
 ---
-description: Convenciones del UI Kit de Nexo (packages/ui)
+description: Convenciones del UI Kit de Kaname (packages/ui)
 globs: packages/ui/**
 alwaysApply: false
 ---
@@ -13,4 +13,4 @@ alwaysApply: false
 - Cada componente nuevo necesita su story con: variantes, estados (hover, disabled, loading, error, vacío) y vista en claro y oscuro.
 - Accesibilidad: foco visible, roles ARIA (Radix ya los trae), contraste AA en ambos temas.
 - Montos con `tabular-nums` y `whitespace-nowrap`. Fechas y monedas formateadas por props de locale.
-- Antes de cerrar: `pnpm --filter @nexo/ui typecheck` y `pnpm --filter @nexo/ui build-storybook` en verde.
+- Antes de cerrar: `pnpm --filter @kaname/ui typecheck` y `pnpm --filter @kaname/ui build-storybook` en verde.

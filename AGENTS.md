@@ -1,4 +1,6 @@
-# Nexo — contexto del proyecto
+# Kaname — contexto del proyecto
+
+**Kaname (要)**: el remache que sostiene todas las varillas de un abanico; el eje que une todos los negocios. Logo: abanico con su remache. Las pantallas de Stitch dicen "Nexo" (nombre provisorio): en el código siempre va Kaname.
 
 Plataforma web para administrar varios emprendimientos desde un solo panel. Hoy la usa Lucas (único usuario). Más adelante se vende como SaaS multi-tenant, así que todo se diseña multi-tenant desde el día 1.
 
@@ -6,7 +8,7 @@ Plataforma web para administrar varios emprendimientos desde un solo panel. Hoy 
 - Monorepo: pnpm workspaces + Turborepo
 - `apps/web`: Next.js (App Router) + TypeScript + Tailwind + shadcn/ui
 - `apps/api`: NestJS + TypeScript + Prisma
-- `packages/ui`: **UI Kit** de Nexo (`@nexo/ui`): tokens, componentes base (shadcn/ui) y componentes propios, documentados en Storybook
+- `packages/ui`: **UI Kit** de Nexo (`@kaname/ui`): tokens, componentes base (shadcn/ui) y componentes propios, documentados en Storybook
 - Base de datos: PostgreSQL (Neon free en prod, Docker en local)
 - i18n: next-intl (es por defecto, en). Tema: next-themes (claro / oscuro / sistema)
 - Auth: JWT propio en Nest (access + refresh) + Google OAuth

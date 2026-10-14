@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 
 - App Router. Server Components por defecto; `"use client"` solo cuando hace falta interacción.
-- Componentes visuales siempre desde `@nexo/ui`. Si falta uno, crearlo en `packages/ui` (ver regla ui-kit), no dentro de la página.
+- Componentes visuales siempre desde `@kaname/ui`. Si falta uno, crearlo en `packages/ui` (ver regla ui-kit), no dentro de la página.
 - Tailwind. Colores solo vía tokens CSS (`bg-background`, `text-primary`...), nunca hex sueltos. Ver `docs/design/tokens.md`.
 - Toda pantalla tiene que verse bien en claro y oscuro. Probar los dos.
 - Textos por next-intl (`useTranslations`). Agregar la clave en `es.json` y `en.json` a la vez.

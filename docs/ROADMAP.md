@@ -7,10 +7,22 @@ Piloto: **Tank Vault TCG**. Cada fase termina con algo que se puede usar y con l
 - [ ] Paquete compartido `packages/shared` (tipos, enums, validaciones zod)
 - [ ] Postgres local con Docker Compose
 - [ ] Prisma en `apps/api` con el schema de `docs/data-model/` + primera migración + seed (cuenta de Lucas, 4 espacios, roles del sistema)
-- [ ] Tailwind + shadcn/ui con los tokens de `docs/design/tokens.md`, tema claro/oscuro
+- [ ] Tailwind configurado para consumir los tokens de `@nexo/ui`, tema claro/oscuro
 - [ ] next-intl (es/en)
 - [ ] ESLint + Prettier + scripts `lint`, `typecheck`, `build`, `dev`
 - [ ] Repo en GitHub
+
+## Fase 0.5 — UI Kit (`packages/ui`)
+Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro y con su story.
+- [ ] Storybook con selector de tema (claro/oscuro) y de idioma (es/en)
+- [ ] Fundamentos: tokens como variables CSS (de `docs/design/tokens.md`), tipografía Inter, espaciados, radios, íconos (lucide), `ThemeProvider`
+- [ ] Acento dinámico por espacio: `Workspace.color` sobreescribe `--accent` en su contenedor
+- [ ] Base (shadcn/ui adaptado): Button, IconButton, Input, Textarea, Select, Combobox, Checkbox, Switch, RadioGroup, DatePicker, Badge, Card, Tabs, Dialog, Sheet/Drawer, DropdownMenu, Tooltip, Popover, Toast, Avatar, Skeleton, Separator
+- [ ] Formularios: FormField (label, ayuda, error), MoneyInput (ARS/USD), PercentInput
+- [ ] Datos: DataTable (TanStack Table: orden, filtros, búsqueda, paginación, selección y acciones masivas), MoneyText, DateText, StatusBadge, EmptyState, KpiCard, ChartCard (Recharts con la paleta)
+- [ ] Layout: AppShell, TopBar, Sidebar (colapsable), WorkspaceSwitcher, PageHeader, WorkspaceTile (launcher), Breadcrumbs
+- [ ] Específicos: PermissionsMatrix, WidgetFrame (dashboard editable), CalendarEventChip, FormulaEditor
+- [ ] Página `/ui-kit` en `apps/web` (solo en desarrollo) para ver los componentes dentro de la app real
 
 ## Fase 1 — Auth y permisos
 - [ ] Registro / login email+contraseña, refresh tokens

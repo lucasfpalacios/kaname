@@ -6,6 +6,7 @@ Plataforma web para administrar varios emprendimientos desde un solo panel. Hoy 
 - Monorepo: pnpm workspaces + Turborepo
 - `apps/web`: Next.js (App Router) + TypeScript + Tailwind + shadcn/ui
 - `apps/api`: NestJS + TypeScript + Prisma
+- `packages/ui`: **UI Kit** de Nexo (`@nexo/ui`): tokens, componentes base (shadcn/ui) y componentes propios, documentados en Storybook
 - Base de datos: PostgreSQL (Neon free en prod, Docker en local)
 - i18n: next-intl (es por defecto, en). Tema: next-themes (claro / oscuro / sistema)
 - Auth: JWT propio en Nest (access + refresh) + Google OAuth
@@ -31,8 +32,9 @@ Diseño de referencia: `docs/design/` (export de Stitch + tokens). Plan de traba
 3. Una tarea del ROADMAP por vez. Al terminar, marcarla en `docs/ROADMAP.md`.
 4. Antes de decir "listo": `pnpm lint`, `pnpm typecheck` y `pnpm build` (o los tests del módulo) tienen que pasar. Mostrar la evidencia.
 5. Commits chicos con mensaje en español y prefijo convencional (`feat:`, `fix:`, `chore:`).
-6. Textos de UI siempre por i18n (`messages/es.json`, `messages/en.json`), nunca hardcodeados.
-7. Respuestas directas y breves, sin halagos. No repetir en el chat el código que ya quedó en archivos.
+6. Toda pieza visual reutilizable vive en `packages/ui` y se documenta con una story antes de usarse en `apps/web`. Si un componente no existe en el kit, se crea ahí primero; no se arman componentes visuales sueltos dentro de las páginas.
+7. Textos de UI siempre por i18n (`messages/es.json`, `messages/en.json`), nunca hardcodeados.
+8. Respuestas directas y breves, sin halagos. No repetir en el chat el código que ya quedó en archivos.
 
 ## Comandos
 (Se completan en la fase 0.)

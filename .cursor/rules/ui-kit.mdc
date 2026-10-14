@@ -1,0 +1,16 @@
+---
+description: Convenciones del UI Kit de Nexo (packages/ui)
+globs: packages/ui/**
+alwaysApply: false
+---
+
+- El kit es la única fuente de componentes visuales. `apps/web` solo los compone.
+- Tokens: variables CSS en `packages/ui/src/styles/tokens.css` (claro en `:root`, oscuro en `.dark`), sacadas de `docs/design/tokens.md`. Tailwind las lee como colores (`bg-primary`, `text-foreground`...). Nunca hex sueltos en componentes.
+- Dinámico: los componentes no conocen colores fijos ni negocios. Variantes y tamaños con `cva`; el acento de cada espacio entra por la variable `--accent` del contenedor.
+- Base de shadcn/ui: se copia al kit y se adapta a los tokens. Componentes propios se arman sobre esos, no desde cero.
+- Sin dependencias de Next.js ni de next-intl: todo texto entra por props (labels, placeholders, mensajes). Así el kit sirve en cualquier app.
+- Estructura: `src/components/<nombre>/` con `<nombre>.tsx`, `<nombre>.stories.tsx` e `index.ts`. Exportar todo desde `src/index.ts`.
+- Cada componente nuevo necesita su story con: variantes, estados (hover, disabled, loading, error, vacío) y vista en claro y oscuro.
+- Accesibilidad: foco visible, roles ARIA (Radix ya los trae), contraste AA en ambos temas.
+- Montos con `tabular-nums` y `whitespace-nowrap`. Fechas y monedas formateadas por props de locale.
+- Antes de cerrar: `pnpm --filter @nexo/ui typecheck` y `pnpm --filter @nexo/ui build-storybook` en verde.

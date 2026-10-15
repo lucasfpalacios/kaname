@@ -3,14 +3,13 @@
 import { useId, type ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 import { controlGroup, controlGroupInput } from "../../lib/control";
+import type { MoneyCurrency } from "../../lib/format";
 import {
   FormFieldContext,
   useFormFieldProps,
 } from "../../lib/form-field-context";
 import { useDecimalInput } from "../../lib/use-decimal-input";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../select";
-
-export type MoneyCurrency = "ARS" | "USD";
 
 const CURRENCIES: MoneyCurrency[] = ["ARS", "USD"];
 

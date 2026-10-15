@@ -7,7 +7,8 @@ import {
   storyIntlLocale,
 } from "../../stories/story-row";
 import { ThemePanels } from "../../stories/theme-panels";
-import { MoneyInput, type MoneyCurrency } from "./money-input";
+import type { MoneyCurrency } from "../../lib/format";
+import { MoneyInput } from "./money-input";
 
 const meta = {
   title: "Formularios/MoneyInput",

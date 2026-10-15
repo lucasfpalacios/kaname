@@ -1,5 +1,1 @@
-export {
-  MoneyInput,
-  type MoneyCurrency,
-  type MoneyInputProps,
-} from "./money-input";
+export { MoneyInput, type MoneyInputProps } from "./money-input";

@@ -211,3 +211,16 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - **Tabs:** variantes `pill` (alternar vistas) y `line` (secciones de una página).
 **Descartado:**
 - `sonner` para los toasts y `tw-animate-css` para las animaciones: dos dependencias más para lo que resuelven `radix-ui` y unos keyframes.
+
+### 2026-10-15 · Componentes de datos del kit y Recharts
+**Por qué:**
+- **Formato:** `formatMoney`, `formatDate` y `formatChange` en `lib/format.ts`, con tests, usados por MoneyText, DateText, KpiCard y ChartCard. Los montos entran como string decimal y van directo a `Intl` sin pasar a `number`.
+- **`MoneyCurrency`:** vive en `lib/format.ts` y lo importan MoneyInput, MoneyText y ChartCard. No se usa el `Currency` de `@kaname/shared`, para que el kit siga sin depender del paquete del dominio; los valores coinciden, así que la web le pasa el de shared directo.
+- **Fechas:** una fecha sin hora ("2026-10-24") se formatea en UTC para que no se corra al día anterior en Argentina. Las fechas con hora conviene pasarlas con `timeZone`, así servidor y navegador muestran lo mismo. En español la hora va en 24 h, porque ICU formatea es-AR con 12 h ("p. m.").
+- **StatusBadge:** recibe un tono y el texto por `label`. `OrderStatusBadge` y `PaymentStatusBadge` traducen el estado del dominio a un tono. El kit declara las claves como tipos propios, igual que ModuleKanji. Pedido: borrador neutro, pendiente acento, confirmado y en camino info, preparando advertencia, entregado éxito, cancelado error. Cobro: sin cobrar advertencia, parcial acento, cobrado éxito, reintegrado neutro. Badge suma la variante `info` (borde primario, fondo primario al 10%).
+- **KpiCard:** la variación muestra flecha y signo, y el color dice si es buena o mala. `invert` da vuelta el color para métricas donde bajar es bueno.
+- **ChartCard:** Recharts 3 con `responsive` y los colores como variables CSS (`var(--primary)`), así sigue al tema del contenedor. Todas las props son serializables (el formato se elige con `format`, sin funciones) para usarlo desde Server Components. `react-is` va alineado con React 19, como pide Recharts, porque pnpm resolvía la 17.
+**Descartado:**
+- `ResponsiveContainer`: Recharts 3.10 trae `responsive` en el gráfico.
+- `ComposedChart` para todos los tipos: dibuja el cursor de las barras como línea en vez de franja.
+- Fechas relativas ("Hoy, 14:32"): dependen de la hora actual y dan diferencias de hidratación. Si hacen falta, van como componente cliente aparte.

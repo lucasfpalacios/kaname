@@ -16,7 +16,8 @@ import { FormField } from "../components/form-field";
 import { Input } from "../components/input";
 import { Label } from "../components/label";
 import { ModuleKanji } from "../components/module-kanji";
-import { MoneyInput, type MoneyCurrency } from "../components/money-input";
+import { MoneyInput } from "../components/money-input";
+import type { MoneyCurrency } from "../lib/format";
 import { PercentInput } from "../components/percent-input";
 import { RadioGroup, RadioGroupItem } from "../components/radio-group";
 import {

@@ -199,3 +199,15 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - **Separadores:** el último "." o "," es el decimal y los anteriores se descartan como miles. Así funcionan el punto del teclado numérico y pegar "1.234,56".
 - **Tests:** el parseo tiene tests con Vitest en `@kaname/ui`.
 **Descartado:** formatear con miles mientras se escribe, porque obliga a recalcular la posición del cursor en cada tecla.
+
+### 2026-10-15 · Overlays del kit: Dialog, Sheet, DropdownMenu, Tooltip, Toast y Tabs
+**Por qué:**
+- **Animaciones:** keyframes propios en `theme.css` (`animate-enter` / `animate-exit`) parametrizados con variables (`--kaname-enter-x`, `--kaname-exit-opacity`...), solo con `motion-safe`. Animan Dialog, Sheet y Toast, donde el movimiento indica de dónde sale el panel. DropdownMenu y Tooltip quedan sin animación, como Popover y Select.
+- **Dialog:** se centra con `inset-0 m-auto` en vez de `translate`, así la escala de la animación no pisa el centrado. El velo es `bg-black/50` fijo: con un token del tema quedaría claro en oscuro.
+- **Botón de cerrar:** la X de Dialog, Sheet y Toast es un `IconButton` y solo aparece si se pasa `closeLabel`, porque el kit no tiene textos propios.
+- **Sheet:** sobre el Dialog de Radix, con `side` (derecha, izquierda, arriba, abajo) y un `SheetBody` que scrollea entre header y footer fijos.
+- **Toast:** el de Radix más un store chico con `useSyncExternalStore`: `<Toaster>` en el layout y `toast({ ... })` desde cualquier lado. Los errores se anuncian con prioridad (`type="foreground"`). Colores como los badges: texto en `foreground`, el estado en el borde y el ícono.
+- **DropdownMenu:** el ítem destructivo pinta el ícono y el fondo, no el texto, porque el rojo como texto no pasa AA en claro.
+- **Tabs:** variantes `pill` (alternar vistas) y `line` (secciones de una página).
+**Descartado:**
+- `sonner` para los toasts y `tw-animate-css` para las animaciones: dos dependencias más para lo que resuelven `radix-ui` y unos keyframes.

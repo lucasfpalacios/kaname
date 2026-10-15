@@ -44,3 +44,36 @@
   /* Etiquetas en mayúscula: uppercase + tracking-label. */
   --tracking-label: 0.08em;
 }
+
+/*
+ * Entrada y salida de diálogos, drawers y toasts. Cada componente fija desde dónde entra con
+ * variables (--kaname-enter-x, --kaname-exit-opacity...). Ver lib/motion.ts.
+ */
+@theme {
+  --animate-enter: kaname-enter 150ms ease-out;
+  --animate-exit: kaname-exit 150ms ease-in;
+
+  @keyframes kaname-enter {
+    from {
+      opacity: var(--kaname-enter-opacity, 1);
+      transform: translate3d(
+          var(--kaname-enter-x, 0),
+          var(--kaname-enter-y, 0),
+          0
+        )
+        scale(var(--kaname-enter-scale, 1));
+    }
+  }
+
+  @keyframes kaname-exit {
+    to {
+      opacity: var(--kaname-exit-opacity, 1);
+      transform: translate3d(
+          var(--kaname-exit-x, 0),
+          var(--kaname-exit-y, 0),
+          0
+        )
+        scale(var(--kaname-exit-scale, 1));
+    }
+  }
+}

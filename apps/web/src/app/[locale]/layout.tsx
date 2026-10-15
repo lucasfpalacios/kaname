@@ -10,7 +10,7 @@ import "../globals.css";
 // Las variables las consume @kaname/ui (font-display / font-sans).
 const display = Shippori_Mincho_B1({
   variable: "--kaname-font-display",
-  weight: ["600", "700", "800"],
+  weight: ["600", "800"],
   subsets: ["latin"],
 });
 

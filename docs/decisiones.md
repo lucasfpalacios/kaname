@@ -156,3 +156,17 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-15 · Componentes específicos del UI Kit pasan a la fase de su módulo
 **Por qué:** PermissionsMatrix, WidgetFrame, CalendarEventChip y FormulaEditor dependen de cómo termine cada módulo (permisos, dashboards, calendario, calculadora). Diseñarlos en la Fase 0.5 obliga a adivinar su API. Se hacen en la fase de su módulo (Fase 5 y Fase 7), igual que antes: en `packages/ui` y con su story antes de usarse en `apps/web`.
 **Descartado:** dejarlos en la Fase 0.5, porque es probable que haya que rehacerlos cuando exista el módulo.
+
+### 2026-10-15 · Storybook 10 con Vite para el UI Kit
+**Por qué:** `@storybook/react-vite` arranca rápido y usa el mismo Tailwind v4 que la web (`@tailwindcss/vite`). El tema se cambia con `@storybook/addon-themes`, que pone `.dark` en `<html>` como `ThemeProvider`. El idioma va en la barra como `globals.locale`: el kit no traduce, así que las stories toman sus textos de un diccionario propio (`src/stories/messages.ts`) y los pasan por props. Las fuentes se cargan con un `<link>` a Google Fonts, porque `next/font` solo funciona en Next.
+**Descartado:** `@storybook/nextjs`, porque ata el kit a Next. Meter next-intl en Storybook también, porque el kit no puede depender de él.
+
+### 2026-10-15 · Clase `.light`, `cn` y `cva` en el kit
+**Por qué:** `.light` fuerza los tokens claros dentro de un contenedor oscuro, así se ven los dos temas lado a lado en una story. `cn` (clsx + tailwind-merge) y `cva` son los helpers de shadcn/ui que van a usar todos los componentes.
+
+### 2026-10-15 · Claves de ModuleKanji
+**Por qué:** usa los valores de `ModuleKey` más `GENERAL`, `STOCK` y `ADMIN`, que tienen kanji pero no son módulos activables. Así la web le pasa `module.key` directo. El kit declara su propio tipo en vez de importar `@kaname/shared`, para no depender del paquete del dominio.
+
+### 2026-10-15 · Display con dos pesos: 800 y 600
+**Por qué:** con dos pesos la jerarquía de títulos se nota más y la web descarga una variante menos de Shippori Mincho B1. 800 para h1; 600 para h2, h3, nombres de espacio y acentos kanji.
+**Descartado:** usar 600, 700 y 800, porque 700 y 800 casi no se distinguen en pantalla.

@@ -24,9 +24,10 @@ Las dos son fuentes japonesas de Google Fonts, gratis y con alfabeto latino. Car
 
 | Rol | Fuente | Pesos | Dónde |
 |---|---|---|---|
-| `--font-display` | **Shippori Mincho B1** | 600, 700, 800 | Logo, títulos de página (h1–h3), nombres de espacio, acentos kanji |
+| `--font-display` | **Shippori Mincho B1** | 600, 800 | Logo, títulos de página (h1–h3), nombres de espacio, acentos kanji |
 | `--font-sans` | **Zen Kaku Gothic New** | 400, 500, 700 | Todo lo demás: interfaz, tablas, formularios, botones, KPIs |
 
+- Display con dos pesos: 800 para h1; 600 para h2, h3, nombres de espacio y acentos kanji.
 - La Mincho nunca va en textos chicos (menos de 18px), tablas ni botones: es de títulos.
 - Números: `tabular-nums`. Si Zen Kaku Gothic New no alinea bien los dígitos en columnas, usar una fuente de respaldo solo para celdas numéricas y avisar.
 - Fallbacks: `"Hiragino Mincho ProN", serif` para display y `"Hiragino Sans", "Noto Sans JP", system-ui, sans-serif` para interfaz.

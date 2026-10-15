@@ -10,3 +10,4 @@ apps/api/src/generated/
 !.env.example
 .DS_Store
 docs/design/stitch-export.zip
+storybook-static/

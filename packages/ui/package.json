@@ -9,10 +9,16 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "lint": "eslint"
+    "lint": "eslint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
-    "next-themes": "0.4.6"
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "lucide-react": "1.57.0",
+    "next-themes": "0.4.6",
+    "tailwind-merge": "3.7.0"
   },
   "peerDependencies": {
     "react": "^19",
@@ -20,11 +26,19 @@
   },
   "devDependencies": {
     "@kaname/eslint-config": "workspace:*",
+    "@storybook/addon-themes": "10.6.2",
+    "@storybook/react-vite": "10.6.2",
+    "@tailwindcss/vite": "4.3.3",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
     "eslint": "9.39.5",
+    "eslint-plugin-storybook": "10.6.2",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "typescript": "6.0.3"
+    "storybook": "10.6.2",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3",
+    "vite": "8.3.4"
   }
 }

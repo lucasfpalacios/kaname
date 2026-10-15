@@ -14,8 +14,8 @@ Piloto: **Tank Vault TCG**. Cada fase termina con algo que se puede usar y con l
 
 ## Fase 0.5 — UI Kit (`packages/ui`)
 Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro y con su story.
-- [ ] Storybook con selector de tema (claro/oscuro) y de idioma (es/en)
-- [ ] Fundamentos: acentos kanji por módulo, espaciados, íconos (lucide) y stories de los fundamentos. Ya hechos en la Fase 0: tokens como variables CSS, tipografía (Shippori Mincho B1 + Zen Kaku Gothic New), radios y `ThemeProvider`
+- [x] Storybook con selector de tema (claro/oscuro) y de idioma (es/en)
+- [x] Fundamentos: acentos kanji por módulo, espaciados, íconos (lucide) y stories de los fundamentos. Ya hechos en la Fase 0: tokens como variables CSS, tipografía (Shippori Mincho B1 + Zen Kaku Gothic New), radios y `ThemeProvider`
 - [ ] Acento dinámico por espacio: `Workspace.color` sobreescribe `--accent` en su contenedor
 - [ ] Base (shadcn/ui adaptado): Button, IconButton, Input, Textarea, Select, Combobox, Checkbox, Switch, RadioGroup, DatePicker, Badge, Card, Tabs, Dialog, Sheet/Drawer, DropdownMenu, Tooltip, Popover, Toast, Avatar, Skeleton, Separator
 - [ ] Formularios: FormField (label, ayuda, error), MoneyInput (ARS/USD), PercentInput

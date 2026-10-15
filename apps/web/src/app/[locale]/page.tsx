@@ -39,7 +39,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   return (
     <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-8 px-6 py-16">
       <div className="flex flex-wrap items-start justify-between gap-4">
-        <h1 className="font-display text-3xl font-bold">{t("title")}</h1>
+        <h1 className="font-display text-3xl font-extrabold">{t("title")}</h1>
         <div className="flex items-center gap-3">
           <LocaleSwitcher />
           <ThemeToggle />

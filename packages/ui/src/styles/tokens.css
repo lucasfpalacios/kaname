@@ -1,9 +1,11 @@
 /*
  * Tokens de color de Kaname. Fuente de verdad: docs/design/tokens.md.
- * Claro en :root, oscuro en .dark (la clase la pone ThemeProvider).
+ * Claro en :root, oscuro en .dark (la clase la pone ThemeProvider). .light fuerza el claro
+ * dentro de un contenedor oscuro (por ejemplo, para comparar los dos temas lado a lado).
  * Los fondos suaves de estado que tokens.md no define en claro se derivan con color-mix.
  */
-:root {
+:root,
+.light {
   --background: #fffffc; /* Gofun-iro */
   --card: #ffffff;
   --border: #e5e7eb;

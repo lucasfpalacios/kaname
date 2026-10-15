@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "../src/styles/index.css";
+
+@source "../src";
+
+/* En la app las pone next/font; acá vienen de preview-head.html. */
+:root {
+  --kaname-font-display: "Shippori Mincho B1";
+  --kaname-font-sans: "Zen Kaku Gothic New";
+}
+
+body {
+  @apply bg-background font-sans text-foreground antialiased;
+}

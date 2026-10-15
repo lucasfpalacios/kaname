@@ -40,3 +40,5 @@ export type {
   MoneyCurrency,
   MoneyFormatOptions,
 } from "./lib/format";
+export * from "./components/data-table";
+export * from "./components/table";

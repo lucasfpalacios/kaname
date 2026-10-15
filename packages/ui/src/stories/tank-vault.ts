@@ -96,3 +96,194 @@ export const recentOrders: TankVaultOrder[] = [
 ];
 
 export const TIME_ZONE = "America/Argentina/Buenos_Aires";
+
+export type ProductCategoryKey =
+  "boosterBox" | "etb" | "singles" | "packs" | "accessories";
+
+export type TankVaultProduct = {
+  id: string;
+  name: string;
+  sku: string;
+  /** Iniciales para la miniatura (las stories no cargan imágenes). */
+  initials: string;
+  category: ProductCategoryKey;
+  stock: number;
+  /** Punto de reorden: con stock menor o igual, el stock está bajo. */
+  reorderPoint: number;
+  /** Costo y precio en ARS, como string decimal. */
+  cost: string;
+  price: string;
+  supplier: string;
+};
+
+// Catálogo de la pantalla productos de Stitch, ampliado para que haya varias páginas.
+export const products: TankVaultProduct[] = [
+  {
+    id: "p01",
+    name: "Booster Box Surging Sparks (36 sobres)",
+    sku: "PKM-SV8-BB-EN",
+    initials: "SSP",
+    category: "boosterBox",
+    stock: 2,
+    reorderPoint: 10,
+    cost: "201300",
+    price: "345000",
+    supplier: "GTS Distribution",
+  },
+  {
+    id: "p02",
+    name: "Elite Trainer Box Pokémon 151",
+    sku: "PKM-151-ETB-EN",
+    initials: "151",
+    category: "etb",
+    stock: 3,
+    reorderPoint: 8,
+    cost: "76700",
+    price: "118000",
+    supplier: "GTS Distribution",
+  },
+  {
+    id: "p03",
+    name: "Charizard ex Special Art Rare #199/165",
+    sku: "SNG-151-199-NM",
+    initials: "SAR",
+    category: "singles",
+    stock: 1,
+    reorderPoint: 1,
+    cost: "98000",
+    price: "145000",
+    supplier: "Colección propia",
+  },
+  {
+    id: "p04",
+    name: "Pack 6x sobres Prismatic Evolutions",
+    sku: "PKM-PRE-6BP",
+    initials: "PRE",
+    category: "packs",
+    stock: 24,
+    reorderPoint: 10,
+    cost: "52700",
+    price: "85000",
+    supplier: "Phoenix Imports",
+  },
+  {
+    id: "p05",
+    name: "Booster Box Twilight Masquerade",
+    sku: "PKM-TWM-BB-EN",
+    initials: "TWM",
+    category: "boosterBox",
+    stock: 8,
+    reorderPoint: 6,
+    cost: "148800",
+    price: "240000",
+    supplier: "GTS Distribution",
+  },
+  {
+    id: "p06",
+    name: "Fundas Dragon Shield Matte Dual (100 u.)",
+    sku: "ACC-DS-DUAL-BK",
+    initials: "DS",
+    category: "accessories",
+    stock: 5,
+    reorderPoint: 15,
+    cost: "14500",
+    price: "24000",
+    supplier: "Arcane Tinmen",
+  },
+  {
+    id: "p07",
+    name: "Paldean Fates 3-Blister Pack",
+    sku: "PKM-PAF-3BL",
+    initials: "PAF",
+    category: "packs",
+    stock: 18,
+    reorderPoint: 6,
+    cost: "57400",
+    price: "92500",
+    supplier: "Phoenix Imports",
+  },
+  {
+    id: "p08",
+    name: "Elite Trainer Box Stellar Crown",
+    sku: "PKM-SCR-ETB-EN",
+    initials: "SCR",
+    category: "etb",
+    stock: 11,
+    reorderPoint: 5,
+    cost: "71200",
+    price: "112000",
+    supplier: "GTS Distribution",
+  },
+  {
+    id: "p09",
+    name: "Pikachu Grey Felt Hat (PSA 9)",
+    sku: "SNG-SVP-085-P9",
+    initials: "PIK",
+    category: "singles",
+    stock: 1,
+    reorderPoint: 0,
+    cost: "61000",
+    price: "98000",
+    supplier: "Colección propia",
+  },
+  {
+    id: "p10",
+    name: "Booster Box Stellar Crown",
+    sku: "PKM-SCR-BB-EN",
+    initials: "SCB",
+    category: "boosterBox",
+    stock: 6,
+    reorderPoint: 4,
+    cost: "182000",
+    price: "289000",
+    supplier: "GTS Distribution",
+  },
+  {
+    id: "p11",
+    name: "Deck box Ultra Pro Alcove Flip",
+    sku: "ACC-UP-ALC-BL",
+    initials: "UP",
+    category: "accessories",
+    stock: 32,
+    reorderPoint: 10,
+    cost: "9800",
+    price: "16500",
+    supplier: "Ultra Pro",
+  },
+  {
+    id: "p12",
+    name: "Sobre suelto Surging Sparks",
+    sku: "PKM-SV8-BP-EN",
+    initials: "SS1",
+    category: "packs",
+    stock: 74,
+    reorderPoint: 36,
+    cost: "6400",
+    price: "10500",
+    supplier: "GTS Distribution",
+  },
+  {
+    id: "p13",
+    name: "Umbreon VMAX Alt Art #215/203",
+    sku: "SNG-EVS-215-NM",
+    initials: "UMB",
+    category: "singles",
+    stock: 1,
+    reorderPoint: 0,
+    cost: "720000",
+    price: "1150000",
+    supplier: "Colección propia",
+  },
+  {
+    id: "p14",
+    name: "Playmat Pokémon Center Eevee",
+    sku: "ACC-PC-PMT-EV",
+    initials: "PMT",
+    category: "accessories",
+    stock: 4,
+    reorderPoint: 3,
+    cost: "21000",
+    price: "36000",
+    supplier: "Arcane Tinmen",
+  },
+];

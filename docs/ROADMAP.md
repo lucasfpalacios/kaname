@@ -19,7 +19,7 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [ ] Acento dinámico por espacio: `Workspace.color` sobreescribe `--accent` en su contenedor
 - [x] Base (shadcn/ui adaptado): Button, IconButton, Input, Textarea, Select, Combobox, Checkbox, Switch, RadioGroup, DatePicker, Badge, Card, Tabs, Dialog, Sheet/Drawer, DropdownMenu, Tooltip, Popover, Toast, Avatar, Skeleton, Separator
 - [x] Formularios: FormField (label, ayuda, error), MoneyInput (ARS/USD), PercentInput
-- [ ] Datos: DataTable (TanStack Table: orden, filtros, búsqueda, paginación, selección y acciones masivas), MoneyText, DateText, StatusBadge, EmptyState, KpiCard, ChartCard (Recharts con la paleta)
+- [x] Datos: DataTable (TanStack Table: orden, filtros, búsqueda, paginación, selección y acciones masivas), MoneyText, DateText, StatusBadge, EmptyState, KpiCard, ChartCard (Recharts con la paleta)
 - [ ] Layout: AppShell, TopBar, Sidebar (colapsable), WorkspaceSwitcher, PageHeader, WorkspaceTile (launcher), Breadcrumbs
 - [ ] Página `/ui-kit` en `apps/web` (solo en desarrollo) para ver los componentes dentro de la app real
 

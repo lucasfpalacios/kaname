@@ -224,3 +224,20 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - `ResponsiveContainer`: Recharts 3.10 trae `responsive` en el gráfico.
 - `ComposedChart` para todos los tipos: dibuja el cursor de las barras como línea en vez de franja.
 - Fechas relativas ("Hoy, 14:32"): dependen de la hora actual y dan diferencias de hidratación. Si hacen falta, van como componente cliente aparte.
+
+### 2026-10-15 · DataTable sobre TanStack Table 9
+**Por qué:**
+- **Versión:** `@tanstack/react-table` 9.3.1, la última que cumple `minimumReleaseAge`. La API cambió respecto de la 8: `useTable` con features explícitas (`tableFeatures`) en lugar de `useReactTable` con todo incluido. Solo se registran orden, filtros por columna, búsqueda global, paginación y selección.
+- **Todo en el cliente:** orden, filtros y paginación corren en el navegador. Para listas que no entren en memoria habrá que sumar el modo manual (server-side).
+- **Búsqueda:** ignora mayúsculas y tildes ("pokemon" encuentra "Pokémon"), con el filtro de ejemplo de la propia librería.
+- **Columnas:** se arman con `createDataTableColumnHelper`, ya tipado con las features del kit. `meta.numeric` alinea a la derecha con `tabular-nums`, pero no cambia el orden.
+- **Montos:** el accessor de una columna de montos tiene que devolver `Number(...)`. Con el string decimal se ordenaría como texto ("85000" queda después de "345000"). La celda muestra el string original con MoneyText, así no se pierde precisión al mostrar. Está documentado en el JSDoc de `meta.numeric`.
+- **`getRowId` obligatorio:** la selección y las acciones masivas operan sobre el id real de cada fila (el de la base), nunca sobre el índice. Un índice cambia al ordenar, filtrar o paginar, y una acción masiva podría aplicarse a la fila equivocada.
+- **Textos:** todos por `labels`. Los que llevan números (`selected`, `pageInfo`, `pageOf`) son funciones, para que la web use el plural de next-intl. Por las funciones de las columnas, la página que usa DataTable es un componente cliente.
+- **Table:** la tabla HTML con estilos (adaptada de shadcn/ui) vive aparte, en `Table`, y DataTable se arma sobre ella.
+- **Vacíos:** sin datos se muestra `emptyState` y se ocultan el buscador, los filtros y el pie. Sin resultados aparece un EmptyState con "Limpiar filtros".
+**Descartado:**
+- TanStack Table 8: es la versión anterior y la 9 ya cumple la regla de antigüedad.
+- `stockFeatures`: registra todas las features de la librería.
+- Aprobar las "skills" que ofrece el paquete (`pnpm approve`): no hacen falta para usarlo.
+- Botones numerados de página como en Stitch: por ahora anterior/siguiente y "Página X de Y".

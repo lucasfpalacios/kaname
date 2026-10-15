@@ -239,5 +239,5 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 **Descartado:**
 - TanStack Table 8: es la versión anterior y la 9 ya cumple la regla de antigüedad.
 - `stockFeatures`: registra todas las features de la librería.
-- Aprobar las "skills" que ofrece el paquete (`pnpm approve`): no hacen falta para usarlo.
+- Aprobar las "skills" que ofrece el paquete (`pnpm approve`): no hacen falta para usarlo. Quedan rechazadas en `permissions` de `pnpm-workspace.yaml`, así pnpm no vuelve a preguntar.
 - Botones numerados de página como en Stitch: por ahora anterior/siguiente y "Página X de Y".

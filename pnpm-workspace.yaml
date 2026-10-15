@@ -14,3 +14,9 @@ allowBuilds:
   prisma: false
   sharp: false
   unrs-resolver: false
+
+# Lo que piden las dependencias además de los builds. @tanstack/react-table ofrece skills para
+# agentes: no hacen falta para usarlo (ver docs/decisiones.md).
+permissions:
+  "@tanstack/react-table":
+    skills: false

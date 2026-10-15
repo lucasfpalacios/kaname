@@ -21,7 +21,6 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [ ] Formularios: FormField (label, ayuda, error), MoneyInput (ARS/USD), PercentInput
 - [ ] Datos: DataTable (TanStack Table: orden, filtros, búsqueda, paginación, selección y acciones masivas), MoneyText, DateText, StatusBadge, EmptyState, KpiCard, ChartCard (Recharts con la paleta)
 - [ ] Layout: AppShell, TopBar, Sidebar (colapsable), WorkspaceSwitcher, PageHeader, WorkspaceTile (launcher), Breadcrumbs
-- [ ] Específicos: PermissionsMatrix, WidgetFrame (dashboard editable), CalendarEventChip, FormulaEditor
 - [ ] Página `/ui-kit` en `apps/web` (solo en desarrollo) para ver los componentes dentro de la app real
 
 ## Fase 1 — Auth y permisos
@@ -47,8 +46,8 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [ ] Compras / importaciones + ingreso de stock y costo
 
 ## Fase 5 — Herramientas
-- [ ] Calculadora (motor de fórmulas + plantillas)
-- [ ] Calendario (mes/semana/día/agenda + eventos vinculados)
+- [ ] Calculadora (motor de fórmulas + plantillas). Antes, FormulaEditor en el UI Kit con su story
+- [ ] Calendario (mes/semana/día/agenda + eventos vinculados). Antes, CalendarEventChip en el UI Kit con su story
 - [ ] Documentos (subida a R2) y presupuestos (PDF desde plantilla)
 - [ ] Proyectos (para Shinka)
 
@@ -58,9 +57,9 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [ ] Métricas de Instagram / TikTok / YouTube
 
 ## Fase 7 — Dashboards y admin
-- [ ] Dashboard por espacio con widgets editables
+- [ ] Dashboard por espacio con widgets editables. Antes, WidgetFrame en el UI Kit con su story
 - [ ] Vista General (comparativo entre espacios)
-- [ ] Panel Admin: usuarios, invitaciones, roles y matriz de permisos
+- [ ] Panel Admin: usuarios, invitaciones, roles y matriz de permisos. Antes, PermissionsMatrix en el UI Kit con su story
 - [ ] Registro de actividad
 
 ## Fase 8 — Deploy (gratis)

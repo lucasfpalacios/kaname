@@ -152,3 +152,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - **Dependencias:** `prisma` y `dotenv` pasan a `dependencies`, porque las usan el `postinstall` y `migrate deploy`.
 - **Base local:** Postgres publica el puerto solo en `127.0.0.1`.
 - **`minimumReleaseAge: 1440` explícito:** el valor por defecto de pnpm no es estricto y agrega las versiones nuevas a `minimumReleaseAgeExclude` sin avisar. Declarado, pnpm frena.
+
+### 2026-10-15 · Componentes específicos del UI Kit pasan a la fase de su módulo
+**Por qué:** PermissionsMatrix, WidgetFrame, CalendarEventChip y FormulaEditor dependen de cómo termine cada módulo (permisos, dashboards, calendario, calculadora). Diseñarlos en la Fase 0.5 obliga a adivinar su API. Se hacen en la fase de su módulo (Fase 5 y Fase 7), igual que antes: en `packages/ui` y con su story antes de usarse en `apps/web`.
+**Descartado:** dejarlos en la Fase 0.5, porque es probable que haya que rehacerlos cuando exista el módulo.

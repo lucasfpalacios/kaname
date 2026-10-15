@@ -46,7 +46,7 @@ import { workspaces } from "./workspaces";
 // Marco de la app para las stories de pantallas: sidebar, top bar y selector de espacio armados
 // con el kit, como los va a componer apps/web. Los links son "#": en la app van con <Link>.
 
-export const fill = (text: string, values: Record<string, number>) =>
+export const fill = (text: string, values: Record<string, string | number>) =>
   text.replace(/\{(\w+)\}/g, (_, key: string) => String(values[key]));
 
 export function switcherItems(locale: unknown): WorkspaceSwitcherItem[] {
@@ -57,7 +57,7 @@ export function switcherItems(locale: unknown): WorkspaceSwitcherItem[] {
       name: s.general,
       description: s.generalDescription,
       icon: <LayoutGrid />,
-      href: "#",
+      link: <a href="#" />,
     },
     ...workspaces.map((workspace) => ({
       id: workspace.id,
@@ -65,7 +65,7 @@ export function switcherItems(locale: unknown): WorkspaceSwitcherItem[] {
       description: s.types[workspace.type],
       initials: workspace.initials,
       color: workspace.color,
-      href: "#",
+      link: <a href="#" />,
     })),
   ];
 }

@@ -106,7 +106,11 @@ export function WorkspaceTile({
       data-workspace-accent={accent["data-workspace-accent"]}
       style={{ ...accent.style, ...style }}
       className={cn(workspaceTileVariants({ variant, selected }), className)}
-      {...(asChild ? {} : { type: "button" as const })}
+      // El estado seleccionado también se anuncia: aria-current si es un link (asChild),
+      // aria-pressed si es un botón. Sin `selected`, ninguno de los dos.
+      {...(asChild
+        ? { "aria-current": selected ? ("true" as const) : undefined }
+        : { type: "button" as const, "aria-pressed": selected ?? undefined })}
       {...props}
     >
       {/* Con asChild, el link de la app (<Link href />) recibe el contenido de la tile. */}

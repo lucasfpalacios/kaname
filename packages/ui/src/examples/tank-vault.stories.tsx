@@ -44,10 +44,10 @@ function RecentOrders({ locale: storyLocale }: { locale: unknown }) {
   const p = t.table;
   const locale = storyIntlLocale(storyLocale);
 
-  const labels: DataTableLabels = {
+  const labels: DataTableLabels<TankVaultOrder> = {
     search: s.ordersSearch,
     selectAll: p.selectAll,
-    selectRow: p.selectRow,
+    selectRow: (order) => fill(p.selectRow, { name: order.id }),
     selected: (count) => String(count),
     clearSelection: p.clearSelection,
     clearFilters: p.clearFilters,

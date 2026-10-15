@@ -128,11 +128,15 @@ export type DataTableFilter = {
   options: { value: string; label: string }[];
 };
 
-export type DataTableLabels = {
+export type DataTableLabels<TData = never> = {
   /** aria-label y placeholder del buscador. */
   search: string;
   selectAll: string;
-  selectRow: string;
+  /**
+   * Nombre del checkbox de cada fila. Con una función, cada fila se distingue para los lectores de
+   * pantalla ("Seleccionar Booster Box Surging Sparks").
+   */
+  selectRow: string | ((row: TData) => string);
   /** "3 productos seleccionados". */
   selected: (count: number) => string;
   clearSelection: string;
@@ -154,7 +158,7 @@ export type DataTableLabels = {
 export type DataTableProps<TData extends RowData> = {
   columns: DataTableColumnDef<TData>[];
   data: TData[];
-  labels: DataTableLabels;
+  labels: DataTableLabels<TData>;
   /**
    * id real de cada fila (el id de la base). Es obligatorio: la selección y las acciones masivas
    * operan sobre estos ids, nunca sobre índices, así sobreviven a ordenar, filtrar y paginar.
@@ -222,7 +226,11 @@ export function DataTable<TData extends RowData>({
       ),
       cell: ({ row }) => (
         <Checkbox
-          aria-label={selectRow}
+          aria-label={
+            typeof selectRow === "function"
+              ? selectRow(row.original)
+              : selectRow
+          }
           checked={row.getIsSelected()}
           disabled={!row.getCanSelect()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}

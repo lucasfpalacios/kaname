@@ -141,7 +141,7 @@
     "table": {
       "search": "Search product or SKU…",
       "selectAll": "Select all on this page",
-      "selectRow": "Select product",
+      "selectRow": "Select {name}",
       "selected": "{count, plural, one {# product selected} other {# products selected}}",
       "clearSelection": "Clear selection",
       "clearFilters": "Clear filters",

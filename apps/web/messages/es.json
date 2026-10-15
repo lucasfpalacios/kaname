@@ -141,7 +141,7 @@
     "table": {
       "search": "Buscar producto o SKU…",
       "selectAll": "Seleccionar todos los de esta página",
-      "selectRow": "Seleccionar producto",
+      "selectRow": "Seleccionar {name}",
       "selected": "{count, plural, one {# producto seleccionado} other {# productos seleccionados}}",
       "clearSelection": "Quitar selección",
       "clearFilters": "Limpiar filtros",

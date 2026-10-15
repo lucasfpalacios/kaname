@@ -44,7 +44,7 @@ const meta = {
   args: {
     columns: [],
     data: [],
-    labels: {} as DataTableLabels,
+    labels: {} as never,
     getRowId: () => "",
   },
 } satisfies Meta<typeof DataTable>;
@@ -55,7 +55,7 @@ type Story = StoryObj<typeof meta>;
 
 const helper = createDataTableColumnHelper<TankVaultProduct>();
 
-const fill = (text: string, values: Record<string, number>) =>
+const fill = (text: string, values: Record<string, string | number>) =>
   text.replace(/\{(\w+)\}/g, (_, key: string) => String(values[key]));
 
 // En la app, todo esto sale de next-intl; acá de los textos de las stories.
@@ -64,10 +64,10 @@ function useProductTable(storyLocale: unknown) {
   const p = t.table;
   const locale = storyIntlLocale(storyLocale);
 
-  const labels: DataTableLabels = {
+  const labels: DataTableLabels<TankVaultProduct> = {
     search: p.search,
     selectAll: p.selectAll,
-    selectRow: p.selectRow,
+    selectRow: (product) => fill(p.selectRow, { name: product.name }),
     selected: (count) =>
       count === 1 ? p.selectedOne : fill(p.selectedMany, { count }),
     clearSelection: p.clearSelection,

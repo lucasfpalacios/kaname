@@ -1,7 +1,8 @@
 "use client";
 
 import { Check, ChevronsUpDown } from "lucide-react";
-import type { ReactNode } from "react";
+import { Slot } from "radix-ui";
+import type { ReactElement, ReactNode } from "react";
 import { cn } from "../../lib/cn";
 import { focusRing } from "../../lib/focus-ring";
 import {
@@ -24,14 +25,18 @@ export type WorkspaceSwitcherItem = {
   /** Ícono en lugar de iniciales (General). */
   icon?: ReactNode;
   color?: string | null;
-  /** Si no hay onSelect, cada espacio es un link. */
-  href?: string;
+  /**
+   * Link al espacio, por composición: el elemento del link de la app sin contenido
+   * (`<Link href="/tank-vault" />`). El kit le pone adentro la insignia y el nombre. Si no hay
+   * link, el ítem llama a onSelect.
+   */
+  link?: ReactElement;
 };
 
 export type WorkspaceSwitcherProps = {
   workspaces: WorkspaceSwitcherItem[];
   currentId: string;
-  /** aria-label del botón ("Cambiar de espacio"). */
+  /** Qué hace el botón ("Cambiar de espacio"). Se anuncia junto al espacio actual. */
   label: string;
   /** Título de la lista ("Espacios"). */
   groupLabel?: string;
@@ -64,7 +69,6 @@ export function WorkspaceSwitcher({
   return (
     <DropdownMenu onOpenChange={setHold}>
       <DropdownMenuTrigger
-        aria-label={label}
         className={cn(
           "flex w-full cursor-pointer items-center gap-3 rounded-md border border-border p-1.5 text-left transition-colors hover:bg-foreground/5 data-[state=open]:bg-foreground/5",
           "group-data-[state=collapsed]/sidebar:w-[84px] group-data-[state=collapsed]/sidebar:border-transparent",
@@ -80,6 +84,7 @@ export function WorkspaceSwitcher({
         <span
           className={cn("flex min-w-0 flex-1 flex-col", hiddenWhenCollapsed)}
         >
+          <span className="sr-only">{label}: </span>
           <span className="truncate text-sm font-bold">{current.name}</span>
           {current.description && (
             <span className="truncate text-xs text-foreground/70">
@@ -121,14 +126,12 @@ export function WorkspaceSwitcher({
               )}
             </>
           );
-          return workspace.href && !onSelect ? (
+          return workspace.link ? (
             <DropdownMenuItem key={workspace.id} asChild>
-              <a
-                href={workspace.href}
-                aria-current={selected ? "page" : undefined}
-              >
+              <Slot.Root aria-current={selected ? "page" : undefined}>
+                <Slot.Slottable>{workspace.link}</Slot.Slottable>
                 {content}
-              </a>
+              </Slot.Root>
             </DropdownMenuItem>
           ) : (
             <DropdownMenuItem

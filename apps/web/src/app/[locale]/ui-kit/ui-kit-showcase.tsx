@@ -265,10 +265,10 @@ export function UiKitShowcase({ intlLocale }: { intlLocale: string }) {
     );
   }, [intlLocale]);
 
-  const tableLabels: DataTableLabels = {
+  const tableLabels: DataTableLabels<Product> = {
     search: t("table.search"),
     selectAll: t("table.selectAll"),
-    selectRow: t("table.selectRow"),
+    selectRow: (product) => t("table.selectRow", { name: product.name }),
     selected: (count) => t("table.selected", { count }),
     clearSelection: t("table.clearSelection"),
     clearFilters: t("table.clearFilters"),
@@ -343,7 +343,8 @@ export function UiKitShowcase({ intlLocale }: { intlLocale: string }) {
             />
           </SidebarHeader>
           <SidebarContent>
-            <SidebarGroup label={t("nav")}>
+            {/* Sin título: el nav ya se llama "Secciones". */}
+            <SidebarGroup>
               {SECTIONS.map((section) => (
                 <SidebarItem
                   key={section.id}

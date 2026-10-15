@@ -193,7 +193,7 @@ const es = {
   table: {
     search: "Buscar producto o SKU…",
     selectAll: "Seleccionar todos los de esta página",
-    selectRow: "Seleccionar producto",
+    selectRow: "Seleccionar {name}",
     selectedOne: "1 producto seleccionado",
     selectedMany: "{count} productos seleccionados",
     clearSelection: "Quitar selección",
@@ -551,7 +551,7 @@ const en: Messages = {
   table: {
     search: "Search product or SKU…",
     selectAll: "Select all on this page",
-    selectRow: "Select product",
+    selectRow: "Select {name}",
     selectedOne: "1 product selected",
     selectedMany: "{count} products selected",
     clearSelection: "Clear selection",

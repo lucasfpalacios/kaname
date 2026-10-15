@@ -170,3 +170,14 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-15 · Display con dos pesos: 800 y 600
 **Por qué:** con dos pesos la jerarquía de títulos se nota más y la web descarga una variante menos de Shippori Mincho B1. 800 para h1; 600 para h2, h3, nombres de espacio y acentos kanji.
 **Descartado:** usar 600, 700 y 800, porque 700 y 800 casi no se distinguen en pantalla.
+
+### 2026-10-15 · Componentes base del kit sobre `radix-ui`
+**Por qué:** los componentes de shadcn/ui se copian al kit y se adaptan a los tokens. Las primitivas vienen del paquete unificado `radix-ui`, que es el que usa shadcn hoy: una sola dependencia y versiones alineadas. Criterios de color:
+- **Hover:** primario y destructivo bajan al 90%; secundario y ghost suman `foreground/8`.
+- **Destructivo:** el texto va en `text-background`, que pasa AA sobre el rojo en los dos temas (5.0 en claro, 6.9 en oscuro).
+- **Badges de estado:** texto en `foreground` sobre el fondo suave y el color en el borde, porque el verde (4.4), el ámbar (2.6) y el rojo (4.4) como texto no llegan a AA en el tema claro.
+- **`IconButton`:** `label` es obligatorio y va como `aria-label`.
+**Descartado:** los paquetes `@radix-ui/react-*` por separado.
+
+### 2026-10-15 · Hover y foco forzados en Storybook
+**Por qué:** la regla del kit pide mostrar el hover y el foco en las stories. `storybook-addon-pseudo-states` (oficial de Storybook) los fuerza por selector. Tailwind v4 mete el hover en `@media (hover: hover)` y el addon no reescribe reglas dentro de `@media`, así que en el CSS de Storybook se redefine `hover` sin la media query. La app no cambia.

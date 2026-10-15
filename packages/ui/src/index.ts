@@ -1,3 +1,10 @@
 export { ThemeProvider, useTheme } from "./theme/theme-provider";
 export { cn } from "./lib/cn";
 export * from "./components/module-kanji";
+export * from "./components/avatar";
+export * from "./components/badge";
+export * from "./components/button";
+export * from "./components/card";
+export * from "./components/icon-button";
+export * from "./components/separator";
+export * from "./components/skeleton";

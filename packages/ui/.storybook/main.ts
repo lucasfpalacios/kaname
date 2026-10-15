@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 const config: StorybookConfig = {
   framework: "@storybook/react-vite",
   stories: ["../src/**/*.stories.tsx"],
-  addons: ["@storybook/addon-themes"],
+  addons: ["@storybook/addon-themes", "storybook-addon-pseudo-states"],
   core: { disableTelemetry: true },
   viteFinal: (vite) => ({
     ...vite,

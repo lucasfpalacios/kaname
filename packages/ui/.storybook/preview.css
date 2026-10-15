@@ -3,6 +3,12 @@
 
 @source "../src";
 
+/*
+ * Tailwind v4 envuelve hover en @media (hover: hover) y storybook-addon-pseudo-states no reescribe
+ * reglas dentro de @media, así que el hover forzado no se vería. Solo en Storybook, hover sin media.
+ */
+@custom-variant hover (&:hover);
+
 /* En la app las pone next/font; acá vienen de preview-head.html. */
 :root {
   --kaname-font-display: "Shippori Mincho B1";

@@ -23,29 +23,32 @@ export function decimalSeparator(locale: string) {
   );
 }
 
-// Interpreta lo que escribió o pegó el usuario. El último "." o "," es el separador decimal y los
-// anteriores se descartan como separadores de miles. Así "1.234,56" (pegado) da 1234.56 y un "."
-// del teclado numérico funciona como coma. Los dígitos que superan el máximo se ignoran.
+// Interpreta lo que escribió o pegó el usuario según el locale (es-AR: "." miles y "," decimal;
+// en-US al revés). Se ignora todo lo que no sea dígito o separador ("$", espacios, letras).
+// - Un separador que aparece más de una vez es de miles: "1.234.567" → 1234567.
+// - Si aparecen los dos, el último es el decimal: "1.234,56" y "1,234.56" → 1234.56.
+// - El separador decimal del locale, solo, es decimal: "12,5" → 12.5 en es-AR.
+// - El del otro locale, solo y una vez: con exactamente 3 dígitos después es miles ("12.000" →
+//   12000 en es-AR); con 1 o 2, decimal ("12.5" → 12.5). Sin dígitos después es la tecla "." del
+//   teclado numérico mientras se escribe: el borrador pasa a mostrar el separador del locale.
+// Los dígitos que superan el máximo se ignoran.
 export function parseDecimalText(
   text: string,
   locale: string,
   { maxIntegerDigits, maxDecimals, allowNegative = false }: DecimalTextOptions,
 ): ParsedDecimalText {
-  const negative = allowNegative && text.trimStart().startsWith("-");
+  const negative = allowNegative && /^[^\d]*-/.test(text);
   const cleaned = text.replace(/[^\d.,]/g, "");
-  const lastSeparator = Math.max(
-    cleaned.lastIndexOf("."),
-    cleaned.lastIndexOf(","),
-  );
-  const hasDecimal = maxDecimals > 0 && lastSeparator !== -1;
+  const separator = decimalIndex(cleaned, decimalSeparator(locale));
+  const hasDecimal = maxDecimals > 0 && separator !== -1;
 
-  const integerDigits = (hasDecimal ? cleaned.slice(0, lastSeparator) : cleaned)
+  const integerDigits = (hasDecimal ? cleaned.slice(0, separator) : cleaned)
     .replace(/\D/g, "")
     .replace(/^0+(?=\d)/, "")
     .slice(0, maxIntegerDigits);
   const decimalDigits = hasDecimal
     ? cleaned
-        .slice(lastSeparator + 1)
+        .slice(separator + 1)
         .replace(/\D/g, "")
         .slice(0, maxDecimals)
     : "";
@@ -60,6 +63,28 @@ export function parseDecimalText(
   const value =
     sign + (integerDigits || "0") + (decimalDigits ? `.${decimalDigits}` : "");
   return { draft, value: value === "-0" ? "0" : value };
+}
+
+const count = (text: string, char: string) => text.split(char).length - 1;
+
+// Posición del separador decimal en un texto con solo dígitos, "." y ",", o -1 si no hay.
+function decimalIndex(text: string, localeDecimal: string) {
+  const other = localeDecimal === "," ? "." : ",";
+  const decimals = count(text, localeDecimal);
+  const others = count(text, other);
+  if (decimals > 0 && others > 0) {
+    const last =
+      text.lastIndexOf(localeDecimal) > text.lastIndexOf(other)
+        ? localeDecimal
+        : other;
+    return count(text, last) === 1 ? text.lastIndexOf(last) : -1;
+  }
+  if (decimals === 1) return text.indexOf(localeDecimal);
+  if (others === 1) {
+    const index = text.indexOf(other);
+    return text.length - index - 1 === 3 ? -1 : index;
+  }
+  return -1;
 }
 
 // Texto para editar un valor canónico: sin miles y con el separador decimal del locale.

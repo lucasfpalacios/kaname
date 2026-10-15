@@ -10,9 +10,10 @@
     "paletteLabel": "Color palette"
   },
   "ThemeToggle": {
-    "toDark": "Switch to dark",
-    "toLight": "Switch to light",
-    "loading": "Theme"
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
   },
   "LocaleSwitcher": {
     "label": "Language",
@@ -28,5 +29,142 @@
     "OWNER": "Owner",
     "COLLABORATOR": "Collaborator",
     "CLIENT": "Client"
+  },
+  "UiKit": {
+    "title": "UI Kit",
+    "description": "The @kaname/ui components inside the real app, with next-intl and the app theme.",
+    "devOnly": "Development only",
+    "nav": "Sections",
+    "openMenu": "Open menu",
+    "collapse": "Collapse menu",
+    "expand": "Expand menu",
+    "skip": "Skip to content",
+    "switchWorkspace": "Switch space",
+    "workspaces": "Spaces",
+    "sections": {
+      "actions": "Actions",
+      "forms": "Forms",
+      "overlays": "Overlays",
+      "data": "Data",
+      "spaces": "Spaces"
+    },
+    "buttons": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "viewAll": "View all",
+      "delete": "Delete",
+      "more": "More options",
+      "newProduct": "New product"
+    },
+    "badges": {
+      "new": "New",
+      "draft": "Draft",
+      "low": "Low stock"
+    },
+    "orderStatus": {
+      "PENDING": "Pending",
+      "PREPARING": "Preparing",
+      "SHIPPED": "Shipped",
+      "DELIVERED": "Delivered",
+      "CANCELLED": "Cancelled"
+    },
+    "paymentStatus": {
+      "UNPAID": "Unpaid",
+      "PAID": "Paid"
+    },
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "E.g. Surging Sparks booster box",
+      "nameHelp": "Shown on quotes and in the store.",
+      "category": "Category",
+      "categoryPlaceholder": "Choose a category",
+      "categories": {
+        "boosterBox": "Booster boxes",
+        "singles": "Singles",
+        "accessories": "Accessories"
+      },
+      "price": "Sale price",
+      "currency": "Currency",
+      "release": "Release date",
+      "releasePlaceholder": "Pick a date",
+      "trackStock": "Track stock",
+      "published": "Published in the store"
+    },
+    "overlays": {
+      "openDialog": "Open dialog",
+      "dialogTitle": "Edit product",
+      "dialogBody": "Change the name and the sale price.",
+      "openSheet": "View details",
+      "sheetTitle": "Surging Sparks booster box",
+      "sheetBody": "SKU PKM-SV8-BB-EN · 36 packs",
+      "menu": "Actions",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "tooltip": "Duplicates the product with all its variants",
+      "showToast": "Show toast",
+      "toastTitle": "Product saved",
+      "toastBody": "The changes are live in the store.",
+      "toastLabel": "Notification",
+      "toastRegion": "Notifications ({hotkey})",
+      "close": "Close",
+      "undo": "Undo"
+    },
+    "tabs": {
+      "general": "General",
+      "variants": "Variants",
+      "history": "History",
+      "generalBody": "Product name, category and description.",
+      "variantsBody": "Stock, cost and price of each variant.",
+      "historyBody": "Price and stock changes."
+    },
+    "data": {
+      "sales": "Sales this month",
+      "margin": "Average margin",
+      "pending": "Pending orders",
+      "vsLastMonth": "vs last month",
+      "pendingValue": "{count} orders",
+      "pendingDetail": "{count} ready to ship",
+      "chartTitle": "Sales, last 6 months",
+      "chartDescription": "Net revenue in pesos",
+      "national": "Nationwide shipping",
+      "local": "Local sales",
+      "chartEmpty": "No sales in this period yet.",
+      "product": "Product",
+      "stock": "Stock",
+      "price": "Price",
+      "units": "{count} u.",
+      "lowStock": "{count} u. (low)",
+      "emptyTitle": "No orders yet",
+      "emptyBody": "Your first sale will show up here.",
+      "updatedAt": "Updated"
+    },
+    "table": {
+      "search": "Search product or SKU…",
+      "selectAll": "Select all on this page",
+      "selectRow": "Select product",
+      "selected": "{count, plural, one {# product selected} other {# products selected}}",
+      "clearSelection": "Clear selection",
+      "clearFilters": "Clear filters",
+      "noResults": "No results",
+      "noResultsDescription": "No products match the search.",
+      "empty": "No products yet",
+      "pageInfo": "Showing {from} to {to} of {total} products",
+      "pageOf": "Page {page} of {count}",
+      "previousPage": "Previous page",
+      "nextPage": "Next page",
+      "rowsPerPage": "Rows per page",
+      "archive": "Archive"
+    },
+    "spaces": {
+      "general": "General",
+      "generalDescription": "Consolidated view",
+      "global": "Global",
+      "business": "Business",
+      "projects": "Projects",
+      "pending": "{count} pending",
+      "create": "Create a new space",
+      "createDescription": "Company, business or project",
+      "accentNote": "The space switcher in the sidebar changes the accent of the whole page."
+    }
   }
 }

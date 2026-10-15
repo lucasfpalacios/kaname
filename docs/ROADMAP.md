@@ -21,7 +21,7 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [x] Formularios: FormField (label, ayuda, error), MoneyInput (ARS/USD), PercentInput
 - [x] Datos: DataTable (TanStack Table: orden, filtros, búsqueda, paginación, selección y acciones masivas), MoneyText, DateText, StatusBadge, EmptyState, KpiCard, ChartCard (Recharts con la paleta)
 - [x] Layout: AppShell, TopBar, Sidebar (colapsable), WorkspaceSwitcher, PageHeader, WorkspaceTile (launcher), Breadcrumbs
-- [ ] Página `/ui-kit` en `apps/web` (solo en desarrollo) para ver los componentes dentro de la app real
+- [x] Página `/ui-kit` en `apps/web` (solo en desarrollo) para ver los componentes dentro de la app real
 
 ## Fase 1 — Auth y permisos
 - [ ] Registro / login email+contraseña, refresh tokens

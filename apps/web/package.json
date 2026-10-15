@@ -12,6 +12,7 @@
   "dependencies": {
     "@kaname/shared": "workspace:*",
     "@kaname/ui": "workspace:*",
+    "lucide-react": "1.57.0",
     "next": "16.4.0",
     "next-intl": "4.14.9",
     "react": "19.3.0",

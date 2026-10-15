@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { Shippori_Mincho_B1, Zen_Kaku_Gothic_New } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import {
+  getMessages,
+  getTranslations,
+  setRequestLocale,
+} from "next-intl/server";
 import { ThemeProvider } from "@kaname/ui";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
@@ -40,6 +44,13 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  // Los textos de /ui-kit (solo desarrollo) no viajan a las demás páginas: esa ruta los pasa con
+  // su propio provider.
+  const messages = Object.fromEntries(
+    Object.entries(await getMessages()).filter(
+      ([namespace]) => namespace !== "UiKit",
+    ),
+  );
 
   return (
     <html
@@ -48,7 +59,7 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
           <ThemeProvider>{children}</ThemeProvider>
         </NextIntlClientProvider>
       </body>

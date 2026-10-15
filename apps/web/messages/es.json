@@ -10,9 +10,10 @@
     "paletteLabel": "Paleta de colores"
   },
   "ThemeToggle": {
-    "toDark": "Pasar a oscuro",
-    "toLight": "Pasar a claro",
-    "loading": "Tema"
+    "label": "Tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
   },
   "LocaleSwitcher": {
     "label": "Idioma",
@@ -28,5 +29,142 @@
     "OWNER": "Dueño",
     "COLLABORATOR": "Colaborador",
     "CLIENT": "Cliente"
+  },
+  "UiKit": {
+    "title": "UI Kit",
+    "description": "Los componentes de @kaname/ui dentro de la app real, con next-intl y el tema de la app.",
+    "devOnly": "Solo desarrollo",
+    "nav": "Secciones",
+    "openMenu": "Abrir menú",
+    "collapse": "Colapsar menú",
+    "expand": "Expandir menú",
+    "skip": "Saltar al contenido",
+    "switchWorkspace": "Cambiar de espacio",
+    "workspaces": "Espacios",
+    "sections": {
+      "actions": "Acciones",
+      "forms": "Formularios",
+      "overlays": "Superposiciones",
+      "data": "Datos",
+      "spaces": "Espacios"
+    },
+    "buttons": {
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "viewAll": "Ver todo",
+      "delete": "Eliminar",
+      "more": "Más opciones",
+      "newProduct": "Nuevo producto"
+    },
+    "badges": {
+      "new": "Nuevo",
+      "draft": "Borrador",
+      "low": "Stock bajo"
+    },
+    "orderStatus": {
+      "PENDING": "Pendiente",
+      "PREPARING": "Preparando",
+      "SHIPPED": "En camino",
+      "DELIVERED": "Entregado",
+      "CANCELLED": "Cancelado"
+    },
+    "paymentStatus": {
+      "UNPAID": "Sin cobrar",
+      "PAID": "Cobrado"
+    },
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Ej.: Booster Box Surging Sparks",
+      "nameHelp": "Se muestra en presupuestos y en la tienda.",
+      "category": "Categoría",
+      "categoryPlaceholder": "Elegí una categoría",
+      "categories": {
+        "boosterBox": "Booster boxes",
+        "singles": "Cartas sueltas",
+        "accessories": "Accesorios"
+      },
+      "price": "Precio de venta",
+      "currency": "Moneda",
+      "release": "Fecha de lanzamiento",
+      "releasePlaceholder": "Elegí una fecha",
+      "trackStock": "Controlar stock",
+      "published": "Publicado en la tienda"
+    },
+    "overlays": {
+      "openDialog": "Abrir diálogo",
+      "dialogTitle": "Editar producto",
+      "dialogBody": "Cambiá el nombre y el precio de venta.",
+      "openSheet": "Ver detalle",
+      "sheetTitle": "Booster Box Surging Sparks",
+      "sheetBody": "SKU PKM-SV8-BB-EN · 36 sobres",
+      "menu": "Acciones",
+      "edit": "Editar",
+      "duplicate": "Duplicar",
+      "tooltip": "Duplica el producto con todas sus variantes",
+      "showToast": "Mostrar toast",
+      "toastTitle": "Producto guardado",
+      "toastBody": "Los cambios ya se ven en la tienda.",
+      "toastLabel": "Notificación",
+      "toastRegion": "Notificaciones ({hotkey})",
+      "close": "Cerrar",
+      "undo": "Deshacer"
+    },
+    "tabs": {
+      "general": "General",
+      "variants": "Variantes",
+      "history": "Historial",
+      "generalBody": "Nombre, categoría y descripción del producto.",
+      "variantsBody": "Stock, costo y precio de cada variante.",
+      "historyBody": "Cambios de precio y de stock."
+    },
+    "data": {
+      "sales": "Ventas del mes",
+      "margin": "Margen promedio",
+      "pending": "Pedidos pendientes",
+      "vsLastMonth": "vs mes anterior",
+      "pendingValue": "{count} pedidos",
+      "pendingDetail": "{count} listos para despacho",
+      "chartTitle": "Ventas últimos 6 meses",
+      "chartDescription": "Facturación neta en pesos",
+      "national": "Envíos nacionales",
+      "local": "Ventas locales",
+      "chartEmpty": "Todavía no hay ventas en este período.",
+      "product": "Producto",
+      "stock": "Stock",
+      "price": "Precio",
+      "units": "{count} u.",
+      "lowStock": "{count} u. (bajo)",
+      "emptyTitle": "Todavía no hay pedidos",
+      "emptyBody": "Cuando cargues una venta, aparece acá.",
+      "updatedAt": "Actualizado"
+    },
+    "table": {
+      "search": "Buscar producto o SKU…",
+      "selectAll": "Seleccionar todos los de esta página",
+      "selectRow": "Seleccionar producto",
+      "selected": "{count, plural, one {# producto seleccionado} other {# productos seleccionados}}",
+      "clearSelection": "Quitar selección",
+      "clearFilters": "Limpiar filtros",
+      "noResults": "Sin resultados",
+      "noResultsDescription": "Ningún producto coincide con la búsqueda.",
+      "empty": "Todavía no hay productos",
+      "pageInfo": "Mostrando {from} a {to} de {total} productos",
+      "pageOf": "Página {page} de {count}",
+      "previousPage": "Página anterior",
+      "nextPage": "Página siguiente",
+      "rowsPerPage": "Filas por página",
+      "archive": "Archivar"
+    },
+    "spaces": {
+      "general": "General",
+      "generalDescription": "Panel consolidado",
+      "global": "Global",
+      "business": "Emprendimiento",
+      "projects": "Proyectos",
+      "pending": "{count} pend.",
+      "create": "Crear nuevo espacio",
+      "createDescription": "Empresa, emprendimiento o proyecto",
+      "accentNote": "El selector de espacio del sidebar cambia el acento de toda la página."
+    }
   }
 }

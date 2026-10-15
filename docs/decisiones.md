@@ -266,3 +266,11 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - **Ícono y kanji quietos:** el contenido se arma siempre a 256 px y el nav lo recorta. Lo que solo se ve expandido (nombres, títulos de grupo, texto del selector de espacio) pasa de `opacity-0` a visible, sin cambiar de lugar.
 - **Accesibilidad:** el kanji es decorativo (`aria-hidden`). El ícono y el nombre traducido tienen que estar siempre accesibles: el ícono siempre se ve y el nombre nunca sale del árbol de accesibilidad (`opacity-0`, no `display: none`), así los lectores de pantalla lo leen también colapsado.
 **Descartado:** los tooltips por ítem. El nombre tardaba en aparecer, había que recorrer los ítems uno por uno para leerlos y el ícono no se veía.
+
+### 2026-10-15 · Página /ui-kit, ThemeToggle en el kit y textos por ruta
+**Por qué:**
+- **Solo en desarrollo:** `/[locale]/ui-kit` llama a `notFound()` si `NODE_ENV` es `production`. El build la prerenderiza como 404 y `generateMetadata` no da título en producción, así el 404 no menciona la vitrina.
+- **Textos por ruta:** el layout le pasa a `NextIntlClientProvider` todos los mensajes menos `UiKit`. `/ui-kit` envuelve la vitrina en su propio provider, que recibe todos. Así los textos de la vitrina no viajan a las demás páginas.
+- **ThemeToggle en el kit:** menú claro / oscuro / sistema sobre el ThemeProvider del kit, con los textos por props. Hasta montar no marca ninguna opción, así no hay diferencias de hidratación. Reemplaza el botón temporal de la web, y el selector de idioma pasa a usar el Select del kit (los dos eran controles con estilos propios en la página).
+- **Íconos en la web:** `lucide-react` en la misma versión que el kit, para los íconos que la web le pasa a los componentes.
+**Descartado:** excluir la ruta del build con `pageExtensions` por entorno, porque es más indirecto que el `notFound()` y obliga a nombrar los archivos de otra forma.

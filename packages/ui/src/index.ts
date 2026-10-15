@@ -51,3 +51,4 @@ export * from "./components/workspace-accent";
 export * from "./components/workspace-avatar";
 export * from "./components/workspace-switcher";
 export * from "./components/workspace-tile";
+export * from "./components/theme-toggle";

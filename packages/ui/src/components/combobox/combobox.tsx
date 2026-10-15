@@ -65,7 +65,7 @@ export function Combobox(rawProps: ComboboxProps) {
         >
           <span
             id={valueId}
-            className={cn("truncate", !selected && "text-foreground/55")}
+            className={cn("truncate", !selected && "text-muted-foreground")}
           >
             {selected?.label ?? placeholder}
           </span>
@@ -84,7 +84,7 @@ export function Combobox(rawProps: ComboboxProps) {
             <Search aria-hidden="true" className="size-4 shrink-0 opacity-60" />
             <Command.Input
               placeholder={searchPlaceholder}
-              className="h-10 w-full bg-transparent text-sm outline-none placeholder:text-foreground/55"
+              className="h-10 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
             />
           </div>
           <Command.List className="max-h-64 overflow-y-auto p-1">

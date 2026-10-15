@@ -73,7 +73,7 @@ function RecentOrders({ locale: storyLocale }: { locale: unknown }) {
                 format="datetime"
                 locale={locale}
                 timeZone={TIME_ZONE}
-                className="text-xs text-foreground/60"
+                className="text-xs text-muted-foreground"
               />
             </div>
           ),

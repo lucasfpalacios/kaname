@@ -217,7 +217,7 @@ export function SidebarGroup({
       {label && (
         <p
           className={cn(
-            "truncate px-2 pb-1 text-xs font-medium tracking-label whitespace-nowrap text-foreground/60 uppercase",
+            "truncate px-2 pb-1 text-xs font-medium tracking-label whitespace-nowrap text-muted-foreground uppercase",
             hiddenWhenCollapsed,
           )}
         >

@@ -15,6 +15,7 @@ const es = {
     card: "Tarjeta / superficie",
     border: "Borde",
     foreground: "Texto",
+    "muted-foreground": "Texto secundario",
     primary: "Primario",
     "primary-foreground": "Texto sobre primario",
     accent: "Acento",
@@ -25,6 +26,8 @@ const es = {
     "warning-soft": "Advertencia (fondo)",
     destructive: "Error",
     "destructive-soft": "Error (fondo)",
+    "chart-1": "Gráficos, serie 1",
+    "chart-2": "Gráficos, serie 2",
   },
   typography: {
     display: "Display: Shippori Mincho B1",
@@ -373,6 +376,7 @@ const en: Messages = {
     card: "Card / surface",
     border: "Border",
     foreground: "Text",
+    "muted-foreground": "Secondary text",
     primary: "Primary",
     "primary-foreground": "Text on primary",
     accent: "Accent",
@@ -383,6 +387,8 @@ const en: Messages = {
     "warning-soft": "Warning (background)",
     destructive: "Error",
     "destructive-soft": "Error (background)",
+    "chart-1": "Charts, series 1",
+    "chart-2": "Charts, series 2",
   },
   typography: {
     display: "Display: Shippori Mincho B1",

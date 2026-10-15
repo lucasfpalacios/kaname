@@ -4,7 +4,7 @@ import { focusRing } from "./focus-ring";
 // El error se marca con aria-invalid, que pone FormField.
 export const controlBase = [
   "flex h-10 w-full min-w-0 items-center rounded-md border border-border bg-card px-3 text-sm text-foreground transition-colors",
-  "placeholder:text-foreground/55",
+  "placeholder:text-muted-foreground",
   "disabled:cursor-not-allowed disabled:opacity-50",
   "aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive",
   focusRing,
@@ -24,4 +24,4 @@ export const controlGroup = [
 ].join(" ");
 
 export const controlGroupInput =
-  "h-full w-full min-w-0 bg-transparent px-3 outline-none placeholder:text-foreground/55 disabled:cursor-not-allowed";
+  "h-full w-full min-w-0 bg-transparent px-3 outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed";

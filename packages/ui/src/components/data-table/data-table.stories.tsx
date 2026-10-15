@@ -106,7 +106,7 @@ function useProductTable(storyLocale: unknown) {
         cell: ({ row }) => (
           <div className="min-w-56">
             <p className="font-medium">{row.original.name}</p>
-            <p className="text-xs text-foreground/60">{row.original.sku}</p>
+            <p className="text-xs text-muted-foreground">{row.original.sku}</p>
           </div>
         ),
       }),

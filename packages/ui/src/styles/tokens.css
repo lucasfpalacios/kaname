@@ -10,6 +10,8 @@
   --card: #ffffff;
   --border: #e5e7eb;
   --foreground: #1f2033; /* Sumi */
+  /* Texto secundario (placeholders, ayudas chicas): 5.6:1 sobre card, AA también sobre hover. */
+  --muted-foreground: #676774;
   --primary: #1e50a2; /* Ruri-iro */
   --primary-foreground: #ffffff;
   --accent: #f09199; /* Momo-iro */
@@ -32,6 +34,7 @@
   --card: #1a2747;
   --border: #293b63;
   --foreground: #f3f1f6;
+  --muted-foreground: #aeb0be; /* 6.8:1 sobre card */
   --primary: #89c3eb; /* Wasurenagusa-iro */
   --primary-foreground: #0f1a33;
   --accent: #f4b3c2; /* Toki-iro */

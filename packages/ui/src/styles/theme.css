@@ -10,6 +10,7 @@
   --color-card: var(--card);
   --color-border: var(--border);
   --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);

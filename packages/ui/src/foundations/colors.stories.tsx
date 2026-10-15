@@ -8,6 +8,7 @@ const TOKENS = [
   "card",
   "border",
   "foreground",
+  "muted-foreground",
   "primary",
   "primary-foreground",
   "accent",
@@ -18,6 +19,8 @@ const TOKENS = [
   "warning-soft",
   "destructive",
   "destructive-soft",
+  "chart-1",
+  "chart-2",
 ] as const;
 
 type Token = (typeof TOKENS)[number];

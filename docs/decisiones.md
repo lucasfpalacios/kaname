@@ -278,3 +278,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - **ThemeToggle en el kit:** menú claro / oscuro / sistema sobre el ThemeProvider del kit, con los textos por props. Hasta montar no marca ninguna opción, así no hay diferencias de hidratación. Reemplaza el botón temporal de la web, y el selector de idioma pasa a usar el Select del kit (los dos eran controles con estilos propios en la página).
 - **Íconos en la web:** `lucide-react` en la misma versión que el kit, para los íconos que la web le pasa a los componentes.
 **Descartado:** excluir la ruta del build con `pageExtensions` por entorno, porque es más indirecto que el `notFound()` y obliga a nombrar los archivos de otra forma.
+
+### 2026-10-15 · Token `muted-foreground` para texto secundario
+**Por qué:** la revisión de la Fase 0.5 encontró textos debajo de AA en el tema claro. Los placeholders (`foreground/55`) daban 3.7:1 y los textos chicos en `foreground/60` (título de grupo del sidebar, atajos del menú, SKUs) daban 4.3:1. `muted-foreground` vale `#676774` en claro (5.6:1 sobre card y al menos 4.8:1 sobre los fondos de hover) y `#AEB0BE` en oscuro (6.8:1). Los placeholders y esos textos pasan a usarlo. `foreground/70` (5.9:1) queda para descripciones.
+**Descartado:** subir cada uso a `foreground/70` por separado, porque un token deja la regla en un solo lugar y se puede ajustar por tema.

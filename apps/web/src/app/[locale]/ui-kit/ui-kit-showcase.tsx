@@ -291,7 +291,9 @@ export function UiKitShowcase({ intlLocale }: { intlLocale: string }) {
           cell: ({ row }) => (
             <div>
               <p className="font-medium">{row.original.name}</p>
-              <p className="text-xs text-foreground/60">{row.original.sku}</p>
+              <p className="text-xs text-muted-foreground">
+                {row.original.sku}
+              </p>
             </div>
           ),
         }),

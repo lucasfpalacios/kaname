@@ -57,7 +57,7 @@ export function DatePicker(rawProps: DatePickerProps) {
           />
           <span
             id={valueId}
-            className={cn("truncate", !value && "text-foreground/55")}
+            className={cn("truncate", !value && "text-muted-foreground")}
           >
             {value
               ? new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(

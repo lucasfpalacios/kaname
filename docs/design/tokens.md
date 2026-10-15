@@ -10,6 +10,7 @@ Paleta inspirada en colores tradicionales japoneses. Radios: 8–12px. Bordes su
 | card / surface | `#FFFFFF` | `#1A2747` |
 | border | `#E5E7EB` | `#293B63` |
 | foreground (texto) | `#1F2033` Sumi | `#F3F1F6` |
+| muted-foreground (texto secundario) | `#676774` | `#AEB0BE` |
 | primary | `#1E50A2` Ruri-iro | `#89C3EB` Wasurenagusa-iro |
 | primary-foreground | `#FFFFFF` | `#0F1A33` |
 | accent | `#F09199` Momo-iro | `#F4B3C2` Toki-iro |

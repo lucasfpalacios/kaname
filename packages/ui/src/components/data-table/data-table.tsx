@@ -333,7 +333,7 @@ export function DataTable<TData extends RowData>({
             <label className={cn(controlGroup, "w-full sm:max-w-xs")}>
               <Search
                 aria-hidden="true"
-                className="ml-3 size-4 shrink-0 text-foreground/60"
+                className="ml-3 size-4 shrink-0 text-muted-foreground"
               />
               <input
                 type="search"

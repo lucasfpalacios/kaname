@@ -34,7 +34,7 @@ export function SelectTrigger({
       data-slot="select-trigger"
       className={cn(
         controlBase,
-        "cursor-pointer justify-between gap-2 whitespace-nowrap data-placeholder:text-foreground/55 [&>span]:truncate",
+        "cursor-pointer justify-between gap-2 whitespace-nowrap data-placeholder:text-muted-foreground [&>span]:truncate",
         className,
       )}
       {...useFormFieldProps(props)}

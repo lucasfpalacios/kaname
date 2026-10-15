@@ -8,6 +8,7 @@ alwaysApply: false
 - Tokens: variables CSS en `packages/ui/src/styles/tokens.css` (claro en `:root`, oscuro en `.dark`), sacadas de `docs/design/tokens.md`. Tailwind las lee como colores (`bg-primary`, `text-foreground`...). Nunca hex sueltos en componentes.
 - Dinámico: los componentes no conocen colores fijos ni negocios. Variantes y tamaños con `cva`; el acento de cada espacio entra por la variable `--accent` del contenedor.
 - Base de shadcn/ui: se copia al kit y se adapta a los tokens. Componentes propios se arman sobre esos, no desde cero.
+- Todo módulo que use hooks, contexto o una librería sin `"use client"` (por ejemplo react-day-picker) lleva `"use client"`: la web importa el kit desde Server Components.
 - Sin dependencias de Next.js ni de next-intl: todo texto entra por props (labels, placeholders, mensajes). Así el kit sirve en cualquier app.
 - Estructura: `src/components/<nombre>/` con `<nombre>.tsx`, `<nombre>.stories.tsx` e `index.ts`. Exportar todo desde `src/index.ts`.
 - Cada componente nuevo necesita su story con: variantes, estados (hover, disabled, loading, error, vacío) y vista en claro y oscuro.

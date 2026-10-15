@@ -181,3 +181,21 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 
 ### 2026-10-15 · Hover y foco forzados en Storybook
 **Por qué:** la regla del kit pide mostrar el hover y el foco en las stories. `storybook-addon-pseudo-states` (oficial de Storybook) los fuerza por selector. Tailwind v4 mete el hover en `@media (hover: hover)` y el addon no reescribe reglas dentro de `@media`, así que en el CSS de Storybook se redefine `hover` sin la media query. La app no cambia.
+
+### 2026-10-15 · Controles de formulario del kit
+**Por qué:**
+- **Combobox:** Popover + `cmdk`, como el de shadcn/ui. Busca por etiqueta y por `keywords` (SKU, alias).
+- **DatePicker y Calendar:** `react-day-picker` 10, con estilos de Tailwind en vez de su CSS. El locale entra como string BCP 47 ("es-AR"). Por ahora el calendario traduce español e inglés.
+- **FormField:** pasa id, `aria-labelledby`, `aria-describedby`, `aria-invalid` y `aria-required` por un contexto que leen los controles del kit. Así funciona aunque el control esté anidado, como el `SelectTrigger` dentro de `Select`.
+- **Componentes extra:** Label, Popover y Calendar, porque los necesitan FormField, Combobox y DatePicker.
+- **`"use client"`:** lo llevan los módulos del kit que usan hooks o contexto, porque la web importa el kit desde Server Components.
+**Descartado:**
+- `@daypicker/react`: es un envoltorio del mismo `react-day-picker` 10.0.2.
+- Un `Slot` en FormField: la raíz de Radix Select no renderiza nada en el DOM y los atributos se perdían.
+
+### 2026-10-15 · MoneyInput y PercentInput con string decimal
+**Por qué:** el valor es el mismo string que valida `moneySchema` ("1234.5": hasta 12 enteros y 2 decimales), nunca un `number`.
+- **Edición:** mientras el campo tiene foco se edita sin separador de miles; al salir se formatea con `Intl.NumberFormat` según el locale (es-AR: 1.234,50).
+- **Separadores:** el último "." o "," es el decimal y los anteriores se descartan como miles. Así funcionan el punto del teclado numérico y pegar "1.234,56".
+- **Tests:** el parseo tiene tests con Vitest en `@kaname/ui`.
+**Descartado:** formatear con miles mientras se escribe, porque obliga a recalcular la posición del cursor en cada tecla.

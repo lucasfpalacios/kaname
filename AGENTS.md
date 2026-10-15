@@ -60,7 +60,7 @@ pnpm dev            # web :3000 + api :4000 + shared en watch
 pnpm lint           # ESLint en todos los paquetes (config en @kaname/eslint-config)
 pnpm typecheck      # tsc en todos los paquetes
 pnpm build          # build de producción (shared, api, web)
-pnpm test           # tests unitarios (Vitest en la api)
+pnpm test           # tests unitarios (Vitest en la api y en el kit)
 pnpm format         # Prettier en todo el repo
 pnpm format:check   # verifica el formato sin escribir
 pnpm db:up / db:down

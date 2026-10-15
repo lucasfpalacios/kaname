@@ -20,5 +20,13 @@ export function StoryRow({
 
 // Los elementos con estas clases se ven con hover o foco forzado (storybook-addon-pseudo-states).
 export const forcedStates = {
-  pseudo: { hover: ".force-hover", focusVisible: ".force-focus" },
+  pseudo: {
+    hover: ".force-hover",
+    focusVisible: ".force-focus",
+    focusWithin: ".force-focus-within",
+  },
 };
+
+// Locale BCP 47 para montos y fechas según el idioma elegido en la barra.
+export const storyIntlLocale = (locale: unknown) =>
+  locale === "en" ? "en-US" : "es-AR";

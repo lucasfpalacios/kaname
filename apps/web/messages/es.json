@@ -106,8 +106,7 @@
       "toastBody": "Los cambios ya se ven en la tienda.",
       "toastLabel": "Notificación",
       "toastRegion": "Notificaciones ({hotkey})",
-      "close": "Cerrar",
-      "undo": "Deshacer"
+      "close": "Cerrar"
     },
     "tabs": {
       "general": "General",
@@ -135,8 +134,7 @@
       "units": "{count} u.",
       "lowStock": "{count} u. (bajo)",
       "emptyTitle": "Todavía no hay pedidos",
-      "emptyBody": "Cuando cargues una venta, aparece acá.",
-      "updatedAt": "Actualizado"
+      "emptyBody": "Cuando cargues una venta, aparece acá."
     },
     "table": {
       "search": "Buscar producto o SKU…",

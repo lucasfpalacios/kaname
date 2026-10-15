@@ -12,7 +12,7 @@ Piloto: **Tank Vault TCG**. Cada fase termina con algo que se puede usar y con l
 - [x] ESLint + Prettier + scripts `lint`, `typecheck`, `build`, `dev`
 - [x] Repo en GitHub
 
-## Fase 0.5 — UI Kit (`packages/ui`)
+## Fase 0.5 — UI Kit (`packages/ui`) ✅
 Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro y con su story.
 - [x] Storybook con selector de tema (claro/oscuro) y de idioma (es/en)
 - [x] Fundamentos: acentos kanji por módulo, espaciados, íconos (lucide) y stories de los fundamentos. Ya hechos en la Fase 0: tokens como variables CSS, tipografía (Shippori Mincho B1 + Zen Kaku Gothic New), radios y `ThemeProvider`

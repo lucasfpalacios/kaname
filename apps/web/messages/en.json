@@ -106,8 +106,7 @@
       "toastBody": "The changes are live in the store.",
       "toastLabel": "Notification",
       "toastRegion": "Notifications ({hotkey})",
-      "close": "Close",
-      "undo": "Undo"
+      "close": "Close"
     },
     "tabs": {
       "general": "General",
@@ -135,8 +134,7 @@
       "units": "{count} u.",
       "lowStock": "{count} u. (low)",
       "emptyTitle": "No orders yet",
-      "emptyBody": "Your first sale will show up here.",
-      "updatedAt": "Updated"
+      "emptyBody": "Your first sale will show up here."
     },
     "table": {
       "search": "Search product or SKU…",

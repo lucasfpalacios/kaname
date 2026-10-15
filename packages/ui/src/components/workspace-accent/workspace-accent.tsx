@@ -2,8 +2,8 @@ import { Slot } from "radix-ui";
 import type { ComponentProps, CSSProperties } from "react";
 
 // Acento dinámico por espacio: Workspace.color sobreescribe --accent (y --accent-soft) en el
-// contenedor. Todo lo de adentro que use el acento (badges, kanji, serie 2 de los gráficos,
-// WorkspaceAvatar) toma el color del espacio. Solo acepta #rrggbb: el color lo carga el usuario y
+// contenedor. Todo lo de adentro que use el acento (badges, kanji, ítem activo, WorkspaceAvatar)
+// toma el color del espacio. Los gráficos no: usan --chart-1 y --chart-2, fijos. Solo acepta #rrggbb: el color lo carga el usuario y
 // va a un style inline. Sin color válido queda el acento por defecto del tema.
 
 const HEX_COLOR = /^#[0-9a-f]{6}$/i;

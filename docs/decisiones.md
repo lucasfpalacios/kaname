@@ -274,6 +274,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-15 · Página /ui-kit, ThemeToggle en el kit y textos por ruta
 **Por qué:**
 - **Solo en desarrollo:** `/[locale]/ui-kit` llama a `notFound()` si `NODE_ENV` es `production`. El build la prerenderiza como 404 y `generateMetadata` no da título en producción, así el 404 no menciona la vitrina.
+- **Fuera del build (revisión de la Fase 0.5):** la vitrina se importa con `import()` dentro de la rama de desarrollo. En producción esa rama es código muerto y el bundler la descarta, así que su código no llega ni a los chunks públicos ni al servidor. `next/dynamic` no sirve para esto: desde un Server Component no divide el código de un Client Component.
 - **Textos por ruta:** el layout le pasa a `NextIntlClientProvider` todos los mensajes menos `UiKit`. `/ui-kit` envuelve la vitrina en su propio provider, que recibe todos. Así los textos de la vitrina no viajan a las demás páginas.
 - **ThemeToggle en el kit:** menú claro / oscuro / sistema sobre el ThemeProvider del kit, con los textos por props. Hasta montar no marca ninguna opción, así no hay diferencias de hidratación. Reemplaza el botón temporal de la web, y el selector de idioma pasa a usar el Select del kit (los dos eran controles con estilos propios en la página).
 - **Íconos en la web:** `lucide-react` en la misma versión que el kit, para los íconos que la web le pasa a los componentes.

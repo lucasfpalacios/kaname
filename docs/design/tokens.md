@@ -31,14 +31,14 @@ Las dos son fuentes japonesas de Google Fonts, gratis y con alfabeto latino. Car
 | `--font-sans` | **Zen Kaku Gothic New** | 400, 500, 700 | Todo lo demás: interfaz, tablas, formularios, botones, KPIs |
 
 - Display con dos pesos: 800 para h1; 600 para h2, h3, nombres de espacio y acentos kanji.
-- La Mincho nunca va en textos chicos (menos de 18px), tablas ni botones: es de títulos.
+- La Mincho nunca va en textos chicos (menos de 18px), tablas ni botones: es de títulos. Única excepción: el kanji decorativo de los módulos, que en el sidebar va a 14px (cabe uno de 3 caracteres junto al ícono) y en ModuleKanji `sm` a 16px. No es texto para leer: lleva `aria-hidden` y siempre acompaña al nombre.
 - Números: `tabular-nums`. Si Zen Kaku Gothic New no alinea bien los dígitos en columnas, usar una fuente de respaldo solo para celdas numéricas y avisar.
 - Fallbacks: `"Hiragino Mincho ProN", serif` para display y `"Hiragino Sans", "Noto Sans JP", system-ui, sans-serif` para interfaz.
 - Escala: 12 / 14 / 16 / 18 / 22 / 28 / 36. Etiquetas en mayúscula con `letter-spacing: .08em`.
 
 ## Acentos kanji
 
-El 要 es el logo. Cada módulo tiene un kanji que aparece chico, en color `accent` y fuente display, junto al título de la página o en el sidebar colapsado. Es decorativo: siempre acompaña al texto en español, nunca lo reemplaza, y lleva `aria-hidden="true"`.
+El 要 es el logo. Cada módulo tiene un kanji que aparece chico, en color `accent` y fuente display, junto al título de la página y en cada ítem del sidebar (ícono + kanji + nombre; colapsado, ícono + kanji). Es decorativo: siempre acompaña al nombre traducido, nunca lo reemplaza, y lleva `aria-hidden="true"`.
 
 | Módulo | Kanji | | Módulo | Kanji |
 |---|---|---|---|---|
@@ -55,15 +55,16 @@ El 要 es el logo. Cada módulo tiene un kanji que aparece chico, en color `acce
 Referencia visual de la combinación: https://claude.ai/artifact/4Bh5Zg5YirdD45rNQpMbf6 (opción A).
 
 Reglas:
-- Nunca texto rosa sobre fondo claro (contraste insuficiente). El rosa es acento: badges, gráficos, estados.
+- Nunca texto rosa sobre fondo claro (contraste insuficiente). El rosa es acento: badges, gráficos, estados. La excepción es el kanji decorativo, que va en `accent` porque no es texto para leer (`aria-hidden`).
 - Gráficos: serie 1 = `chart-1`, serie 2 = `chart-2`. Sin violeta. Son fijos: no cambian con el acento del espacio, así el mismo gráfico se lee igual en todos los espacios.
+- Montos nunca cortan en dos líneas (`whitespace-nowrap`, `tabular-nums`).
+- Texto secundario (placeholders, ayudas chicas) en `muted-foreground`, que pasa AA en los dos temas.
 
 ## Acento por espacio
 
 `Workspace.color` (solo `#rrggbb`) reemplaza `accent` y `accent-soft` dentro del contenedor del espacio. En oscuro se aclara un 35% hacia blanco para que se vea sobre Kon-iro. Sin color queda Momo-iro / Toki-iro.
 
-Es solo identidad: insignia del espacio (WorkspaceAvatar), kanji de los módulos, ítem activo del sidebar, badges `accent`. Nunca va en los gráficos ni como color de texto (el color lo elige el usuario y puede no tener contraste).
-- Montos nunca cortan en dos líneas (`whitespace-nowrap`, `tabular-nums`).
+Es solo identidad: insignia del espacio (WorkspaceAvatar), kanji de los módulos, ítem activo del sidebar, badges `accent`. Nunca va en los gráficos ni como color de texto legible (el color lo elige el usuario y puede no tener contraste); el kanji decorativo es la única excepción.
 
 ## Pantallas de referencia (en el zip)
 login_light/dark · home_light/dark (launcher) · general_light/dark · tank_vault_light/dark · productos_light/dark · calculadora_light/dark · dashboard_edit_light/dark · calendario_light/dark + calendario_modal_light · admin_light/dark · admin_roles_light/dark.

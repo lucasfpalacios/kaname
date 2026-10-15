@@ -218,7 +218,7 @@ export const Oscuro: Story = {
   render: (_args, { globals }) => <TankVault locale={globals.locale} />,
 };
 
-// Sidebar colapsado: una columna de kanji, con el nombre en un tooltip.
+// Sidebar colapsado (ícono + kanji). Pasá el mouse o navegá con Tab: se expande sobre el contenido.
 export const SidebarColapsado: Story = {
   name: "Sidebar colapsado",
   render: (_args, { globals }) => (

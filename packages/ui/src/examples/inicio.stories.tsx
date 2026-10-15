@@ -109,7 +109,7 @@ function Inicio({ locale: storyLocale }: { locale: unknown }) {
                     <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
                       <DateText
                         value={event.at}
-                        format="datetime"
+                        format="weekdayTime"
                         locale={locale}
                         timeZone={TIME_ZONE}
                         className="font-medium text-primary"

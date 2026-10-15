@@ -38,9 +38,12 @@ export function formatMoney(
 }
 
 export type DateFormat =
-  "date" | "short" | "long" | "monthYear" | "datetime" | "time";
+  "date" | "short" | "long" | "monthYear" | "datetime" | "time" | "weekdayTime";
 
-const DATE_FORMATS: Record<DateFormat, Intl.DateTimeFormatOptions> = {
+const DATE_FORMATS: Record<
+  Exclude<DateFormat, "weekdayTime">,
+  Intl.DateTimeFormatOptions
+> = {
   date: { day: "2-digit", month: "2-digit", year: "numeric" },
   short: { day: "numeric", month: "short" },
   long: { day: "numeric", month: "long", year: "numeric" },
@@ -80,11 +83,39 @@ export function formatDate(
   }: { locale?: string; format?: DateFormat; timeZone?: string } = {},
 ) {
   const date = typeof value === "string" ? new Date(value) : value;
+  if (format === "weekdayTime")
+    return formatWeekdayTime(date, locale, timeZone);
   return new Intl.DateTimeFormat(locale, {
     ...DATE_FORMATS[format],
     hourCycle: hourCycle(locale),
     timeZone: isDateOnly(value) ? "UTC" : timeZone,
   }).format(date);
+}
+
+// Fecha corta y natural para agendas: "vie 16 oct · 10:30" / "Fri, Oct 16 · 10:30". La hora va en
+// 24 h en todos los idiomas. En español se saca la coma que Intl pone después del día de la semana.
+function formatWeekdayTime(date: Date, locale: string, timeZone?: string) {
+  const day = new Intl.DateTimeFormat(locale, {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    timeZone,
+  }).formatToParts(date);
+  const spanish = new Intl.Locale(locale).language === "es";
+  const dayText = day
+    .map((part, index) =>
+      spanish && part.type === "literal" && day[index - 1]?.type === "weekday"
+        ? " "
+        : part.value,
+    )
+    .join("");
+  const time = new Intl.DateTimeFormat(locale, {
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+    timeZone,
+  }).format(date);
+  return `${dayText} · ${time}`;
 }
 
 /**

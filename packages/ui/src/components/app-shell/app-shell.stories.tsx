@@ -40,7 +40,7 @@ export const ConAcento: Story = {
         <PageHeader title={t.modules.PRODUCTS} module="PRODUCTS" />
         <EmptyState
           title={t.table.empty}
-          description={t.table.emptyDescription}
+          description={t.shell.disanzaEmptyDescription}
         />
       </AppShell>
     );

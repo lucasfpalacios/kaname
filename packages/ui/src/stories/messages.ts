@@ -280,6 +280,8 @@ const es = {
       "Workspace.color reemplaza --accent dentro del contenedor del espacio. Sin color, queda el acento por defecto.",
     defaultAccent: "Sin color",
     sections: "Secciones",
+    disanzaEmptyDescription:
+      "Cargá el primer producto de Disanza para empezar.",
   },
   overlays: {
     deleteTitle: "¿Eliminar el producto?",
@@ -634,6 +636,7 @@ const en: Messages = {
       "Workspace.color replaces --accent inside the space container. Without a color, the default accent stays.",
     defaultAccent: "No color",
     sections: "Sections",
+    disanzaEmptyDescription: "Add Disanza's first product to get started.",
   },
   overlays: {
     deleteTitle: "Delete the product?",

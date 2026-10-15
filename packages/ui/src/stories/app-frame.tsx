@@ -1,6 +1,5 @@
 import {
   Bell,
-  BookOpen,
   Calculator,
   CalendarDays,
   ChartLine,
@@ -9,6 +8,7 @@ import {
   LayoutGrid,
   Package,
   Plus,
+  Receipt,
   Search,
   Settings,
   Sun,
@@ -86,7 +86,7 @@ const TANK_VAULT_NAV: NavItem[] = [
   { module: "PRICE_LISTS", icon: <Tags /> },
   { module: "CALCULATOR", icon: <Calculator /> },
   { module: "MARKET_PRICES", icon: <TrendingUp /> },
-  { module: "ORDERS", icon: <BookOpen /> },
+  { module: "ORDERS", icon: <Receipt /> },
   { module: "DOCUMENTS", icon: <FileText /> },
   { module: "CALENDAR", icon: <CalendarDays /> },
   { module: "SOCIAL_METRICS", icon: <ChartLine /> },

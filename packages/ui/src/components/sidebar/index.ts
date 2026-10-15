@@ -8,6 +8,7 @@ export {
   SidebarItem,
   SidebarMobileTrigger,
   useSidebarCollapsed,
+  useSidebarState,
   type SidebarItemProps,
   type SidebarProps,
 } from "./sidebar";

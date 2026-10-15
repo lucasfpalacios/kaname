@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown-menu";
-import { useSidebarCollapsed } from "../sidebar";
+import { useSidebarCollapsed, useSidebarState } from "../sidebar";
 import { WorkspaceAvatar } from "../workspace-avatar";
 
 export type WorkspaceSwitcherItem = {
@@ -41,7 +41,11 @@ export type WorkspaceSwitcherProps = {
   className?: string;
 };
 
-// Selector de espacio, arriba del sidebar. Colapsado muestra solo la insignia del espacio.
+// Selector de espacio, arriba del sidebar. Colapsado se ve solo la insignia: el texto queda con
+// opacity-0 (no se corre nada al expandir). Mientras el menú está abierto, el sidebar no colapsa.
+const hiddenWhenCollapsed =
+  "transition-opacity group-data-[state=collapsed]/sidebar:opacity-0";
+
 export function WorkspaceSwitcher({
   workspaces,
   currentId,
@@ -52,17 +56,18 @@ export function WorkspaceSwitcher({
   className,
 }: WorkspaceSwitcherProps) {
   const collapsed = useSidebarCollapsed();
+  const { setHold } = useSidebarState();
   const current =
     workspaces.find((workspace) => workspace.id === currentId) ?? workspaces[0];
   if (!current) return null;
 
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={setHold}>
       <DropdownMenuTrigger
         aria-label={label}
         className={cn(
-          "flex w-full cursor-pointer items-center gap-3 rounded-md text-left transition-colors hover:bg-foreground/5 data-[state=open]:bg-foreground/5",
-          collapsed ? "justify-center p-1" : "border border-border p-2",
+          "flex w-full cursor-pointer items-center gap-3 rounded-md border border-border p-1.5 text-left transition-colors hover:bg-foreground/5 data-[state=open]:bg-foreground/5",
+          "group-data-[state=collapsed]/sidebar:w-[84px] group-data-[state=collapsed]/sidebar:border-transparent",
           focusRing,
           className,
         )}
@@ -72,22 +77,20 @@ export function WorkspaceSwitcher({
           icon={current.icon}
           color={current.color}
         />
-        {!collapsed && (
-          <>
-            <span className="flex min-w-0 flex-1 flex-col">
-              <span className="truncate text-sm font-bold">{current.name}</span>
-              {current.description && (
-                <span className="truncate text-xs text-foreground/70">
-                  {current.description}
-                </span>
-              )}
+        <span
+          className={cn("flex min-w-0 flex-1 flex-col", hiddenWhenCollapsed)}
+        >
+          <span className="truncate text-sm font-bold">{current.name}</span>
+          {current.description && (
+            <span className="truncate text-xs text-foreground/70">
+              {current.description}
             </span>
-            <ChevronsUpDown
-              aria-hidden="true"
-              className="size-4 shrink-0 opacity-60"
-            />
-          </>
-        )}
+          )}
+        </span>
+        <ChevronsUpDown
+          aria-hidden="true"
+          className={cn("size-4 shrink-0 opacity-60", hiddenWhenCollapsed)}
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"

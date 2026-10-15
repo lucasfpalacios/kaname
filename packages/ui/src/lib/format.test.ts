@@ -58,6 +58,18 @@ describe("formatDate", () => {
     );
   });
 
+  it("formatea día de la semana y hora para agendas", () => {
+    const value = "2026-10-16T13:30:00Z";
+    const options = {
+      format: "weekdayTime",
+      timeZone: "America/Argentina/Buenos_Aires",
+    } as const;
+    expect(formatDate(value, options)).toBe("vie 16 oct · 10:30");
+    expect(formatDate(value, { ...options, locale: "en-US" })).toBe(
+      "Fri, Oct 16 · 10:30",
+    );
+  });
+
   it("usa 24 h en español y 12 h en inglés", () => {
     const value = "2026-10-24T17:32:00Z";
     expect(formatDate(value, { format: "time", timeZone: "UTC" })).toBe(

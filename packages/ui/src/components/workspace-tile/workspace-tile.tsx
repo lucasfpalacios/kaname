@@ -12,7 +12,7 @@ import { WorkspaceAvatar } from "../workspace-avatar";
 // Con asChild envuelve el link de la app (<Link href>), así sirve desde un Server Component.
 const workspaceTileVariants = cva(
   [
-    "group/tile relative flex min-h-44 flex-col justify-between gap-6 rounded-lg border p-5 text-left text-foreground transition-colors",
+    "group/tile relative flex flex-col gap-4 rounded-lg border p-5 text-left text-foreground transition-colors",
     "hover:border-accent",
     focusRing,
   ],

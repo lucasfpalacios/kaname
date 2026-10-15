@@ -258,3 +258,11 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-15 · Colores de gráficos separados del acento del espacio
 **Por qué:** ChartCard usaba `--accent` para la serie 2. Con el acento por espacio, cada espacio pintaba su gráfico de otro color, y un acento azul se confundía con la serie 1. Los gráficos usan ahora `--chart-1` (Ruri-iro / Wasurenagusa-iro, el primary) y `--chart-2` (Momo-iro / Toki-iro), que define cada tema y no cambian con `Workspace.color`. El acento del espacio queda solo para identidad: ítem activo, kanji, badges y avatar. `ChartColor` cambia `primary` y `accent` por `chart-1` y `chart-2`. Tank Vault tiene su color en las stories.
 **Descartado:** dejar `--accent` en los gráficos y pedir que los espacios no elijan colores parecidos al primary, porque depende de lo que cargue el usuario.
+
+### 2026-10-15 · Sidebar: ícono + kanji, expansión superpuesta
+**Por qué:** reemplaza el sidebar colapsado de solo kanji con tooltips.
+- **Formato:** cada ítem es ícono + kanji + nombre, en columnas fijas. Colapsado (100 px) se ven el ícono y el kanji; fijado expandido (256 px), los tres.
+- **Expansión superpuesta:** con el mouse (después de 150 ms, para que no se abra al pasar de largo) o con foco de teclado (`:focus-visible`), el sidebar colapsado se expande superpuesto al contenido. Un espaciador de 100 px queda en el layout, así no se mueve nada. Al salir vuelve a colapsar. Mientras el menú de espacios está abierto se mantiene expandido.
+- **Ícono y kanji quietos:** el contenido se arma siempre a 256 px y el nav lo recorta. Lo que solo se ve expandido (nombres, títulos de grupo, texto del selector de espacio) pasa de `opacity-0` a visible, sin cambiar de lugar.
+- **Accesibilidad:** el kanji es decorativo (`aria-hidden`). El ícono y el nombre traducido tienen que estar siempre accesibles: el ícono siempre se ve y el nombre nunca sale del árbol de accesibilidad (`opacity-0`, no `display: none`), así los lectores de pantalla lo leen también colapsado.
+**Descartado:** los tooltips por ítem. El nombre tardaba en aparecer, había que recorrer los ítems uno por uno para leerlos y el ícono no se veía.

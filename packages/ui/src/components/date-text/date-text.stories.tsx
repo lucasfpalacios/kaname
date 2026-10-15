@@ -12,6 +12,7 @@ const FORMATS = [
   "monthYear",
   "datetime",
   "time",
+  "weekdayTime",
 ] as const;
 
 const meta = {

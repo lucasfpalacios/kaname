@@ -20,6 +20,9 @@
   --warning-soft: color-mix(in oklab, var(--warning) 12%, var(--card));
   --destructive: #c93a40;
   --destructive-soft: color-mix(in oklab, var(--destructive) 10%, var(--card));
+  /* Series de gráficos: fijas, no cambian con el acento del espacio. */
+  --chart-1: #1e50a2; /* Ruri-iro (primary) */
+  --chart-2: #f09199; /* Momo-iro */
 
   color-scheme: light;
 }
@@ -39,6 +42,39 @@
   --warning-soft: #382b12;
   --destructive: #ff7b82;
   --destructive-soft: #3e1b20;
+  --chart-1: #89c3eb; /* Wasurenagusa-iro (primary) */
+  --chart-2: #f4b3c2; /* Toki-iro */
 
   color-scheme: dark;
+}
+
+/*
+ * Acento por espacio: el contenedor de un espacio lleva data-workspace-accent y la variable
+ * --workspace-color (Workspace.color), y de ahí salen --accent y --accent-soft. Es solo identidad
+ * (ítem activo, kanji, badges, avatar): los gráficos usan --chart-1 y --chart-2, que no cambian. En oscuro el color
+ * se aclara para que se vea sobre Kon-iro. Las variables de ajuste las define cada tema, así un
+ * .light o .dark anidado manda sobre el del documento.
+ */
+:root,
+.light {
+  --workspace-accent-lift: 0%;
+  --workspace-accent-soft: 12%;
+}
+
+.dark {
+  --workspace-accent-lift: 35%;
+  --workspace-accent-soft: 22%;
+}
+
+[data-workspace-accent] {
+  --accent: color-mix(
+    in oklab,
+    var(--workspace-color),
+    white var(--workspace-accent-lift)
+  );
+  --accent-soft: color-mix(
+    in oklab,
+    var(--accent) var(--workspace-accent-soft),
+    var(--card)
+  );
 }

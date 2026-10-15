@@ -1,12 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Truck } from "lucide-react";
 import { storyMessages } from "../../stories/messages";
 import { storyIntlLocale } from "../../stories/story-row";
-import {
-  averageTicket,
-  monthlyImports,
-  monthlySales,
-} from "../../stories/tank-vault";
+import { averageTicket, monthlyImports } from "../../stories/tank-vault";
+import { SalesChart } from "../../stories/tank-vault-widgets";
 import { ThemePanels } from "../../stories/theme-panels";
 import {
   Select,
@@ -27,49 +23,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-function SalesChart({
-  locale: storyLocale,
-  type = "bar",
-  loading,
-  empty,
-}: {
-  locale: unknown;
-  type?: "bar" | "area";
-  loading?: boolean;
-  empty?: boolean;
-}) {
-  const c = storyMessages(storyLocale).data.chart;
-  const data = monthlySales.map((row, index) => ({
-    month: c.months[index],
-    ...row,
-  }));
-  return (
-    <ChartCard
-      title={c.salesTitle}
-      description={c.salesDescription}
-      data={empty ? [] : data}
-      xKey="month"
-      series={[
-        { key: "national", label: c.national },
-        { key: "local", label: c.local },
-      ]}
-      type={type}
-      stacked
-      format={{ style: "money", currency: "ARS" }}
-      locale={storyIntlLocale(storyLocale)}
-      loading={loading}
-      emptyText={c.empty}
-      footer={
-        <p className="flex items-center gap-2 text-sm text-foreground/70">
-          <Truck aria-hidden="true" className="size-4 text-primary" />
-          {c.channel}
-        </p>
-      }
-    />
-  );
-}
-
-// Ventas de Tank Vault: barras apiladas, serie 1 en primary y serie 2 en accent.
+// Ventas de Tank Vault: barras apiladas, serie 1 en --chart-1 y serie 2 en --chart-2.
 export const VentasApiladas: Story = {
   name: "Ventas apiladas",
   render: (_args, { globals }) => (

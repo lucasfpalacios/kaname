@@ -17,6 +17,8 @@ Paleta inspirada en colores tradicionales japoneses. Radios: 8–12px. Bordes su
 | success | `#2E7D5B` | `#56C288` (fondo `#123326`) |
 | warning | `#C88A35` | `#F6C163` (fondo `#382B12`) |
 | error / destructive | `#C93A40` | `#FF7B82` (fondo `#3E1B20`) |
+| chart-1 (serie 1) | `#1E50A2` Ruri-iro | `#89C3EB` Wasurenagusa-iro |
+| chart-2 (serie 2) | `#F09199` Momo-iro | `#F4B3C2` Toki-iro |
 
 ## Tipografía (estilo "Mincho clásico")
 
@@ -53,7 +55,13 @@ Referencia visual de la combinación: https://claude.ai/artifact/4Bh5Zg5YirdD45r
 
 Reglas:
 - Nunca texto rosa sobre fondo claro (contraste insuficiente). El rosa es acento: badges, gráficos, estados.
-- Gráficos: serie 1 = primary, serie 2 = accent. Sin violeta.
+- Gráficos: serie 1 = `chart-1`, serie 2 = `chart-2`. Sin violeta. Son fijos: no cambian con el acento del espacio, así el mismo gráfico se lee igual en todos los espacios.
+
+## Acento por espacio
+
+`Workspace.color` (solo `#rrggbb`) reemplaza `accent` y `accent-soft` dentro del contenedor del espacio. En oscuro se aclara un 35% hacia blanco para que se vea sobre Kon-iro. Sin color queda Momo-iro / Toki-iro.
+
+Es solo identidad: insignia del espacio (WorkspaceAvatar), kanji de los módulos, ítem activo del sidebar, badges `accent`. Nunca va en los gráficos ni como color de texto (el color lo elige el usuario y puede no tener contraste).
 - Montos nunca cortan en dos líneas (`whitespace-nowrap`, `tabular-nums`).
 
 ## Pantallas de referencia (en el zip)

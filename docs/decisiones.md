@@ -241,3 +241,20 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - `stockFeatures`: registra todas las features de la librería.
 - Aprobar las "skills" que ofrece el paquete (`pnpm approve`): no hacen falta para usarlo. Quedan rechazadas en `permissions` de `pnpm-workspace.yaml`, así pnpm no vuelve a preguntar.
 - Botones numerados de página como en Stitch: por ahora anterior/siguiente y "Página X de Y".
+
+### 2026-10-15 · Layout del kit y acento por espacio
+**Por qué:**
+- **Acento por espacio:** el contenedor lleva `data-workspace-accent` y `--workspace-color`, y una regla de `tokens.css` deriva `--accent` y `--accent-soft`. En oscuro el color se aclara con `color-mix` hacia blanco. La cantidad de aclarado la define cada tema con una variable, así manda el `.light`/`.dark` más cercano (los paneles lado a lado de las stories incluidos). Se aplica con `AppShell accentColor`, `WorkspaceAccent` o `workspaceAccentProps`.
+- **Color validado:** solo se acepta `#rrggbb`. El color lo carga el usuario y termina en un `style` inline; cualquier otra cosa se ignora y queda el acento por defecto.
+- **Texto sobre el acento:** WorkspaceAvatar y los badges usan el fondo suave y el borde del color, con texto en `foreground`, porque el color elegido puede no tener contraste como texto.
+- **Composición con `asChild`:** SidebarItem, BreadcrumbLink y WorkspaceTile envuelven el `<Link>` de la app en lugar de recibir un componente de link por props. Las funciones y los componentes no pasan de un Server Component a uno cliente; los elementos sí.
+- **AppShell:** guarda el estado del sidebar (colapsado en escritorio, drawer en mobile) en un contexto. `collapsed` y `onCollapsedChange` permiten guardar la preferencia en una cookie. Incluye "Saltar al contenido".
+- **Sidebar colapsado:** muestra el kanji de cada módulo (tokens.md), con el nombre en un tooltip y en texto oculto para lectores de pantalla. Expandido muestra ícono y nombre, con el kanji solo en el ítem activo.
+- **TopBar:** es solo la estructura (`TopBar` + `TopBarActions`). Búsqueda, idioma, tema y usuario los arma la app con componentes del kit, porque dependen de next-intl, next-themes y la sesión.
+**Descartado:**
+- Pasar `linkComponent` al Sidebar: no funciona desde Server Components.
+- Una columna de íconos global más un sidebar por espacio, como en Stitch: dos barras ocupan mucho. El WorkspaceSwitcher arriba del sidebar cubre el cambio de espacio.
+
+### 2026-10-15 · Colores de gráficos separados del acento del espacio
+**Por qué:** ChartCard usaba `--accent` para la serie 2. Con el acento por espacio, cada espacio pintaba su gráfico de otro color, y un acento azul se confundía con la serie 1. Los gráficos usan ahora `--chart-1` (Ruri-iro / Wasurenagusa-iro, el primary) y `--chart-2` (Momo-iro / Toki-iro), que define cada tema y no cambian con `Workspace.color`. El acento del espacio queda solo para identidad: ítem activo, kanji, badges y avatar. `ChartColor` cambia `primary` y `accent` por `chart-1` y `chart-2`. Tank Vault tiene su color en las stories.
+**Descartado:** dejar `--accent` en los gráficos y pedir que los espacios no elijan colores parecidos al primary, porque depende de lo que cargue el usuario.

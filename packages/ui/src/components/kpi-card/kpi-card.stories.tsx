@@ -1,13 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-  Banknote,
-  ClipboardList,
-  PackageCheck,
-  PieChart,
-  Undo2,
-} from "lucide-react";
+import { Undo2 } from "lucide-react";
 import { storyMessages } from "../../stories/messages";
 import { storyIntlLocale } from "../../stories/story-row";
+import { TankVaultKpis } from "../../stories/tank-vault-widgets";
 import { ThemePanels } from "../../stories/theme-panels";
 import { MoneyText } from "../money-text";
 import { KpiCard } from "./kpi-card";
@@ -21,65 +16,6 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-
-// Los KPIs de la cabecera de Tank Vault.
-function TankVaultKpis({
-  locale: storyLocale,
-  loading,
-}: {
-  locale: unknown;
-  loading?: boolean;
-}) {
-  const k = storyMessages(storyLocale).data.kpis;
-  const locale = storyIntlLocale(storyLocale);
-  const number = new Intl.NumberFormat(locale);
-  return (
-    <div className="grid gap-4 sm:grid-cols-2">
-      <KpiCard
-        label={k.sales}
-        icon={<Banknote />}
-        value={
-          <MoneyText
-            value="4620000"
-            currency="ARS"
-            locale={locale}
-            hideDecimals
-          />
-        }
-        change={{ value: "14.2", label: k.vsLastMonth }}
-        locale={locale}
-        loading={loading}
-      />
-      <KpiCard
-        label={k.margin}
-        icon={<PieChart />}
-        value={new Intl.NumberFormat(locale, {
-          style: "percent",
-          maximumFractionDigits: 1,
-        }).format(0.385)}
-        change={{ value: "3.5", unit: k.points, label: k.marginGoal }}
-        locale={locale}
-        loading={loading}
-      />
-      <KpiCard
-        label={k.stock}
-        icon={<PackageCheck />}
-        value={`${number.format(1420)} ${k.units}`}
-        description={k.stockDetail}
-        locale={locale}
-        loading={loading}
-      />
-      <KpiCard
-        label={k.pending}
-        icon={<ClipboardList />}
-        value={`${number.format(8)} ${k.orders}`}
-        description={k.pendingDetail}
-        locale={locale}
-        loading={loading}
-      />
-    </div>
-  );
-}
 
 export const TankVault: Story = {
   render: (_args, { globals }) => (

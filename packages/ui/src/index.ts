@@ -42,3 +42,12 @@ export type {
 } from "./lib/format";
 export * from "./components/data-table";
 export * from "./components/table";
+export * from "./components/app-shell";
+export * from "./components/breadcrumbs";
+export * from "./components/page-header";
+export * from "./components/sidebar";
+export * from "./components/top-bar";
+export * from "./components/workspace-accent";
+export * from "./components/workspace-avatar";
+export * from "./components/workspace-switcher";
+export * from "./components/workspace-tile";

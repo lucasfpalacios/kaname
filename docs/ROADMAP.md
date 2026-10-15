@@ -16,11 +16,11 @@ Piloto: **Tank Vault TCG**. Cada fase termina con algo que se puede usar y con l
 Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro y con su story.
 - [x] Storybook con selector de tema (claro/oscuro) y de idioma (es/en)
 - [x] Fundamentos: acentos kanji por módulo, espaciados, íconos (lucide) y stories de los fundamentos. Ya hechos en la Fase 0: tokens como variables CSS, tipografía (Shippori Mincho B1 + Zen Kaku Gothic New), radios y `ThemeProvider`
-- [ ] Acento dinámico por espacio: `Workspace.color` sobreescribe `--accent` en su contenedor
+- [x] Acento dinámico por espacio: `Workspace.color` sobreescribe `--accent` en su contenedor
 - [x] Base (shadcn/ui adaptado): Button, IconButton, Input, Textarea, Select, Combobox, Checkbox, Switch, RadioGroup, DatePicker, Badge, Card, Tabs, Dialog, Sheet/Drawer, DropdownMenu, Tooltip, Popover, Toast, Avatar, Skeleton, Separator
 - [x] Formularios: FormField (label, ayuda, error), MoneyInput (ARS/USD), PercentInput
 - [x] Datos: DataTable (TanStack Table: orden, filtros, búsqueda, paginación, selección y acciones masivas), MoneyText, DateText, StatusBadge, EmptyState, KpiCard, ChartCard (Recharts con la paleta)
-- [ ] Layout: AppShell, TopBar, Sidebar (colapsable), WorkspaceSwitcher, PageHeader, WorkspaceTile (launcher), Breadcrumbs
+- [x] Layout: AppShell, TopBar, Sidebar (colapsable), WorkspaceSwitcher, PageHeader, WorkspaceTile (launcher), Breadcrumbs
 - [ ] Página `/ui-kit` en `apps/web` (solo en desarrollo) para ver los componentes dentro de la app real
 
 ## Fase 1 — Auth y permisos

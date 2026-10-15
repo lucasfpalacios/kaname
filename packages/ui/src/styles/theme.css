@@ -20,6 +20,8 @@
   --color-warning-soft: var(--warning-soft);
   --color-destructive: var(--destructive);
   --color-destructive-soft: var(--destructive-soft);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
 
   --font-display: var(--kaname-font-display), "Hiragino Mincho ProN", serif;
   --font-sans:

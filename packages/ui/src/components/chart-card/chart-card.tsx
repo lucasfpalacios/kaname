@@ -30,16 +30,17 @@ import { EmptyState } from "../empty-state";
 import { Skeleton } from "../skeleton";
 
 // Gráfico de Recharts dentro de una Card. Los colores son variables CSS, así que siguen al tema
-// del contenedor (claro, oscuro o .light/.dark anidados). Serie 1 = primary, serie 2 = accent
-// (tokens.md). Todas las props son serializables (sin funciones) para que la web pueda usarlo
+// del contenedor (claro, oscuro o .light/.dark anidados). Serie 1 = --chart-1 (primary) y serie 2 =
+// --chart-2 (Momo-iro / Toki-iro), según tokens.md. No usan --accent: el acento del espacio es
+// identidad y cambiaría los colores del gráfico de un espacio a otro. Todas las props son serializables (sin funciones) para que la web pueda usarlo
 // desde un Server Component: el formato se elige con `format`.
 
 export type ChartColor =
-  "primary" | "accent" | "success" | "warning" | "destructive";
+  "chart-1" | "chart-2" | "success" | "warning" | "destructive";
 
 const DEFAULT_COLORS: ChartColor[] = [
-  "primary",
-  "accent",
+  "chart-1",
+  "chart-2",
   "success",
   "warning",
 ];
@@ -48,7 +49,7 @@ export type ChartSeries = {
   /** Clave del dato en cada fila de `data`. */
   key: string;
   label: string;
-  /** Por defecto, según el orden: primary, accent, success, warning. */
+  /** Por defecto, según el orden: chart-1, chart-2, success, warning. */
   color?: ChartColor;
 };
 

@@ -10,6 +10,7 @@ import {
   SystemRoleKey,
   WorkspaceType,
 } from "../src/generated/prisma/client.js";
+import { seedAdminPassword } from "./seed-admin.js";
 
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) throw new Error("Falta DATABASE_URL");
@@ -157,6 +158,9 @@ async function main() {
       isSuperadmin: true,
     },
   });
+
+  // Contraseña inicial desde SEED_ADMIN_PASSWORD (sin la variable, queda sin contraseña y avisa).
+  await seedAdminPassword(prisma, user.email, process.env.SEED_ADMIN_PASSWORD);
 
   // Account no tiene un campo único propio: se reutiliza la cuenta de la que Lucas ya es dueño.
   const existingAccount = await prisma.account.findFirst({

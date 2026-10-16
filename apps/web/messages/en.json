@@ -23,7 +23,17 @@
     }
   },
   "Errors": {
-    "money_invalid": "Invalid amount: up to 12 digits and 2 decimals."
+    "money_invalid": "Invalid amount: up to 12 digits and 2 decimals.",
+    "email_invalid": "Enter a valid email.",
+    "password_required": "Enter your password.",
+    "invalid_credentials": "Incorrect email or password.",
+    "unauthenticated": "Your session expired. Please sign in again.",
+    "too_many_attempts": "Too many attempts. Wait a minute and try again.",
+    "validation_failed": "Check the details you entered.",
+    "name_required": "Enter your name.",
+    "password_too_short": "The password must be at least 12 characters long.",
+    "email_taken": "There's already an account with that email.",
+    "registration_disabled": "Sign-up is closed for now."
   },
   "Roles": {
     "OWNER": "Owner",

@@ -199,12 +199,16 @@ model OAuthAccount {
 }
 
 model Session {
-  id               String   @id @default(cuid())
-  userId           String
-  refreshTokenHash String   @unique
-  userAgent        String?
-  expiresAt        DateTime
-  createdAt        DateTime @default(now())
+  id                String    @id @default(cuid())
+  userId            String
+  refreshTokenHash  String    @unique
+  // Hash anterior y momento de la última rotación: un refresh viejo que llega dentro del margen
+  // (pedidos en paralelo) se rechaza sin revocar las demás sesiones.
+  previousTokenHash String?
+  rotatedAt         DateTime?
+  userAgent         String?
+  expiresAt         DateTime
+  createdAt         DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

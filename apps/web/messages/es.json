@@ -23,7 +23,17 @@
     }
   },
   "Errors": {
-    "money_invalid": "Monto inválido: hasta 12 enteros y 2 decimales."
+    "money_invalid": "Monto inválido: hasta 12 enteros y 2 decimales.",
+    "email_invalid": "Ingresá un email válido.",
+    "password_required": "Ingresá tu contraseña.",
+    "invalid_credentials": "Email o contraseña incorrectos.",
+    "unauthenticated": "Tu sesión expiró. Volvé a ingresar.",
+    "too_many_attempts": "Demasiados intentos. Esperá un minuto y probá de nuevo.",
+    "validation_failed": "Revisá los datos ingresados.",
+    "name_required": "Ingresá tu nombre.",
+    "password_too_short": "La contraseña tiene que tener al menos 12 caracteres.",
+    "email_taken": "Ya hay una cuenta con ese email.",
+    "registration_disabled": "El registro está cerrado por ahora."
   },
   "Roles": {
     "OWNER": "Dueño",

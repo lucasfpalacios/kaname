@@ -1,29 +1,24 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { INestApplication } from "@nestjs/common";
+import type { INestApplication } from "@nestjs/common";
 import request from "supertest";
-import { App } from "supertest/types.js";
-import { AppModule } from "./../src/app.module.js";
+import type { App } from "supertest/types.js";
+import { createTestApp } from "./support/create-app.js";
 
-describe("GET /health (e2e)", () => {
+describe("GET /api/health (e2e)", () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
-
-  it("responde 200 con { ok: true }", () => {
-    return request(app.getHttpServer())
-      .get("/health")
-      .expect(200)
-      .expect({ ok: true });
+    app = await createTestApp();
   });
 
   afterEach(async () => {
     await app.close();
+  });
+
+  it("responde 200 con { ok: true } bajo el prefijo /api", async () => {
+    await request(app.getHttpServer())
+      .get("/api/health")
+      .expect(200)
+      .expect({ ok: true });
+    await request(app.getHttpServer()).get("/health").expect(404);
   });
 });

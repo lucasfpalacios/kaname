@@ -283,3 +283,35 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-15 · Token `muted-foreground` para texto secundario
 **Por qué:** la revisión de la Fase 0.5 encontró textos debajo de AA en el tema claro. Los placeholders (`foreground/55`) daban 3.7:1 y los textos chicos en `foreground/60` (título de grupo del sidebar, atajos del menú, SKUs) daban 4.3:1. `muted-foreground` vale `#676774` en claro (5.6:1 sobre card y al menos 4.8:1 sobre los fondos de hover) y `#AEB0BE` en oscuro (6.8:1). Los placeholders y esos textos pasan a usarlo. `foreground/70` (5.9:1) queda para descripciones.
 **Descartado:** subir cada uso a `foreground/70` por separado, porque un token deja la regla en un solo lugar y se puede ajustar por tema.
+
+### 2026-10-16 · Autenticación propia en la API (email y contraseña)
+**Por qué:**
+- **Contraseñas:** argon2id con los parámetros mínimos de OWASP (19 MiB, 2 iteraciones, 1 hilo), con `@node-rs/argon2`. Trae binarios precompilados y no necesita scripts de build, que en el repo están bloqueados (`allowBuilds`).
+- **Error genérico:** si el email no existe o no tiene contraseña (solo Google), se verifica igual contra un hash de relleno. La respuesta es la misma (`invalid_credentials`) y tarda lo mismo, así no revela qué emails están registrados.
+- **Access token:** JWT HS256 de 15 min con `sub` (usuario) y `sid` (sesión), firmado con `JWT_ACCESS_SECRET`. El guard verifica además que la sesión siga viva: un logout o una revocación cortan el acceso al instante, a cambio de una consulta por pedido.
+- **Refresh token:** opaco, `<sessionId>.<secreto>`, 30 días. En `Session.refreshTokenHash` se guarda el SHA-256 del secreto: son 32 bytes al azar, no hace falta un hash lento. Rota en cada uso con un `updateMany` condicionado al hash anterior, así la rotación es atómica. El vencimiento se corre 30 días con cada uso: una sesión sin usar 30 días se cae.
+- **Reutilización:** si llega un refresh de una sesión que existe pero con otro secreto, es uno ya rotado y se revocan todas las sesiones del usuario. El id dentro del token permite detectarlo sin cambiar el schema. Dos refresh en paralelo con el mismo token cuentan como reutilización: la web tiene que hacer un solo refresh a la vez.
+- **Cookies:** las dos httpOnly y SameSite=Lax, y Secure con `NODE_ENV=production`. El access va en `Path=/` y el refresh solo en `Path=/auth`. CORS con `credentials` para los orígenes de `WEB_ORIGIN`.
+- **Rate limit:** `@nestjs/throttler` solo en `POST /auth/login`: 5 intentos por IP por minuto (`LOGIN_RATE_LIMIT`, `LOGIN_RATE_WINDOW_SECONDS`), con almacenamiento en memoria (una instancia). Detrás de un proxy hay que fijar `TRUST_PROXY` para que cuente la IP real.
+- **Entorno:** las variables se validan con zod al arrancar (`src/config/env.ts`). Si falta una, la API no levanta y dice cuál.
+- **Errores y validación:** el body se valida con `loginSchema` de `@kaname/shared`. Los errores salen como códigos (`invalid_credentials`, `unauthenticated`, `too_many_attempts`, `validation_failed`...) que la web traduce con `Errors.<código>`.
+- **Tests:** una sola suite del flujo por HTTP (`test/support/auth-flow.ts`) corre dos veces. En `pnpm test` usa un Prisma en memoria (sin base); en `test:e2e`, Postgres real.
+**Pendiente para el deploy:** SameSite=Lax no manda las cookies entre sitios distintos, y `*.vercel.app` y `*.onrender.com` son sitios distintos. En producción la web tiene que llamar a la API a través de su propio dominio (rewrite de Next a la API) o compartir el dominio con subdominios.
+**Descartado:**
+- Paquete `argon2`: necesita un script de build.
+- Refresh token como JWT: no se puede revocar ni rotar sin estado.
+- Guardar el refresh con argon2: es lento sin aportar nada con 32 bytes al azar.
+- Rate limit global: por ahora solo el login lo necesita.
+
+### 2026-10-16 · Auth: prefijo /api, rate limit por email, margen de refresh, registro y seed
+**Por qué:**
+- **Prefijo `/api`:** todas las rutas de Nest cuelgan de `/api` (`setGlobalPrefix`), así son iguales en desarrollo y en producción. En producción Next va a reenviar `/api/*` a la API: la web y la API quedan en el mismo sitio y las cookies SameSite=Lax viajan (resuelve el pendiente de deploy de la entrada anterior). La cookie de refresh pasa a `Path=/api/auth` y el health a `/api/health`. CORS queda solo para cuando la web llama directo, sin el proxy.
+- **Rate limit por email:** además del límite por IP (5 por minuto), hay uno por email: 10 intentos cada 15 minutos (`LOGIN_EMAIL_RATE_LIMIT`, `LOGIN_EMAIL_RATE_WINDOW_SECONDS`). Frena un ataque a una cuenta desde muchas IPs. El tracker normaliza el email igual que `loginSchema`; sin email cuenta por IP. Contra: alguien puede bloquear el login de una cuenta 15 minutos a propósito. Se acepta frente a la fuerza bruta distribuida.
+- **IP detrás del proxy:** con el proxy de Next hay que usar `TRUST_PROXY=1`, y Next tiene que reenviar `X-Forwarded-For` (paso 2 de la Fase 1). Si no, el límite por IP ve siempre la IP del servidor de Next.
+- **Refresh concurrente:** `Session` guarda `previousTokenHash` y `rotatedAt`. Si llega el refresh anterior dentro de los 30 s siguientes a la rotación (dos pestañas o pedidos en paralelo), se responde 401 sin revocar nada. Pasado el margen, o con cualquier otro secreto viejo, se revocan todas las sesiones como antes. Si dos pedidos rotan a la vez (falla el `updateMany` condicionado), también es 401 sin revocar.
+- **Registro:** `POST /api/auth/register` existe pero responde 403 (`registration_disabled`) salvo que `REGISTRATION_ENABLED` sea `"true"`. Se chequea antes de validar el body. Habilitado, crea el usuario (nombre, email, contraseña de al menos 12 caracteres, sin reglas de composición: NIST 800-63B) e inicia la sesión. Comparte el rate limit del login y devuelve `email_taken` si el email existe. Todavía no crea la cuenta (tenant): eso va con el alta de espacios.
+- **Contraseña del seed:** sale de `SEED_ADMIN_PASSWORD`, con al menos 12 caracteres. Sin la variable el usuario queda sin contraseña y el seed avisa. Es inicial: si el usuario ya tiene contraseña, no se pisa.
+- **Tests:** las variables de entorno de los tests se fijan en un `setupFiles` de vitest, porque ConfigModule las valida al importarse. El registro habilitado tiene su propio archivo con `vi.hoisted`. El rate limit por email se prueba con IPs distintas en `X-Forwarded-For` (`TRUST_PROXY=1` en los tests).
+**Descartado:**
+- Margen de refresh por configuración: 30 s fijos alcanzan para pedidos en paralelo.
+- Pisar la contraseña en cada seed: cambiaría una contraseña ya elegida.

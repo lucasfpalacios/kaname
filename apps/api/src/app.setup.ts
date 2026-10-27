@@ -1,6 +1,7 @@
 import type { ConfigService } from "@nestjs/config";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 import { clientIpMiddleware } from "./config/client-ip.js";
 import type { Env } from "./config/env.js";
 import { API_PREFIX } from "./config/http.js";
@@ -12,6 +13,18 @@ export function configureApp(
   config: ConfigService<Env, true>,
 ) {
   app.setGlobalPrefix(API_PREFIX);
+
+  // Headers de seguridad (HSTS, nosniff, X-Frame-Options...) de helmet. La API solo devuelve
+  // JSON y redirecciones: la CSP no permite cargar nada ni mostrarla en un iframe.
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        useDefaults: false,
+        directives: { defaultSrc: ["'none'"], frameAncestors: ["'none'"] },
+      },
+      frameguard: { action: "deny" },
+    }),
+  );
 
   // Los tokens viajan en cookies (ver auth/cookies.ts).
   app.use(cookieParser());

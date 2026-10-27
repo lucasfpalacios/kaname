@@ -21,4 +21,15 @@ describe("GET /api/health (e2e)", () => {
       .expect({ ok: true });
     await request(app.getHttpServer()).get("/health").expect(404);
   });
+
+  it("manda los headers de seguridad (helmet)", async () => {
+    const response = await request(app.getHttpServer()).get("/api/health");
+    expect(response.headers["x-content-type-options"]).toBe("nosniff");
+    expect(response.headers["strict-transport-security"]).toMatch(/max-age=/);
+    expect(response.headers["content-security-policy"]).toBe(
+      "default-src 'none';frame-ancestors 'none'",
+    );
+    expect(response.headers["x-frame-options"]).toBe("DENY");
+    expect(response.headers["x-powered-by"]).toBeUndefined();
+  });
 });

@@ -10,8 +10,9 @@ export type Mail = {
 };
 
 // Envía emails con la API REST de Resend (sin SDK: es un solo POST). Sin RESEND_API_KEY (solo
-// fuera de producción, lo valida env.ts) el email se escribe en la consola de la API, con los
-// links, para poder seguir el flujo en desarrollo.
+// fuera de producción, lo valida env.ts) el email no sale: el log muestra destinatario y asunto,
+// y el contenido (con el link de recuperación) solo con DEV_LOG_RESET_LINKS=true, para poder
+// seguir el flujo en desarrollo.
 @Injectable()
 export class MailService {
   private readonly logger = new Logger(MailService.name);
@@ -21,8 +22,11 @@ export class MailService {
   async send(mail: Mail): Promise<void> {
     const apiKey = this.config.get("RESEND_API_KEY", { infer: true });
     if (!apiKey) {
+      const body = this.config.get("DEV_LOG_RESET_LINKS", { infer: true })
+        ? `\n\n${mail.text}`
+        : "\n(contenido oculto: DEV_LOG_RESET_LINKS=true para verlo)";
       this.logger.log(
-        `Email sin enviar (falta RESEND_API_KEY)\nPara: ${mail.to}\nAsunto: ${mail.subject}\n\n${mail.text}`,
+        `Email sin enviar (falta RESEND_API_KEY)\nPara: ${mail.to}\nAsunto: ${mail.subject}${body}`,
       );
       return;
     }

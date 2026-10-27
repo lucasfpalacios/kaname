@@ -3,9 +3,9 @@ import { z } from "zod";
 // Variables de entorno de la API, validadas al arrancar: si falta algo, la app no levanta.
 // Ver apps/api/.env.example.
 const envSchema = z.object({
-  NODE_ENV: z
-    .enum(["development", "production", "test"])
-    .default("development"),
+  // Obligatorio y sin valor por defecto: de él dependen las cookies Secure y que Resend sea
+  // obligatorio. Un servidor sin NODE_ENV no arranca, en vez de quedar como "development".
+  NODE_ENV: z.enum(["development", "production", "test"]),
   DATABASE_URL: z.string().min(1),
   PORT: z.coerce.number().int().positive().default(4000),
   WEB_ORIGIN: z.string().min(1),
@@ -36,6 +36,13 @@ const envSchema = z.object({
     .optional()
     .transform((value) => value || undefined),
   MAIL_FROM: z.string().min(3).default("Kaname <onboarding@resend.dev>"),
+  // Solo en desarrollo: sin Resend, escribe el email entero en el log (con el link de
+  // recuperación). Si no es "true", el log muestra solo destinatario y asunto. Prohibido en
+  // producción.
+  DEV_LOG_RESET_LINKS: z
+    .string()
+    .optional()
+    .transform((value) => value === "true"),
   // Login con Google (OAuth 2.0 + PKCE). Sin las dos credenciales, el login con Google se apaga.
   GOOGLE_CLIENT_ID: z
     .string()
@@ -74,7 +81,10 @@ const productionSchema = envSchema
   .refine(
     (env) => env.NODE_ENV !== "production" || Boolean(env.PROXY_SHARED_SECRET),
     { path: ["PROXY_SHARED_SECRET"] },
-  );
+  )
+  .refine((env) => env.NODE_ENV !== "production" || !env.DEV_LOG_RESET_LINKS, {
+    path: ["DEV_LOG_RESET_LINKS"],
+  });
 
 export function validateEnv(config: Record<string, unknown>): Env {
   const result = productionSchema.safeParse(config);

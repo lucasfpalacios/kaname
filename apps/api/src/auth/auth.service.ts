@@ -36,8 +36,23 @@ export type AccessTokenPayload = { sub: string; sid: string };
  */
 export const REFRESH_REUSE_GRACE_SECONDS = 30;
 
-const refreshExpiry = () =>
-  new Date(Date.now() + REFRESH_TOKEN_TTL_SECONDS * 1000);
+/**
+ * Vida máxima de una sesión desde el login, aunque rote: pasado este plazo hay que volver a
+ * iniciar sesión. Sin tope, un refresh robado y usado seguido no vencería nunca.
+ */
+export const SESSION_MAX_AGE_DAYS = 90;
+
+const sessionDeadline = (createdAt: Date) =>
+  new Date(createdAt.getTime() + SESSION_MAX_AGE_DAYS * 24 * 60 * 60 * 1000);
+
+/** 30 días desde ahora, sin pasar la vida máxima de la sesión. */
+const refreshExpiry = (createdAt = new Date()) =>
+  new Date(
+    Math.min(
+      Date.now() + REFRESH_TOKEN_TTL_SECONDS * 1000,
+      sessionDeadline(createdAt).getTime(),
+    ),
+  );
 
 export function toPublicUser(user: User): PublicUser {
   const { id, email, name, avatarUrl, isSuperadmin, locale, theme } = user;
@@ -136,7 +151,8 @@ export class AuthService {
       }
       throw unauthenticated();
     }
-    if (session.expiresAt <= new Date()) {
+    const now = new Date();
+    if (session.expiresAt <= now || sessionDeadline(session.createdAt) <= now) {
       await this.prisma.session.deleteMany({ where: { id: session.id } });
       throw unauthenticated();
     }
@@ -150,8 +166,8 @@ export class AuthService {
         refreshTokenHash: hashRefreshSecret(secret),
         previousTokenHash: session.refreshTokenHash,
         rotatedAt: new Date(),
-        expiresAt: refreshExpiry(),
-        userAgent: userAgent ?? session.userAgent,
+        expiresAt: refreshExpiry(session.createdAt),
+        userAgent: userAgent?.slice(0, 512) ?? session.userAgent,
       },
     });
     if (count === 0) throw unauthenticated();

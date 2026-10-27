@@ -3,6 +3,7 @@ import { CLIENT_IP_HEADER, PROXY_SECRET_HEADER } from "@kaname/shared";
 import request from "supertest";
 import type { App } from "supertest/types.js";
 import { ACCESS_COOKIE, REFRESH_COOKIE } from "../../src/auth/cookies.js";
+import { SESSION_MAX_AGE_DAYS } from "../../src/auth/auth.service.js";
 import { SESSION_RATE_LIMIT } from "../../src/auth/rate-limit.js";
 import { fromIp } from "./client-ip.js";
 
@@ -18,6 +19,8 @@ export type AuthFlowContext = {
   countSessions: (email: string) => Promise<number>;
   /** Corre la última rotación de las sesiones del usuario tantos segundos hacia atrás. */
   ageRotation: (email: string, seconds: number) => Promise<void>;
+  /** Corre el inicio (createdAt) de las sesiones del usuario tantos días hacia atrás. */
+  ageSessions: (email: string, days: number) => Promise<void>;
   /** Vence los links de recuperación del usuario. */
   expireResetTokens: (email: string) => Promise<void>;
   /** Anota un email creado fuera de createUser (registro) para borrarlo en cleanup. */
@@ -222,6 +225,18 @@ export function authFlowTests(name: string, context: () => AuthFlowContext) {
         expect(blocked.status).toBe(429);
         expect(blocked.body.message).toBe("too_many_attempts");
       }
+    });
+
+    it(`vida máxima: una sesión de más de ${SESSION_MAX_AGE_DAYS} días no se renueva aunque haya rotado`, async () => {
+      const email = await state.ctx.createUser(PASSWORD);
+      const recent = await login(email);
+      const rotated = await refresh(recent.refresh);
+      expect(rotated.status).toBe(204);
+      const current = cookiesOf(rotated).get(REFRESH_COOKIE)!.value;
+
+      await state.ctx.ageSessions(email, SESSION_MAX_AGE_DAYS + 1);
+      expect((await refresh(current)).status).toBe(401);
+      expect(await state.ctx.countSessions(email)).toBe(0);
     });
 
     it("logout: cierra la sesión y borra las cookies", async () => {

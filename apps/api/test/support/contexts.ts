@@ -10,6 +10,7 @@ import { createTestApp } from "./create-app.js";
 import { FakePrisma } from "./fake-prisma.js";
 
 const secondsAgo = (seconds: number) => new Date(Date.now() - seconds * 1000);
+const daysAgo = (days: number) => secondsAgo(days * 24 * 60 * 60);
 
 /** Dobles de cada contexto: los emails quedan en `ctx.mail` y Google es `ctx.google`. */
 const doubles = (mail: MailRecorder, google: FakeGoogle) => ({
@@ -72,6 +73,12 @@ export function fakeContext(): TestContext {
         }
       }
     },
+    ageSessions: async (email, days) => {
+      const user = await prisma.user.findUnique({ where: { email } });
+      for (const session of prisma.sessions) {
+        if (session.userId === user?.id) session.createdAt = daysAgo(days);
+      }
+    },
     trackEmail: () => undefined,
     cleanup: async () => undefined,
   };
@@ -119,6 +126,12 @@ export function postgresContext(prisma: PrismaClient): TestContext {
       await prisma.session.updateMany({
         where: { user: { email }, rotatedAt: { not: null } },
         data: { rotatedAt: secondsAgo(seconds) },
+      });
+    },
+    ageSessions: async (email, days) => {
+      await prisma.session.updateMany({
+        where: { user: { email } },
+        data: { createdAt: daysAgo(days) },
       });
     },
     trackEmail: (email) => emails.push(email),

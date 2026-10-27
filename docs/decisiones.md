@@ -414,3 +414,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-27 · CSRF: Origin permitido y body JSON en los métodos que cambian estado
 **Por qué:** SameSite=Lax no frena a otros subdominios del mismo sitio (por ejemplo, si la web termina en un dominio con otras páginas). En POST, PUT, PATCH y DELETE, la API rechaza con 403 un `Origin` que no esté en `WEB_ORIGIN` (también `null`) y con 415 (`unsupported_media_type`) un body que no sea `application/json`, que un `<form>` de otro sitio no puede mandar. Sin `Origin` pasa: los navegadores siempre lo mandan entre sitios y el servidor de Next no lo manda. Un POST sin body (refresh, logout) no necesita Content-Type.
 **Descartado:** un token CSRF (double submit): agrega estado en la web y en la API para lo que ya cubren Origin y el tipo de contenido.
+
+### 2026-10-27 · Vida máxima de la sesión: 90 días
+**Por qué:** cada rotación corría el vencimiento 30 días, así que un refresh robado y usado seguido no vencía nunca. Ahora una sesión dura como mucho 90 días desde el login (`Session.createdAt`), rote o no: el vencimiento de cada rotación no pasa ese tope y un refresh de una sesión más vieja da 401 y la borra. Como `expiresAt` queda topeado, el access también deja de valer. Sin cambios de schema.
+**Descartado:** acortar el refresh a menos de 30 días: obliga a iniciar sesión más seguido a quien usa la app todos los días, sin frenar más al que roba el refresh.

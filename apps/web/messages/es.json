@@ -39,7 +39,8 @@
     "reset_token_invalid": "El link venció o ya se usó. Pedí uno nuevo.",
     "oauth_failed": "No pudimos iniciar sesión con Google. Probá de nuevo.",
     "google_email_unverified": "Tu email de Google no está verificado. Verificalo en Google y probá de nuevo.",
-    "google_registration_closed": "No hay ninguna cuenta con ese email de Google y el registro está cerrado por ahora."
+    "google_registration_closed": "No hay ninguna cuenta con ese email de Google y el registro está cerrado por ahora.",
+    "unsupported_media_type": "No pudimos procesar el pedido. Recargá la página y probá de nuevo."
   },
   "Roles": {
     "OWNER": "Dueño",

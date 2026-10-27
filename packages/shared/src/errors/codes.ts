@@ -23,6 +23,8 @@ export const ErrorCode = {
   // El email de Google no tiene cuenta y el registro está cerrado.
   googleRegistrationClosed: "google_registration_closed",
   forbidden: "forbidden",
+  // Un POST con un body que no es JSON (defensa contra CSRF con formularios de otros sitios).
+  unsupportedMediaType: "unsupported_media_type",
 } as const;
 
 export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode];

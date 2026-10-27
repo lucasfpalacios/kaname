@@ -410,3 +410,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-27 · forgot-password: 3 links por hora por email
 **Por qué:** con el límite por email del login (10 cada 15 minutos), cualquiera podía mandarle a una casilla cerca de mil emails por día y gastar la cuota gratis de Resend (100 por día). `POST /auth/forgot-password` mantiene el límite por IP y por email pasa a 3 por hora. Además, borrar los links pendientes y crear el nuevo van en una transacción, así dos pedidos simultáneos no dejan dos links válidos.
 **Descartado:** un límite diario aparte: con 3 por hora alcanza para no gastar la cuota.
+
+### 2026-10-27 · CSRF: Origin permitido y body JSON en los métodos que cambian estado
+**Por qué:** SameSite=Lax no frena a otros subdominios del mismo sitio (por ejemplo, si la web termina en un dominio con otras páginas). En POST, PUT, PATCH y DELETE, la API rechaza con 403 un `Origin` que no esté en `WEB_ORIGIN` (también `null`) y con 415 (`unsupported_media_type`) un body que no sea `application/json`, que un `<form>` de otro sitio no puede mandar. Sin `Origin` pasa: los navegadores siempre lo mandan entre sitios y el servidor de Next no lo manda. Un POST sin body (refresh, logout) no necesita Content-Type.
+**Descartado:** un token CSRF (double submit): agrega estado en la web y en la API para lo que ya cubren Origin y el tipo de contenido.

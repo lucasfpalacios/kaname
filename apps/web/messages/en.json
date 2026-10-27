@@ -39,7 +39,8 @@
     "reset_token_invalid": "The link expired or was already used. Request a new one.",
     "oauth_failed": "We couldn't sign you in with Google. Please try again.",
     "google_email_unverified": "Your Google email isn't verified. Verify it with Google and try again.",
-    "google_registration_closed": "There's no account with that Google email and registration is closed for now."
+    "google_registration_closed": "There's no account with that Google email and registration is closed for now.",
+    "unsupported_media_type": "We couldn't process the request. Reload the page and try again."
   },
   "Roles": {
     "OWNER": "Owner",

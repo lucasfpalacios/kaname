@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { clientIpMiddleware } from "./config/client-ip.js";
 import type { Env } from "./config/env.js";
 import { API_PREFIX } from "./config/http.js";
+import { sameOriginMiddleware } from "./config/same-origin.js";
 
 // Configuración HTTP de la app. La usan main.ts y los tests, así prueban la misma app.
 export function configureApp(
@@ -30,4 +31,7 @@ export function configureApp(
     .filter(Boolean);
   // credentials: la web manda las cookies de sesión en cada pedido.
   app.enableCors({ origin: origins, credentials: true });
+
+  // CSRF: los POST solo desde esos orígenes y solo con body JSON (ver config/same-origin.ts).
+  app.use(sameOriginMiddleware(origins));
 }

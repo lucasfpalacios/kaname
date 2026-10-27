@@ -316,6 +316,48 @@ export function authFlowTests(name: string, context: () => AuthFlowContext) {
       ).toBe(200);
     });
 
+    it("CSRF: un POST desde otro origen da 403 y uno con body que no es JSON da 415", async () => {
+      const email = await state.ctx.createUser(PASSWORD);
+      const evil = await http()
+        .post("/api/auth/login")
+        .set("Origin", "https://otro-sitio.example")
+        .send({ email, password: PASSWORD });
+      expect(evil.status).toBe(403);
+      expect(evil.body.message).toBe("forbidden");
+      expect(cookiesOf(evil).has(ACCESS_COOKIE)).toBe(false);
+      const nullOrigin = await http()
+        .post("/api/auth/logout")
+        .set("Origin", "null");
+      expect(nullOrigin.status).toBe(403);
+
+      // Lo que manda un <form>: urlencoded o text/plain.
+      const form = await http()
+        .post("/api/auth/login")
+        .type("form")
+        .send({ email, password: PASSWORD });
+      expect(form.status).toBe(415);
+      expect(form.body.message).toBe("unsupported_media_type");
+      const text = await http()
+        .post("/api/auth/login")
+        .set("Content-Type", "text/plain")
+        .send(JSON.stringify({ email, password: PASSWORD }));
+      expect(text.status).toBe(415);
+
+      // Desde la web (mismo origen, JSON) anda; sin body (logout) también.
+      const web = await http()
+        .post("/api/auth/login")
+        .set("Origin", "http://localhost:3000")
+        .send({ email, password: PASSWORD });
+      expect(web.status).toBe(200);
+      expect(
+        (
+          await http()
+            .post("/api/auth/logout")
+            .set("Origin", "http://localhost:3000")
+        ).status,
+      ).toBe(204);
+    });
+
     it("options: informa que el registro está cerrado", async () => {
       const response = await http().get("/api/auth/options");
       expect(response.status).toBe(200);

@@ -174,5 +174,27 @@
       "createDescription": "Empresa, emprendimiento o proyecto",
       "accentNote": "El selector de espacio del sidebar cambia el acento de toda la página."
     }
+  },
+  "Auth": {
+    "product": "Kaname",
+    "tagline": "Todos tus negocios en un solo panel",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "nombre@ejemplo.com",
+    "password": "Contraseña",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña",
+    "signIn": "Iniciar sesión",
+    "noAccount": "¿No tenés cuenta?",
+    "register": "Registrate",
+    "registerTitle": "Crear tu cuenta",
+    "name": "Nombre",
+    "passwordHelp": "Al menos 12 caracteres.",
+    "createAccount": "Crear cuenta",
+    "haveAccount": "¿Ya tenés cuenta?",
+    "signInLink": "Iniciá sesión",
+    "genericError": "No pudimos completar el pedido. Probá de nuevo en un momento.",
+    "userMenu": "Menú de usuario",
+    "signOut": "Cerrar sesión",
+    "superadmin": "Superadmin"
   }
 }

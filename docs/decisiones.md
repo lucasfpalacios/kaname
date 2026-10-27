@@ -315,3 +315,22 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 **Descartado:**
 - Margen de refresh por configuración: 30 s fijos alcanzan para pedidos en paralelo.
 - Pisar la contraseña en cada seed: cambiaría una contraseña ya elegida.
+
+### 2026-10-16 · Login en la web: proxy a la API, sesión en el servidor y en el cliente
+**Por qué:**
+- **Proxy a la API:** `next.config.ts` reenvía `/api/*` a `NEST_URL` (rewrite `beforeFiles`). El navegador siempre llama al mismo origen, así las cookies SameSite=Lax viajan también en producción.
+- **IP del cliente:** el rewrite de Next no agrega `X-Forwarded-For`; Next solo lo completa si falta, así que pasaba el que mandara el cliente y se podía falsear. `src/proxy.ts` lo borra en cada pedido a `/api/*` y lo vuelve a poner con la IP del header que configure `CLIENT_IP_HEADER`, el que pone el proxy de adelante (en Vercel, `x-real-ip`). Sin ese header (en local) no se confía en nada que mande el cliente y la API ve la IP de Next, que en local es la del usuario. La API usa `TRUST_PROXY=1`; en producción hay que contar también el proxy de Render.
+- **Cookie de refresh con `Path=/`:** antes iba en `/api/auth`. La navegación a páginas no la mandaba y el proxy de Next no podía renovar la sesión del lado del servidor cuando vencía el access: cada página después de 15 minutos habría terminado en `/login`. Sigue siendo httpOnly y SameSite=Lax.
+- **Renovación en el servidor:** el proxy decodifica el `exp` del access sin verificarlo. Si faltan menos de 30 s o ya no está, renueva con el refresh antes de renderizar. Las cookies nuevas van en la respuesta y Next las pasa al render del mismo pedido, así los Server Components ya ven el access nuevo. Hace un solo refresh por token: los pedidos simultáneos de una navegación (página, prefetch, RSC), o los que llegan hasta 30 s después, comparten el resultado. Es por proceso; entre instancias queda el margen de 30 s de la API.
+- **Renovación en el cliente:** `createApiClient` reintenta un pedido que vuelve con 401 después de un solo refresh compartido. Si el refresh falla, va a `/login?next=...` una sola vez. `SessionKeeper` consulta `/api/auth/me` al volver a la pestaña.
+- **Rutas:** el proxy manda a `/login?next=<ruta>` todo lo que no sea `/login` o `/register` cuando no hay sesión. Con sesión, `/login` vuelve a `next`, que solo acepta rutas del mismo sitio. En `/login` la sesión se confirma con `/api/auth/me`: un access vigente de una sesión revocada no puede mandar al inicio, porque el inicio lo devolvería a `/login` en bucle.
+- **Sesión en las páginas:** el usuario se lee detrás de `<Suspense>` (guía de Next "Authentication with Cache Components"); los layouts no esperan la sesión en el nivel superior. Cada layout llama a `setRequestLocale`, porque si no next-intl lee los headers fuera de `<Suspense>`.
+- **Registro:** "Registrate" y `/register` aparecen solo si la API dice `registrationEnabled` (`GET /api/auth/options`). Así hay una sola fuente de verdad, `REGISTRATION_ENABLED` de la API.
+- **Kit:** se suman `KanameLogo`, `PasswordInput` (mostrar u ocultar, con `aria-pressed`), `Alert` (errores con `role="alert"`) y `UserMenu`, con sus stories.
+- **Vencimiento configurable:** `ACCESS_TOKEN_TTL_SECONDS` (15 min por defecto, mínimo 30 s) sirve para probar la renovación sin esperar 15 minutos.
+- **Tests:** los e2e de la API corren contra `kaname_test`: se crea y migra sola, y el setup se niega a usar una base cuyo nombre no termine en `_test`. La web suma vitest para la lógica de sesión: next seguro, vencimiento, un solo refresh en el servidor y en el cliente.
+- **`/ui-kit`:** `instant = false`. La validación de navegación instantánea no puede instanciar la vitrina importada con `import()`, que es lo que la deja fuera del build de producción.
+**Descartado:**
+- Dejar el refresh en `/api/auth` y renovar con una redirección por página: con los prefetch habría varias en paralelo con el mismo token.
+- Repetir `REGISTRATION_ENABLED` en la web.
+- "Recordar este dispositivo" del diseño de Stitch: la sesión ya dura 30 días.

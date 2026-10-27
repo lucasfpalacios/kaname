@@ -9,6 +9,7 @@ export type {
 } from "./lib/format";
 
 // Componentes, en orden alfabético.
+export * from "./components/alert";
 export * from "./components/app-shell";
 export * from "./components/avatar";
 export * from "./components/badge";
@@ -28,12 +29,14 @@ export * from "./components/empty-state";
 export * from "./components/form-field";
 export * from "./components/icon-button";
 export * from "./components/input";
+export * from "./components/kaname-logo";
 export * from "./components/kpi-card";
 export * from "./components/label";
 export * from "./components/module-kanji";
 export * from "./components/money-input";
 export * from "./components/money-text";
 export * from "./components/page-header";
+export * from "./components/password-input";
 export * from "./components/percent-input";
 export * from "./components/popover";
 export * from "./components/radio-group";
@@ -51,6 +54,7 @@ export * from "./components/theme-toggle";
 export * from "./components/toast";
 export * from "./components/tooltip";
 export * from "./components/top-bar";
+export * from "./components/user-menu";
 export * from "./components/workspace-accent";
 export * from "./components/workspace-avatar";
 export * from "./components/workspace-switcher";

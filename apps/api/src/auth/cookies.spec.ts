@@ -25,8 +25,8 @@ describe("cookies de auth", () => {
 
   it("son Secure en producción", () => {
     const { res, set, cleared } = fakeResponse();
-    setAuthCookies(res, tokens, true);
-    clearAuthCookies(res, true);
+    setAuthCookies(res, tokens, { secure: true, accessTtlSeconds: 900 });
+    clearAuthCookies(res, { secure: true, accessTtlSeconds: 900 });
     for (const name of [ACCESS_COOKIE, REFRESH_COOKIE]) {
       expect(set[name]).toMatchObject({
         httpOnly: true,
@@ -39,11 +39,11 @@ describe("cookies de auth", () => {
 
   it("no son Secure en desarrollo (http://localhost)", () => {
     const { res, set } = fakeResponse();
-    setAuthCookies(res, tokens, false);
+    setAuthCookies(res, tokens, { secure: false, accessTtlSeconds: 900 });
     expect(set[ACCESS_COOKIE]).toMatchObject({ secure: false, path: "/" });
     expect(set[REFRESH_COOKIE]).toMatchObject({
       secure: false,
-      path: "/api/auth",
+      path: "/",
     });
   });
 });

@@ -174,5 +174,27 @@
       "createDescription": "Company, business or project",
       "accentNote": "The space switcher in the sidebar changes the accent of the whole page."
     }
+  },
+  "Auth": {
+    "product": "Kaname",
+    "tagline": "All your businesses in one panel",
+    "email": "Email",
+    "emailPlaceholder": "name@example.com",
+    "password": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "signIn": "Sign in",
+    "noAccount": "Don't have an account?",
+    "register": "Sign up",
+    "registerTitle": "Create your account",
+    "name": "Name",
+    "passwordHelp": "At least 12 characters.",
+    "createAccount": "Create account",
+    "haveAccount": "Already have an account?",
+    "signInLink": "Sign in",
+    "genericError": "We couldn't complete the request. Please try again in a moment.",
+    "userMenu": "User menu",
+    "signOut": "Sign out",
+    "superadmin": "Superadmin"
   }
 }

@@ -3,8 +3,6 @@ import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Currency, moneySchema } from "@kaname/shared";
 import { intlLocale, routing } from "@/i18n/routing";
-import { LocaleSwitcher } from "./locale-switcher";
-import { ThemeToggle } from "./theme-toggle";
 
 // Página de prueba de los fundamentos (tokens, fuentes, tema, idioma).
 // Se reemplaza por el launcher en la Fase 2.
@@ -37,14 +35,8 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   }).format(monto.amount as Intl.StringNumericLiteral);
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-8 px-6 py-16">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <h1 className="font-display text-3xl font-extrabold">{t("title")}</h1>
-        <div className="flex items-center gap-3">
-          <LocaleSwitcher />
-          <ThemeToggle />
-        </div>
-      </div>
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-8">
+      <h1 className="font-display text-3xl font-extrabold">{t("title")}</h1>
 
       <p className="text-base">{t("intro")}</p>
 
@@ -65,6 +57,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           </li>
         ))}
       </ul>
-    </main>
+    </div>
   );
 }

@@ -107,7 +107,7 @@ export function authFlowTests(name: string, context: () => AuthFlowContext) {
       expect(accessLine).toMatch(/Path=\/;/);
       expect(accessLine).toMatch(/Max-Age=900/);
       expect(refreshLine).toMatch(/HttpOnly/);
-      expect(refreshLine).toMatch(/Path=\/api\/auth/);
+      expect(refreshLine).toMatch(/Path=\/;/);
       expect(refreshLine).toMatch(/Max-Age=2592000/);
 
       const meResponse = await me(access);
@@ -262,6 +262,12 @@ export function authFlowTests(name: string, context: () => AuthFlowContext) {
       ).toBe(200);
     });
 
+    it("options: informa que el registro está cerrado", async () => {
+      const response = await http().get("/api/auth/options");
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({ registrationEnabled: false });
+    });
+
     it("registro cerrado: 403 aunque el body sea válido", async () => {
       const response = await http().post("/api/auth/register").send({
         name: "Nueva persona",
@@ -304,6 +310,11 @@ export function registerTests(name: string, context: () => AuthFlowContext) {
         .post("/api/auth/login")
         .send({ email, password: PASSWORD });
       expect(login.status).toBe(200);
+    });
+
+    it("options: informa que el registro está abierto", async () => {
+      const response = await http().get("/api/auth/options");
+      expect(response.body).toEqual({ registrationEnabled: true });
     });
 
     it("email ya registrado: 409", async () => {

@@ -9,6 +9,12 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1),
   PORT: z.coerce.number().int().positive().default(4000),
   WEB_ORIGIN: z.string().min(1),
+  // Vida del access token (JWT y cookie). 15 minutos; bajarlo solo para probar la renovación.
+  ACCESS_TOKEN_TTL_SECONDS: z.coerce
+    .number()
+    .int()
+    .min(30)
+    .default(15 * 60),
   // Firma de los access tokens (HS256). Mínimo 32 caracteres; generar con `openssl rand -base64 48`.
   JWT_ACCESS_SECRET: z.string().min(32),
   // Intentos de login por IP en la ventana.

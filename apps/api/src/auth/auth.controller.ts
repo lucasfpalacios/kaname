@@ -30,27 +30,36 @@ import { AuthService, type PublicUser } from "./auth.service.js";
 import {
   ACCESS_COOKIE,
   clearAuthCookies,
+  type CookieSettings,
   REFRESH_COOKIE,
   setAuthCookies,
 } from "./cookies.js";
 
 @Controller("auth")
 export class AuthController {
-  private readonly secureCookies: boolean;
+  private readonly cookieSettings: CookieSettings;
   private readonly registrationEnabled: boolean;
 
   constructor(
     private readonly auth: AuthService,
     config: ConfigService<Env, true>,
   ) {
-    this.secureCookies =
-      config.get("NODE_ENV", { infer: true }) === "production";
+    this.cookieSettings = {
+      secure: config.get("NODE_ENV", { infer: true }) === "production",
+      accessTtlSeconds: config.get("ACCESS_TOKEN_TTL_SECONDS", { infer: true }),
+    };
     this.registrationEnabled = config.get("REGISTRATION_ENABLED", {
       infer: true,
     });
   }
 
   // Limitado por IP y por email (throttlers "ip" y "email" de AuthModule).
+  // Lo que la web necesita saber antes de iniciar sesión (por ejemplo, si mostrar "Registrate").
+  @Get("options")
+  options(): { registrationEnabled: boolean } {
+    return { registrationEnabled: this.registrationEnabled };
+  }
+
   @Post("login")
   @HttpCode(200)
   @UseGuards(ThrottlerGuard)
@@ -60,7 +69,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<PublicUser> {
     const { user, tokens } = await this.auth.login(body, req.get("user-agent"));
-    setAuthCookies(res, tokens, this.secureCookies);
+    setAuthCookies(res, tokens, this.cookieSettings);
     return user;
   }
 
@@ -84,7 +93,7 @@ export class AuthController {
       body,
       req.get("user-agent"),
     );
-    setAuthCookies(res, tokens, this.secureCookies);
+    setAuthCookies(res, tokens, this.cookieSettings);
     return user;
   }
 
@@ -99,10 +108,10 @@ export class AuthController {
         req.cookies?.[REFRESH_COOKIE] as string | undefined,
         req.get("user-agent"),
       );
-      setAuthCookies(res, tokens, this.secureCookies);
+      setAuthCookies(res, tokens, this.cookieSettings);
     } catch (error) {
       // Un refresh inválido deja al cliente sin sesión: se borran las cookies.
-      clearAuthCookies(res, this.secureCookies);
+      clearAuthCookies(res, this.cookieSettings);
       throw error;
     }
   }
@@ -121,7 +130,7 @@ export class AuthController {
       req.cookies?.[REFRESH_COOKIE] as string | undefined,
       sessionId,
     );
-    clearAuthCookies(res, this.secureCookies);
+    clearAuthCookies(res, this.cookieSettings);
   }
 
   @Get("me")

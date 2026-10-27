@@ -7,7 +7,6 @@ import type { Env } from "../config/env.js";
 import { AccessTokenGuard } from "./access-token.guard.js";
 import { AuthController } from "./auth.controller.js";
 import { AuthService } from "./auth.service.js";
-import { ACCESS_TOKEN_TTL_SECONDS } from "./cookies.js";
 
 // El guard corre antes de la validación: el email se normaliza igual que en loginSchema. Sin
 // email (body inválido) se cuenta por IP, para no mezclar a todos en una sola clave.
@@ -29,7 +28,7 @@ function emailTracker(req: {
         secret: config.get("JWT_ACCESS_SECRET", { infer: true }),
         signOptions: {
           algorithm: "HS256",
-          expiresIn: ACCESS_TOKEN_TTL_SECONDS,
+          expiresIn: config.get("ACCESS_TOKEN_TTL_SECONDS", { infer: true }),
         },
         verifyOptions: { algorithms: ["HS256"] },
       }),

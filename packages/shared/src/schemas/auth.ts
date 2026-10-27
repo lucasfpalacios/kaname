@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { Locale, Theme } from "../enums.js";
 import { ErrorCode } from "../errors/codes.js";
 
 // Login con email y contraseña. El email se normaliza (sin espacios, en minúscula) antes de
@@ -24,3 +25,14 @@ export const registerSchema = z.object({
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
+
+// Lo que devuelven /api/auth/login, /api/auth/register y /api/auth/me.
+export type SessionUser = {
+  id: string;
+  email: string;
+  name: string;
+  avatarUrl: string | null;
+  isSuperadmin: boolean;
+  locale: Locale;
+  theme: Theme;
+};

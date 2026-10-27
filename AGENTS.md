@@ -49,6 +49,7 @@ Todo se corre desde la raíz. `lint`, `typecheck`, `build`, `dev` y `test` pasan
 ```bash
 pnpm install                              # dependencias (genera el cliente de Prisma)
 cp apps/api/.env.example apps/api/.env    # variables de la API
+cp apps/web/.env.example apps/web/.env.local  # variables de la web (NEST_URL)
 pnpm db:up                                # Postgres en Docker (puerto 5434)
 pnpm --filter @kaname/api db:migrate      # aplica las migraciones
 pnpm --filter @kaname/api db:seed         # datos iniciales
@@ -72,7 +73,7 @@ db:migrate   # crea y aplica una migración si cambió schema.prisma
 db:seed      # vuelve a correr el seed (es idempotente)
 db:studio    # Prisma Studio
 db:generate  # regenera el cliente (lo hace turbo solo antes de lint/typecheck/build/dev/test)
-test:e2e     # tests e2e de la api (necesita Postgres levantado)
+test:e2e     # tests e2e de la api, contra la base kaname_test (se crea y migra sola; nunca la de desarrollo)
 ```
 
 **Deploy** (todavía sin configurar): construir siempre con turbo para que `@kaname/shared` y el cliente de Prisma se generen antes, por ejemplo `pnpm turbo run build --filter=@kaname/web` en Vercel y `--filter=@kaname/api` en Render. En la API, `prisma migrate deploy` usa `DIRECT_URL` (conexión sin pooler de Neon) y la app usa `DATABASE_URL` (con pooler).

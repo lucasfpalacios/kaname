@@ -10,6 +10,10 @@ import { intlLocale, routing } from "@/i18n/routing";
 // la rama y el código de la vitrina no entra al build.
 const isProduction = process.env.NODE_ENV === "production";
 
+// Vitrina de desarrollo: puede bloquear en el servidor. La validación de navegación instantánea no
+// puede instanciar un componente cliente importado con import() (ver más abajo), así que se apaga.
+export const instant = false;
+
 // En producción no hay título: el 404 no tiene que mencionar la vitrina.
 export function generateMetadata(): Metadata {
   if (isProduction) return {};

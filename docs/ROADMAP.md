@@ -24,10 +24,10 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [x] Página `/ui-kit` en `apps/web` (solo en desarrollo) para ver los componentes dentro de la app real
 
 ## Fase 1 — Auth y permisos
-- [ ] Registro / login email+contraseña, refresh tokens
+- [x] Registro / login email+contraseña, refresh tokens
 - [ ] Login con Google
 - [ ] Guard de Nest: usuario + workspace + permiso de módulo
-- [ ] Pantalla Login (claro/oscuro, es/en)
+- [x] Pantalla Login (claro/oscuro, es/en)
 
 ## Fase 2 — Esqueleto de la app
 - [ ] Layout: top bar + sidebar + selector de espacio

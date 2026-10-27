@@ -27,6 +27,15 @@ const envSchema = z.object({
     .int()
     .positive()
     .default(15 * 60),
+  // URL pública de la web: los links de los emails apuntan acá.
+  WEB_URL: z.url().default("http://localhost:3000"),
+  // Envío de emails con Resend. Sin clave, en desarrollo los emails se escriben en la consola.
+  // Vacía cuenta como ausente (RESEND_API_KEY= en el .env).
+  RESEND_API_KEY: z
+    .string()
+    .optional()
+    .transform((value) => value || undefined),
+  MAIL_FROM: z.string().min(3).default("Kaname <onboarding@resend.dev>"),
   // Registro abierto (POST /api/auth/register). Cualquier valor que no sea "true" lo cierra.
   REGISTRATION_ENABLED: z
     .string()
@@ -39,8 +48,14 @@ const envSchema = z.object({
 
 export type Env = z.infer<typeof envSchema>;
 
+// En producción los emails se mandan sí o sí: sin clave de Resend la API no arranca.
+const productionSchema = envSchema.refine(
+  (env) => env.NODE_ENV !== "production" || Boolean(env.RESEND_API_KEY),
+  { path: ["RESEND_API_KEY"] },
+);
+
 export function validateEnv(config: Record<string, unknown>): Env {
-  const result = envSchema.safeParse(config);
+  const result = productionSchema.safeParse(config);
   if (!result.success) {
     const fields = result.error.issues.map((issue) => issue.path.join("."));
     throw new Error(

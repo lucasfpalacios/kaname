@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { Alert } from "@kaname/ui";
 import { getAuthOptions } from "@/lib/api/server";
 import { safeNextPath } from "@/lib/auth/next-path";
 import { AuthCard, AuthCardSkeleton } from "../auth-card";
@@ -34,7 +35,7 @@ async function LoginCard({
   searchParams: PageProps<"/[locale]/login">["searchParams"];
 }) {
   const t = await getTranslations("Auth");
-  const { next } = await searchParams;
+  const { next, reset } = await searchParams;
   const home = locale === routing.defaultLocale ? "/" : `/${locale}`;
   const { registrationEnabled } = await getAuthOptions();
 
@@ -57,6 +58,7 @@ async function LoginCard({
         )
       }
     >
+      {reset === "1" && <Alert variant="success">{t("resetDone")}</Alert>}
       <LoginForm
         next={safeNextPath(typeof next === "string" ? next : null, home)}
       />

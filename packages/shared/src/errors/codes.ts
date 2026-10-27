@@ -15,6 +15,8 @@ export const ErrorCode = {
   registrationDisabled: "registration_disabled",
   // Espacio inexistente, sin membresía o módulo apagado: siempre 404, sin revelar cuál.
   notFound: "not_found",
+  // Link de recuperación vencido, ya usado o inexistente: un solo código para los tres.
+  resetTokenInvalid: "reset_token_invalid",
   forbidden: "forbidden",
 } as const;
 

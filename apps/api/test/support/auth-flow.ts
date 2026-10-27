@@ -9,12 +9,14 @@ import { ACCESS_COOKIE, REFRESH_COOKIE } from "../../src/auth/cookies.js";
 export type AuthFlowContext = {
   /** App con configureApp aplicado. Una por test: el rate limit arranca en cero. */
   createApp: () => Promise<INestApplication<App>>;
-  /** Crea un usuario con esa contraseña y devuelve su email. */
-  createUser: (password: string) => Promise<string>;
+  /** Crea un usuario con esa contraseña (y ese idioma) y devuelve su email. */
+  createUser: (password: string, locale?: "es" | "en") => Promise<string>;
   /** Sesiones vivas del usuario. */
   countSessions: (email: string) => Promise<number>;
   /** Corre la última rotación de las sesiones del usuario tantos segundos hacia atrás. */
   ageRotation: (email: string, seconds: number) => Promise<void>;
+  /** Vence los links de recuperación del usuario. */
+  expireResetTokens: (email: string) => Promise<void>;
   /** Anota un email creado fuera de createUser (registro) para borrarlo en cleanup. */
   trackEmail: (email: string) => void;
   cleanup: () => Promise<void>;

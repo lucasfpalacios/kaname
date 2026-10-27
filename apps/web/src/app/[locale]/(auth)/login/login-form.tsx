@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
+import { Link } from "@/i18n/navigation";
 import { readApiError } from "@/lib/api/errors";
 import { useErrorMessage } from "@/components/use-error-message";
 
@@ -74,6 +75,12 @@ export function LoginForm({ next }: { next: string }) {
           hideLabel={t("hidePassword")}
         />
       </FormField>
+      <Link
+        href="/forgot-password"
+        className="-mt-3 self-end rounded-sm text-sm font-medium text-primary hover:underline focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+      >
+        {t("forgotPassword")}
+      </Link>
       <Button type="submit" size="lg" loading={pending} className="w-full">
         {t("signIn")}
         <ArrowRight />

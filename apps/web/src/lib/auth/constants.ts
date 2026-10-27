@@ -3,8 +3,11 @@
 export const ACCESS_COOKIE = "kaname_access";
 export const REFRESH_COOKIE = "kaname_refresh";
 
-/** Rutas a las que se entra sin sesión (sin el prefijo de idioma). */
-export const PUBLIC_PATHS = ["/login", "/register"];
+/** Rutas para quien no tiene sesión: con sesión, vuelven al inicio (sin el prefijo de idioma). */
+export const GUEST_PATHS = ["/login", "/register"];
+
+/** Rutas abiertas con o sin sesión: el link de recuperación sirve aunque haya una sesión abierta. */
+export const OPEN_PATHS = ["/forgot-password", "/reset-password"];
 
 /** Si al access le queda menos que esto, se renueva antes de usarlo. */
 export const REFRESH_SKEW_SECONDS = 30;

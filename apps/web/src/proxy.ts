@@ -3,7 +3,8 @@ import { type NextRequest, NextResponse } from "next/server";
 import {
   ACCESS_COOKIE,
   nestUrl,
-  PUBLIC_PATHS,
+  GUEST_PATHS,
+  OPEN_PATHS,
   REFRESH_COOKIE,
 } from "./lib/auth/constants";
 import { clientIp } from "./lib/auth/client-ip";
@@ -19,7 +20,8 @@ import { routing, type Locale } from "./i18n/routing";
 //    token, ver lib/auth/server-refresh.ts). Las cookies nuevas van al navegador y también al
 //    render de este mismo pedido.
 // 3. Rutas: sin sesión, todo lo que no sea /login o /register va a /login?next=...; con sesión,
-//    /login vuelve al destino. Después, el idioma (next-intl).
+//    /login vuelve al destino. /forgot-password y /reset-password se abren siempre. Después, el
+//    idioma (next-intl).
 const intl = createMiddleware(routing);
 
 type Session =
@@ -35,7 +37,18 @@ export default async function proxy(request: NextRequest) {
 
   const locale = localeOf(pathname);
   const path = stripLocale(pathname, locale);
-  const isPublic = PUBLIC_PATHS.includes(path);
+  // Recuperación de contraseña: sin sesión y sin redirigir; no hace falta renovar nada.
+  if (OPEN_PATHS.includes(path)) {
+    const response = intl(request);
+    // El link trae el token en la URL: ningún pedido de esa página (ni las fuentes que se
+    // precargan antes de la meta) lo manda como Referer. El header aplica desde el primer byte.
+    if (path === "/reset-password") {
+      response.headers.set("Referrer-Policy", "no-referrer");
+    }
+    return response;
+  }
+
+  const isPublic = GUEST_PATHS.includes(path);
   const session = await resolveSession(request, { verify: isPublic });
 
   if (isPublic) {

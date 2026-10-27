@@ -4,6 +4,7 @@ import {
   ForbiddenException,
   Get,
   HttpCode,
+  Logger,
   Post,
   Req,
   Res,
@@ -13,16 +14,21 @@ import { ConfigService } from "@nestjs/config";
 import { ThrottlerGuard } from "@nestjs/throttler";
 import {
   ErrorCode,
+  type ForgotPasswordInput,
+  forgotPasswordSchema,
   type LoginInput,
   loginSchema,
   type RegisterInput,
   registerSchema,
+  type ResetPasswordInput,
+  resetPasswordSchema,
 } from "@kaname/shared";
 import type { Request, Response } from "express";
 import { ZodValidationPipe } from "../common/zod-validation.pipe.js";
 import type { Env } from "../config/env.js";
 import { type AuthContext, CurrentAuth } from "./access-token.guard.js";
 import { AuthService, type PublicUser } from "./auth.service.js";
+import { PasswordResetService } from "./password-reset.service.js";
 import { Public } from "./public.decorator.js";
 import {
   ACCESS_COOKIE,
@@ -37,8 +43,11 @@ export class AuthController {
   private readonly cookieSettings: CookieSettings;
   private readonly registrationEnabled: boolean;
 
+  private readonly logger = new Logger(AuthController.name);
+
   constructor(
     private readonly auth: AuthService,
+    private readonly passwordReset: PasswordResetService,
     config: ConfigService<Env, true>,
   ) {
     this.cookieSettings = {
@@ -95,6 +104,37 @@ export class AuthController {
     );
     setAuthCookies(res, tokens, this.cookieSettings);
     return user;
+  }
+
+  // Siempre 202, exista o no el email, y sin esperar la base ni el envío: ni la respuesta ni su
+  // tiempo revelan si el email está registrado. Limitado por IP y por email, como el login.
+  @Public()
+  @Post("forgot-password")
+  @HttpCode(202)
+  @UseGuards(ThrottlerGuard)
+  forgotPassword(
+    @Body(new ZodValidationPipe(forgotPasswordSchema))
+    body: ForgotPasswordInput,
+  ): void {
+    void this.passwordReset.requestReset(body.email).catch((error: unknown) => {
+      this.logger.error(
+        `No se pudo enviar el email de recuperación: ${String(error)}`,
+      );
+    });
+  }
+
+  // Cambia la contraseña con el token del link. Cierra todas las sesiones (también la de este
+  // navegador, si había una): después hay que iniciar sesión con la contraseña nueva.
+  @Public()
+  @Post("reset-password")
+  @HttpCode(204)
+  @UseGuards(ThrottlerGuard)
+  async resetPassword(
+    @Body(new ZodValidationPipe(resetPasswordSchema)) body: ResetPasswordInput,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<void> {
+    await this.passwordReset.resetPassword(body.token, body.password);
+    clearAuthCookies(res, this.cookieSettings);
   }
 
   @Public()

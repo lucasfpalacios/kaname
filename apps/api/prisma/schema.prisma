@@ -180,10 +180,11 @@ model User {
 
   oauthAccounts    OAuthAccount[]
   sessions         Session[]
+  passwordResets   PasswordResetToken[]
   accountMembers   AccountMember[]
   workspaceMembers WorkspaceMember[]
   dashboards       Dashboard[]
-  assignedEvents   Event[]           @relation("EventAssignee")
+  assignedEvents   Event[]              @relation("EventAssignee")
   activity         ActivityLog[]
 }
 
@@ -196,6 +197,21 @@ model OAuthAccount {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerUserId])
+}
+
+// Link de recuperación de contraseña: un solo uso, vence a los 30 minutos. Se guarda solo el
+// SHA-256 del token; el token va únicamente en el email.
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Session {

@@ -26,6 +26,20 @@ export const registerSchema = z.object({
 
 export type RegisterInput = z.infer<typeof registerSchema>;
 
+// Recuperación de contraseña: pedir el link (solo el email) y poner la contraseña nueva con el
+// token del link.
+export const forgotPasswordSchema = z.object({
+  email: loginSchema.shape.email,
+});
+
+export const resetPasswordSchema = z.object({
+  token: z.string().min(1, ErrorCode.resetTokenInvalid).max(256),
+  password: registerSchema.shape.password,
+});
+
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
+
 // Lo que devuelven /api/auth/login, /api/auth/register y /api/auth/me.
 export type SessionUser = {
   id: string;

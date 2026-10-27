@@ -362,3 +362,16 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-27 · Un espacio archivado responde 404
 **Por qué:** reemplaza lo que decía la entrada de permisos: `GET /api/workspaces/:workspaceId` devolvía también los espacios archivados. Ahora `WorkspaceAccessRepository` los excluye en la consulta: entrando directo a un espacio archivado, o a cualquier ruta de negocio debajo, la respuesta es 404, la misma que para uno inexistente. Un espacio archivado deja de usarse del todo; la restauración va a ser una acción aparte, de la cuenta, cuando exista el alta y baja de espacios (Fase 2).
 **Descartado:** dejarlo accesible solo para lectura, porque obligaría a cada endpoint a distinguir archivados.
+
+### 2026-10-27 · Recuperación de contraseña con Resend
+**Por qué:**
+- **Token:** 32 bytes al azar, solo en el link del email; en `PasswordResetToken` se guarda el SHA-256. Sirve una vez y vence a los 30 minutos. Pedir otro link borra los pendientes del usuario. Usarlo cambia la contraseña (argon2id), invalida los demás links y cierra todas las sesiones en una transacción. El token se reclama con un `updateMany` condicionado a `usedAt = null`, así dos pedidos simultáneos no lo usan dos veces.
+- **Sin revelar emails:** `POST /api/auth/forgot-password` siempre responde 202, enseguida, y busca al usuario, crea el token y manda el email en segundo plano. Así tampoco el tiempo de respuesta delata si el email existe. Un link vencido, usado o inventado da el mismo código: `reset_token_invalid`.
+- **Rate limit:** los dos endpoints usan los mismos throttlers que el login (por IP y por email).
+- **Resend sin SDK:** la API REST es un solo POST con `fetch`. El plan gratis alcanza. Sin `RESEND_API_KEY` (o vacía), fuera de producción el email se escribe en la consola de la API con el link; en producción la clave es obligatoria y la API no arranca sin ella.
+- **Email:** HTML con tablas y estilos en línea (lo que respetan los clientes de correo), el logo 要 Kaname como texto (sin imágenes que bloquear), colores de tokens.md y versión en texto plano. Se escapa todo lo que entra por parámetro. Los textos viven en la API, en es/en según `User.locale`, porque el email no pasa por next-intl.
+- **Web:** `/forgot-password` y `/reset-password` se abren con o sin sesión (`OPEN_PATHS`); el link sirve aunque haya una sesión abierta en ese navegador. La página de reset saca el token de la barra de direcciones al cargar y se sirve con `Referrer-Policy: no-referrer` desde el proxy: la meta `referrer` llegaba tarde y las fuentes precargadas mandaban el token como Referer. Al guardar vuelve a `/login?reset=1` con un aviso.
+**Descartado:**
+- El SDK `resend`: una dependencia más para un solo POST.
+- Esperar el envío antes de responder: el tiempo de respuesta revelaría si el email existe.
+- Distinguir en el error si el link venció o ya se usó: no le sirve a quien lo usa (en los dos casos tiene que pedir otro) y le da información a quien prueba tokens.

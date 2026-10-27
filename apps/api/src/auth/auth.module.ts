@@ -7,6 +7,8 @@ import type { Env } from "../config/env.js";
 import { AccessTokenGuard } from "./access-token.guard.js";
 import { AuthController } from "./auth.controller.js";
 import { AuthService } from "./auth.service.js";
+import { PasswordResetService } from "./password-reset.service.js";
+import { MailModule } from "../mail/mail.module.js";
 
 // El guard corre antes de la validación: el email se normaliza igual que en loginSchema. Sin
 // email (body inválido) se cuenta por IP, para no mezclar a todos en una sola clave.
@@ -22,6 +24,7 @@ function emailTracker(req: {
 
 @Module({
   imports: [
+    MailModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService<Env, true>) => ({
@@ -60,7 +63,7 @@ function emailTracker(req: {
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, AccessTokenGuard],
+  providers: [AuthService, PasswordResetService, AccessTokenGuard],
   exports: [AuthService, AccessTokenGuard],
 })
 export class AuthModule {}

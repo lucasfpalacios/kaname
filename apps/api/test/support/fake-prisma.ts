@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import {
+  type PasswordResetToken,
   Prisma,
   type Session,
   type User,
@@ -17,6 +18,47 @@ const matches = <T extends object>(row: T, where: Where<T>) =>
 export class FakePrisma {
   users: User[] = [];
   sessions: Session[] = [];
+  resetTokens: PasswordResetToken[] = [];
+
+  /** Transacción interactiva: en memoria, el mismo cliente. */
+  $transaction = async <T>(fn: (tx: this) => Promise<T>) => fn(this);
+
+  passwordResetToken = {
+    create: async ({
+      data,
+    }: {
+      data: Pick<PasswordResetToken, "userId" | "tokenHash" | "expiresAt">;
+    }) => {
+      const token: PasswordResetToken = {
+        id: randomUUID(),
+        usedAt: null,
+        createdAt: new Date(),
+        ...data,
+      };
+      this.resetTokens.push(token);
+      return token;
+    },
+    findUnique: async ({ where }: { where: Where<PasswordResetToken> }) =>
+      this.resetTokens.find((token) => matches(token, where)) ?? null,
+    updateMany: async ({
+      where,
+      data,
+    }: {
+      where: Where<PasswordResetToken>;
+      data: Partial<PasswordResetToken>;
+    }) => {
+      const rows = this.resetTokens.filter((token) => matches(token, where));
+      rows.forEach((row) => Object.assign(row, data));
+      return { count: rows.length };
+    },
+    deleteMany: async ({ where }: { where: Where<PasswordResetToken> }) => {
+      const before = this.resetTokens.length;
+      this.resetTokens = this.resetTokens.filter(
+        (token) => !matches(token, where),
+      );
+      return { count: before - this.resetTokens.length };
+    },
+  };
 
   user = {
     create: async ({

@@ -35,7 +35,8 @@
     "email_taken": "Ya hay una cuenta con ese email.",
     "registration_disabled": "El registro está cerrado por ahora.",
     "not_found": "No encontramos lo que buscás.",
-    "forbidden": "No tenés permiso para hacer esto."
+    "forbidden": "No tenés permiso para hacer esto.",
+    "reset_token_invalid": "El link venció o ya se usó. Pedí uno nuevo."
   },
   "Roles": {
     "OWNER": "Dueño",
@@ -197,6 +198,18 @@
     "genericError": "No pudimos completar el pedido. Probá de nuevo en un momento.",
     "userMenu": "Menú de usuario",
     "signOut": "Cerrar sesión",
-    "superadmin": "Superadmin"
+    "superadmin": "Superadmin",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "forgotTitle": "Recuperá tu contraseña",
+    "forgotDescription": "Ingresá tu email y te mandamos un link para elegir una contraseña nueva.",
+    "sendLink": "Mandar link",
+    "forgotSent": "Si hay una cuenta con ese email, te mandamos un link para elegir una contraseña nueva. Vence en 30 minutos.",
+    "backToLogin": "Volver a iniciar sesión",
+    "resetTitle": "Elegí una contraseña nueva",
+    "resetDescription": "Reemplaza la anterior y cierra todas tus sesiones abiertas.",
+    "newPassword": "Contraseña nueva",
+    "saveNewPassword": "Guardar contraseña",
+    "resetDone": "Listo: tu contraseña cambió. Iniciá sesión con la nueva.",
+    "requestNewLink": "Pedir un link nuevo"
   }
 }

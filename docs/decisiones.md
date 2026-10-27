@@ -351,3 +351,10 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - `@UseGuards(WorkspaceGuard)` en cada controller: depende de acordarse.
 - Acceso total del superadmin: rompe el aislamiento entre clientes del SaaS.
 - 403 para espacios ajenos: revela que existen.
+
+### 2026-10-27 · Cambio de tema con círculo (View Transitions)
+**Por qué:** al cambiar el tema desde el ThemeToggle, el tema nuevo aparece en un círculo que crece desde el centro del botón hasta la esquina más lejana: 450 ms, ease-in-out, en los dos sentidos.
+- **Cómo:** con `document.startViewTransition` y un `clip-path: circle()` animado sobre `::view-transition-new(root)`, sin dependencias nuevas (`lib/theme-transition.ts`). Mientras dura, `<html>` lleva `data-theme-transition` y `theme.css` apaga el fundido por defecto de View Transitions, así se ve solo el círculo. Otras View Transitions de la app no se tocan.
+- **next-themes sigue siendo el único que escribe el tema:** aplica la clase en un efecto de React, así que la transición llama a `setTheme` y espera, con un `MutationObserver` y un tope de 300 ms, a que `<html>` tenga la clase nueva antes de capturar la vista nueva.
+- **Sin animación:** si el navegador no soporta View Transitions, si el sistema pide menos movimiento (`prefers-reduced-motion`) o si el tema que queda es el mismo (por ejemplo, "sistema" cuando el sistema ya está en ese tema), el tema cambia al instante.
+**Descartado:** aplicar la clase de `<html>` a mano en la transición, porque duplicaría la lógica de next-themes y en Storybook pelearía con el selector de tema.

@@ -80,3 +80,17 @@
     }
   }
 }
+
+/*
+ * Cambio de tema con círculo (lib/theme-transition.ts): mientras dura, sin el fundido por defecto
+ * de View Transitions. La vista nueva entra entera arriba de la vieja y solo la recorta el círculo.
+ */
+[data-theme-transition]::view-transition-old(root),
+[data-theme-transition]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+[data-theme-transition]::view-transition-new(root) {
+  z-index: 1;
+}

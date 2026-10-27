@@ -1,7 +1,8 @@
 "use client";
 
 import { Monitor, Moon, Sun } from "lucide-react";
-import { useSyncExternalStore } from "react";
+import { useRef, useSyncExternalStore } from "react";
+import { revealThemeChange } from "../../lib/theme-transition";
 import { useTheme } from "../../theme/theme-provider";
 import {
   DropdownMenu,
@@ -25,14 +26,17 @@ const subscribe = () => () => {};
 
 // Tema claro / oscuro / sistema, sobre el ThemeProvider del kit (next-themes). En el servidor no
 // se conoce el tema: hasta montar se muestra el ícono de sistema y ninguna opción marcada, así
-// no hay diferencias de hidratación.
+// no hay diferencias de hidratación. Al cambiar, el tema nuevo aparece en un círculo que crece
+// desde el botón (lib/theme-transition.ts); si el tema que queda es el mismo (por ejemplo,
+// "sistema" cuando el sistema ya está en ese tema), no anima.
 export function ThemeToggle({
   label,
   labels,
   defaultOpen,
   className,
 }: ThemeToggleProps) {
-  const { theme, resolvedTheme, setTheme } = useTheme();
+  const { theme, resolvedTheme, systemTheme, setTheme } = useTheme();
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const mounted = useSyncExternalStore(
     subscribe,
     () => true,
@@ -45,17 +49,35 @@ export function ThemeToggle({
         ? Moon
         : Sun;
 
+  function changeTheme(next: string) {
+    const target = next === "system" ? systemTheme : next;
+    const rect = triggerRef.current?.getBoundingClientRect();
+    if (
+      (target !== "light" && target !== "dark") ||
+      target === resolvedTheme ||
+      !rect
+    ) {
+      setTheme(next);
+      return;
+    }
+    revealThemeChange({
+      apply: () => setTheme(next),
+      target,
+      origin: { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 },
+    });
+  }
+
   return (
     <DropdownMenu defaultOpen={defaultOpen}>
       <DropdownMenuTrigger asChild>
-        <IconButton label={label} className={className}>
+        <IconButton ref={triggerRef} label={label} className={className}>
           <Icon />
         </IconButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuRadioGroup
           value={mounted ? theme : undefined}
-          onValueChange={setTheme}
+          onValueChange={changeTheme}
         >
           <DropdownMenuRadioItem value="light">
             <Sun />

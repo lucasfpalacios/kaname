@@ -47,6 +47,8 @@ Tres guards globales corren en cada pedido, en este orden: sesión, membresía d
 - **`@WorkspaceMember()`:** cualquier miembro del espacio de `:workspaceId`. Si no es miembro o el espacio no existe: 404.
 - **`@RequirePermission(ModuleKey.X, "view" | "create" | "edit" | "delete")`:** miembro, con el módulo activo en el espacio (si no, 404) y con ese permiso en la matriz `RolePermission` de su rol (si no, 403).
 - Una ruta con `:workspaceId` sin ninguno de los dos decoradores se rechaza (403) y queda en el log: nunca queda abierta por olvido.
+- El parámetro del espacio se llama siempre `:workspaceId` (nunca `:id` ni un id en el body o la query): el guard lo busca por ese nombre, y con otro la ruta no tendría la red que la rechaza por olvido.
+- `@Public()` junto con `@WorkspaceMember()` o `@RequirePermission()` (en la ruta o en el controller) es un error: la API no arranca y dice qué rutas son.
 - El superadmin de plataforma no tiene acceso implícito: ve solo los espacios de los que es miembro.
 
 ```ts

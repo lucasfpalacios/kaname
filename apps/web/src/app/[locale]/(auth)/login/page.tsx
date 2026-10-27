@@ -4,14 +4,14 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { Alert } from "@kaname/ui";
+import { Alert, GoogleButton, LabeledSeparator } from "@kaname/ui";
 import { getAuthOptions } from "@/lib/api/server";
 import { safeNextPath } from "@/lib/auth/next-path";
 import { AuthCard, AuthCardSkeleton } from "../auth-card";
 import { LoginForm } from "./login-form";
 
-// /login. Si ya hay sesión, el proxy redirige antes de llegar acá. Los links "¿Olvidaste tu
-// contraseña?" y "Continuar con Google" llegan en los pasos 4 y 5 de la Fase 1.
+// /login. Si ya hay sesión, el proxy redirige antes de llegar acá. "Continuar con Google" navega
+// a la API (/api/auth/google); si el login con Google falla, la API vuelve acá con ?error=<código>.
 export default async function LoginPage({
   params,
   searchParams,
@@ -35,9 +35,19 @@ async function LoginCard({
   searchParams: PageProps<"/[locale]/login">["searchParams"];
 }) {
   const t = await getTranslations("Auth");
-  const { next, reset } = await searchParams;
+  const errors = await getTranslations("Errors");
+  const { next, reset, error } = await searchParams;
   const home = locale === routing.defaultLocale ? "/" : `/${locale}`;
-  const { registrationEnabled } = await getAuthOptions();
+  const destination = safeNextPath(
+    typeof next === "string" ? next : null,
+    home,
+  );
+  const { registrationEnabled, googleEnabled } = await getAuthOptions();
+  // Solo códigos conocidos: el texto sale siempre de las traducciones, nunca de la URL.
+  const errorKey = error as Parameters<typeof errors>[0];
+  const googleError =
+    typeof error === "string" && errors.has(errorKey) ? errors(errorKey) : null;
+  const googleUrl = `/api/auth/google?${new URLSearchParams({ next: destination, locale })}`;
 
   return (
     <AuthCard
@@ -59,9 +69,14 @@ async function LoginCard({
       }
     >
       {reset === "1" && <Alert variant="success">{t("resetDone")}</Alert>}
-      <LoginForm
-        next={safeNextPath(typeof next === "string" ? next : null, home)}
-      />
+      {googleError && <Alert variant="destructive">{googleError}</Alert>}
+      <LoginForm next={destination} />
+      {googleEnabled && (
+        <div className="-mt-3 flex flex-col gap-5">
+          <LabeledSeparator>{t("or")}</LabeledSeparator>
+          <GoogleButton href={googleUrl} label={t("continueWithGoogle")} />
+        </div>
+      )}
     </AuthCard>
   );
 }

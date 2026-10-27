@@ -27,6 +27,7 @@ export * from "./components/dialog";
 export * from "./components/dropdown-menu";
 export * from "./components/empty-state";
 export * from "./components/form-field";
+export * from "./components/google-button";
 export * from "./components/icon-button";
 export * from "./components/input";
 export * from "./components/kaname-logo";

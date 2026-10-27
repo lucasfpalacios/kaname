@@ -1,4 +1,5 @@
 import { registerTests } from "../../test/support/auth-flow.js";
+import { googleRegisterTests } from "../../test/support/google-login-flow.js";
 import { fakeContext } from "../../test/support/contexts.js";
 
 // Registro habilitado. Se activa antes de importar la app: ConfigModule valida el entorno al
@@ -8,3 +9,7 @@ vi.hoisted(() => {
 });
 
 registerTests("Registro habilitado (Prisma en memoria)", fakeContext);
+googleRegisterTests(
+  "Login con Google y registro habilitado (Prisma en memoria)",
+  fakeContext,
+);

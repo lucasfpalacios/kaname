@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { storyMessages } from "../../stories/messages";
 import { ThemePanels } from "../../stories/theme-panels";
-import { Separator } from "./separator";
+import { LabeledSeparator, Separator } from "./separator";
 
 const meta = {
   title: "Componentes/Separator",
@@ -31,6 +31,18 @@ export const Orientaciones: Story = {
             <span>{t.actions.delete}</span>
           </div>
         </div>
+      </ThemePanels>
+    );
+  },
+};
+
+// Con texto al medio: separa dos formas de hacer lo mismo (contraseña o Google en el login).
+export const ConTexto: Story = {
+  render: (_args, { globals }) => {
+    const t = storyMessages(globals.locale);
+    return (
+      <ThemePanels labels={t}>
+        <LabeledSeparator className="max-w-sm">{t.auth.or}</LabeledSeparator>
       </ThemePanels>
     );
   },

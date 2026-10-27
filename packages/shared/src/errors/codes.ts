@@ -17,6 +17,11 @@ export const ErrorCode = {
   notFound: "not_found",
   // Link de recuperación vencido, ya usado o inexistente: un solo código para los tres.
   resetTokenInvalid: "reset_token_invalid",
+  // Login con Google: algo falló en el flujo (state inválido, cancelado, canje rechazado...).
+  oauthFailed: "oauth_failed",
+  googleEmailUnverified: "google_email_unverified",
+  // El email de Google no tiene cuenta y el registro está cerrado.
+  googleRegistrationClosed: "google_registration_closed",
   forbidden: "forbidden",
 } as const;
 

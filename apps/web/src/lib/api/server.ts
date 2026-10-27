@@ -19,17 +19,16 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
   }
 }
 
-export async function getAuthOptions(): Promise<{
-  registrationEnabled: boolean;
-}> {
+type AuthOptions = { registrationEnabled: boolean; googleEnabled: boolean };
+
+export async function getAuthOptions(): Promise<AuthOptions> {
   try {
     const response = await fetch(`${nestUrl()}/api/auth/options`, {
       cache: "no-store",
     });
-    if (response.ok)
-      return (await response.json()) as { registrationEnabled: boolean };
+    if (response.ok) return (await response.json()) as AuthOptions;
   } catch {
-    // Sin API, el registro se muestra cerrado.
+    // Sin API, el registro y Google se muestran apagados.
   }
-  return { registrationEnabled: false };
+  return { registrationEnabled: false, googleEnabled: false };
 }

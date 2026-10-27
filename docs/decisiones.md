@@ -375,3 +375,18 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - El SDK `resend`: una dependencia más para un solo POST.
 - Esperar el envío antes de responder: el tiempo de respuesta revelaría si el email existe.
 - Distinguir en el error si el link venció o ya se usó: no le sirve a quien lo usa (en los dos casos tiene que pedir otro) y le da información a quien prueba tokens.
+
+### 2026-10-27 · Login con Google (OAuth con PKCE, sin librerías)
+**Por qué:**
+- **Flujo:** `GET /api/auth/google` genera `state`, `nonce` y un `code_verifier` de PKCE (S256) y los guarda, con el destino (`next`) y el idioma, en una cookie httpOnly firmada con HMAC (`kaname_oauth`, 10 minutos, `Path=/api/auth/google`, `SameSite=Lax`). El callback compara el `state` en tiempo constante, canjea el código con el `code_verifier`, borra la cookie (sirve una vez) y crea la sesión con las mismas cookies que el login normal. Sin tabla nueva: el estado del flujo vive en la cookie.
+- **id_token sin verificar la firma:** llega directo del endpoint de tokens de Google, por TLS, en respuesta a nuestro pedido; OpenID Connect (3.1.3.7) permite validar el emisor por el canal en ese caso. Se validan `iss`, `aud`, `exp` y `nonce`. Evita bajar y cachear las claves de Google (JWKS).
+- **Vínculo:** primero por `OAuthAccount` (`provider` + `sub` de Google), así un cambio de email en Google no rompe el acceso; si no hay, por email (normalizado) y se crea el vínculo. Solo emails con `email_verified`: si no, cualquiera podría tomar una cuenta registrando ese email en Google. Un usuario nuevo se crea sin contraseña y solo con `REGISTRATION_ENABLED`; si no, `google_registration_closed`.
+- **Errores:** el callback siempre redirige; si falla, a `/login?error=<código>` en el idioma del usuario, y la web traduce el código (solo los conocidos, el texto nunca sale de la URL). Cualquier falla del canje o del token da `oauth_failed`, sin detalles.
+- **Callback por el proxy de Next** (`WEB_URL/api/auth/google/callback`, o `GOOGLE_REDIRECT_URI`): las cookies quedan en el dominio de la web, igual que con el login normal. Las redirecciones de la API son relativas.
+- **Apagado sin credenciales:** sin `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET`, `/api/auth/options` informa `googleEnabled: false`, la web no muestra el botón y las rutas dan 404.
+- **Tests:** el canje con Google es un servicio aparte (`GoogleOAuthClient`) que los tests reemplazan por un doble que arma el id_token; los tests nunca usan las credenciales reales del `.env`.
+- **UI:** `GoogleButton` (link con el estilo del botón secundario y el logo de Google con sus colores oficiales, única excepción a los tokens) y `LabeledSeparator` ("o") en el kit. `safeNextPath` pasó a `@kaname/shared` porque ahora la usa también la API.
+**Descartado:**
+- Passport (`passport-google-oauth20`) u `openid-client`: dependencias para un flujo de dos pedidos, y Passport no maneja PKCE ni nonce de forma simple.
+- Guardar el estado del flujo en la base: una tabla y una limpieza más para algo que dura minutos.
+- Vincular por email sin exigir `email_verified`.

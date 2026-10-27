@@ -29,6 +29,7 @@ import type { Env } from "../config/env.js";
 import { type AuthContext, CurrentAuth } from "./access-token.guard.js";
 import { AuthService, type PublicUser } from "./auth.service.js";
 import { PasswordResetService } from "./password-reset.service.js";
+import { GoogleAuthService } from "./google/google-auth.service.js";
 import { Public } from "./public.decorator.js";
 import {
   ACCESS_COOKIE,
@@ -48,6 +49,7 @@ export class AuthController {
   constructor(
     private readonly auth: AuthService,
     private readonly passwordReset: PasswordResetService,
+    private readonly google: GoogleAuthService,
     config: ConfigService<Env, true>,
   ) {
     this.cookieSettings = {
@@ -63,8 +65,11 @@ export class AuthController {
   // Lo que la web necesita saber antes de iniciar sesión (por ejemplo, si mostrar "Registrate").
   @Public()
   @Get("options")
-  options(): { registrationEnabled: boolean } {
-    return { registrationEnabled: this.registrationEnabled };
+  options(): { registrationEnabled: boolean; googleEnabled: boolean } {
+    return {
+      registrationEnabled: this.registrationEnabled,
+      googleEnabled: this.google.credentials() !== null,
+    };
   }
 
   @Public()

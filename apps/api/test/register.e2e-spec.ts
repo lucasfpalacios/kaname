@@ -1,4 +1,5 @@
 import { registerTests } from "./support/auth-flow.js";
+import { googleRegisterTests } from "./support/google-login-flow.js";
 import { postgresContext } from "./support/contexts.js";
 import { testPrisma } from "./support/postgres.js";
 
@@ -10,3 +11,6 @@ vi.hoisted(() => {
 const prisma = testPrisma();
 
 registerTests("Registro habilitado (Postgres)", () => postgresContext(prisma));
+googleRegisterTests("Login con Google y registro habilitado (Postgres)", () =>
+  postgresContext(prisma),
+);

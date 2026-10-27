@@ -2,25 +2,49 @@ import { randomUUID } from "node:crypto";
 import { hashPassword } from "../../src/auth/password.js";
 import type { PrismaClient } from "../../src/generated/prisma/client.js";
 import type { AuthFlowContext } from "./auth-flow.js";
+import { GoogleOAuthClient } from "../../src/auth/google/google-oauth.client.js";
 import { MailService } from "../../src/mail/mail.service.js";
+import { FakeGoogle } from "./fake-google.js";
 import { MailRecorder } from "./mail-recorder.js";
 import { createTestApp } from "./create-app.js";
 import { FakePrisma } from "./fake-prisma.js";
 
 const secondsAgo = (seconds: number) => new Date(Date.now() - seconds * 1000);
 
-/** Los emails que manda la app de cada contexto quedan acá (`ctx.mail`). */
-const mailOverride = (mail: MailRecorder) => ({
-  overrides: [{ provide: MailService, useValue: mail }],
+/** Dobles de cada contexto: los emails quedan en `ctx.mail` y Google es `ctx.google`. */
+const doubles = (mail: MailRecorder, google: FakeGoogle) => ({
+  overrides: [
+    { provide: MailService, useValue: mail },
+    { provide: GoogleOAuthClient, useValue: google },
+  ],
 });
 
+export type TestContext = AuthFlowContext & {
+  mail: MailRecorder;
+  google: FakeGoogle;
+  /** Cuentas de Google vinculadas al usuario (sus `sub`). */
+  googleSubjects: (email: string) => Promise<string[]>;
+  /** Si existe un usuario con ese email. */
+  userExists: (email: string) => Promise<boolean>;
+};
+
 /** Contexto sin base: Prisma en memoria (corre en `pnpm test`). */
-export function fakeContext(): AuthFlowContext & { mail: MailRecorder } {
+export function fakeContext(): TestContext {
   const prisma = new FakePrisma();
   const mail = new MailRecorder();
+  const google = new FakeGoogle();
   return {
     mail,
-    createApp: () => createTestApp(prisma, mailOverride(mail)),
+    google,
+    createApp: () => createTestApp(prisma, doubles(mail, google)),
+    googleSubjects: async (email) => {
+      const user = await prisma.user.findUnique({ where: { email } });
+      return prisma.oauthAccounts
+        .filter((account) => account.userId === user?.id)
+        .map((account) => account.providerUserId);
+    },
+    userExists: async (email) =>
+      (await prisma.user.findUnique({ where: { email } })) !== null,
     createUser: async (password, locale = "es") => {
       const email = `usuario-${randomUUID()}@kaname.test`;
       prisma.addUser({
@@ -54,14 +78,22 @@ export function fakeContext(): AuthFlowContext & { mail: MailRecorder } {
 }
 
 /** Contexto con Postgres real (`pnpm test:e2e`): borra sus usuarios al terminar. */
-export function postgresContext(
-  prisma: PrismaClient,
-): AuthFlowContext & { mail: MailRecorder } {
+export function postgresContext(prisma: PrismaClient): TestContext {
   const emails: string[] = [];
   const mail = new MailRecorder();
+  const google = new FakeGoogle();
   return {
     mail,
-    createApp: () => createTestApp(undefined, mailOverride(mail)),
+    google,
+    createApp: () => createTestApp(undefined, doubles(mail, google)),
+    googleSubjects: async (email) => {
+      const accounts = await prisma.oAuthAccount.findMany({
+        where: { provider: "google", user: { email } },
+      });
+      return accounts.map((account) => account.providerUserId);
+    },
+    userExists: async (email) =>
+      (await prisma.user.count({ where: { email } })) > 0,
     createUser: async (password, locale = "es") => {
       const email = `e2e-${randomUUID()}@kaname.test`;
       emails.push(email);
@@ -91,7 +123,7 @@ export function postgresContext(
     },
     trackEmail: (email) => emails.push(email),
     cleanup: async () => {
-      // Las sesiones caen en cascada.
+      // Las sesiones y las cuentas de Google caen en cascada.
       await prisma.user.deleteMany({ where: { email: { in: emails } } });
     },
   };

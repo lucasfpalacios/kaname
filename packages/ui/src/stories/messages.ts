@@ -302,6 +302,8 @@ const es = {
     userMenu: "Menú de usuario",
     profile: "Mi perfil",
     signOut: "Cerrar sesión",
+    or: "o",
+    continueWithGoogle: "Continuar con Google",
   },
   overlays: {
     deleteTitle: "¿Eliminar el producto?",
@@ -677,6 +679,8 @@ const en: Messages = {
     userMenu: "User menu",
     profile: "My profile",
     signOut: "Sign out",
+    or: "or",
+    continueWithGoogle: "Continue with Google",
   },
   overlays: {
     deleteTitle: "Delete the product?",

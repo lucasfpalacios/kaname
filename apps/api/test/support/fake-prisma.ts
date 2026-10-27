@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import {
+  type OAuthAccount,
   type PasswordResetToken,
   Prisma,
   type Session,
@@ -19,6 +20,7 @@ export class FakePrisma {
   users: User[] = [];
   sessions: Session[] = [];
   resetTokens: PasswordResetToken[] = [];
+  oauthAccounts: OAuthAccount[] = [];
 
   /** Transacción interactiva: en memoria, el mismo cliente. */
   $transaction = async <T>(fn: (tx: this) => Promise<T>) => fn(this);
@@ -58,6 +60,31 @@ export class FakePrisma {
       );
       return { count: before - this.resetTokens.length };
     },
+  };
+
+  oAuthAccount = {
+    create: async ({
+      data,
+    }: {
+      data: Pick<OAuthAccount, "userId" | "provider" | "providerUserId">;
+    }) => {
+      const account: OAuthAccount = { id: randomUUID(), ...data };
+      this.oauthAccounts.push(account);
+      return account;
+    },
+    findUnique: async ({
+      where,
+    }: {
+      where: {
+        provider_providerUserId: Pick<
+          OAuthAccount,
+          "provider" | "providerUserId"
+        >;
+      };
+    }) =>
+      this.oauthAccounts.find((account) =>
+        matches(account, where.provider_providerUserId),
+      ) ?? null,
   };
 
   user = {

@@ -23,3 +23,25 @@ export function Separator({
     />
   );
 }
+
+/** Línea horizontal con un texto al medio ("o", entre dos formas de entrar). */
+export function LabeledSeparator({
+  className,
+  children,
+  ...props
+}: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="labeled-separator"
+      className={cn(
+        "flex items-center gap-3 text-xs text-foreground/70",
+        className,
+      )}
+      {...props}
+    >
+      <Separator className="flex-1" />
+      <span>{children}</span>
+      <Separator className="flex-1" />
+    </div>
+  );
+}

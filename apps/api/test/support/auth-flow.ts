@@ -267,7 +267,7 @@ export function authFlowTests(name: string, context: () => AuthFlowContext) {
     it("options: informa que el registro está cerrado", async () => {
       const response = await http().get("/api/auth/options");
       expect(response.status).toBe(200);
-      expect(response.body).toEqual({ registrationEnabled: false });
+      expect(response.body).toMatchObject({ registrationEnabled: false });
     });
 
     it("registro cerrado: 403 aunque el body sea válido", async () => {
@@ -316,7 +316,7 @@ export function registerTests(name: string, context: () => AuthFlowContext) {
 
     it("options: informa que el registro está abierto", async () => {
       const response = await http().get("/api/auth/options");
-      expect(response.body).toEqual({ registrationEnabled: true });
+      expect(response.body).toMatchObject({ registrationEnabled: true });
     });
 
     it("email ya registrado: 409", async () => {

@@ -8,6 +8,9 @@ import { AccessTokenGuard } from "./access-token.guard.js";
 import { AuthController } from "./auth.controller.js";
 import { AuthService } from "./auth.service.js";
 import { PasswordResetService } from "./password-reset.service.js";
+import { GoogleAuthController } from "./google/google-auth.controller.js";
+import { GoogleAuthService } from "./google/google-auth.service.js";
+import { GoogleOAuthClient } from "./google/google-oauth.client.js";
 import { MailModule } from "../mail/mail.module.js";
 
 // El guard corre antes de la validación: el email se normaliza igual que en loginSchema. Sin
@@ -62,8 +65,14 @@ function emailTracker(req: {
       }),
     }),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, PasswordResetService, AccessTokenGuard],
+  controllers: [AuthController, GoogleAuthController],
+  providers: [
+    AuthService,
+    PasswordResetService,
+    GoogleAuthService,
+    GoogleOAuthClient,
+    AccessTokenGuard,
+  ],
   exports: [AuthService, AccessTokenGuard],
 })
 export class AuthModule {}

@@ -201,6 +201,18 @@ export class AuthService {
     return payload;
   }
 
+  /** Inicia sesión para un usuario ya autenticado por otro medio (Google). */
+  async startSession(
+    userId: string,
+    userAgent: string | undefined,
+  ): Promise<AuthTokens> {
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { lastLoginAt: new Date() },
+    });
+    return this.createSession(userId, userAgent);
+  }
+
   private async createSession(
     userId: string,
     userAgent: string | undefined,

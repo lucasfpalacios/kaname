@@ -36,7 +36,10 @@
     "registration_disabled": "Sign-up is closed for now.",
     "not_found": "We couldn't find what you're looking for.",
     "forbidden": "You don't have permission to do this.",
-    "reset_token_invalid": "The link expired or was already used. Request a new one."
+    "reset_token_invalid": "The link expired or was already used. Request a new one.",
+    "oauth_failed": "We couldn't sign you in with Google. Please try again.",
+    "google_email_unverified": "Your Google email isn't verified. Verify it with Google and try again.",
+    "google_registration_closed": "There's no account with that Google email and registration is closed for now."
   },
   "Roles": {
     "OWNER": "Owner",
@@ -210,6 +213,8 @@
     "newPassword": "New password",
     "saveNewPassword": "Save password",
     "resetDone": "Done: your password changed. Sign in with the new one.",
-    "requestNewLink": "Request a new link"
+    "requestNewLink": "Request a new link",
+    "or": "or",
+    "continueWithGoogle": "Continue with Google"
   }
 }

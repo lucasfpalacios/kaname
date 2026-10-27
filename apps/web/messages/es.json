@@ -36,7 +36,10 @@
     "registration_disabled": "El registro está cerrado por ahora.",
     "not_found": "No encontramos lo que buscás.",
     "forbidden": "No tenés permiso para hacer esto.",
-    "reset_token_invalid": "El link venció o ya se usó. Pedí uno nuevo."
+    "reset_token_invalid": "El link venció o ya se usó. Pedí uno nuevo.",
+    "oauth_failed": "No pudimos iniciar sesión con Google. Probá de nuevo.",
+    "google_email_unverified": "Tu email de Google no está verificado. Verificalo en Google y probá de nuevo.",
+    "google_registration_closed": "No hay ninguna cuenta con ese email de Google y el registro está cerrado por ahora."
   },
   "Roles": {
     "OWNER": "Dueño",
@@ -210,6 +213,8 @@
     "newPassword": "Contraseña nueva",
     "saveNewPassword": "Guardar contraseña",
     "resetDone": "Listo: tu contraseña cambió. Iniciá sesión con la nueva.",
-    "requestNewLink": "Pedir un link nuevo"
+    "requestNewLink": "Pedir un link nuevo",
+    "or": "o",
+    "continueWithGoogle": "Continuar con Google"
   }
 }

@@ -36,6 +36,17 @@ const envSchema = z.object({
     .optional()
     .transform((value) => value || undefined),
   MAIL_FROM: z.string().min(3).default("Kaname <onboarding@resend.dev>"),
+  // Login con Google (OAuth 2.0 + PKCE). Sin las dos credenciales, el login con Google se apaga.
+  GOOGLE_CLIENT_ID: z
+    .string()
+    .optional()
+    .transform((value) => value || undefined),
+  GOOGLE_CLIENT_SECRET: z
+    .string()
+    .optional()
+    .transform((value) => value || undefined),
+  // URL de callback registrada en Google. Por defecto, la de la web (Next reenvía /api/*).
+  GOOGLE_REDIRECT_URI: z.url().optional(),
   // Registro abierto (POST /api/auth/register). Cualquier valor que no sea "true" lo cierra.
   REGISTRATION_ENABLED: z
     .string()

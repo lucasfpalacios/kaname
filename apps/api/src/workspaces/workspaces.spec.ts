@@ -20,7 +20,11 @@ class MemoryWorkspaceAccess {
     return (
       this.byUser
         .get(userId)
-        ?.find((membership) => membership.workspace.id === workspaceId) ?? null
+        ?.find(
+          (membership) =>
+            membership.workspace.id === workspaceId &&
+            membership.workspace.archivedAt === null,
+        ) ?? null
     );
   }
 

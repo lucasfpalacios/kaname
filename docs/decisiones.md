@@ -358,3 +358,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - **next-themes sigue siendo el único que escribe el tema:** aplica la clase en un efecto de React, así que la transición llama a `setTheme` y espera, con un `MutationObserver` y un tope de 300 ms, a que `<html>` tenga la clase nueva antes de capturar la vista nueva.
 - **Sin animación:** si el navegador no soporta View Transitions, si el sistema pide menos movimiento (`prefers-reduced-motion`) o si el tema que queda es el mismo (por ejemplo, "sistema" cuando el sistema ya está en ese tema), el tema cambia al instante.
 **Descartado:** aplicar la clase de `<html>` a mano en la transición, porque duplicaría la lógica de next-themes y en Storybook pelearía con el selector de tema.
+
+### 2026-10-27 · Un espacio archivado responde 404
+**Por qué:** reemplaza lo que decía la entrada de permisos: `GET /api/workspaces/:workspaceId` devolvía también los espacios archivados. Ahora `WorkspaceAccessRepository` los excluye en la consulta: entrando directo a un espacio archivado, o a cualquier ruta de negocio debajo, la respuesta es 404, la misma que para uno inexistente. Un espacio archivado deja de usarse del todo; la restauración va a ser una acción aparte, de la cuenta, cuando exista el alta y baja de espacios (Fase 2).
+**Descartado:** dejarlo accesible solo para lectura, porque obligaría a cada endpoint a distinguir archivados.

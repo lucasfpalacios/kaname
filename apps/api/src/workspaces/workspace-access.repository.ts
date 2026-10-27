@@ -17,7 +17,8 @@ type MemberRow = Awaited<
 
 // Toda la información de acceso de un usuario a sus espacios sale de acá, en una consulta:
 // membresía, rol con su matriz de permisos y módulos activos. Solo por membresía
-// (WorkspaceMember): ni el superadmin ni el dueño de la cuenta tienen acceso implícito.
+// (WorkspaceMember): ni el superadmin ni el dueño de la cuenta tienen acceso implícito. Un espacio
+// archivado no aparece: entrando directo responde 404, igual que uno inexistente.
 @Injectable()
 export class WorkspaceAccessRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -33,14 +34,16 @@ export class WorkspaceAccessRepository {
   /** Los espacios del usuario, sin los archivados. */
   async listMemberships(userId: string): Promise<Membership[]> {
     const rows = await this.findRows(userId);
-    return rows
-      .filter((row) => row.workspace.archivedAt === null)
-      .map(toMembership);
+    return rows.map(toMembership);
   }
 
   private findRows(userId: string, workspaceId?: string) {
     return this.prisma.workspaceMember.findMany({
-      where: { userId, ...(workspaceId ? { workspaceId } : {}) },
+      where: {
+        userId,
+        ...(workspaceId ? { workspaceId } : {}),
+        workspace: { archivedAt: null },
+      },
       include,
       orderBy: { workspace: { name: "asc" } },
     });

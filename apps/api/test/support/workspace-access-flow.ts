@@ -101,6 +101,22 @@ export function workspaceAccessTests(
       });
     });
 
+    it("espacio archivado: 404 entrando directo, igual que uno inexistente", async () => {
+      const archived = await as("owner").get(
+        `/api/workspaces/${ids.workspaces.vieja}`,
+      );
+      const missing = await as("owner").get("/api/workspaces/no-existe");
+      expect(archived.status).toBe(404);
+      expect(archived.body).toEqual(missing.body);
+      expect(
+        (
+          await as("owner").get(
+            `/api/workspaces/${ids.workspaces.vieja}/test-products`,
+          )
+        ).status,
+      ).toBe(404);
+    });
+
     it("usuario de otra cuenta (aunque sea superadmin): 404, igual que un espacio inexistente", async () => {
       const foreign = await as("outsider").get(
         `/api/workspaces/${ids.workspaces.tienda}`,

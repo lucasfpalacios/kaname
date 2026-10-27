@@ -37,15 +37,18 @@ export class PasswordResetService {
     if (!user) return;
 
     const token = randomBytes(32).toString("base64url");
-    await this.prisma.passwordResetToken.deleteMany({
-      where: { userId: user.id, usedAt: null },
-    });
-    await this.prisma.passwordResetToken.create({
-      data: {
-        userId: user.id,
-        tokenHash: hashToken(token),
-        expiresAt: new Date(Date.now() + RESET_TOKEN_TTL_MINUTES * 60_000),
-      },
+    // En una transacción: dos pedidos simultáneos no dejan dos links válidos a la vez.
+    await this.prisma.$transaction(async (tx) => {
+      await tx.passwordResetToken.deleteMany({
+        where: { userId: user.id, usedAt: null },
+      });
+      await tx.passwordResetToken.create({
+        data: {
+          userId: user.id,
+          tokenHash: hashToken(token),
+          expiresAt: new Date(Date.now() + RESET_TOKEN_TTL_MINUTES * 60_000),
+        },
+      });
     });
 
     await this.mail.send(

@@ -5,6 +5,7 @@ import { ACCESS_COOKIE, REFRESH_COOKIE } from "../../src/auth/cookies.js";
 import type { AuthFlowContext } from "./auth-flow.js";
 import { cookieHeader, cookiesOf } from "./auth-flow.js";
 import { type MailRecorder, resetTokenOf } from "./mail-recorder.js";
+import { FORGOT_PASSWORD_EMAIL_LIMIT } from "../../src/auth/rate-limit.js";
 import { fromIp } from "./client-ip.js";
 
 // Recuperación de contraseña por HTTP, en memoria (src/auth/password-reset.spec.ts) y contra
@@ -177,6 +178,18 @@ export function passwordResetTests(name: string, context: () => Context) {
       expect(response.body.issues).toEqual([
         { path: "password", code: "password_too_short" },
       ]);
+    });
+
+    it(`rate limit por email: forgot-password responde 429 después de ${FORGOT_PASSWORD_EMAIL_LIMIT} pedidos por hora, desde cualquier IP`, async () => {
+      const email = await ctx.createUser(PASSWORD);
+      for (let attempt = 0; attempt < FORGOT_PASSWORD_EMAIL_LIMIT; attempt++) {
+        expect((await forgot(email)).status).toBe(202);
+      }
+      const blocked = await forgot(` ${email.toUpperCase()} `);
+      expect(blocked.status).toBe(429);
+      expect(blocked.body.message).toBe("too_many_attempts");
+      // Otro email desde la misma IP sigue andando.
+      expect((await forgot(await ctx.createUser(PASSWORD))).status).toBe(202);
     });
 
     it("rate limit: forgot-password y reset-password responden 429 al sexto intento por IP", async () => {

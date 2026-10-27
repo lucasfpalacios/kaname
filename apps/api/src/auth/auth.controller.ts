@@ -31,7 +31,7 @@ import { AuthService, type PublicUser } from "./auth.service.js";
 import { PasswordResetService } from "./password-reset.service.js";
 import { GoogleAuthService } from "./google/google-auth.service.js";
 import { Public } from "./public.decorator.js";
-import { SessionRateLimit } from "./rate-limit.js";
+import { ForgotPasswordRateLimit, SessionRateLimit } from "./rate-limit.js";
 import {
   ACCESS_COOKIE,
   clearAuthCookies,
@@ -113,11 +113,12 @@ export class AuthController {
   }
 
   // Siempre 202, exista o no el email, y sin esperar la base ni el envío: ni la respuesta ni su
-  // tiempo revelan si el email está registrado. Limitado por IP y por email, como el login.
+  // tiempo revelan si el email está registrado. Limitado por IP, como el login, y a 3 por hora
+  // por email.
   @Public()
   @Post("forgot-password")
   @HttpCode(202)
-  @UseGuards(ThrottlerGuard)
+  @ForgotPasswordRateLimit()
   forgotPassword(
     @Body(new ZodValidationPipe(forgotPasswordSchema))
     body: ForgotPasswordInput,

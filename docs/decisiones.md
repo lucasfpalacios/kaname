@@ -406,3 +406,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-27 · NODE_ENV obligatorio y links de recuperación fuera del log
 **Por qué:** las cookies Secure, Resend obligatorio y el secreto del proxy dependen de `NODE_ENV=production`, y antes `NODE_ENV` valía `development` por defecto: un servidor sin la variable arrancaba con cookies sin Secure y escribía en el log los emails de recuperación, con el link y el token. Ahora `NODE_ENV` no tiene valor por defecto y sin él la API no arranca. Sin Resend, el log muestra solo destinatario y asunto; el email entero solo con `DEV_LOG_RESET_LINKS=true`, que en producción hace fallar el arranque.
 **Descartado:** derivar Secure de que `WEB_URL` sea https: deja Resend y el log atados a otra variable, y separa en dos lo que es una sola decisión (si el entorno es producción).
+
+### 2026-10-27 · forgot-password: 3 links por hora por email
+**Por qué:** con el límite por email del login (10 cada 15 minutos), cualquiera podía mandarle a una casilla cerca de mil emails por día y gastar la cuota gratis de Resend (100 por día). `POST /auth/forgot-password` mantiene el límite por IP y por email pasa a 3 por hora. Además, borrar los links pendientes y crear el nuevo van en una transacción, así dos pedidos simultáneos no dejan dos links válidos.
+**Descartado:** un límite diario aparte: con 3 por hora alcanza para no gastar la cuota.

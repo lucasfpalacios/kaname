@@ -31,6 +31,7 @@ import { AuthService, type PublicUser } from "./auth.service.js";
 import { PasswordResetService } from "./password-reset.service.js";
 import { GoogleAuthService } from "./google/google-auth.service.js";
 import { Public } from "./public.decorator.js";
+import { SessionRateLimit } from "./rate-limit.js";
 import {
   ACCESS_COOKIE,
   clearAuthCookies,
@@ -145,6 +146,7 @@ export class AuthController {
   @Public()
   @Post("refresh")
   @HttpCode(204)
+  @SessionRateLimit()
   async refresh(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -165,6 +167,7 @@ export class AuthController {
   @Public()
   @Post("logout")
   @HttpCode(204)
+  @SessionRateLimit()
   async logout(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,

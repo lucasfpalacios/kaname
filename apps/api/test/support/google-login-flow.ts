@@ -4,6 +4,7 @@ import { ErrorCode } from "@kaname/shared";
 import request from "supertest";
 import type { App } from "supertest/types.js";
 import { ACCESS_COOKIE, REFRESH_COOKIE } from "../../src/auth/cookies.js";
+import { SESSION_RATE_LIMIT } from "../../src/auth/rate-limit.js";
 import { cookieHeader, cookiesOf } from "./auth-flow.js";
 import type { TestContext } from "./contexts.js";
 
@@ -123,6 +124,15 @@ export function googleLoginTests(name: string, context: () => TestContext) {
       expect(cookie).toMatch(/HttpOnly/);
       expect(cookie).toMatch(/SameSite=Lax/);
       expect(cookie).toMatch(/Path=\/api\/auth\/google/);
+    });
+
+    it(`callback: 429 después de ${SESSION_RATE_LIMIT} pedidos por minuto desde la misma IP`, async () => {
+      for (let attempt = 0; attempt < SESSION_RATE_LIMIT; attempt++) {
+        const response = await callback(null, { code: "x", state: "x" });
+        expect(response.status).toBe(302);
+      }
+      const blocked = await callback(null, { code: "x", state: "x" });
+      expect(blocked.status).toBe(429);
     });
 
     it("state inválido: vuelve al login con error, sin canjear el código ni crear sesión", async () => {

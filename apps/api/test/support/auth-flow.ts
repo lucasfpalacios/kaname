@@ -2,6 +2,7 @@ import type { INestApplication } from "@nestjs/common";
 import request from "supertest";
 import type { App } from "supertest/types.js";
 import { ACCESS_COOKIE, REFRESH_COOKIE } from "../../src/auth/cookies.js";
+import { SESSION_RATE_LIMIT } from "../../src/auth/rate-limit.js";
 
 // Flujo de autenticación por HTTP, compartido entre la versión sin base (src/auth/*.spec.ts) y
 // la de Postgres real (test/*.e2e-spec.ts).
@@ -194,6 +195,31 @@ export function authFlowTests(name: string, context: () => AuthFlowContext) {
       expect((await refresh(current)).status).toBe(401);
       expect((await refresh(otherDevice.refresh)).status).toBe(401);
       expect((await me(otherDevice.access)).status).toBe(401);
+    });
+
+    it("refresh con un secreto inventado: 401 sin revocar nada", async () => {
+      const email = await state.ctx.createUser(PASSWORD);
+      const victim = await login(email);
+      const otherDevice = await login(email);
+      const sessionId = victim.refresh.split(".")[0];
+
+      // Con solo el id de la sesión (va en el access) no se puede desloguear a nadie.
+      const forged = await refresh(`${sessionId}.inventado`);
+      expect(forged.status).toBe(401);
+      expect(await state.ctx.countSessions(email)).toBe(2);
+      expect((await refresh(victim.refresh)).status).toBe(204);
+      expect((await me(otherDevice.access)).status).toBe(200);
+    });
+
+    it(`rate limit de sesión: refresh y logout dan 429 después de ${SESSION_RATE_LIMIT} pedidos por minuto`, async () => {
+      for (const path of ["/api/auth/refresh", "/api/auth/logout"]) {
+        for (let attempt = 0; attempt < SESSION_RATE_LIMIT; attempt++) {
+          expect((await http().post(path)).status).not.toBe(429);
+        }
+        const blocked = await http().post(path);
+        expect(blocked.status).toBe(429);
+        expect(blocked.body.message).toBe("too_many_attempts");
+      }
     });
 
     it("logout: cierra la sesión y borra las cookies", async () => {

@@ -14,6 +14,7 @@ import type { CookieOptions, Request, Response } from "express";
 import type { Env } from "../../config/env.js";
 import { setAuthCookies } from "../cookies.js";
 import { Public } from "../public.decorator.js";
+import { SessionRateLimit } from "../rate-limit.js";
 import { GoogleAuthService } from "./google-auth.service.js";
 import { OAUTH_STATE_TTL_SECONDS } from "./oauth-state.js";
 
@@ -67,6 +68,7 @@ export class GoogleAuthController {
 
   @Public()
   @Get("callback")
+  @SessionRateLimit()
   async callback(
     @Query() query: { code?: string; state?: string; error?: string },
     @Req() req: Request,

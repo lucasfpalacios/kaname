@@ -39,7 +39,9 @@ function emailTracker(req: {
         verifyOptions: { algorithms: ["HS256"] },
       }),
     }),
-    // Solo lo usan login y registro (con @UseGuards(ThrottlerGuard)). Dos límites a la vez:
+    // Lo usan las rutas con @UseGuards(ThrottlerGuard): login, registro y recuperación de
+    // contraseña. Las de sesión (refresh, logout, callback de Google) solo cuentan por IP, con
+    // otro límite (SessionRateLimit, en rate-limit.ts). Dos límites a la vez:
     // por IP y por email, así un ataque a una cuenta desde muchas IPs también se frena. En
     // memoria: alcanza con una instancia; con varias habría que pasar a un storage compartido.
     ThrottlerModule.forRootAsync({

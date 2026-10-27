@@ -110,8 +110,10 @@ export class AuthService {
   // Si llega un refresh de una sesión que existe pero con un secreto que no es el vigente:
   // - es el anterior y la rotación fue hace menos de REFRESH_REUSE_GRACE_SECONDS: pedidos en
   //   paralelo, 401 sin revocar nada;
-  // - si no, es uno ya rotado que alguien está reutilizando (posible robo): se revocan todas
-  //   las sesiones del usuario.
+  // - es el anterior, pasado el margen: uno ya rotado que alguien está reutilizando (posible
+  //   robo), se revocan todas las sesiones del usuario;
+  // - no coincide con ninguno: un secreto inventado (alcanza con conocer el id de la sesión, que
+  //   va en el access), 401 sin revocar nada, así no sirve para desloguear a nadie.
   async refresh(
     rawToken: string | undefined,
     userAgent: string | undefined,
@@ -126,7 +128,10 @@ export class AuthService {
 
     const presentedHash = hashRefreshSecret(parsed.secret);
     if (!sameHash(presentedHash, session.refreshTokenHash)) {
-      if (!this.isWithinGrace(session, presentedHash)) {
+      const isPrevious =
+        session.previousTokenHash !== null &&
+        sameHash(presentedHash, session.previousTokenHash);
+      if (isPrevious && !this.isWithinGrace(session, presentedHash)) {
         await this.revokeAll(session.userId, "refresh reutilizado");
       }
       throw unauthenticated();

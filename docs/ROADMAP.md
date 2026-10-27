@@ -23,12 +23,13 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [x] Layout: AppShell, TopBar, Sidebar (colapsable), WorkspaceSwitcher, PageHeader, WorkspaceTile (launcher), Breadcrumbs
 - [x] Página `/ui-kit` en `apps/web` (solo en desarrollo) para ver los componentes dentro de la app real
 
-## Fase 1 — Auth y permisos
+## Fase 1 — Auth y permisos ✅
 - [x] Registro / login email+contraseña, refresh tokens
 - [x] Recuperación de contraseña (link por email con Resend)
 - [x] Login con Google
 - [x] Guard de Nest: usuario + workspace + permiso de módulo
 - [x] Pantalla Login (claro/oscuro, es/en)
+- [x] Revisión de seguridad de la fase y correcciones (sesiones, aislamiento, rate limits, CSRF, headers, dependencias)
 
 ## Fase 2 — Esqueleto de la app
 - [ ] Layout: top bar + sidebar + selector de espacio
@@ -61,7 +62,15 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [ ] Dashboard por espacio con widgets editables. Antes, WidgetFrame en el UI Kit con su story
 - [ ] Vista General (comparativo entre espacios)
 - [ ] Panel Admin: usuarios, invitaciones, roles y matriz de permisos. Antes, PermissionsMatrix en el UI Kit con su story
+  - [ ] Invitaciones: validar que el rol de la membresía sea de la misma cuenta que el espacio
 - [ ] Registro de actividad
+
+## Antes de abrir el registro
+- [ ] Verificar el email al registrarse
+- [ ] Vincular Google a una cuenta existente solo si el email ya está verificado o desde una sesión iniciada (si no, se puede tomar una cuenta registrada con un email ajeno)
+- [ ] Rechazar contraseñas filtradas (listas de contraseñas expuestas)
 
 ## Fase 8 — Deploy (gratis)
 - [ ] Web en Vercel, API en Render, DB en Neon, Redis en Upstash, archivos en R2
+- [ ] Rate limit con Upstash Redis: hoy vive en memoria, se pierde en cada reinicio y no se comparte entre instancias
+- [ ] `PROXY_SHARED_SECRET` configurado en Vercel y en Render (el mismo en los dos; sin él la API no arranca en producción)

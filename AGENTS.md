@@ -40,6 +40,35 @@ Diseño de referencia: `docs/design/` (export de Stitch + tokens). Plan de traba
 9. Dependencias: nunca desactivar ni saltear `minimumReleaseAge` de pnpm (sin `minimumReleaseAgeExclude`, sin bajar el valor). Elegir siempre la versión más reciente que ya cumpla la regla.
 10. Decisiones: cada vez que se toma una decisión técnica o de producto (elegir una librería, un patrón, un cambio de modelo de datos, descartar una alternativa), agregar una entrada al final de `docs/decisiones.md` en el mismo commit. Formato corto: fecha, decisión, por qué, alternativa descartada. No registrar detalles menores de implementación.
 
+## Proteger un endpoint (API)
+Tres guards globales corren en cada pedido, en este orden: sesión, membresía del espacio y permiso. No hace falta `@UseGuards`: alcanza con los decoradores.
+- **Sin decorador:** exige sesión (401 si no hay). Sirve para lo que es del usuario y no de un espacio (por ejemplo, `GET /api/workspaces`).
+- **`@Public()`:** sin sesión. Solo para lo que se usa sin iniciar sesión: login, registro, refresh, logout, health.
+- **`@WorkspaceMember()`:** cualquier miembro del espacio de `:workspaceId`. Si no es miembro o el espacio no existe: 404.
+- **`@RequirePermission(ModuleKey.X, "view" | "create" | "edit" | "delete")`:** miembro, con el módulo activo en el espacio (si no, 404) y con ese permiso en la matriz `RolePermission` de su rol (si no, 403).
+- Una ruta con `:workspaceId` sin ninguno de los dos decoradores se rechaza (403) y queda en el log: nunca queda abierta por olvido.
+- El superadmin de plataforma no tiene acceso implícito: ve solo los espacios de los que es miembro.
+
+```ts
+@Controller("workspaces/:workspaceId/products")
+export class ProductsController {
+  @Get()
+  @RequirePermission(ModuleKey.PRODUCTS, "view")
+  list(@CurrentWorkspace() workspace: Membership) {
+    // workspace.workspace.id ya está validado: filtrar siempre por él.
+    return this.products.list(workspace.workspace.id);
+  }
+
+  @Delete(":productId")
+  @RequirePermission(ModuleKey.PRODUCTS, "delete")
+  remove(@CurrentWorkspace() workspace: Membership, @Param("productId") id: string) {
+    // El guard valida el espacio, no el producto: buscarlo con { id, workspaceId }.
+    return this.products.remove(workspace.workspace.id, id);
+  }
+}
+```
+Cada endpoint nuevo suma tests de permisos en la suite de `test/support/workspace-access-flow.ts` o en una propia, igual que los de esa suite.
+
 ## Comandos
 Requisitos: pnpm y Docker. pnpm usa la versión que fija `packageManager` y descarga Node 24 para los scripts (`devEngines.runtime`), sin importar qué Node tenga la terminal. `.nvmrc` queda para el editor y las herramientas que corren fuera de pnpm.
 

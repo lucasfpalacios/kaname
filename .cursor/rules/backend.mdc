@@ -6,7 +6,9 @@ alwaysApply: false
 
 - Un módulo de Nest por módulo de negocio (`products`, `orders`, `calendar`...): controller + service + DTOs.
 - Validar entrada con `class-validator` o zod (compartido desde `packages/shared`).
-- Toda ruta de negocio cuelga de `/workspaces/:workspaceId/...` y pasa por el guard que verifica membresía y permiso del módulo (`RolePermission`).
+- Toda ruta de negocio cuelga de `/workspaces/:workspaceId/...` y declara su permiso con `@RequirePermission(ModuleKey.X, "view" | "create" | "edit" | "delete")`; los guards globales (sesión → membresía → permiso) hacen el resto. Para datos del espacio sin módulo, `@WorkspaceMember()`; para rutas sin sesión, `@Public()`. Una ruta con `:workspaceId` sin decorador se rechaza. Ejemplo y detalle en AGENTS.md, "Proteger un endpoint".
+- El guard valida el espacio, no los registros: dentro del servicio, buscar siempre con `{ id, workspaceId }` (el de `@CurrentWorkspace()`), nunca solo por `id`.
+- Sin membresía, espacio inexistente o módulo apagado: 404. Sin permiso: 403. Nunca 403 para algo que el usuario no debería saber que existe.
 - Nunca consultar sin filtrar por `workspaceId`. Las tablas hijas sin `workspaceId` (ítems, pagos, recetas...) se consultan siempre a través del padre filtrado por espacio.
 - Antes de guardar, validar que toda FK cruzada (por ejemplo `variantId`, `customerId`, `supplierId`) pertenezca al mismo `workspaceId`.
 - Dinero con `Prisma.Decimal`; no convertir a `number` para calcular.

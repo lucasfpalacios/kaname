@@ -334,3 +334,20 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - Dejar el refresh en `/api/auth` y renovar con una redirección por página: con los prefetch habría varias en paralelo con el mismo token.
 - Repetir `REGISTRATION_ENABLED` en la web.
 - "Recordar este dispositivo" del diseño de Stitch: la sesión ya dura 30 días.
+
+### 2026-10-27 · Permisos en la API: guards globales por decorador
+**Por qué:**
+- **Tres guards globales** (`APP_GUARD` en AppModule, en orden): sesión, membresía del espacio y permiso. Un endpoint se protege con decoradores, sin `@UseGuards`, y lo que no declara nada exige sesión. Así olvidarse de algo deja la ruta más cerrada, no más abierta.
+- **`@Public()`:** solo login, registro, refresh, logout, options y health. Logout también, porque tiene que funcionar con el access vencido (usa el refresh); si no, las cookies quedan colgadas.
+- **Membresía:** `@WorkspaceMember()` o `@RequirePermission(...)` en rutas con `:workspaceId`. Sin membresía o con un espacio inexistente: 404, la misma respuesta en los dos casos, para no revelar que existe.
+- **Falla cerrado:** una ruta con `:workspaceId` sin ninguno de los dos decoradores responde 403 y queda en el log.
+- **Permiso:** `@RequirePermission(ModuleKey.X, acción)`. Con el módulo apagado en el espacio (`WorkspaceModule.enabled`), 404: para el usuario ese módulo no existe. Si el rol no tiene la acción en `RolePermission`, 403.
+- **Superadmin:** `User.isSuperadmin` no da acceso a datos de negocio. El acceso sale solo de `WorkspaceMember`, ni siquiera del dueño de la cuenta; la administración de plataforma va a tener sus propias rutas.
+- **Una consulta por pedido:** `WorkspaceAccessRepository` trae membresía, rol, matriz de permisos y módulos activos juntos y los deja en `request.workspace` (`@CurrentWorkspace()`). Los servicios filtran por ese `workspaceId`; el guard valida el espacio, no cada registro.
+- **Endpoints:** `GET /api/workspaces` (mis espacios no archivados, con rol, módulos activos y permisos) y `GET /api/workspaces/:workspaceId` (incluye archivados, para poder restaurarlos).
+- **Tests:** una suite por HTTP con rutas de prueba (`test/support/permission-routes.ts`) corre en memoria (repositorio doble) y contra `kaname_test`, con dos cuentas, los tres roles del sistema y un módulo apagado.
+**Pendiente:** `WorkspaceMember.roleId` es RESTRICT. Protege de borrar un rol en uso, pero también impide borrar una cuenta en cascada mientras tenga miembros. Habrá que resolverlo cuando exista la baja de cuentas.
+**Descartado:**
+- `@UseGuards(WorkspaceGuard)` en cada controller: depende de acordarse.
+- Acceso total del superadmin: rompe el aislamiento entre clientes del SaaS.
+- 403 para espacios ajenos: revela que existen.

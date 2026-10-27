@@ -33,7 +33,9 @@
     "name_required": "Ingresá tu nombre.",
     "password_too_short": "La contraseña tiene que tener al menos 12 caracteres.",
     "email_taken": "Ya hay una cuenta con ese email.",
-    "registration_disabled": "El registro está cerrado por ahora."
+    "registration_disabled": "El registro está cerrado por ahora.",
+    "not_found": "No encontramos lo que buscás.",
+    "forbidden": "No tenés permiso para hacer esto."
   },
   "Roles": {
     "OWNER": "Dueño",

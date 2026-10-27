@@ -26,7 +26,7 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 ## Fase 1 — Auth y permisos
 - [x] Registro / login email+contraseña, refresh tokens
 - [ ] Login con Google
-- [ ] Guard de Nest: usuario + workspace + permiso de módulo
+- [x] Guard de Nest: usuario + workspace + permiso de módulo
 - [x] Pantalla Login (claro/oscuro, es/en)
 
 ## Fase 2 — Esqueleto de la app

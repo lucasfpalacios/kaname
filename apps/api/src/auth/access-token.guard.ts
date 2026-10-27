@@ -4,21 +4,32 @@ import {
   type ExecutionContext,
   Injectable,
 } from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
 import type { Request } from "express";
 import { type AccessTokenPayload, AuthService } from "./auth.service.js";
 import { ACCESS_COOKIE } from "./cookies.js";
+import { IS_PUBLIC } from "./public.decorator.js";
 
 export type AuthContext = { userId: string; sessionId: string };
 
-type AuthedRequest = Request & { auth?: AuthContext };
+export type AuthedRequest = Request & { auth?: AuthContext };
 
-// Exige un access token válido (cookie kaname_access) de una sesión viva. Deja el usuario y la
+// Guard global (el primero de AppModule): toda ruta exige un access token válido (cookie
+// kaname_access) de una sesión viva, salvo las marcadas con @Public(). Deja el usuario y la
 // sesión en request.auth, que se leen con @CurrentAuth().
 @Injectable()
 export class AccessTokenGuard implements CanActivate {
-  constructor(private readonly auth: AuthService) {}
+  constructor(
+    private readonly auth: AuthService,
+    private readonly reflector: Reflector,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+    if (isPublic) return true;
     const request = context.switchToHttp().getRequest<AuthedRequest>();
     const payload: AccessTokenPayload = await this.auth.verifyAccess(
       request.cookies?.[ACCESS_COOKIE] as string | undefined,

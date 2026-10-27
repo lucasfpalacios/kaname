@@ -13,6 +13,9 @@ export const ErrorCode = {
   passwordTooShort: "password_too_short",
   emailTaken: "email_taken",
   registrationDisabled: "registration_disabled",
+  // Espacio inexistente, sin membresía o módulo apagado: siempre 404, sin revelar cuál.
+  notFound: "not_found",
+  forbidden: "forbidden",
 } as const;
 
 export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode];

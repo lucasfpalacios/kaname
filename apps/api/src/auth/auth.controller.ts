@@ -21,12 +21,9 @@ import {
 import type { Request, Response } from "express";
 import { ZodValidationPipe } from "../common/zod-validation.pipe.js";
 import type { Env } from "../config/env.js";
-import {
-  type AuthContext,
-  AccessTokenGuard,
-  CurrentAuth,
-} from "./access-token.guard.js";
+import { type AuthContext, CurrentAuth } from "./access-token.guard.js";
 import { AuthService, type PublicUser } from "./auth.service.js";
+import { Public } from "./public.decorator.js";
 import {
   ACCESS_COOKIE,
   clearAuthCookies,
@@ -55,11 +52,13 @@ export class AuthController {
 
   // Limitado por IP y por email (throttlers "ip" y "email" de AuthModule).
   // Lo que la web necesita saber antes de iniciar sesión (por ejemplo, si mostrar "Registrate").
+  @Public()
   @Get("options")
   options(): { registrationEnabled: boolean } {
     return { registrationEnabled: this.registrationEnabled };
   }
 
+  @Public()
   @Post("login")
   @HttpCode(200)
   @UseGuards(ThrottlerGuard)
@@ -75,6 +74,7 @@ export class AuthController {
 
   // Cerrado salvo que REGISTRATION_ENABLED sea "true": por ahora las cuentas se crean con el
   // seed. Se chequea antes de validar el body, así un registro cerrado no revela nada.
+  @Public()
   @Post("register")
   @HttpCode(201)
   @UseGuards(ThrottlerGuard)
@@ -97,6 +97,7 @@ export class AuthController {
     return user;
   }
 
+  @Public()
   @Post("refresh")
   @HttpCode(204)
   async refresh(
@@ -116,6 +117,7 @@ export class AuthController {
     }
   }
 
+  @Public()
   @Post("logout")
   @HttpCode(204)
   async logout(
@@ -133,8 +135,8 @@ export class AuthController {
     clearAuthCookies(res, this.cookieSettings);
   }
 
+  // Sin @Public(): el guard global exige sesión.
   @Get("me")
-  @UseGuards(AccessTokenGuard)
   me(@CurrentAuth() auth: AuthContext): Promise<PublicUser> {
     return this.auth.me(auth.userId);
   }

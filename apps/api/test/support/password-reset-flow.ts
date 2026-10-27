@@ -5,6 +5,7 @@ import { ACCESS_COOKIE, REFRESH_COOKIE } from "../../src/auth/cookies.js";
 import type { AuthFlowContext } from "./auth-flow.js";
 import { cookieHeader, cookiesOf } from "./auth-flow.js";
 import { type MailRecorder, resetTokenOf } from "./mail-recorder.js";
+import { fromIp } from "./client-ip.js";
 
 // Recuperación de contraseña por HTTP, en memoria (src/auth/password-reset.spec.ts) y contra
 // Postgres (test/password-reset.e2e-spec.ts).
@@ -30,23 +31,23 @@ export function passwordResetTests(name: string, context: () => Context) {
       await ctx.cleanup();
     });
 
-    // Cada pedido desde otra IP (TRUST_PROXY=1), salvo en el test del rate limit.
+    // Cada pedido desde otra IP (por el proxy de Next), salvo en el test del rate limit.
     const nextIp = () => `198.18.0.${++ip}`;
     const http = () => request(app.getHttpServer());
     const forgot = (email: string, from = nextIp()) =>
       http()
         .post("/api/auth/forgot-password")
-        .set("X-Forwarded-For", from)
+        .set(fromIp(from))
         .send({ email });
     const reset = (token: string, password = NEW_PASSWORD) =>
       http()
         .post("/api/auth/reset-password")
-        .set("X-Forwarded-For", nextIp())
+        .set(fromIp(nextIp()))
         .send({ token, password });
     const login = (email: string, password: string) =>
       http()
         .post("/api/auth/login")
-        .set("X-Forwarded-For", nextIp())
+        .set(fromIp(nextIp()))
         .send({ email, password });
 
     async function requestToken(email: string) {
@@ -190,7 +191,7 @@ export function passwordResetTests(name: string, context: () => Context) {
       const resets = () =>
         http()
           .post("/api/auth/reset-password")
-          .set("X-Forwarded-For", "198.18.2.1")
+          .set(fromIp("198.18.2.1"))
           .send({ token: "no-es-un-token", password: NEW_PASSWORD });
       for (let attempt = 0; attempt < 5; attempt++) {
         expect((await resets()).status).toBe(400);

@@ -1,8 +1,10 @@
 import type { INestApplication } from "@nestjs/common";
+import { CLIENT_IP_HEADER, PROXY_SECRET_HEADER } from "@kaname/shared";
 import request from "supertest";
 import type { App } from "supertest/types.js";
 import { ACCESS_COOKIE, REFRESH_COOKIE } from "../../src/auth/cookies.js";
 import { SESSION_RATE_LIMIT } from "../../src/auth/rate-limit.js";
+import { fromIp } from "./client-ip.js";
 
 // Flujo de autenticación por HTTP, compartido entre la versión sin base (src/auth/*.spec.ts) y
 // la de Postgres real (test/*.e2e-spec.ts).
@@ -67,7 +69,7 @@ export function authFlowTests(name: string, context: () => AuthFlowContext) {
 
     async function login(email: string, password = PASSWORD, ip?: string) {
       let call = http().post("/api/auth/login");
-      if (ip) call = call.set("X-Forwarded-For", ip);
+      if (ip) call = call.set(fromIp(ip));
       const response = await call.send({ email, password });
       const cookies = cookiesOf(response);
       return {
@@ -269,10 +271,34 @@ export function authFlowTests(name: string, context: () => AuthFlowContext) {
       const blocked = await login(email, PASSWORD);
       expect(blocked.response.status).toBe(429);
       expect(blocked.response.body.message).toBe("too_many_attempts");
-      // Otra IP (X-Forwarded-For, con TRUST_PROXY=1) todavía puede entrar.
+      // Otra IP (la que manda el proxy de Next con el secreto) todavía puede entrar.
       expect(
         (await login(email, PASSWORD, "203.0.113.50")).response.status,
       ).toBe(200);
+    });
+
+    it("IP falsa: ni X-Forwarded-For ni el header del proxy con un secreto inválido esquivan el límite por IP", async () => {
+      const email = await state.ctx.createUser(PASSWORD);
+      const attempt = (index: number, headers: Record<string, string>) =>
+        http()
+          .post("/api/auth/login")
+          .set(headers)
+          .send({ email, password: index < 5 ? "mal" : PASSWORD });
+      const spoofed: Record<string, string>[] = [
+        { "X-Forwarded-For": "203.0.113.1" },
+        { "X-Forwarded-For": "203.0.113.2, 198.51.100.2" },
+        { ...fromIp("203.0.113.3"), [PROXY_SECRET_HEADER]: "otro-secreto" },
+        { [CLIENT_IP_HEADER]: "203.0.113.4" },
+        { ...fromIp("203.0.113.5"), [PROXY_SECRET_HEADER]: "" },
+      ];
+      for (const [index, headers] of spoofed.entries()) {
+        expect((await attempt(index, headers)).status).toBe(401);
+      }
+      // Los cinco contaron como la misma IP (la de la conexión): el sexto se bloquea.
+      const blocked = await attempt(5, {
+        "X-Forwarded-For": "203.0.113.6",
+      });
+      expect(blocked.status).toBe(429);
     });
 
     it("rate limit por email: 10 intentos desde IPs distintas, el 11.º da 429", async () => {

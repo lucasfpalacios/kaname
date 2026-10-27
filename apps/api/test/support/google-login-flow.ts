@@ -7,6 +7,7 @@ import { ACCESS_COOKIE, REFRESH_COOKIE } from "../../src/auth/cookies.js";
 import { SESSION_RATE_LIMIT } from "../../src/auth/rate-limit.js";
 import { cookieHeader, cookiesOf } from "./auth-flow.js";
 import type { TestContext } from "./contexts.js";
+import { fromIp } from "./client-ip.js";
 
 // Login con Google por HTTP, en memoria (src/auth/google/google-auth.spec.ts) y contra Postgres
 // (test/google-auth.e2e-spec.ts). Google se reemplaza por FakeGoogle: el test decide qué id_token
@@ -37,7 +38,7 @@ function useGoogleApp(context: () => TestContext) {
     const response = await http()
       .get("/api/auth/google")
       .query(query)
-      .set("X-Forwarded-For", `198.19.0.${++ip}`);
+      .set(fromIp(`198.19.0.${++ip}`));
     expect(response.status).toBe(302);
     const url = new URL(response.headers.location as string);
     return {
@@ -166,7 +167,7 @@ export function googleLoginTests(name: string, context: () => TestContext) {
       const email = await state.ctx.createUser(PASSWORD);
       const response = await http()
         .get("/api/auth/google")
-        .set("X-Forwarded-For", "198.19.1.1");
+        .set(fromIp("198.19.1.1"));
       const url = new URL(response.headers.location as string);
       const started: Started = {
         state: url.searchParams.get("state")!,
@@ -244,7 +245,7 @@ export function googleLoginTests(name: string, context: () => TestContext) {
       // La contraseña sigue funcionando.
       const login = await http()
         .post("/api/auth/login")
-        .set("X-Forwarded-For", "198.19.2.1")
+        .set(fromIp("198.19.2.1"))
         .send({ email, password: PASSWORD });
       expect(login.status).toBe(200);
     });
@@ -345,7 +346,7 @@ export function googleRegisterTests(name: string, context: () => TestContext) {
       // Sin contraseña: el login con contraseña no entra.
       const login = await http()
         .post("/api/auth/login")
-        .set("X-Forwarded-For", "198.19.3.1")
+        .set(fromIp("198.19.3.1"))
         .send({ email, password: PASSWORD });
       expect(login.status).toBe(401);
     });

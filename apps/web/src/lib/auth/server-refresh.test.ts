@@ -61,7 +61,8 @@ describe("refreshSession (proxy de Next)", () => {
     expect(fetchImpl).toHaveBeenCalledTimes(2);
   });
 
-  it("reenvía la IP del cliente y devuelve el status si falla", async () => {
+  it("reenvía la IP del cliente con el secreto del proxy y devuelve el status si falla", async () => {
+    vi.stubEnv("PROXY_SHARED_SECRET", "secreto-del-proxy");
     const fetchImpl = fakeFetch(401);
     const result = await refreshSession(
       "s1.revocado",
@@ -71,8 +72,20 @@ describe("refreshSession (proxy de Next)", () => {
     expect(result).toEqual({ ok: false, status: 401 });
     const [, init] = fetchImpl.mock.calls[0] as [string, RequestInit];
     expect(init.headers).toMatchObject({
-      "x-forwarded-for": "203.0.113.10",
+      "x-kaname-client-ip": "203.0.113.10",
+      "x-kaname-proxy-secret": "secreto-del-proxy",
       "user-agent": "Chrome",
     });
+    vi.unstubAllEnvs();
+  });
+
+  it("sin PROXY_SHARED_SECRET no manda la IP", async () => {
+    vi.stubEnv("PROXY_SHARED_SECRET", "");
+    const fetchImpl = fakeFetch(204);
+    await refreshSession("s1.sin-secreto", { ip: "203.0.113.10" }, fetchImpl);
+    const [, init] = fetchImpl.mock.calls[0] as [string, RequestInit];
+    expect(init.headers).not.toHaveProperty("x-kaname-client-ip");
+    expect(init.headers).not.toHaveProperty("x-kaname-proxy-secret");
+    vi.unstubAllEnvs();
   });
 });

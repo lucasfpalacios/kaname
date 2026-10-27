@@ -16,8 +16,8 @@ const nextConfig: NextConfig = {
   transpilePackages: ["@kaname/ui"],
   cacheComponents: true,
   partialPrefetching: true,
-  // beforeFiles: /api/* nunca llega a las rutas de la app. El proxy (src/proxy.ts) fija antes la
-  // IP del cliente en X-Forwarded-For.
+  // beforeFiles: /api/* nunca llega a las rutas de la app. El proxy (src/proxy.ts) agrega antes la
+  // IP del cliente y el secreto compartido con la API.
   async rewrites() {
     return {
       beforeFiles: [

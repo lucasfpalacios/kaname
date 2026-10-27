@@ -1,3 +1,4 @@
+import { CLIENT_IP_HEADER, PROXY_SECRET_HEADER } from "@kaname/shared";
 import createMiddleware from "next-intl/middleware";
 import { type NextRequest, NextResponse } from "next/server";
 import {
@@ -7,7 +8,7 @@ import {
   OPEN_PATHS,
   REFRESH_COOKIE,
 } from "./lib/auth/constants";
-import { clientIp } from "./lib/auth/client-ip";
+import { clientIp, clientIpHeaders } from "./lib/auth/client-ip";
 import { safeNextPath } from "./lib/auth/next-path";
 import { refreshSession } from "./lib/auth/server-refresh";
 import { isAccessFresh, parseSetCookie } from "./lib/auth/tokens";
@@ -15,7 +16,8 @@ import { routing, type Locale } from "./i18n/routing";
 
 // Proxy de Next (antes "middleware"). Hace tres cosas:
 // 1. /api/*: deja pasar el pedido a la API (el rewrite está en next.config.ts) con la IP real
-//    del cliente en X-Forwarded-For, reemplazando la que pudiera mandar el cliente.
+//    del cliente en un header propio y el secreto compartido (lib/auth/client-ip.ts), así la API
+//    no confía en nada que mande el cliente.
 // 2. Sesión: si el access está por vencer y hay refresh, la renueva acá (un solo refresh por
 //    token, ver lib/auth/server-refresh.ts). Las cookies nuevas van al navegador y también al
 //    render de este mismo pedido.
@@ -73,9 +75,14 @@ export default async function proxy(request: NextRequest) {
 
 function forwardToApi(request: NextRequest) {
   const headers = new Headers(request.headers);
-  headers.delete("x-forwarded-for");
-  const ip = clientIp(request.headers);
-  if (ip) headers.set("x-forwarded-for", ip);
+  // Lo que mande el cliente en estos headers nunca llega a la API.
+  headers.delete(CLIENT_IP_HEADER);
+  headers.delete(PROXY_SECRET_HEADER);
+  for (const [name, value] of Object.entries(
+    clientIpHeaders(clientIp(request.headers)),
+  )) {
+    headers.set(name, value);
+  }
   return NextResponse.next({ request: { headers } });
 }
 
@@ -112,7 +119,7 @@ async function isSessionAlive(access: string, ip: string | undefined) {
     const response = await fetch(`${nestUrl()}/api/auth/me`, {
       headers: {
         cookie: `${ACCESS_COOKIE}=${encodeURIComponent(access)}`,
-        ...(ip ? { "x-forwarded-for": ip } : {}),
+        ...clientIpHeaders(ip),
       },
       cache: "no-store",
     });

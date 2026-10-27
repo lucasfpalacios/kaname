@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { clientIpHeaders } from "./client-ip";
 import { nestUrl, REFRESH_COOKIE } from "./constants";
 
 export type RefreshOutcome =
@@ -56,7 +57,7 @@ async function callRefresh(
       method: "POST",
       headers: {
         cookie: `${REFRESH_COOKIE}=${encodeURIComponent(refreshToken)}`,
-        ...(ip ? { "x-forwarded-for": ip } : {}),
+        ...clientIpHeaders(ip),
         ...(userAgent ? { "user-agent": userAgent } : {}),
       },
       cache: "no-store",

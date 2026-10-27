@@ -8,6 +8,7 @@ import {
   type FixtureIds,
   type FixtureUser,
 } from "./workspace-fixture.js";
+import { fromIp } from "./client-ip.js";
 
 // Aislamiento entre cuentas y permisos por rol, por HTTP. Compartido entre la versión en memoria
 // (src/workspaces/workspaces.spec.ts) y la de Postgres (test/workspaces.e2e-spec.ts).
@@ -33,14 +34,14 @@ export function workspaceAccessTests(
 
     beforeAll(async () => {
       ({ app, ids, cleanup } = await context().setup());
-      // Un login por usuario, cada uno desde otra IP (X-Forwarded-For, TRUST_PROXY=1) para no
+      // Un login por usuario, cada uno desde otra IP (por el proxy de Next) para no
       // tocar el rate limit por IP.
       for (const [index, user] of (
         ["owner", "collaborator", "client", "outsider"] as const
       ).entries()) {
         const response = await request(app.getHttpServer())
           .post("/api/auth/login")
-          .set("X-Forwarded-For", `192.0.2.${index + 1}`)
+          .set(fromIp(`192.0.2.${index + 1}`))
           .send({ email: ids.users[user].email, password: FIXTURE_PASSWORD });
         expect(response.status).toBe(200);
         access.set(user, cookiesOf(response).get(ACCESS_COOKIE)!.value);

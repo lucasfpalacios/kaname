@@ -12,8 +12,10 @@ process.env.LOGIN_RATE_LIMIT = "5";
 process.env.LOGIN_RATE_WINDOW_SECONDS = "60";
 process.env.LOGIN_EMAIL_RATE_LIMIT = "10";
 process.env.LOGIN_EMAIL_RATE_WINDOW_SECONDS = "900";
-// Como detrás del rewrite de Next: un proxy, la IP del cliente en X-Forwarded-For.
-process.env.TRUST_PROXY = "1";
+// Como detrás del proxy de Next: la IP del cliente llega en su header con este secreto (ver
+// test/support/client-ip.ts).
+process.env.PROXY_SHARED_SECRET =
+  "secreto-del-proxy-de-prueba-de-32-caracteres";
 process.env.REGISTRATION_ENABLED = "false";
 // Nunca las credenciales reales del .env: Google se reemplaza por un doble (FakeGoogle).
 process.env.GOOGLE_CLIENT_ID = "cliente-de-prueba.apps.googleusercontent.com";

@@ -52,18 +52,29 @@ const envSchema = z.object({
     .string()
     .optional()
     .transform((value) => value === "true"),
-  // Cantidad de proxies delante de la API (con el rewrite de Next: 1). Sin él, el rate limit vería
-  // la IP del proxy.
-  TRUST_PROXY: z.coerce.number().int().nonnegative().optional(),
+  // Secreto compartido con la web: con él, la API acepta la IP del cliente que manda Next (ver
+  // config/client-ip.ts). Mínimo 32 caracteres; generar con `openssl rand -base64 48`. Vacío
+  // cuenta como ausente.
+  PROXY_SHARED_SECRET: z
+    .string()
+    .min(32)
+    .optional()
+    .or(z.literal("").transform(() => undefined)),
 });
 
 export type Env = z.infer<typeof envSchema>;
 
-// En producción los emails se mandan sí o sí: sin clave de Resend la API no arranca.
-const productionSchema = envSchema.refine(
-  (env) => env.NODE_ENV !== "production" || Boolean(env.RESEND_API_KEY),
-  { path: ["RESEND_API_KEY"] },
-);
+// En producción los emails se mandan sí o sí (sin clave de Resend la API no arranca) y el rate
+// limit necesita la IP real (sin el secreto del proxy, todos compartirían la IP de Next).
+const productionSchema = envSchema
+  .refine(
+    (env) => env.NODE_ENV !== "production" || Boolean(env.RESEND_API_KEY),
+    { path: ["RESEND_API_KEY"] },
+  )
+  .refine(
+    (env) => env.NODE_ENV !== "production" || Boolean(env.PROXY_SHARED_SECRET),
+    { path: ["PROXY_SHARED_SECRET"] },
+  );
 
 export function validateEnv(config: Record<string, unknown>): Env {
   const result = productionSchema.safeParse(config);

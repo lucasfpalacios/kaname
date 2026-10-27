@@ -390,3 +390,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - Passport (`passport-google-oauth20`) u `openid-client`: dependencias para un flujo de dos pedidos, y Passport no maneja PKCE ni nonce de forma simple.
 - Guardar el estado del flujo en la base: una tabla y una limpieza más para algo que dura minutos.
 - Vincular por email sin exigir `email_verified`.
+
+### 2026-10-27 · Overrides de pnpm para parches de seguridad
+**Por qué:** `pnpm audit` marcaba DoS en `body-parser` <2.4.0 y `multer` <2.5.0, que corren en la API sin sesión. La última versión de Nest que cumple `minimumReleaseAge` (12.2.0) fija multer 2.4.0 y acepta body-parser 2.3, así que se fuerzan con `overrides` en `pnpm-workspace.yaml` (body-parser 2.4.0, multer 2.5.0), junto con fast-uri 3.1.9, que llega vieja por `@prisma/dev`. Prisma pasó a 7.10.1, que ya trae deepmerge-ts 8 y mysql2 3.24. Los overrides se sacan cuando las dependencias traigan esas versiones solas.
+**Descartado:** Nest 12.3.x, publicado hoy: no cumple `minimumReleaseAge`.

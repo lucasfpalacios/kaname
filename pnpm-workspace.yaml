@@ -20,3 +20,11 @@ allowBuilds:
 permissions:
   "@tanstack/react-table":
     skills: false
+
+# Versiones con parches de seguridad que todavía no piden las dependencias: @nestjs/platform-express
+# fija multer 2.4.0, express acepta body-parser 2.3 (GHSA-q7qp-rjg7-q26m, GHSA-27r3-jxmh-p828) y
+# @prisma/dev trae fast-uri 3.1.x vieja por ajv. Sacarlas cuando las dependencias las traigan solas.
+overrides:
+  body-parser: 2.4.0
+  fast-uri: 3.1.9
+  multer: 2.5.0

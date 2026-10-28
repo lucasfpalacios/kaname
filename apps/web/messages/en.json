@@ -265,8 +265,6 @@
   },
   "Pages": {
     "generalDescription": "Everything from all your workspaces, consolidated.",
-    "comingSoon": "Coming soon",
-    "comingSoonDescription": "This section is still under construction.",
     "workspaces": "Workspaces",
     "upcoming": "Upcoming events",
     "comparison": "Comparative performance",
@@ -275,7 +273,8 @@
     "noEventsDescription": "Events show up once you start using the calendar.",
     "noComparisonDescription": "The comparison between workspaces shows up once there are sales.",
     "activeModules": "Active modules",
-    "openWorkspace": "Open workspace"
+    "openWorkspace": "Open workspace",
+    "plannedIn": "It's built in Phase {phase} of the plan: {name}."
   },
   "NotFound": {
     "title": "We couldn't find this page",
@@ -327,5 +326,28 @@
     "archiveConfirmBody": "It will stop showing up for all its members.",
     "archived": "{name} archived",
     "saveError": "The changes couldn't be saved. Try again."
+  },
+  "ModuleInfo": {
+    "DASHBOARD": "A board with the workspace's numbers: sales, margins, stock and what's pending, with widgets you'll be able to arrange.",
+    "PRODUCTS": "Your catalog: products with variants, categories, and each variant's stock, cost and price.",
+    "CUSTOMERS": "Your customers with their contact details, order history and what they owe you.",
+    "SUPPLIERS": "The suppliers you buy from, with their details and what they sell you.",
+    "PRICE_LISTS": "Price lists (wholesale, retail, resellers) built from each variant's cost.",
+    "CALCULATOR": "Formulas and templates to calculate prices, margins and import costs.",
+    "MARKET_PRICES": "The market price of your products, with automatic tracking and history.",
+    "ORDERS": "Sales: orders with their items, payments and statuses, which reduce stock.",
+    "PURCHASES": "Purchases and imports that add stock and update each variant's cost.",
+    "DOCUMENTS": "The workspace's files (invoices, contracts, images) kept in one place.",
+    "QUOTES": "Quotes for your customers, generated as PDFs from a template.",
+    "CALENDAR": "A calendar with the workspace's events, linked to orders, projects or customers.",
+    "SOCIAL_METRICS": "The workspace's Instagram, TikTok and YouTube metrics in one place.",
+    "PROJECTS": "Your clients' projects with their tasks, deliveries and timelines."
+  },
+  "Phases": {
+    "3": "Catalog",
+    "4": "Sales",
+    "5": "Tools",
+    "6": "External data",
+    "7": "Dashboards and admin"
   }
 }

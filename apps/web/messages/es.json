@@ -265,8 +265,6 @@
   },
   "Pages": {
     "generalDescription": "Lo consolidado de todos tus espacios.",
-    "comingSoon": "Próximamente",
-    "comingSoonDescription": "Esta sección todavía está en construcción.",
     "workspaces": "Espacios",
     "upcoming": "Próximos eventos",
     "comparison": "Rendimiento comparativo",
@@ -275,7 +273,8 @@
     "noEventsDescription": "Los eventos aparecen cuando empieces a usar el calendario.",
     "noComparisonDescription": "La comparación entre espacios aparece cuando haya ventas cargadas.",
     "activeModules": "Módulos activos",
-    "openWorkspace": "Abrir espacio"
+    "openWorkspace": "Abrir espacio",
+    "plannedIn": "Se construye en la Fase {phase} del plan: {name}."
   },
   "NotFound": {
     "title": "No encontramos esta página",
@@ -327,5 +326,28 @@
     "archiveConfirmBody": "Va a dejar de aparecer para todos sus miembros.",
     "archived": "{name} archivado",
     "saveError": "No se pudieron guardar los cambios. Probá de nuevo."
+  },
+  "ModuleInfo": {
+    "DASHBOARD": "Un tablero con los números del espacio: ventas, márgenes, stock y lo que tengas pendiente, con widgets que vas a poder ordenar.",
+    "PRODUCTS": "Tu catálogo: productos con variantes, categorías, stock, costo y precio de cada variante.",
+    "CUSTOMERS": "Tus clientes con sus datos de contacto, su historial de pedidos y lo que te deben.",
+    "SUPPLIERS": "Los proveedores a los que les comprás, con sus datos y lo que te venden.",
+    "PRICE_LISTS": "Listas de precios (mayorista, minorista, revendedores) armadas a partir del costo de cada variante.",
+    "CALCULATOR": "Fórmulas y plantillas para calcular precios, márgenes y costos de importación.",
+    "MARKET_PRICES": "El precio de mercado de tus productos, con seguimiento automático e historial.",
+    "ORDERS": "Las ventas: pedidos con sus ítems, pagos y estados, que descuentan el stock.",
+    "PURCHASES": "Compras e importaciones que cargan stock y actualizan el costo de cada variante.",
+    "DOCUMENTS": "Los archivos del espacio (facturas, contratos, imágenes) guardados en un solo lugar.",
+    "QUOTES": "Presupuestos para tus clientes, generados en PDF desde una plantilla.",
+    "CALENDAR": "Un calendario con eventos del espacio, vinculados a pedidos, proyectos o clientes.",
+    "SOCIAL_METRICS": "Las métricas de Instagram, TikTok y YouTube del espacio en un solo lugar.",
+    "PROJECTS": "Los proyectos de tus clientes con sus tareas, entregas y tiempos."
+  },
+  "Phases": {
+    "3": "Catálogo",
+    "4": "Comercial",
+    "5": "Herramientas",
+    "6": "Datos externos",
+    "7": "Dashboards y admin"
   }
 }

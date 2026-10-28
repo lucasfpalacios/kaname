@@ -1,20 +1,20 @@
-import { EmptyState, PageHeader } from "@kaname/ui";
-import { Construction } from "lucide-react";
+import { PageHeader } from "@kaname/ui";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { getWorkspaceBySlug } from "@/lib/api/server";
 import { moduleFromSegment } from "@/lib/workspaces/modules";
+import { ModulePlaceholder } from "../module-placeholder";
 
 // Un módulo del espacio (/w/[slug]/products...). Solo los módulos activos del espacio; uno apagado
-// o inexistente da 404, igual que en la API. Cada módulo reemplaza esta página en su fase.
+// o inexistente da 404, igual que en la API. Hasta que se construye, muestra qué va a hacer y en
+// qué fase llega (ModulePlaceholder); cada módulo reemplaza esta página en su fase.
 export default async function ModulePage({
   params,
 }: PageProps<"/[locale]/w/[slug]/[module]">) {
   const { slug, module: segment } = await params;
-  const [workspace, tModules, tPages] = await Promise.all([
+  const [workspace, tModules] = await Promise.all([
     getWorkspaceBySlug(slug),
     getTranslations("Modules"),
-    getTranslations("Pages"),
   ]);
   const moduleKey = moduleFromSegment(segment);
   if (!workspace || !moduleKey || !workspace.modules.includes(moduleKey))
@@ -26,11 +26,7 @@ export default async function ModulePage({
         module={moduleKey}
         description={workspace.name}
       />
-      <EmptyState
-        icon={<Construction />}
-        title={tPages("comingSoon")}
-        description={tPages("comingSoonDescription")}
-      />
+      <ModulePlaceholder module={moduleKey} />
     </>
   );
 }

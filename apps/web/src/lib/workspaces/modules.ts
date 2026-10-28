@@ -19,6 +19,27 @@ export const MODULE_SEGMENT: Record<ModuleKey, string> = {
   PROJECTS: "projects",
 };
 
+/**
+ * Fase de docs/ROADMAP.md en la que se construye cada módulo. Si el ROADMAP cambia, cambiar esto
+ * (y las claves Phases.<fase> de los mensajes).
+ */
+export const MODULE_PHASE: Record<ModuleKey, 3 | 4 | 5 | 6 | 7> = {
+  DASHBOARD: 7,
+  PRODUCTS: 3,
+  SUPPLIERS: 3,
+  CUSTOMERS: 4,
+  PRICE_LISTS: 4,
+  ORDERS: 4,
+  PURCHASES: 4,
+  CALCULATOR: 5,
+  CALENDAR: 5,
+  DOCUMENTS: 5,
+  QUOTES: 5,
+  PROJECTS: 5,
+  MARKET_PRICES: 6,
+  SOCIAL_METRICS: 6,
+};
+
 /** El módulo de un segmento de URL ("price-lists" → PRICE_LISTS). El resumen no tiene segmento. */
 export function moduleFromSegment(segment: string): ModuleKey | null {
   if (!segment) return null;

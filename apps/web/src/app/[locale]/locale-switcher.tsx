@@ -1,21 +1,16 @@
 "use client";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@kaname/ui";
+import { fadeLocaleChange, LocaleSwitch } from "@kaname/ui";
 import { useLocale, useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { markLocaleChosen } from "@/lib/preferences/preferences";
 
-// Selector de idioma: el Select del kit con el ruteo de next-intl. Con sesión, `onLocaleChange`
-// guarda el idioma en el usuario antes de navegar: si falla, no cambia (si no, al volver a cargar
-// se aplicaría el guardado). Sin sesión (login), se anota la elección y se guarda al entrar.
+// Selector de idioma: el LocaleSwitch del kit (ES | EN) con el ruteo de next-intl y el fundido
+// con desenfoque al cambiar (fadeLocaleChange). Con sesión, `onLocaleChange` guarda el idioma en
+// el usuario antes de navegar: si falla, no cambia (si no, al volver a cargar se aplicaría el
+// guardado). Sin sesión (login), se anota la elección y se guarda al entrar.
 export function LocaleSwitcher({
   onLocaleChange,
 }: {
@@ -28,28 +23,26 @@ export function LocaleSwitcher({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <Select
+    <LocaleSwitch
+      label={t("label")}
       value={locale}
       disabled={isPending}
+      options={routing.locales.map((option) => ({
+        value: option,
+        short: option.toUpperCase(),
+        name: t(`locales.${option}`),
+      }))}
       onValueChange={(value) => {
         const next = value as Locale;
         startTransition(async () => {
           if (!onLocaleChange) markLocaleChosen();
           else if (!(await onLocaleChange(next))) return;
-          router.replace(pathname, { locale: next });
+          fadeLocaleChange({
+            target: next,
+            apply: () => router.replace(pathname, { locale: next }),
+          });
         });
       }}
-    >
-      <SelectTrigger aria-label={t("label")} className="h-9 w-32">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        {routing.locales.map((option) => (
-          <SelectItem key={option} value={option}>
-            {t(`locales.${option}`)}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    />
   );
 }

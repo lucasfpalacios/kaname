@@ -64,6 +64,8 @@ Reglas:
 
 `Workspace.color` (solo `#rrggbb`) reemplaza `accent` y `accent-soft` dentro del contenedor del espacio. En oscuro se aclara un 35% hacia blanco para que se vea sobre Kon-iro. Sin color queda Momo-iro / Toki-iro.
 
+Al crear o configurar un espacio, `WorkspaceColorField` sugiere ocho colores (`WORKSPACE_COLOR_SUGGESTIONS` en el kit): `#1e50a2` Ruri-iro, `#3d6bd1`, `#2a9d8f`, `#2e7d5b`, `#c88a35`, `#e07a3f`, `#c94f7c` y `#f09199` Momo-iro. También acepta cualquier `#rrggbb` o ninguno (acento por defecto).
+
 Es solo identidad: insignia del espacio (WorkspaceAvatar), kanji de los módulos, ítem activo del sidebar, badges `accent`. Nunca va en los gráficos ni como color de texto legible (el color lo elige el usuario y puede no tener contraste); el kanji decorativo es la única excepción.
 
 ## Pantallas de referencia (en el zip)

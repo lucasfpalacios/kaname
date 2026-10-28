@@ -59,5 +59,7 @@ export * from "./components/user-menu";
 export * from "./components/workspace-accent";
 export * from "./components/workspace-avatar";
 export * from "./components/workspace-switcher";
+export * from "./components/module-switch";
+export * from "./components/workspace-color-field";
 export * from "./components/workspace-summary-card";
 export * from "./components/workspace-tile";

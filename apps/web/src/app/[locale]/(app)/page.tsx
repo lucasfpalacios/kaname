@@ -5,23 +5,28 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { getCurrentUser, getWorkspaces } from "@/lib/api/server";
+import { getAccounts, getCurrentUser, getWorkspaces } from "@/lib/api/server";
 import { workspaceInitials, workspacePath } from "@/lib/workspaces/modules";
+import { NewWorkspaceTile } from "./new-workspace-tile";
 import { UpcomingEvents } from "./upcoming-events";
 
-// Inicio (launcher): un botón grande por espacio y "General" para el panel consolidado. Crear
-// espacios llega en el próximo paso de la Fase 2: hasta entonces no hay tile de "crear".
+// Inicio (launcher): un botón grande por espacio, "General" para el panel consolidado y "Nuevo
+// espacio" si soy Dueño de alguna cuenta.
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
-  const [t, tShell, tModules, user, workspaces] = await Promise.all([
+  const [t, tShell, tModules, user, workspaces, accounts] = await Promise.all([
     getTranslations("Home"),
     getTranslations("Shell"),
     getTranslations("Modules"),
     getCurrentUser(),
     getWorkspaces(),
+    getAccounts(),
   ]);
+  const ownedAccounts = (accounts ?? []).filter(
+    (account) => account.role === "OWNER",
+  );
 
   return (
     <>
@@ -53,6 +58,9 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
             <Link href={workspacePath(workspace.slug)} />
           </WorkspaceTile>
         ))}
+        {ownedAccounts.length > 0 && (
+          <NewWorkspaceTile accounts={ownedAccounts} />
+        )}
       </section>
       <UpcomingEvents />
     </>

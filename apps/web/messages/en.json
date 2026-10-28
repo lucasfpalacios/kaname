@@ -39,7 +39,10 @@
     "oauth_failed": "We couldn't sign you in with Google. Please try again.",
     "google_email_unverified": "Your Google email isn't verified. Verify it with Google and try again.",
     "google_registration_closed": "There's no account with that Google email and registration is closed for now.",
-    "unsupported_media_type": "We couldn't process the request. Reload the page and try again."
+    "unsupported_media_type": "We couldn't process the request. Reload the page and try again.",
+    "slug_invalid": "Use 2 to 48 lowercase letters, numbers or hyphens (for example, my-store).",
+    "slug_taken": "There's already a workspace with that address in the account.",
+    "color_invalid": "Use a color in the #rrggbb format."
   },
   "Roles": {
     "OWNER": "Owner",
@@ -218,7 +221,10 @@
     "continueWithGoogle": "Continue with Google"
   },
   "Common": {
-    "close": "Close"
+    "close": "Close",
+    "cancel": "Cancel",
+    "notification": "Notification",
+    "notifications": "Notifications ({hotkey})"
   },
   "Shell": {
     "nav": "Navigation",
@@ -237,7 +243,8 @@
     "types": {
       "BUSINESS": "Business",
       "PROJECTS": "Projects"
-    }
+    },
+    "settings": "Workspace settings"
   },
   "Modules": {
     "GENERAL": "General",
@@ -274,5 +281,51 @@
     "title": "We couldn't find this page",
     "description": "It may not exist or you may not have access to it.",
     "home": "Back to home"
+  },
+  "Workspace": {
+    "newWorkspace": "New workspace",
+    "newWorkspaceDescription": "Business or projects",
+    "createTitle": "New workspace",
+    "createDescription": "It starts with the modules for its type; you can change them later in the settings.",
+    "account": "Account",
+    "name": "Name",
+    "namePlaceholder": "My store",
+    "slug": "Address",
+    "slugHelp": "It goes in the URL: /w/{slug}",
+    "type": "Type",
+    "types": {
+      "BUSINESS": "Business",
+      "PROJECTS": "Projects"
+    },
+    "typeHelp": {
+      "BUSINESS": "Products, customers, suppliers, price lists, orders, calculator and calendar.",
+      "PROJECTS": "Customers, projects, quotes, documents and calendar."
+    },
+    "baseCurrency": "Base currency",
+    "currencies": {
+      "ARS": "Pesos (ARS)",
+      "USD": "Dollars (USD)"
+    },
+    "colorLegend": "Workspace color",
+    "colorNone": "Default",
+    "colorCustom": "Custom color (#rrggbb)",
+    "colorPreview": "Preview",
+    "create": "Create workspace",
+    "created": "Workspace created",
+    "settingsDescription": "The workspace's details, color and modules. Only the account Owner can change them.",
+    "general": "General details",
+    "save": "Save changes",
+    "saved": "Changes saved",
+    "modules": "Modules",
+    "modulesDescription": "Disabled modules disappear from the workspace menu. Their data isn't deleted.",
+    "alwaysOn": "Always on: it's the workspace page.",
+    "moduleOn": "{module} enabled",
+    "moduleOff": "{module} disabled",
+    "archive": "Archive workspace",
+    "archiveDescription": "The workspace stops showing up on the home screen and in the menu, and its address returns 404. The data is kept.",
+    "archiveConfirmTitle": "Archive {name}?",
+    "archiveConfirmBody": "It will stop showing up for all its members.",
+    "archived": "{name} archived",
+    "saveError": "The changes couldn't be saved. Try again."
   }
 }

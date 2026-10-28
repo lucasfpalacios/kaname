@@ -1,4 +1,8 @@
-import type { SessionUser, WorkspaceSummary } from "@kaname/shared";
+import type {
+  AccountSummary,
+  SessionUser,
+  WorkspaceSummary,
+} from "@kaname/shared";
 import { cookies } from "next/headers";
 import { cache } from "react";
 import { ACCESS_COOKIE, nestUrl } from "../auth/constants";
@@ -23,6 +27,11 @@ async function getWithSession<T>(path: string): Promise<T | null> {
 
 export const getCurrentUser = cache(() =>
   getWithSession<SessionUser>("/api/auth/me"),
+);
+
+/** Mis cuentas con mi rol: puedo crear espacios en las que soy Dueño. */
+export const getAccounts = cache(() =>
+  getWithSession<AccountSummary[]>("/api/me/accounts"),
 );
 
 /** Mis espacios (sin los archivados), con sus módulos activos. */

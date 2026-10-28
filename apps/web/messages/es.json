@@ -39,7 +39,10 @@
     "oauth_failed": "No pudimos iniciar sesión con Google. Probá de nuevo.",
     "google_email_unverified": "Tu email de Google no está verificado. Verificalo en Google y probá de nuevo.",
     "google_registration_closed": "No hay ninguna cuenta con ese email de Google y el registro está cerrado por ahora.",
-    "unsupported_media_type": "No pudimos procesar el pedido. Recargá la página y probá de nuevo."
+    "unsupported_media_type": "No pudimos procesar el pedido. Recargá la página y probá de nuevo.",
+    "slug_invalid": "Usá entre 2 y 48 letras minúsculas, números o guiones (por ejemplo, mi-tienda).",
+    "slug_taken": "Ya hay un espacio con esa dirección en la cuenta.",
+    "color_invalid": "Usá un color con el formato #rrggbb."
   },
   "Roles": {
     "OWNER": "Dueño",
@@ -218,7 +221,10 @@
     "continueWithGoogle": "Continuar con Google"
   },
   "Common": {
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "notification": "Notificación",
+    "notifications": "Notificaciones ({hotkey})"
   },
   "Shell": {
     "nav": "Navegación",
@@ -237,7 +243,8 @@
     "types": {
       "BUSINESS": "Emprendimiento",
       "PROJECTS": "Proyectos"
-    }
+    },
+    "settings": "Configuración del espacio"
   },
   "Modules": {
     "GENERAL": "General",
@@ -274,5 +281,51 @@
     "title": "No encontramos esta página",
     "description": "Puede que no exista o que no tengas acceso.",
     "home": "Volver al inicio"
+  },
+  "Workspace": {
+    "newWorkspace": "Nuevo espacio",
+    "newWorkspaceDescription": "Emprendimiento o proyectos",
+    "createTitle": "Nuevo espacio",
+    "createDescription": "Arranca con los módulos de su tipo; después los podés cambiar en la configuración.",
+    "account": "Cuenta",
+    "name": "Nombre",
+    "namePlaceholder": "Mi tienda",
+    "slug": "Dirección",
+    "slugHelp": "Va en la URL: /w/{slug}",
+    "type": "Tipo",
+    "types": {
+      "BUSINESS": "Emprendimiento",
+      "PROJECTS": "Proyectos"
+    },
+    "typeHelp": {
+      "BUSINESS": "Productos, clientes, proveedores, listas de precios, pedidos, calculadora y calendario.",
+      "PROJECTS": "Clientes, proyectos, presupuestos, documentos y calendario."
+    },
+    "baseCurrency": "Moneda base",
+    "currencies": {
+      "ARS": "Pesos (ARS)",
+      "USD": "Dólares (USD)"
+    },
+    "colorLegend": "Color del espacio",
+    "colorNone": "Por defecto",
+    "colorCustom": "Otro color (#rrggbb)",
+    "colorPreview": "Vista previa",
+    "create": "Crear espacio",
+    "created": "Espacio creado",
+    "settingsDescription": "Datos, color y módulos del espacio. Solo el Dueño de la cuenta los puede cambiar.",
+    "general": "Datos generales",
+    "save": "Guardar cambios",
+    "saved": "Cambios guardados",
+    "modules": "Módulos",
+    "modulesDescription": "Los módulos apagados desaparecen del menú del espacio. Sus datos no se borran.",
+    "alwaysOn": "Siempre activo: es la página del espacio.",
+    "moduleOn": "{module} activado",
+    "moduleOff": "{module} apagado",
+    "archive": "Archivar espacio",
+    "archiveDescription": "El espacio deja de aparecer en el inicio y en el menú, y su dirección da 404. Los datos quedan guardados.",
+    "archiveConfirmTitle": "¿Archivar {name}?",
+    "archiveConfirmBody": "Va a dejar de aparecer para todos sus miembros.",
+    "archived": "{name} archivado",
+    "saveError": "No se pudieron guardar los cambios. Probá de nuevo."
   }
 }

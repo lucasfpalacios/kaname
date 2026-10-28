@@ -12,12 +12,13 @@ import {
   SidebarMobileTrigger,
   TopBar,
   TopBarActions,
+  Toaster,
   TopBarSearch,
   WorkspaceSwitcher,
   type WorkspaceSwitcherItem,
 } from "@kaname/ui";
 import type { ModuleKey, SessionUser, WorkspaceSummary } from "@kaname/shared";
-import { House, LayoutGrid } from "lucide-react";
+import { House, LayoutGrid, Settings } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -38,7 +39,12 @@ import { UserMenuButton } from "./user-menu-button";
 type Place =
   | { kind: "home" }
   | { kind: "general" }
-  | { kind: "workspace"; workspace: WorkspaceSummary; module: ModuleKey | null }
+  | {
+      kind: "workspace";
+      workspace: WorkspaceSummary;
+      module: ModuleKey | null;
+      settings: boolean;
+    }
   | { kind: "none" };
 
 // Dónde está el usuario según la URL (sin el idioma): /, /general o /w/[slug]/[módulo]. El slug
@@ -57,6 +63,7 @@ function placeOf(pathname: string, workspaces: WorkspaceSummary[]): Place {
     kind: "workspace",
     workspace,
     module: segment ? moduleFromSegment(segment) : "DASHBOARD",
+    settings: segment === "settings",
   };
 }
 
@@ -153,6 +160,20 @@ export function AppChrome({
         )}
       </SidebarContent>
       <SidebarFooter>
+        {/* Solo el Dueño de la cuenta configura el espacio. */}
+        {current?.accountRole === "OWNER" && (
+          <ul className="w-full">
+            <SidebarItem
+              asChild
+              module="ADMIN"
+              icon={<Settings />}
+              label={t("settings")}
+              active={place.kind === "workspace" && place.settings}
+            >
+              <Link href={`${workspacePath(current.slug)}/settings`} />
+            </SidebarItem>
+          </ul>
+        )}
         <SidebarCollapseButton
           collapseLabel={t("collapse")}
           expandLabel={t("expand")}
@@ -192,6 +213,11 @@ export function AppChrome({
       }
     >
       <PreferencesSync locale={user.locale} theme={user.theme} />
+      <Toaster
+        label={tCommon("notification")}
+        viewportLabel={tCommon("notifications")}
+        closeLabel={tCommon("close")}
+      />
       <SessionKeeper />
       {children}
     </AppShell>

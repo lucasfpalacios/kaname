@@ -25,6 +25,11 @@ export const ErrorCode = {
   forbidden: "forbidden",
   // Un POST con un body que no es JSON (defensa contra CSRF con formularios de otros sitios).
   unsupportedMediaType: "unsupported_media_type",
+  // Espacios: slug con caracteres no permitidos o fuera de largo, slug ya usado en la cuenta y
+  // color que no es #rrggbb.
+  slugInvalid: "slug_invalid",
+  slugTaken: "slug_taken",
+  colorInvalid: "color_invalid",
 } as const;
 
 export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode];

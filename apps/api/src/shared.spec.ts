@@ -1,9 +1,12 @@
 import {
+  createWorkspaceSchema,
   Currency,
   ErrorCode,
   ModuleKey,
   moneySchema,
   signedMoneySchema,
+  slugify,
+  updateWorkspaceSchema,
 } from "@kaname/shared";
 
 describe("@kaname/shared", () => {
@@ -46,5 +49,48 @@ describe("@kaname/shared", () => {
       currency: Currency.ARS,
     });
     expect(result.error?.issues[0]?.message).toBe(ErrorCode.moneyInvalid);
+  });
+});
+
+describe("schemas de espacios", () => {
+  it("slugify arma la dirección desde el nombre", () => {
+    expect(slugify("Tank Vault TCG")).toBe("tank-vault-tcg");
+    expect(slugify("VISIÓ")).toBe("visio");
+    expect(slugify("  Café & Té  ")).toBe("cafe-te");
+    expect(slugify("---")).toBe("");
+  });
+
+  it("alta: normaliza slug y color, y completa moneda y color por defecto", () => {
+    const parsed = createWorkspaceSchema.parse({
+      accountId: "cuenta",
+      name: " Mi tienda ",
+      slug: "Mi-Tienda",
+      type: "BUSINESS",
+    });
+    expect(parsed).toMatchObject({
+      name: "Mi tienda",
+      slug: "mi-tienda",
+      color: null,
+      baseCurrency: "ARS",
+    });
+    expect(
+      createWorkspaceSchema.safeParse({
+        accountId: "cuenta",
+        name: "x",
+        slug: "mi--tienda",
+        type: "BUSINESS",
+      }).success,
+    ).toBe(false);
+  });
+
+  it("edición: al menos un campo, color #rrggbb o null", () => {
+    expect(updateWorkspaceSchema.safeParse({}).success).toBe(false);
+    expect(updateWorkspaceSchema.parse({ color: "#ABCDEF" }).color).toBe(
+      "#abcdef",
+    );
+    expect(updateWorkspaceSchema.parse({ color: null }).color).toBeNull();
+    expect(updateWorkspaceSchema.safeParse({ color: "red" }).success).toBe(
+      false,
+    );
   });
 });

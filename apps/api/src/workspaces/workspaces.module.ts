@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { DiscoveryModule } from "@nestjs/core";
 import { PermissionGuard } from "./permission.guard.js";
 import { RouteDecoratorsCheck } from "./route-decorators.check.js";
+import { WorkspaceAdminService } from "./workspace-admin.service.js";
 import { WorkspaceGuard } from "./workspace.guard.js";
 import { WorkspaceAccessRepository } from "./workspace-access.repository.js";
 import { WorkspacesController } from "./workspaces.controller.js";
@@ -14,6 +15,7 @@ import { WorkspacesController } from "./workspaces.controller.js";
     WorkspaceGuard,
     PermissionGuard,
     RouteDecoratorsCheck,
+    WorkspaceAdminService,
   ],
   exports: [WorkspaceAccessRepository, WorkspaceGuard, PermissionGuard],
 })

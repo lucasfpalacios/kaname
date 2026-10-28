@@ -1,18 +1,28 @@
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Patch, Post } from "@nestjs/common";
+import {
+  createWorkspaceSchema,
+  type UpdateWorkspaceInput,
+  updateWorkspaceSchema,
+} from "@kaname/shared";
+import type { z } from "zod";
+import { ZodValidationPipe } from "../common/zod-validation.pipe.js";
 import { type AuthContext, CurrentAuth } from "../auth/access-token.guard.js";
 import type { Membership } from "./membership.js";
 import { CurrentWorkspace, WorkspaceMember } from "./permissions.decorator.js";
 import { WorkspaceAccessRepository } from "./workspace-access.repository.js";
+import { WorkspaceAdminService } from "./workspace-admin.service.js";
 
 /** Un espacio con el rol del usuario, sus permisos y los módulos activos. */
 export type WorkspaceSummary = Membership["workspace"] & {
+  accountRole: Membership["accountRole"];
   role: Membership["role"];
   modules: Membership["modules"];
   permissions: Membership["permissions"];
 };
 
-const toSummary = (membership: Membership): WorkspaceSummary => ({
+export const toSummary = (membership: Membership): WorkspaceSummary => ({
   ...membership.workspace,
+  accountRole: membership.accountRole,
   role: membership.role,
   modules: membership.modules,
   permissions: membership.permissions,
@@ -20,7 +30,10 @@ const toSummary = (membership: Membership): WorkspaceSummary => ({
 
 @Controller("workspaces")
 export class WorkspacesController {
-  constructor(private readonly access: WorkspaceAccessRepository) {}
+  constructor(
+    private readonly access: WorkspaceAccessRepository,
+    private readonly admin: WorkspaceAdminService,
+  ) {}
 
   // Mis espacios (sin los archivados). Solo exige sesión.
   @Get()
@@ -33,5 +46,34 @@ export class WorkspacesController {
   @WorkspaceMember()
   get(@CurrentWorkspace() workspace: Membership): WorkspaceSummary {
     return toSummary(workspace);
+  }
+
+  // Crear un espacio en una cuenta de la que soy Dueño. No es de un espacio: solo exige sesión.
+  @Post()
+  async create(
+    @CurrentAuth() auth: AuthContext,
+    @Body(new ZodValidationPipe(createWorkspaceSchema))
+    body: z.output<typeof createWorkspaceSchema>,
+  ): Promise<WorkspaceSummary> {
+    return toSummary(await this.admin.create(auth.userId, body));
+  }
+
+  // Configuración: miembro del espacio (si no, 404) y Dueño de la cuenta (si no, 403).
+  @Patch(":workspaceId")
+  @WorkspaceMember()
+  async update(
+    @CurrentAuth() auth: AuthContext,
+    @CurrentWorkspace() workspace: Membership,
+    @Body(new ZodValidationPipe(updateWorkspaceSchema))
+    body: UpdateWorkspaceInput,
+  ): Promise<WorkspaceSummary> {
+    return toSummary(await this.admin.update(auth.userId, workspace, body));
+  }
+
+  @Post(":workspaceId/archive")
+  @WorkspaceMember()
+  @HttpCode(204)
+  archive(@CurrentWorkspace() workspace: Membership): Promise<void> {
+    return this.admin.archive(workspace);
   }
 }

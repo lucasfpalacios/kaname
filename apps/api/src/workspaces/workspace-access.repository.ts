@@ -2,14 +2,21 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service.js";
 import type { Membership, ModulePermissions } from "./membership.js";
 
-const include = {
-  workspace: {
-    include: {
-      modules: { where: { enabled: true }, orderBy: { sortOrder: "asc" } },
+const includeFor = (userId: string) =>
+  ({
+    workspace: {
+      include: {
+        modules: { where: { enabled: true }, orderBy: { sortOrder: "asc" } },
+        // Mi rol en la cuenta del espacio (Dueño o miembro).
+        account: {
+          select: {
+            members: { where: { userId }, select: { role: true } },
+          },
+        },
+      },
     },
-  },
-  role: { include: { permissions: true } },
-} as const;
+    role: { include: { permissions: true } },
+  }) as const;
 
 type MemberRow = Awaited<
   ReturnType<WorkspaceAccessRepository["findRows"]>
@@ -44,7 +51,7 @@ export class WorkspaceAccessRepository {
         ...(workspaceId ? { workspaceId } : {}),
         workspace: { archivedAt: null },
       },
-      include,
+      include: includeFor(userId),
       orderBy: { workspace: { name: "asc" } },
     });
   }
@@ -71,8 +78,10 @@ function toMembership(row: MemberRow): Membership {
       type: workspace.type,
       color: workspace.color,
       logoUrl: workspace.logoUrl,
+      baseCurrency: workspace.baseCurrency,
       archivedAt: workspace.archivedAt,
     },
+    accountRole: workspace.account.members[0]?.role ?? null,
     role: { id: role.id, systemKey: role.systemKey, name: role.name },
     modules: workspace.modules.map((module) => module.module),
     permissions,

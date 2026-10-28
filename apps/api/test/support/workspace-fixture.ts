@@ -15,6 +15,8 @@ import type {
 //   (OWNER), colaborador (COLLABORATOR: no elimina) y cliente (CLIENT: solo lectura). Además un
 //   espacio archivado "Vieja" del dueño.
 // - Cuenta B, espacio "Otra": su dueño es superadmin de plataforma y no es miembro de "Tienda".
+// En las cuentas (AccountMember), el dueño de A y el de B son Dueños; colaborador y cliente son
+// miembros de A.
 
 export const FIXTURE_PASSWORD = "contraseña de prueba larga";
 
@@ -23,6 +25,7 @@ export type FixtureUser = "owner" | "collaborator" | "client" | "outsider";
 export type FixtureIds = {
   users: Record<FixtureUser, { id: string; email: string }>;
   workspaces: { tienda: string; vieja: string; otra: string };
+  accounts: { A: string; B: string };
 };
 
 const MATRIX: Record<SystemRoleKey, ModulePermissions> = {
@@ -58,6 +61,13 @@ const ACCOUNT_OF = { tienda: "A", vieja: "A", otra: "B" } as const;
 const NAMES = { tienda: "Tienda", vieja: "Vieja", otra: "Otra" } as const;
 const USERS: FixtureUser[] = ["owner", "collaborator", "client", "outsider"];
 
+const ACCOUNT_MEMBERS: [FixtureUser, "A" | "B", "OWNER" | "MEMBER"][] = [
+  ["owner", "A", "OWNER"],
+  ["collaborator", "A", "MEMBER"],
+  ["client", "A", "MEMBER"],
+  ["outsider", "B", "OWNER"],
+];
+
 const emailOf = (user: FixtureUser, run: string) =>
   `${user}-${run}@kaname.test`;
 
@@ -75,8 +85,10 @@ export function buildMemberships(ids: FixtureIds): Map<string, Membership[]> {
           type: "BUSINESS",
           color: null,
           logoUrl: null,
+          baseCurrency: "ARS",
           archivedAt: key === "vieja" ? new Date() : null,
         },
+        accountRole: roleKey === "OWNER" ? "OWNER" : "MEMBER",
         role: {
           id: `role-${ACCOUNT_OF[key]}-${roleKey}`,
           systemKey: roleKey,
@@ -111,6 +123,7 @@ export function memoryFixtureIds(): FixtureIds {
       vieja: `ws-vieja-${run}`,
       otra: `ws-otra-${run}`,
     },
+    accounts: { A: "account-A", B: "account-B" },
   };
 }
 
@@ -160,6 +173,14 @@ export async function seedWorkspaceFixture(prisma: PrismaClient) {
     }
   }
 
+  await prisma.accountMember.createMany({
+    data: ACCOUNT_MEMBERS.map(([user, account, role]) => ({
+      accountId: accounts[account],
+      userId: users[user].id,
+      role,
+    })),
+  });
+
   const workspaces = {} as FixtureIds["workspaces"];
   for (const key of Object.keys(MODULES) as (keyof typeof MODULES)[]) {
     const account = ACCOUNT_OF[key];
@@ -200,5 +221,5 @@ export async function seedWorkspaceFixture(prisma: PrismaClient) {
     });
   };
 
-  return { ids: { users, workspaces } satisfies FixtureIds, cleanup };
+  return { ids: { users, workspaces, accounts } satisfies FixtureIds, cleanup };
 }

@@ -1,4 +1,6 @@
 import type {
+  AccountRole,
+  Currency,
   ModuleKey,
   SystemRoleKey,
   WorkspaceType,
@@ -21,8 +23,11 @@ export type Membership = {
     type: WorkspaceType;
     color: string | null;
     logoUrl: string | null;
+    baseCurrency: Currency;
     archivedAt: Date | null;
   };
+  /** Rol del usuario en la cuenta del espacio (AccountMember): el Dueño lo configura. */
+  accountRole: AccountRole | null;
   role: { id: string; systemKey: SystemRoleKey | null; name: string };
   /** Módulos activos (WorkspaceModule.enabled), en el orden del espacio. */
   modules: ModuleKey[];

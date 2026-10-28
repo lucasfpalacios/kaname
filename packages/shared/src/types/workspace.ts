@@ -1,4 +1,10 @@
-import type { ModuleKey, SystemRoleKey, WorkspaceType } from "../enums.js";
+import type {
+  AccountRole,
+  Currency,
+  ModuleKey,
+  SystemRoleKey,
+  WorkspaceType,
+} from "../enums.js";
 
 /** Permisos de un rol en un módulo. */
 export type ModulePermissions = Record<
@@ -16,9 +22,15 @@ export type WorkspaceSummary = {
   /** Acento del espacio (#rrggbb) o null. */
   color: string | null;
   logoUrl: string | null;
+  baseCurrency: Currency;
   archivedAt: string | null;
+  /** Mi rol en la cuenta del espacio: solo el Dueño (OWNER) lo configura y lo archiva. */
+  accountRole: AccountRole | null;
   role: { id: string; systemKey: SystemRoleKey | null; name: string };
   /** Módulos activos, en el orden del espacio. */
   modules: ModuleKey[];
   permissions: Partial<Record<ModuleKey, ModulePermissions>>;
 };
+
+/** Una cuenta mía (GET /api/me/accounts): donde puedo crear espacios si soy su Dueño. */
+export type AccountSummary = { id: string; name: string; role: AccountRole };

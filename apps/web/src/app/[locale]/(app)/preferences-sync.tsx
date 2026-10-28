@@ -5,6 +5,10 @@ import type { Locale, Theme } from "@kaname/shared";
 import { useLocale } from "next-intl";
 import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
+import {
+  savePreferences,
+  takeLocaleChosen,
+} from "@/lib/preferences/preferences";
 
 const CHOICE: Record<Theme, ThemeChoice> = {
   LIGHT: "light",
@@ -18,7 +22,8 @@ export const themeOf = (choice: ThemeChoice): Theme =>
 
 // Aplica las preferencias guardadas en el usuario al entrar (por ejemplo desde otro equipo): si el
 // idioma de la URL o el tema del navegador no coinciden, los cambia una vez. Los cambios que hace
-// el usuario se guardan desde la TopBar, así que después ya coinciden.
+// el usuario se guardan desde la TopBar, así que después ya coinciden. Si eligió el idioma en el
+// login, gana esa elección: se guarda en el usuario en vez de aplicar la guardada.
 export function PreferencesSync({
   locale,
   theme,
@@ -37,7 +42,12 @@ export function PreferencesSync({
     if (applied.current || currentTheme === undefined) return;
     applied.current = true;
     if (currentTheme !== CHOICE[theme]) setTheme(CHOICE[theme]);
-    if (currentLocale !== locale) router.replace(pathname, { locale });
+    if (takeLocaleChosen()) {
+      if (currentLocale !== locale)
+        void savePreferences({ locale: currentLocale as Locale });
+    } else if (currentLocale !== locale) {
+      router.replace(pathname, { locale });
+    }
   }, [currentLocale, currentTheme, locale, pathname, router, setTheme, theme]);
 
   return null;

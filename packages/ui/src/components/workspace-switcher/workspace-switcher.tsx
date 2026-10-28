@@ -104,7 +104,9 @@ export function WorkspaceSwitcher({
       >
         {groupLabel && <DropdownMenuLabel>{groupLabel}</DropdownMenuLabel>}
         {workspaces.map((workspace) => {
-          const selected = workspace.id === current.id;
+          // Solo el que coincide con currentId: si no coincide ninguno (una página que no es de
+          // ningún espacio), el botón muestra el primero pero ninguno queda marcado.
+          const selected = workspace.id === currentId;
           const content = (
             <>
               <WorkspaceAvatar

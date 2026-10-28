@@ -16,22 +16,17 @@ import {
   WorkspaceSwitcher,
   type WorkspaceSwitcherItem,
 } from "@kaname/ui";
-import type {
-  ModuleKey,
-  PreferencesInput,
-  SessionUser,
-  WorkspaceSummary,
-} from "@kaname/shared";
+import type { ModuleKey, SessionUser, WorkspaceSummary } from "@kaname/shared";
 import { House, LayoutGrid } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { apiFetch } from "@/lib/api/browser";
 import {
   moduleFromSegment,
   workspaceInitials,
   workspacePath,
 } from "@/lib/workspaces/modules";
+import { savePreferences } from "@/lib/preferences/preferences";
 import { saveSidebarCollapsed } from "@/lib/workspaces/sidebar-cookie";
 import { LocaleSwitcher } from "../locale-switcher";
 import { ThemeToggle } from "../theme-toggle";
@@ -43,37 +38,26 @@ import { UserMenuButton } from "./user-menu-button";
 type Place =
   | { kind: "home" }
   | { kind: "general" }
-  | { kind: "workspace"; workspace: WorkspaceSummary; module: ModuleKey };
+  | { kind: "workspace"; workspace: WorkspaceSummary; module: ModuleKey | null }
+  | { kind: "none" };
 
 // Dónde está el usuario según la URL (sin el idioma): /, /general o /w/[slug]/[módulo]. El slug
-// ya lo validó el layout de /w/[slug] (404 si no es suyo).
+// ya lo validó el layout de /w/[slug]. Lo que no es ninguno de esos (una página 404 dentro del
+// shell) no marca ningún ítem del sidebar; un módulo inválido tampoco.
 function placeOf(pathname: string, workspaces: WorkspaceSummary[]): Place {
-  if (pathname === "/general" || pathname.startsWith("/general/")) {
-    return { kind: "general" };
-  }
+  if (pathname === "/") return { kind: "home" };
+  if (pathname === "/general") return { kind: "general" };
   const match = /^\/w\/([^/]+)(?:\/([^/]+))?/.exec(pathname);
   const workspace = match
     ? workspaces.find((item) => item.slug === decodeURIComponent(match[1]))
     : undefined;
-  if (!workspace) return { kind: "home" };
+  if (!workspace) return { kind: "none" };
+  const segment = match![2];
   return {
     kind: "workspace",
     workspace,
-    module: moduleFromSegment(match![2] ?? "") ?? "DASHBOARD",
+    module: segment ? moduleFromSegment(segment) : "DASHBOARD",
   };
-}
-
-async function savePreferences(input: PreferencesInput) {
-  try {
-    const response = await apiFetch("/api/me/preferences", {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(input),
-    });
-    return response.ok;
-  } catch {
-    return false;
-  }
 }
 
 // Shell de las páginas con sesión: AppShell del kit con el sidebar (selector de espacio y los

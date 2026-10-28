@@ -11,10 +11,11 @@ import { useLocale, useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { markLocaleChosen } from "@/lib/preferences/preferences";
 
 // Selector de idioma: el Select del kit con el ruteo de next-intl. Con sesión, `onLocaleChange`
 // guarda el idioma en el usuario antes de navegar: si falla, no cambia (si no, al volver a cargar
-// se aplicaría el guardado).
+// se aplicaría el guardado). Sin sesión (login), se anota la elección y se guarda al entrar.
 export function LocaleSwitcher({
   onLocaleChange,
 }: {
@@ -33,7 +34,8 @@ export function LocaleSwitcher({
       onValueChange={(value) => {
         const next = value as Locale;
         startTransition(async () => {
-          if (onLocaleChange && !(await onLocaleChange(next))) return;
+          if (!onLocaleChange) markLocaleChosen();
+          else if (!(await onLocaleChange(next))) return;
           router.replace(pathname, { locale: next });
         });
       }}

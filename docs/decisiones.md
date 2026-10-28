@@ -446,3 +446,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-28 · DialogContent y SheetContent de la web con la X traducida
 **Por qué:** en el kit la X de cerrar solo aparece si se pasa `closeLabel`, y es fácil olvidarlo. `apps/web/src/components/overlays.tsx` envuelve los dos con `Common.close` ya traducido; la web usa esos. El drawer del Sidebar en mobile ahora también recibe `closeLabel` y toma el acento del espacio (va en un portal, fuera del AppShell).
 **Descartado:** un texto por defecto en el kit: el kit no conoce idiomas (todo texto entra por props).
+
+### 2026-10-28 · El idioma elegido en el login gana sobre el guardado
+**Por qué:** si alguien cambia el idioma en la pantalla de login (o de registro), al entrar se guarda como su preferencia en vez de pisarlo con la guardada. El selector sin sesión anota la elección en `sessionStorage` (`kaname:locale-chosen`) y `PreferencesSync`, al entrar, la guarda en el usuario y no redirige. `sessionStorage` sobrevive al login con Google, que vuelve por otra página en la misma pestaña. Sin elección, se aplica lo guardado como antes. Además, una página 404 dentro del shell no marca ningún ítem del sidebar ni del selector de espacio.
+**Descartado:** guardar siempre el idioma de la pantalla de login: entrar desde `/login` (español por defecto) pisaría la preferencia de quien usa la app en inglés sin haber tocado nada.

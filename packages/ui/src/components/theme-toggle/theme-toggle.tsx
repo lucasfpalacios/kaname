@@ -13,12 +13,16 @@ import {
 } from "../dropdown-menu";
 import { IconButton } from "../icon-button";
 
+export type ThemeChoice = "light" | "dark" | "system";
+
 export type ThemeToggleProps = {
   /** aria-label del botón ("Tema"). */
   label: string;
   labels: { light: string; dark: string; system: string };
   /** Abre el menú al montar (stories y pruebas). */
   defaultOpen?: boolean;
+  /** Después de cambiar el tema (para guardarlo, por ejemplo en el usuario). */
+  onThemeChange?: (theme: ThemeChoice) => void;
   className?: string;
 };
 
@@ -33,6 +37,7 @@ export function ThemeToggle({
   label,
   labels,
   defaultOpen,
+  onThemeChange,
   className,
 }: ThemeToggleProps) {
   const { theme, resolvedTheme, systemTheme, setTheme } = useTheme();
@@ -50,6 +55,7 @@ export function ThemeToggle({
         : Sun;
 
   function changeTheme(next: string) {
+    onThemeChange?.(next as ThemeChoice);
     const target = next === "system" ? systemTheme : next;
     const rect = triggerRef.current?.getBoundingClientRect();
     if (

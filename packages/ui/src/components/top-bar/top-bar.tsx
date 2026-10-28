@@ -1,5 +1,7 @@
+import { Search } from "lucide-react";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
+import { controlGroup, controlGroupInput } from "../../lib/control";
 
 // Barra superior de AppShell. Solo la estructura: la app arma adentro el SidebarMobileTrigger,
 // la búsqueda, idioma, tema, notificaciones y usuario. TopBarActions empuja lo suyo a la derecha.
@@ -23,5 +25,32 @@ export function TopBarActions({ className, ...props }: ComponentProps<"div">) {
       className={cn("ml-auto flex items-center gap-1 sm:gap-2", className)}
       {...props}
     />
+  );
+}
+
+export type TopBarSearchProps = Omit<ComponentProps<"input">, "type"> & {
+  /** aria-label del campo ("Buscar"). */
+  label: string;
+};
+
+/** Búsqueda global de la TopBar. Se esconde en pantallas chicas. */
+export function TopBarSearch({
+  label,
+  className,
+  ...props
+}: TopBarSearchProps) {
+  return (
+    <label
+      data-slot="top-bar-search"
+      className={cn(controlGroup, "hidden max-w-md sm:flex", className)}
+    >
+      <Search aria-hidden="true" className="ml-3 size-4 shrink-0 opacity-60" />
+      <input
+        type="search"
+        aria-label={label}
+        className={controlGroupInput}
+        {...props}
+      />
+    </label>
   );
 }

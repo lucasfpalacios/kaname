@@ -3,7 +3,7 @@ import { StoryTopBar } from "../../stories/app-frame";
 import { storyMessages } from "../../stories/messages";
 import { ThemePanels } from "../../stories/theme-panels";
 import { AppShell } from "../app-shell";
-import { TopBar } from "./top-bar";
+import { TopBar, TopBarActions, TopBarSearch } from "./top-bar";
 
 const meta = {
   title: "Layout/TopBar",
@@ -24,4 +24,23 @@ export const Completa: Story = {
       </AppShell>
     </ThemePanels>
   ),
+};
+
+// La búsqueda mientras no está disponible: deshabilitada, con el mismo lugar en la barra. En
+// pantallas chicas no se muestra.
+export const BusquedaDeshabilitada: Story = {
+  name: "Búsqueda deshabilitada",
+  render: (_args, { globals }) => {
+    const s = storyMessages(globals.locale).shell;
+    return (
+      <ThemePanels labels={storyMessages(globals.locale)}>
+        <AppShell sidebar={null} className="min-h-0">
+          <TopBar>
+            <TopBarSearch label={s.search} placeholder={s.search} disabled />
+            <TopBarActions />
+          </TopBar>
+        </AppShell>
+      </ThemePanels>
+    );
+  },
 };

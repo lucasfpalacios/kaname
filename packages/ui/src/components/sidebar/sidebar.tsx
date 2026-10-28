@@ -20,6 +20,7 @@ import { useAppShell } from "../app-shell";
 import { IconButton } from "../icon-button";
 import { ModuleKanji, type ModuleKanjiKey } from "../module-kanji";
 import { Sheet, SheetContent, SheetTitle } from "../sheet";
+import { workspaceAccentProps } from "../workspace-accent";
 
 // Sidebar de la app, dentro de AppShell. Cada ítem es ícono + kanji + nombre.
 // - Colapsado (100 px): se ven el ícono y el kanji. El nombre sigue en el árbol de accesibilidad
@@ -27,7 +28,7 @@ import { Sheet, SheetContent, SheetTitle } from "../sheet";
 // - Al pasar el mouse (150 ms) o al recibir foco con teclado, se expande superpuesto al contenido
 //   (no mueve el layout) y muestra el nombre. Vuelve a colapsar al salir.
 // - Fijado expandido (256 px): el mismo formato, en el layout.
-// - Mobile: drawer desde SidebarMobileTrigger.
+// - Mobile: drawer desde SidebarMobileTrigger, con la X de cerrar arriba del contenido.
 // El contenido se arma siempre a 256 px y el nav lo recorta, así ícono y kanji nunca se mueven.
 // El kanji es decorativo (aria-hidden): el ícono y el nombre traducido siempre están.
 // Los ítems usan asChild para envolver el <Link> de la app.
@@ -61,15 +62,20 @@ const hiddenWhenCollapsed =
 export type SidebarProps = Omit<ComponentProps<"nav">, "aria-label"> & {
   /** aria-label del nav y título del drawer en mobile ("Navegación"). */
   label: string;
+  /** aria-label de la X del drawer en mobile ("Cerrar"). */
+  closeLabel: string;
 };
 
 export function Sidebar({
   label,
+  closeLabel,
   className,
   children,
   ...props
 }: SidebarProps) {
-  const { collapsed, mobileOpen, setMobileOpen } = useAppShell();
+  const { collapsed, mobileOpen, setMobileOpen, accentColor } = useAppShell();
+  // El drawer va en un portal, fuera de AppShell: lleva el acento del espacio por su cuenta.
+  const accent = workspaceAccentProps(accentColor);
   const [hover, setHover] = useState(false);
   const [keyboardFocus, setKeyboardFocus] = useState(false);
   const [hold, setHold] = useState(false);
@@ -143,8 +149,11 @@ export function Sidebar({
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent
           side="left"
+          closeLabel={closeLabel}
           aria-describedby={undefined}
-          className="w-72 max-w-[85vw] sm:max-w-[85vw]"
+          data-workspace-accent={accent["data-workspace-accent"]}
+          style={accent.style}
+          className="w-72 max-w-[85vw] pt-12 sm:max-w-[85vw]"
         >
           <SheetTitle className="sr-only">{label}</SheetTitle>
           <nav

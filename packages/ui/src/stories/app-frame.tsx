@@ -9,7 +9,6 @@ import {
   Package,
   Plus,
   Receipt,
-  Search,
   Settings,
   Sun,
   Tags,
@@ -33,13 +32,11 @@ import {
   SidebarItem,
   SidebarMobileTrigger,
 } from "../components/sidebar";
-import { TopBar, TopBarActions } from "../components/top-bar";
+import { TopBar, TopBarActions, TopBarSearch } from "../components/top-bar";
 import {
   WorkspaceSwitcher,
   type WorkspaceSwitcherItem,
 } from "../components/workspace-switcher";
-import { controlGroup, controlGroupInput } from "../lib/control";
-import { cn } from "../lib/cn";
 import { storyMessages } from "./messages";
 import { workspaces } from "./workspaces";
 
@@ -105,7 +102,7 @@ export function StorySidebar({
   const s = t.shell;
   const nav = workspaceId === "general" ? GENERAL_NAV : TANK_VAULT_NAV;
   return (
-    <Sidebar label={s.nav}>
+    <Sidebar label={s.nav} closeLabel={t.actions.close}>
       <SidebarHeader>
         <WorkspaceSwitcher
           workspaces={switcherItems(locale)}
@@ -159,18 +156,7 @@ export function StoryTopBar({ locale }: { locale: unknown }) {
   return (
     <TopBar>
       <SidebarMobileTrigger label={s.openMenu} />
-      <label className={cn(controlGroup, "hidden max-w-md sm:flex")}>
-        <Search
-          aria-hidden="true"
-          className="ml-3 size-4 shrink-0 opacity-60"
-        />
-        <input
-          type="search"
-          aria-label={s.search}
-          placeholder={s.search}
-          className={controlGroupInput}
-        />
-      </label>
+      <TopBarSearch label={s.search} placeholder={s.search} />
       <TopBarActions>
         <Button variant="ghost" size="sm" aria-label={s.language}>
           {locale === "en" ? "EN" : "ES"}

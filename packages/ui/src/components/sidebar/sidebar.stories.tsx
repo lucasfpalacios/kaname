@@ -9,7 +9,7 @@ const meta = {
   title: "Layout/Sidebar",
   component: Sidebar,
   parameters: { layout: "fullscreen" },
-  args: { label: "" },
+  args: { label: "", closeLabel: "" },
 } satisfies Meta<typeof Sidebar>;
 
 export default meta;

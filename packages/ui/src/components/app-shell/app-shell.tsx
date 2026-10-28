@@ -22,6 +22,8 @@ type AppShellContextValue = {
   setCollapsed: (collapsed: boolean) => void;
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;
+  /** El acento del espacio, para lo que se dibuja fuera del shell (el drawer en mobile). */
+  accentColor?: string | null;
 };
 
 const AppShellContext = createContext<AppShellContextValue | null>(null);
@@ -69,8 +71,8 @@ export function AppShell({
     [controlledCollapsed, onCollapsedChange],
   );
   const value = useMemo(
-    () => ({ collapsed, setCollapsed, mobileOpen, setMobileOpen }),
-    [collapsed, setCollapsed, mobileOpen],
+    () => ({ collapsed, setCollapsed, mobileOpen, setMobileOpen, accentColor }),
+    [collapsed, setCollapsed, mobileOpen, accentColor],
   );
   const accent = workspaceAccentProps(accentColor);
 

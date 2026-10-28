@@ -334,7 +334,7 @@ export function UiKitShowcase({ intlLocale }: { intlLocale: string }) {
       accentColor={accentColor}
       skipToContentLabel={t("skip")}
       sidebar={
-        <Sidebar label={t("nav")}>
+        <Sidebar label={t("nav")} closeLabel={t("overlays.close")}>
           <SidebarHeader>
             <WorkspaceSwitcher
               workspaces={workspaceItems}

@@ -22,6 +22,9 @@ export class FakePrisma {
   resetTokens: PasswordResetToken[] = [];
   oauthAccounts: OAuthAccount[] = [];
 
+  /** /api/health: la base en memoria siempre responde. */
+  isReachable = async () => true;
+
   /** Transacción interactiva: en memoria, el mismo cliente. */
   $transaction = async <T>(fn: (tx: this) => Promise<T>) => fn(this);
 

@@ -14,11 +14,11 @@ describe("GET /api/health (e2e)", () => {
     await app.close();
   });
 
-  it("responde 200 con { ok: true } bajo el prefijo /api", async () => {
+  it("responde 200 con la base arriba, bajo el prefijo /api", async () => {
     await request(app.getHttpServer())
       .get("/api/health")
       .expect(200)
-      .expect({ ok: true });
+      .expect({ ok: true, database: "up" });
     await request(app.getHttpServer()).get("/health").expect(404);
   });
 

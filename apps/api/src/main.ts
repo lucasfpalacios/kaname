@@ -4,6 +4,7 @@ import type { NestExpressApplication } from "@nestjs/platform-express";
 import { AppModule } from "./app.module.js";
 import { configureApp } from "./app.setup.js";
 import type { Env } from "./config/env.js";
+import { DatabaseUnavailableError } from "./prisma/prisma.service.js";
 
 async function bootstrap() {
   // Las variables de entorno se validan al crear el módulo: si falta algo, no arranca.
@@ -16,4 +17,10 @@ async function bootstrap() {
 
   await app.listen(config.get("PORT", { infer: true }));
 }
-await bootstrap();
+try {
+  await bootstrap();
+} catch (error) {
+  // Sin base: PrismaService ya dejó el mensaje en la terminal; no hace falta el stack trace.
+  if (!(error instanceof DatabaseUnavailableError)) throw error;
+  process.exit(1);
+}

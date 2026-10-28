@@ -88,7 +88,7 @@ pnpm --filter @kaname/api db:seed         # datos iniciales
 
 **Día a día**
 ```bash
-pnpm dev            # web :3000 + api :4000 + shared en watch
+pnpm dev            # levanta Postgres si no está (db:up) y después web :3000 + api :4000 + shared en watch
 pnpm lint           # ESLint en todos los paquetes (config en @kaname/eslint-config)
 pnpm typecheck      # tsc en todos los paquetes
 pnpm build          # build de producción (shared, api, web)

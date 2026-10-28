@@ -1,23 +1,43 @@
-import type { SessionUser } from "@kaname/shared";
+import type { SessionUser, WorkspaceSummary } from "@kaname/shared";
 import { cookies } from "next/headers";
+import { cache } from "react";
 import { ACCESS_COOKIE, nestUrl } from "../auth/constants";
 
 // Llamadas a la API desde Server Components. El proxy (src/proxy.ts) ya renovó el access si
-// estaba por vencer, así que acá alcanza con mandarlo. Sin sesión válida devuelve null y la
-// página decide (normalmente, redirigir a /login).
-export async function getCurrentUser(): Promise<SessionUser | null> {
+// estaba por vencer, así que acá alcanza con mandarlo. Sin sesión válida devuelven null y la
+// página decide (normalmente, redirigir a /login). Con cache() de React, el layout y la página
+// del mismo pedido comparten una sola llamada.
+async function getWithSession<T>(path: string): Promise<T | null> {
   const access = (await cookies()).get(ACCESS_COOKIE)?.value;
   if (!access) return null;
   try {
-    const response = await fetch(`${nestUrl()}/api/auth/me`, {
+    const response = await fetch(`${nestUrl()}${path}`, {
       headers: { cookie: `${ACCESS_COOKIE}=${encodeURIComponent(access)}` },
       cache: "no-store",
     });
-    return response.ok ? ((await response.json()) as SessionUser) : null;
+    return response.ok ? ((await response.json()) as T) : null;
   } catch {
     return null;
   }
 }
+
+export const getCurrentUser = cache(() =>
+  getWithSession<SessionUser>("/api/auth/me"),
+);
+
+/** Mis espacios (sin los archivados), con sus módulos activos. */
+export const getWorkspaces = cache(() =>
+  getWithSession<WorkspaceSummary[]>("/api/workspaces"),
+);
+
+/**
+ * El espacio de la URL (/w/[slug]), buscado entre los míos: si no es mío o no existe, null. El
+ * slug es único por cuenta; si dos cuentas mías usan el mismo, gana el primero por nombre.
+ */
+export const getWorkspaceBySlug = cache(async (slug: string) => {
+  const workspaces = await getWorkspaces();
+  return workspaces?.find((workspace) => workspace.slug === slug) ?? null;
+});
 
 type AuthOptions = { registrationEnabled: boolean; googleEnabled: boolean };
 

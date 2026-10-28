@@ -4,10 +4,9 @@
     "description": "Administrá todos tus emprendimientos desde un solo panel."
   },
   "Home": {
-    "title": "Kaname",
-    "intro": "Administrá todos tus emprendimientos desde un solo panel: productos, pedidos, compras y proyectos, con la misma base para cada espacio.",
-    "salesLabel": "Ventas del mes",
-    "paletteLabel": "Paleta de colores"
+    "greeting": "Hola, {name}",
+    "workspaceCount": "{count, plural, =0 {Todavía no tenés espacios.} one {Tenés # espacio activo.} other {Tenés # espacios activos.}}",
+    "launcherSoon": "El inicio con todos tus espacios llega en el próximo paso. Mientras, elegí un espacio desde el menú."
   },
   "ThemeToggle": {
     "label": "Tema",
@@ -217,5 +216,54 @@
     "requestNewLink": "Pedir un link nuevo",
     "or": "o",
     "continueWithGoogle": "Continuar con Google"
+  },
+  "Common": {
+    "close": "Cerrar"
+  },
+  "Shell": {
+    "nav": "Navegación",
+    "openMenu": "Abrir menú",
+    "collapse": "Colapsar menú",
+    "expand": "Expandir menú",
+    "skip": "Saltar al contenido",
+    "search": "Buscar",
+    "searchSoon": "Búsqueda (próximamente)",
+    "switchWorkspace": "Cambiar de espacio",
+    "workspaces": "Espacios",
+    "home": "Inicio",
+    "homeDescription": "Todos tus espacios",
+    "generalDescription": "Panel consolidado",
+    "modules": "Módulos",
+    "types": {
+      "BUSINESS": "Emprendimiento",
+      "PROJECTS": "Proyectos"
+    }
+  },
+  "Modules": {
+    "GENERAL": "General",
+    "DASHBOARD": "Resumen",
+    "PRODUCTS": "Productos",
+    "CUSTOMERS": "Clientes",
+    "SUPPLIERS": "Proveedores",
+    "PRICE_LISTS": "Listas de precios",
+    "CALCULATOR": "Calculadora",
+    "MARKET_PRICES": "Precios de mercado",
+    "ORDERS": "Pedidos",
+    "PURCHASES": "Compras",
+    "DOCUMENTS": "Documentos",
+    "QUOTES": "Presupuestos",
+    "CALENDAR": "Calendario",
+    "SOCIAL_METRICS": "Métricas de redes",
+    "PROJECTS": "Proyectos"
+  },
+  "Pages": {
+    "generalDescription": "Lo consolidado de todos tus espacios.",
+    "comingSoon": "Próximamente",
+    "comingSoonDescription": "Esta sección todavía está en construcción."
+  },
+  "NotFound": {
+    "title": "No encontramos esta página",
+    "description": "Puede que no exista o que no tengas acceso.",
+    "home": "Volver al inicio"
   }
 }

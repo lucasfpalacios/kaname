@@ -373,6 +373,39 @@ export function authFlowTests(name: string, context: () => AuthFlowContext) {
       ).toBe(204);
     });
 
+    it("preferencias: guarda idioma y tema en el usuario y /auth/me los devuelve", async () => {
+      const email = await state.ctx.createUser(PASSWORD);
+      const { access } = await login(email);
+      const patch = (body: unknown) =>
+        http()
+          .patch("/api/me/preferences")
+          .set("Cookie", cookieHeader({ [ACCESS_COOKIE]: access }))
+          .send(body as object);
+
+      const both = await patch({ locale: "en", theme: "DARK" });
+      expect(both.status).toBe(200);
+      expect(both.body).toMatchObject({ locale: "en", theme: "DARK" });
+      // Solo una: la otra queda como estaba.
+      expect((await patch({ theme: "LIGHT" })).body).toMatchObject({
+        locale: "en",
+        theme: "LIGHT",
+      });
+      expect((await me(access)).body).toMatchObject({
+        locale: "en",
+        theme: "LIGHT",
+      });
+
+      for (const invalid of [{}, { locale: "fr" }, { theme: "dark" }]) {
+        const response = await patch(invalid);
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("validation_failed");
+      }
+      expect(
+        (await http().patch("/api/me/preferences").send({ theme: "DARK" }))
+          .status,
+      ).toBe(401);
+    });
+
     it("options: informa que el registro está cerrado", async () => {
       const response = await http().get("/api/auth/options");
       expect(response.status).toBe(200);

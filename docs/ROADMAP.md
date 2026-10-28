@@ -32,7 +32,7 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [x] Revisión de seguridad de la fase y correcciones (sesiones, aislamiento, rate limits, CSRF, headers, dependencias)
 
 ## Fase 2 — Esqueleto de la app
-- [ ] Layout: top bar + sidebar + selector de espacio
+- [x] Layout: top bar + sidebar + selector de espacio (shell con datos reales, URLs con slug, preferencias de tema e idioma en el usuario)
 - [ ] Inicio (launcher con botones de espacios + "General")
 - [ ] Crear / editar espacio y activar módulos
 
@@ -74,3 +74,5 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [ ] Web en Vercel, API en Render, DB en Neon, Redis en Upstash, archivos en R2
 - [ ] Rate limit con Upstash Redis: hoy vive en memoria, se pierde en cada reinicio y no se comparte entre instancias
 - [ ] `PROXY_SHARED_SECRET` configurado en Vercel y en Render (el mismo en los dos; sin él la API no arranca en producción)
+- [ ] `NEST_URL` definida en Vercel al momento del build: el destino del reenvío de `/api/*` se fija al compilar la web
+- [ ] Sacar los overrides de body-parser, multer y fast-uri cuando Nest y Prisma traigan las versiones corregidas

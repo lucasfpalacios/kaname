@@ -5,6 +5,7 @@ import { AccessTokenGuard } from "./auth/access-token.guard.js";
 import { AuthModule } from "./auth/auth.module.js";
 import { validateEnv } from "./config/env.js";
 import { HealthController } from "./health/health.controller.js";
+import { MeModule } from "./me/me.module.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 import { PermissionGuard } from "./workspaces/permission.guard.js";
 import { WorkspaceGuard } from "./workspaces/workspace.guard.js";
@@ -16,6 +17,7 @@ import { WorkspacesModule } from "./workspaces/workspaces.module.js";
     PrismaModule,
     AuthModule,
     WorkspacesModule,
+    MeModule,
   ],
   controllers: [HealthController],
   // Guards globales, en este orden: sesión (salvo @Public()), membresía del espacio

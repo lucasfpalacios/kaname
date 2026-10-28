@@ -430,3 +430,19 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-28 · La API verifica la base al arrancar y /api/health informa su estado
 **Por qué:** con el adapter de pg, `$connect()` no abre ninguna conexión, así que con Docker apagado la API arrancaba igual y el login daba 500. Ahora `PrismaService` hace un `SELECT 1` al iniciar (con 10 s de tope de conexión): si falla, la terminal dice "No se puede conectar a Postgres. ¿Está corriendo Docker? Probá pnpm db:up" con el código del error (por ejemplo `ECONNREFUSED`, sin la URL) y la API sale con código 1. En producción el mensaje pide revisar `DATABASE_URL`. `GET /api/health` responde `{ ok, database: "up" | "down" }`, con 503 si la base no responde, así el health check del hosting la marca caída. `pnpm dev` corre `pnpm db:up` antes de turbo: levanta Postgres si no está y, si Docker está apagado, frena ahí con el error de Docker.
 **Descartado:** reintentar la conexión al arrancar: en local esconde que Docker está apagado, y en producción el hosting ya reinicia el servicio.
+
+### 2026-10-28 · Shell de la app: URLs con slug y espacio actual desde la URL
+**Por qué:**
+- **Rutas:** `/` (inicio), `/general` y `/w/[slug]/[módulo]`. El resumen del espacio (DASHBOARD) es `/w/[slug]`; los demás módulos usan un segmento en inglés en los dos idiomas (`/w/disanza/price-lists`). El slug se busca entre mis espacios (`GET /api/workspaces`); si no es mío o no existe, 404, igual que un módulo apagado o inexistente. El slug es único por cuenta: si dos cuentas mías usan el mismo, gana el primero por nombre (hoy hay una sola cuenta).
+- **Un solo shell:** `(app)/layout.tsx` carga en el servidor el usuario, los espacios y la cookie del sidebar, y el shell (cliente) deduce el espacio actual de la URL: acento (`Workspace.color`), módulos activos del sidebar y selector. Así no se vuelve a montar al cambiar de espacio. `cache()` de React hace que el layout y la página compartan una sola llamada a la API por pedido.
+- **404 con status 200:** con Cache Components la respuesta empieza a mandarse (con 200) antes de resolver el slug, así que un espacio ajeno muestra la página 404 dentro del shell (y Next agrega `noindex`), pero el status HTTP queda en 200. En una app con sesión no afecta a buscadores; tener el status real exigiría resolver el slug en el proxy, con una llamada más a la API en cada navegación.
+- **Sidebar colapsado en una cookie** (`kaname_sidebar`): el servidor la lee y el sidebar sale con el ancho correcto desde el primer render, sin parpadeo.
+**Descartado:** un layout por espacio con su propio AppShell: el shell se volvería a montar en cada cambio de espacio y el estado del sidebar se perdería.
+
+### 2026-10-28 · Tema e idioma guardados en el usuario
+**Por qué:** `PATCH /api/me/preferences` (`preferencesSchema` en `@kaname/shared`) guarda `locale` y `theme` en `User`. En la app, el selector de idioma guarda antes de navegar (si falla, no cambia: si no, al volver a entrar se aplicaría el guardado) y el de tema guarda después de cambiar. Al entrar desde otro equipo, `PreferencesSync` aplica una vez lo guardado: cambia el tema de next-themes y pasa la URL al idioma del usuario. En las pantallas sin sesión (login) los selectores no guardan nada.
+**Descartado:** guardar las preferencias solo en cookies o en localStorage: no viajan entre equipos.
+
+### 2026-10-28 · DialogContent y SheetContent de la web con la X traducida
+**Por qué:** en el kit la X de cerrar solo aparece si se pasa `closeLabel`, y es fácil olvidarlo. `apps/web/src/components/overlays.tsx` envuelve los dos con `Common.close` ya traducido; la web usa esos. El drawer del Sidebar en mobile ahora también recibe `closeLabel` y toma el acento del espacio (va en un portal, fuera del AppShell).
+**Descartado:** un texto por defecto en el kit: el kit no conoce idiomas (todo texto entra por props).

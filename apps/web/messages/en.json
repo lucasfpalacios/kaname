@@ -4,10 +4,9 @@
     "description": "Manage all your businesses from a single panel."
   },
   "Home": {
-    "title": "Kaname",
-    "intro": "Manage all your businesses from a single panel: products, orders, purchases and projects, with the same foundation for every workspace.",
-    "salesLabel": "Sales this month",
-    "paletteLabel": "Color palette"
+    "greeting": "Hi, {name}",
+    "workspaceCount": "{count, plural, =0 {You don't have any workspaces yet.} one {You have # active workspace.} other {You have # active workspaces.}}",
+    "launcherSoon": "The home screen with all your workspaces comes in the next step. Meanwhile, pick a workspace from the menu."
   },
   "ThemeToggle": {
     "label": "Theme",
@@ -217,5 +216,54 @@
     "requestNewLink": "Request a new link",
     "or": "or",
     "continueWithGoogle": "Continue with Google"
+  },
+  "Common": {
+    "close": "Close"
+  },
+  "Shell": {
+    "nav": "Navigation",
+    "openMenu": "Open menu",
+    "collapse": "Collapse menu",
+    "expand": "Expand menu",
+    "skip": "Skip to content",
+    "search": "Search",
+    "searchSoon": "Search (coming soon)",
+    "switchWorkspace": "Switch workspace",
+    "workspaces": "Workspaces",
+    "home": "Home",
+    "homeDescription": "All your workspaces",
+    "generalDescription": "Consolidated panel",
+    "modules": "Modules",
+    "types": {
+      "BUSINESS": "Business",
+      "PROJECTS": "Projects"
+    }
+  },
+  "Modules": {
+    "GENERAL": "General",
+    "DASHBOARD": "Overview",
+    "PRODUCTS": "Products",
+    "CUSTOMERS": "Customers",
+    "SUPPLIERS": "Suppliers",
+    "PRICE_LISTS": "Price lists",
+    "CALCULATOR": "Calculator",
+    "MARKET_PRICES": "Market prices",
+    "ORDERS": "Orders",
+    "PURCHASES": "Purchases",
+    "DOCUMENTS": "Documents",
+    "QUOTES": "Quotes",
+    "CALENDAR": "Calendar",
+    "SOCIAL_METRICS": "Social metrics",
+    "PROJECTS": "Projects"
+  },
+  "Pages": {
+    "generalDescription": "Everything from all your workspaces, consolidated.",
+    "comingSoon": "Coming soon",
+    "comingSoonDescription": "This section is still under construction."
+  },
+  "NotFound": {
+    "title": "We couldn't find this page",
+    "description": "It may not exist or you may not have access to it.",
+    "home": "Back to home"
   }
 }

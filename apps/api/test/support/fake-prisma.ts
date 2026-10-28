@@ -118,7 +118,11 @@ export class FakePrisma {
     }) => {
       const user = this.users.find((row) => matches(row, where));
       if (!user) throw new Error("user not found");
-      Object.assign(user, data, { updatedAt: new Date() });
+      // Como Prisma: un campo undefined no se toca.
+      const defined = Object.entries(data).filter(([, v]) => v !== undefined);
+      Object.assign(user, Object.fromEntries(defined), {
+        updatedAt: new Date(),
+      });
       return user;
     },
   };

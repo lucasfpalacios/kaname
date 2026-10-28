@@ -6,7 +6,7 @@
   "Home": {
     "greeting": "Hola, {name}",
     "workspaceCount": "{count, plural, =0 {Todavía no tenés espacios.} one {Tenés # espacio activo.} other {Tenés # espacios activos.}}",
-    "launcherSoon": "El inicio con todos tus espacios llega en el próximo paso. Mientras, elegí un espacio desde el menú."
+    "workspacesLabel": "Tus espacios"
   },
   "ThemeToggle": {
     "label": "Tema",
@@ -259,7 +259,16 @@
   "Pages": {
     "generalDescription": "Lo consolidado de todos tus espacios.",
     "comingSoon": "Próximamente",
-    "comingSoonDescription": "Esta sección todavía está en construcción."
+    "comingSoonDescription": "Esta sección todavía está en construcción.",
+    "workspaces": "Espacios",
+    "upcoming": "Próximos eventos",
+    "comparison": "Rendimiento comparativo",
+    "noData": "Todavía no hay datos",
+    "noMetricsDescription": "Las métricas aparecen cuando el espacio tenga ventas, pedidos o proyectos cargados.",
+    "noEventsDescription": "Los eventos aparecen cuando empieces a usar el calendario.",
+    "noComparisonDescription": "La comparación entre espacios aparece cuando haya ventas cargadas.",
+    "activeModules": "Módulos activos",
+    "openWorkspace": "Abrir espacio"
   },
   "NotFound": {
     "title": "No encontramos esta página",

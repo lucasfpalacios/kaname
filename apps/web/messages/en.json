@@ -6,7 +6,7 @@
   "Home": {
     "greeting": "Hi, {name}",
     "workspaceCount": "{count, plural, =0 {You don't have any workspaces yet.} one {You have # active workspace.} other {You have # active workspaces.}}",
-    "launcherSoon": "The home screen with all your workspaces comes in the next step. Meanwhile, pick a workspace from the menu."
+    "workspacesLabel": "Your workspaces"
   },
   "ThemeToggle": {
     "label": "Theme",
@@ -259,7 +259,16 @@
   "Pages": {
     "generalDescription": "Everything from all your workspaces, consolidated.",
     "comingSoon": "Coming soon",
-    "comingSoonDescription": "This section is still under construction."
+    "comingSoonDescription": "This section is still under construction.",
+    "workspaces": "Workspaces",
+    "upcoming": "Upcoming events",
+    "comparison": "Comparative performance",
+    "noData": "No data yet",
+    "noMetricsDescription": "Metrics show up once the workspace has sales, orders or projects.",
+    "noEventsDescription": "Events show up once you start using the calendar.",
+    "noComparisonDescription": "The comparison between workspaces shows up once there are sales.",
+    "activeModules": "Active modules",
+    "openWorkspace": "Open workspace"
   },
   "NotFound": {
     "title": "We couldn't find this page",

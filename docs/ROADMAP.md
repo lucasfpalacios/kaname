@@ -33,7 +33,7 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 
 ## Fase 2 — Esqueleto de la app
 - [x] Layout: top bar + sidebar + selector de espacio (shell con datos reales, URLs con slug, preferencias de tema e idioma en el usuario)
-- [ ] Inicio (launcher con botones de espacios + "General")
+- [x] Inicio (launcher con botones de espacios + "General") y vista General con las tarjetas de cada espacio (métricas y eventos vacíos hasta que existan sus módulos)
 - [ ] Crear / editar espacio y activar módulos
 
 ## Fase 3 — Catálogo

@@ -261,6 +261,12 @@ const es = {
     createWorkspaceDescription: "Empresa, emprendimiento o proyecto",
     greeting: "Hola, Lucas",
     upcoming: "Próximos eventos",
+    noData: "Todavía no hay datos",
+    noMetricsDescription:
+      "Las métricas aparecen cuando el espacio tenga ventas o pedidos.",
+    activeModules: "Módulos activos",
+    openWorkspace: "Abrir espacio",
+    owner: "Dueño",
     events: [
       "Entrega sprint Hiru Cerámica",
       "Turno noche y control de stock",
@@ -639,6 +645,12 @@ const en: Messages = {
     createWorkspaceDescription: "Company, business or project",
     greeting: "Hi, Lucas",
     upcoming: "Upcoming events",
+    noData: "No data yet",
+    noMetricsDescription:
+      "Metrics show up once the workspace has sales or orders.",
+    activeModules: "Active modules",
+    openWorkspace: "Open workspace",
+    owner: "Owner",
     events: [
       "Hiru Cerámica sprint delivery",
       "Night shift and stock check",

@@ -96,28 +96,38 @@
 }
 
 /*
- * Cambio de idioma (lib/locale-transition.ts): el contenido viejo se desenfoca y se desvanece y el
- * nuevo aparece enfocándose, en el mismo lugar. Con prefers-reduced-motion no se arranca la
- * transición (el idioma cambia al instante).
+ * Cambio de idioma (lib/locale-transition.ts): el contenido viejo se desenfoca, se achica apenas y
+ * se desvanece, y el nuevo aparece enfocándose desde un poco más grande, en el mismo lugar. Con
+ * prefers-reduced-motion no se arranca la transición (el idioma cambia al instante).
+ * Para ajustar la animación, solo estas variables.
  */
+:root {
+  --kaname-locale-duration: 450ms;
+  --kaname-locale-blur: 8px;
+  --kaname-locale-scale-out: 0.98;
+  --kaname-locale-scale-in: 1.02;
+}
+
 [data-locale-transition]::view-transition-old(root) {
-  animation: kaname-locale-out 300ms ease-in both;
+  animation: kaname-locale-out var(--kaname-locale-duration) ease-in both;
 }
 
 [data-locale-transition]::view-transition-new(root) {
-  animation: kaname-locale-in 300ms ease-out both;
+  animation: kaname-locale-in var(--kaname-locale-duration) ease-out both;
 }
 
 @keyframes kaname-locale-out {
   to {
     opacity: 0;
-    filter: blur(6px);
+    filter: blur(var(--kaname-locale-blur));
+    transform: scale(var(--kaname-locale-scale-out));
   }
 }
 
 @keyframes kaname-locale-in {
   from {
     opacity: 0;
-    filter: blur(6px);
+    filter: blur(var(--kaname-locale-blur));
+    transform: scale(var(--kaname-locale-scale-in));
   }
 }

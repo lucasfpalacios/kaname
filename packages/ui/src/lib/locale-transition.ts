@@ -1,5 +1,6 @@
-// Cambio de idioma con fundido y desenfoque: el contenido viejo se desenfoca y se desvanece mientras
-// el nuevo aparece enfocándose (~300 ms), con View Transitions (los keyframes están en theme.css).
+// Cambio de idioma con fundido, desenfoque y una escala leve: el contenido viejo se desenfoca, se
+// achica y se desvanece mientras el nuevo aparece enfocándose (~450 ms), con View Transitions. Los
+// keyframes y sus valores (variables --kaname-locale-*) están en theme.css.
 // Las dos vistas son la página entera en el mismo lugar, así que nada se mueve. Sin soporte de View
 // Transitions o con prefers-reduced-motion, el idioma cambia al instante.
 

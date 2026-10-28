@@ -2,6 +2,10 @@
 export { ThemeProvider, useTheme } from "./theme/theme-provider";
 export { cn } from "./lib/cn";
 export { formatChange, formatDate, formatMoney } from "./lib/format";
+export {
+  canAnimateLocaleChange,
+  fadeLocaleChange,
+} from "./lib/locale-transition";
 export type {
   DateFormat,
   MoneyCurrency,
@@ -59,7 +63,9 @@ export * from "./components/user-menu";
 export * from "./components/workspace-accent";
 export * from "./components/workspace-avatar";
 export * from "./components/workspace-switcher";
+export * from "./components/locale-switch";
 export * from "./components/module-switch";
+export * from "./components/segmented-control";
 export * from "./components/workspace-color-field";
 export * from "./components/workspace-summary-card";
 export * from "./components/workspace-tile";

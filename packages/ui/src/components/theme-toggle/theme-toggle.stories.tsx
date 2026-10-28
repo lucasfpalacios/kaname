@@ -60,7 +60,8 @@ export const Playground: Story = {
   ),
 };
 
-// El ícono según el tema elegido (sol, luna, monitor), el foco y el hover, en claro y oscuro.
+// La píldora sobre el tema elegido (sol, luna, monitor), con foco y hover forzados, en claro y
+// oscuro.
 export const Estados: Story = {
   parameters: forcedStates,
   render: (_args, { globals }) => {
@@ -74,7 +75,7 @@ export const Estados: Story = {
               <StoryThemeProvider theme={theme}>
                 <ThemeToggle {...props} />
                 <ThemeToggle {...props} className="force-hover" />
-                <ThemeToggle {...props} className="force-focus" />
+                <ThemeToggle {...props} className="force-focus-within" />
               </StoryThemeProvider>
             </StoryRow>
           ))}
@@ -84,25 +85,15 @@ export const Estados: Story = {
   },
 };
 
-// Menú abierto con "Oscuro" marcado.
-export const Abierto: Story = {
+// Pantalla chica (< 640 px): un solo botón con el ícono del tema actual que rota claro → oscuro
+// → sistema. El círculo sale del botón.
+export const Mobile: Story = {
+  globals: { viewport: { value: "mobile1" } },
   render: (_args, { globals }) => (
-    <StoryThemeProvider theme="dark">
-      <div className="flex h-48 justify-end">
-        <ThemeToggle {...toggleProps(globals.locale)} defaultOpen />
+    <ThemeProvider>
+      <div className="flex h-32 justify-end">
+        <ThemeToggle {...toggleProps(globals.locale)} />
       </div>
-    </StoryThemeProvider>
-  ),
-};
-
-export const AbiertoOscuro: Story = {
-  name: "Abierto (oscuro)",
-  globals: { theme: "oscuro" },
-  render: (_args, { globals }) => (
-    <StoryThemeProvider theme="system">
-      <div className="flex h-48 justify-end">
-        <ThemeToggle {...toggleProps(globals.locale)} defaultOpen />
-      </div>
-    </StoryThemeProvider>
+    </ThemeProvider>
   ),
 };

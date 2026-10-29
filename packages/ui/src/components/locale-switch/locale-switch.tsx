@@ -16,7 +16,7 @@ export type LocaleSwitchOption = {
 export type LocaleSwitchProps = {
   options: LocaleSwitchOption[];
   value: string;
-  /** `item` es el segmento presionado (la cortina del cambio de idioma sale de ahí). */
+  /** `item` es el segmento presionado (para animaciones que salen de él). */
   onValueChange: (value: string, item: HTMLElement | null) => void;
   /** aria-label del grupo ("Idioma"). */
   label: string;

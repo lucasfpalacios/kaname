@@ -32,7 +32,7 @@ function Switch({ locale, disabled }: { locale: unknown; disabled?: boolean }) {
 }
 
 // Cambiá de idioma: la píldora se desliza y las letras se "decodifican" (ES → EN letra por
-// letra). En la app, además, la página se revela con la cortina que sale del switch
+// letra). En la app, además, la página se revela con una cortina de borde a borde
 // (revealLocaleChange).
 export const Interactivo: Story = {
   render: (_args, { globals }) => (

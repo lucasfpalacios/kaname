@@ -96,9 +96,9 @@
 }
 
 /*
- * Cambio de idioma (lib/locale-transition.ts): la vista nueva se revela con una franja que nace en
- * el switch y se abre hasta cubrir la pantalla (el clip-path lo anima JavaScript, como el círculo
- * del tema). La vista vieja queda quieta debajo, sin fundido. Con prefers-reduced-motion no se
+ * Cambio de idioma (lib/locale-transition.ts): la vista nueva entra con una cortina que barre la
+ * pantalla de borde a borde, en la dirección de la píldora (el clip-path lo anima JavaScript, como
+ * el círculo del tema). La vista vieja queda quieta debajo, sin fundido. Con prefers-reduced-motion no se
  * arranca la transición (el idioma cambia al instante).
  * Para ajustar la animación, solo estas variables (las lee lib/locale-transition.ts).
  */

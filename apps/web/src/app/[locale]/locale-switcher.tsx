@@ -8,7 +8,7 @@ import { routing, type Locale } from "@/i18n/routing";
 import { markLocaleChosen } from "@/lib/preferences/preferences";
 
 // Selector de idioma: el LocaleSwitch del kit (ES | EN) con el ruteo de next-intl y la cortina al
-// cambiar (revealLocaleChange): sale del segmento presionado y va hacia donde va la píldora. Con
+// cambiar (revealLocaleChange): barre la pantalla de borde a borde hacia donde va la píldora. Con
 // sesión, `onLocaleChange` guarda el idioma en el usuario antes de navegar: si falla, no cambia
 // (si no, al volver a cargar se aplicaría el guardado). Sin sesión (login), se anota la elección
 // y se guarda al entrar.
@@ -33,9 +33,8 @@ export function LocaleSwitcher({
         short: option.toUpperCase(),
         name: t(`locales.${option}`),
       }))}
-      onValueChange={(value, item) => {
+      onValueChange={(value) => {
         const next = value as Locale;
-        const rect = item?.getBoundingClientRect();
         const direction =
           routing.locales.indexOf(next) >
           routing.locales.indexOf(locale as Locale)
@@ -46,9 +45,6 @@ export function LocaleSwitcher({
           else if (!(await onLocaleChange(next))) return;
           revealLocaleChange({
             target: next,
-            origin: {
-              x: rect ? rect.left + rect.width / 2 : window.innerWidth / 2,
-            },
             direction,
             apply: () => router.replace(pathname, { locale: next }),
           });

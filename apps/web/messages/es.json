@@ -365,5 +365,9 @@
     "emptyDescription": "Cuando archives un espacio desde su configuración, va a aparecer acá.",
     "menu": "Configuración de la cuenta",
     "restoredShort": "Espacio restaurado"
+  },
+  "Preferences": {
+    "themeError": "No se pudo guardar el tema. En este navegador lo vas a seguir viendo igual.",
+    "localeError": "No se pudo guardar el idioma. Probá de nuevo."
   }
 }

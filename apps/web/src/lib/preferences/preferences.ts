@@ -1,4 +1,4 @@
-import type { PreferencesInput } from "@kaname/shared";
+import type { PreferencesInput, Theme } from "@kaname/shared";
 import { apiFetch } from "@/lib/api/browser";
 
 // Preferencias del usuario desde el navegador (solo con sesión).
@@ -36,5 +36,46 @@ export function takeLocaleChosen(): boolean {
     return chosen;
   } catch {
     return false;
+  }
+}
+
+// Guardado del tema en curso. El cambio de idioma lo espera antes de navegar: el árbol del idioma
+// nuevo arranca con las preferencias del servidor, y si el tema todavía no llegó (o falló) traería
+// el anterior.
+let pendingTheme: Promise<boolean> | null = null;
+
+/** Guarda el tema en el usuario. Devuelve false si falló. */
+export function saveTheme(theme: Theme): Promise<boolean> {
+  const save = savePreferences({ theme });
+  pendingTheme = save;
+  void save.finally(() => {
+    if (pendingTheme === save) pendingTheme = null;
+  });
+  return save;
+}
+
+/** Espera el guardado del tema en curso (si hay uno). */
+export function waitForThemeSave(): Promise<boolean> {
+  return pendingTheme ?? Promise.resolve(true);
+}
+
+// Las preferencias guardadas se aplican una vez por pestaña y usuario (al entrar, por ejemplo desde
+// otro equipo). Después manda lo que la persona cambia en esta pestaña: un árbol de idioma nuevo no
+// vuelve a aplicar lo del servidor, que puede estar atrasado.
+const APPLIED_FOR = "kaname:preferences-applied";
+
+export function preferencesAppliedFor(userId: string): boolean {
+  try {
+    return sessionStorage.getItem(APPLIED_FOR) === userId;
+  } catch {
+    return false;
+  }
+}
+
+export function markPreferencesApplied(userId: string) {
+  try {
+    sessionStorage.setItem(APPLIED_FOR, userId);
+  } catch {
+    // Sin storage: se vuelven a aplicar en cada árbol nuevo, como antes.
   }
 }

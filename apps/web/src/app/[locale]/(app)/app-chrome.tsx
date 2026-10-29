@@ -12,6 +12,7 @@ import {
   SidebarMobileTrigger,
   TopBar,
   TopBarActions,
+  toast,
   Toaster,
   TopBarSearch,
   WorkspaceSwitcher,
@@ -27,7 +28,11 @@ import {
   workspaceInitials,
   workspacePath,
 } from "@/lib/workspaces/modules";
-import { savePreferences } from "@/lib/preferences/preferences";
+import {
+  savePreferences,
+  saveTheme,
+  waitForThemeSave,
+} from "@/lib/preferences/preferences";
 import { saveSidebarCollapsed } from "@/lib/workspaces/sidebar-cookie";
 import { LocaleSwitcher } from "../locale-switcher";
 import { ThemeToggle } from "../theme-toggle";
@@ -86,6 +91,7 @@ export function AppChrome({
   const t = useTranslations("Shell");
   const tModules = useTranslations("Modules");
   const tCommon = useTranslations("Common");
+  const tPrefs = useTranslations("Preferences");
   const place = placeOf(usePathname(), workspaces);
   const current = place.kind === "workspace" ? place.workspace : null;
 
@@ -203,19 +209,40 @@ export function AppChrome({
           />
           <TopBarActions>
             <LocaleSwitcher
-              onLocaleChange={(locale) => savePreferences({ locale })}
+              onLocaleChange={async (locale) => {
+                // El tema elegido recién tiene que estar guardado antes de cambiar de árbol.
+                await waitForThemeSave();
+                const ok = await savePreferences({ locale });
+                if (!ok) {
+                  toast({
+                    title: tPrefs("localeError"),
+                    variant: "destructive",
+                  });
+                }
+                return ok;
+              }}
             />
             <ThemeToggle
-              onThemeChange={(theme) =>
-                void savePreferences({ theme: themeOf(theme) })
-              }
+              onThemeChange={(theme) => {
+                void saveTheme(themeOf(theme)).then((ok) => {
+                  if (!ok)
+                    toast({
+                      title: tPrefs("themeError"),
+                      variant: "destructive",
+                    });
+                });
+              }}
             />
             <UserMenuButton user={user} accountSettings={isAccountOwner} />
           </TopBarActions>
         </TopBar>
       }
     >
-      <PreferencesSync locale={user.locale} theme={user.theme} />
+      <PreferencesSync
+        userId={user.id}
+        locale={user.locale}
+        theme={user.theme}
+      />
       <Toaster
         label={tCommon("notification")}
         // Radix reemplaza {hotkey} por el atajo (F8): va literal en el texto traducido.

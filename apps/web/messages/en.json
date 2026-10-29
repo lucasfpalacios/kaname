@@ -365,5 +365,9 @@
     "emptyDescription": "When you archive a workspace from its settings, it will show up here.",
     "menu": "Account settings",
     "restoredShort": "Workspace restored"
+  },
+  "Preferences": {
+    "themeError": "The theme couldn't be saved. You'll keep seeing it in this browser.",
+    "localeError": "The language couldn't be saved. Try again."
   }
 }

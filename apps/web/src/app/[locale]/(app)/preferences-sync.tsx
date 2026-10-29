@@ -6,6 +6,8 @@ import { useLocale } from "next-intl";
 import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import {
+  markPreferencesApplied,
+  preferencesAppliedFor,
   savePreferences,
   takeLocaleChosen,
 } from "@/lib/preferences/preferences";
@@ -23,11 +25,14 @@ export const themeOf = (choice: ThemeChoice): Theme =>
 // Aplica las preferencias guardadas en el usuario al entrar (por ejemplo desde otro equipo): si el
 // idioma de la URL o el tema del navegador no coinciden, los cambia una vez. Los cambios que hace
 // el usuario se guardan desde la TopBar, así que después ya coinciden. Si eligió el idioma en el
-// login, gana esa elección: se guarda en el usuario en vez de aplicar la guardada.
+// login, gana esa elección: se guarda en el usuario en vez de aplicar la guardada. Se aplican una
+// vez por pestaña y usuario (ver preferencesAppliedFor).
 export function PreferencesSync({
+  userId,
   locale,
   theme,
 }: {
+  userId: string;
   locale: Locale;
   theme: Theme;
 }) {
@@ -41,6 +46,9 @@ export function PreferencesSync({
     // next-themes no conoce el tema hasta montar.
     if (applied.current || currentTheme === undefined) return;
     applied.current = true;
+    // Ya se aplicaron en esta pestaña: este es otro árbol (por ejemplo, el de otro idioma).
+    if (preferencesAppliedFor(userId)) return;
+    markPreferencesApplied(userId);
     if (currentTheme !== CHOICE[theme]) setTheme(CHOICE[theme]);
     if (takeLocaleChosen()) {
       if (currentLocale !== locale)
@@ -48,7 +56,16 @@ export function PreferencesSync({
     } else if (currentLocale !== locale) {
       router.replace(pathname, { locale });
     }
-  }, [currentLocale, currentTheme, locale, pathname, router, setTheme, theme]);
+  }, [
+    currentLocale,
+    currentTheme,
+    locale,
+    pathname,
+    router,
+    setTheme,
+    theme,
+    userId,
+  ]);
 
   return null;
 }

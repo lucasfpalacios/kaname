@@ -6,6 +6,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import {
+  type ArchivedWorkspace,
   createWorkspaceSchema,
   DEFAULT_MODULES,
   ErrorCode,
@@ -26,6 +27,8 @@ type Created = z.output<typeof createWorkspaceSchema>;
 const slugTaken = (error: unknown) =>
   error instanceof Prisma.PrismaClientKnownRequestError &&
   error.code === "P2002";
+
+const notFound = () => new NotFoundException(ErrorCode.notFound);
 
 // Alta, configuración y archivado de espacios. Solo el Dueño de la cuenta (AccountMember OWNER):
 // un Colaborador o un Cliente del espacio recibe 403. El espacio de la ruta ya lo validó
@@ -72,13 +75,7 @@ export class WorkspaceAdminService {
    * cuenta de la que no es miembro: 404 (no revela que existe); miembro sin ser Dueño: 403.
    */
   async create(userId: string, input: Created): Promise<Membership> {
-    const member = await this.prisma.accountMember.findUnique({
-      where: { accountId_userId: { accountId: input.accountId, userId } },
-    });
-    if (!member) throw new NotFoundException(ErrorCode.notFound);
-    if (member.role !== "OWNER") {
-      throw new ForbiddenException(ErrorCode.forbidden);
-    }
+    await this.assertAccountOwner(userId, input.accountId);
     const ownerRole = await this.prisma.role.findUnique({
       where: {
         accountId_systemKey: {
@@ -110,7 +107,8 @@ export class WorkspaceAdminService {
       });
       return (await this.access.findMembership(userId, workspace.id))!;
     } catch (error) {
-      if (slugTaken(error)) throw new ConflictException(ErrorCode.slugTaken);
+      if (slugTaken(error))
+        throw await this.slugConflict(input.accountId, input.slug);
       throw error;
     }
   }
@@ -130,7 +128,12 @@ export class WorkspaceAdminService {
         if (modules) await saveModules(tx, workspaceId, modules);
       });
     } catch (error) {
-      if (slugTaken(error)) throw new ConflictException(ErrorCode.slugTaken);
+      if (slugTaken(error) && fields.slug) {
+        throw await this.slugConflict(
+          membership.workspace.accountId,
+          fields.slug,
+        );
+      }
       throw error;
     }
     return (await this.access.findMembership(userId, workspaceId))!;
@@ -143,6 +146,69 @@ export class WorkspaceAdminService {
       where: { id: membership.workspace.id },
       data: { archivedAt: new Date() },
     });
+  }
+
+  /** Los archivados de una cuenta de la que soy Dueño, del más reciente al más viejo. */
+  async listArchived(
+    userId: string,
+    accountId: string,
+  ): Promise<ArchivedWorkspace[]> {
+    await this.assertAccountOwner(userId, accountId);
+    const rows = await this.prisma.workspace.findMany({
+      where: { accountId, archivedAt: { not: null } },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        type: true,
+        color: true,
+        archivedAt: true,
+      },
+      orderBy: { archivedAt: "desc" },
+    });
+    return rows.map((row) => ({
+      ...row,
+      archivedAt: row.archivedAt!.toISOString(),
+    }));
+  }
+
+  /** Restaura un archivado de la cuenta. Uno activo, de otra cuenta o inexistente: 404. */
+  async restore(
+    userId: string,
+    accountId: string,
+    workspaceId: string,
+  ): Promise<void> {
+    await this.assertAccountOwner(userId, accountId);
+    const { count } = await this.prisma.workspace.updateMany({
+      where: { id: workspaceId, accountId, archivedAt: { not: null } },
+      data: { archivedAt: null },
+    });
+    if (count === 0) throw notFound();
+  }
+
+  // El slug ya está en la cuenta: si es de un archivado, se dice cuál (para ofrecer restaurarlo).
+  private async slugConflict(accountId: string, slug: string) {
+    const existing = await this.prisma.workspace.findUnique({
+      where: { accountId_slug: { accountId, slug } },
+      select: { id: true, archivedAt: true },
+    });
+    return existing?.archivedAt
+      ? new ConflictException({
+          message: ErrorCode.slugArchived,
+          workspaceId: existing.id,
+        })
+      : new ConflictException(ErrorCode.slugTaken);
+  }
+
+  /** Soy Dueño de la cuenta: si no soy miembro, 404 (no revela que existe); si no, 403. */
+  private async assertAccountOwner(userId: string, accountId: string) {
+    const member = await this.prisma.accountMember.findUnique({
+      where: { accountId_userId: { accountId, userId } },
+    });
+    if (!member) throw notFound();
+    if (member.role !== "OWNER") {
+      throw new ForbiddenException(ErrorCode.forbidden);
+    }
   }
 
   private assertOwner(membership: Membership) {

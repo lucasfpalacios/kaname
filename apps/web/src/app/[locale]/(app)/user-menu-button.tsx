@@ -2,15 +2,24 @@
 
 import { DropdownMenuItem, UserMenu } from "@kaname/ui";
 import type { SessionUser } from "@kaname/shared";
-import { LogOut } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useLoginPath } from "@/components/use-login-path";
+import { Link } from "@/i18n/navigation";
 
-// Menú de usuario de la TopBar con "Cerrar sesión": avisa a la API (borra la sesión y las
-// cookies) y va a /login.
-export function UserMenuButton({ user }: { user: SessionUser }) {
+// Menú de usuario de la TopBar: "Configuración de la cuenta" (solo para el Dueño de alguna cuenta)
+// y "Cerrar sesión", que avisa a la API (borra la sesión y las cookies) y va a /login.
+export function UserMenuButton({
+  user,
+  accountSettings,
+}: {
+  user: SessionUser;
+  /** Mostrar "Configuración de la cuenta" (soy Dueño de alguna cuenta). */
+  accountSettings: boolean;
+}) {
+  const tAccount = useTranslations("Account");
   const t = useTranslations("Auth");
   const router = useRouter();
   const loginPath = useLoginPath();
@@ -31,6 +40,14 @@ export function UserMenuButton({ user }: { user: SessionUser }) {
       avatarUrl={user.avatarUrl}
       label={t("userMenu")}
     >
+      {accountSettings && (
+        <DropdownMenuItem asChild>
+          <Link href="/account">
+            <Settings />
+            {tAccount("menu")}
+          </Link>
+        </DropdownMenuItem>
+      )}
       <DropdownMenuItem disabled={signingOut} onSelect={() => void signOut()}>
         <LogOut />
         {t("signOut")}

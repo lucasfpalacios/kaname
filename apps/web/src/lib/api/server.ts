@@ -1,5 +1,6 @@
 import type {
   AccountSummary,
+  ArchivedWorkspace,
   SessionUser,
   WorkspaceSummary,
 } from "@kaname/shared";
@@ -61,3 +62,10 @@ export async function getAuthOptions(): Promise<AuthOptions> {
   }
   return { registrationEnabled: false, googleEnabled: false };
 }
+
+/** Los espacios archivados de una cuenta de la que soy Dueño. */
+export const getArchivedWorkspaces = cache((accountId: string) =>
+  getWithSession<ArchivedWorkspace[]>(
+    `/api/accounts/${accountId}/archived-workspaces`,
+  ),
+);

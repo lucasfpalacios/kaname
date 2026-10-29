@@ -34,3 +34,9 @@ export const updateWorkspace = (id: string, input: UpdateWorkspaceInput) =>
 
 export const archiveWorkspace = (id: string) =>
   send<void>(`/api/workspaces/${id}/archive`, "POST");
+
+export const restoreWorkspace = (accountId: string, workspaceId: string) =>
+  send<void>(
+    `/api/accounts/${accountId}/archived-workspaces/${workspaceId}/restore`,
+    "POST",
+  );

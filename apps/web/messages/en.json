@@ -42,7 +42,8 @@
     "unsupported_media_type": "We couldn't process the request. Reload the page and try again.",
     "slug_invalid": "Use 2 to 48 lowercase letters, numbers or hyphens (for example, my-store).",
     "slug_taken": "There's already a workspace with that address in the account.",
-    "color_invalid": "Use a color in the #rrggbb format."
+    "color_invalid": "Use a color in the #rrggbb format.",
+    "slug_archived": "There's an archived workspace with that address."
   },
   "Roles": {
     "OWNER": "Owner",
@@ -325,7 +326,8 @@
     "archiveConfirmTitle": "Archive {name}?",
     "archiveConfirmBody": "It will stop showing up for all its members.",
     "archived": "{name} archived",
-    "saveError": "The changes couldn't be saved. Try again."
+    "saveError": "The changes couldn't be saved. Try again.",
+    "restoreArchived": "Restore the archived workspace"
   },
   "ModuleInfo": {
     "DASHBOARD": "A board with the workspace's numbers: sales, margins, stock and what's pending, with widgets you'll be able to arrange.",
@@ -349,5 +351,19 @@
     "5": "Tools",
     "6": "External data",
     "7": "Dashboards and admin"
+  },
+  "Account": {
+    "title": "Account settings",
+    "description": "What belongs to the account rather than a workspace. Only the Owner sees it.",
+    "archived": "Archived workspaces",
+    "archivedDescription": "They don't show up on the home screen or in the menu. Restoring them brings back their data, address and modules.",
+    "archivedOn": "Archived on {date}",
+    "restore": "Restore",
+    "restored": "Workspace {name} restored",
+    "restoreError": "The workspace couldn't be restored. Try again.",
+    "empty": "No archived workspaces",
+    "emptyDescription": "When you archive a workspace from its settings, it will show up here.",
+    "menu": "Account settings",
+    "restoredShort": "Workspace restored"
   }
 }

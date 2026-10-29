@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { DialogContent } from "@/components/overlays";
 import { useRouter } from "@/i18n/navigation";
-import { createWorkspace } from "@/lib/workspaces/api";
+import { createWorkspace, restoreWorkspace } from "@/lib/workspaces/api";
 import { workspacePath } from "@/lib/workspaces/modules";
 import { WorkspaceForm } from "./workspace-form";
 
@@ -22,6 +22,7 @@ import { WorkspaceForm } from "./workspace-form";
 // cuenta. Al crear, va al espacio nuevo y refresca los datos del servidor (sidebar e inicio).
 export function NewWorkspaceTile({ accounts }: { accounts: AccountSummary[] }) {
   const t = useTranslations("Workspace");
+  const tAccount = useTranslations("Account");
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -59,6 +60,20 @@ export function NewWorkspaceTile({ accounts }: { accounts: AccountSummary[] }) {
             router.push(workspacePath(result.data.slug));
             router.refresh();
             return null;
+          }}
+          onRestore={async (workspaceId, accountId) => {
+            const result = await restoreWorkspace(accountId, workspaceId);
+            if (!result.ok) {
+              toast({
+                title: tAccount("restoreError"),
+                variant: "destructive",
+              });
+              return false;
+            }
+            setOpen(false);
+            toast({ title: tAccount("restoredShort"), variant: "success" });
+            router.refresh();
+            return true;
           }}
         />
       </DialogContent>

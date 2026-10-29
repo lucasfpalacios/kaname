@@ -16,3 +16,7 @@ export const intlLocale: Record<Locale, string> = {
   es: "es-AR",
   en: "en-US",
 };
+
+// Zona horaria para mostrar fechas con hora: la misma en el servidor y en el navegador (si no,
+// pueden mostrar horas distintas). Hoy los espacios son de Argentina.
+export const TIME_ZONE = "America/Argentina/Buenos_Aires";

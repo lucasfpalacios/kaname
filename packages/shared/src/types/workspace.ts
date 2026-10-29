@@ -34,3 +34,13 @@ export type WorkspaceSummary = {
 
 /** Una cuenta mía (GET /api/me/accounts): donde puedo crear espacios si soy su Dueño. */
 export type AccountSummary = { id: string; name: string; role: AccountRole };
+
+/** Un espacio archivado (GET /api/accounts/:accountId/archived-workspaces). */
+export type ArchivedWorkspace = {
+  id: string;
+  name: string;
+  slug: string;
+  type: WorkspaceType;
+  color: string | null;
+  archivedAt: string;
+};

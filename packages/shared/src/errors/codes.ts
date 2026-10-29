@@ -29,6 +29,8 @@ export const ErrorCode = {
   // color que no es #rrggbb.
   slugInvalid: "slug_invalid",
   slugTaken: "slug_taken",
+  // El slug lo usa un espacio archivado de la cuenta: se puede restaurar (la respuesta trae su id).
+  slugArchived: "slug_archived",
   colorInvalid: "color_invalid",
 } as const;
 

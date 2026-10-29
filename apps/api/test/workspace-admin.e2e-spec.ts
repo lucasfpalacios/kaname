@@ -229,4 +229,61 @@ describe("Alta y configuración de espacios (Postgres)", () => {
     expect((await as("owner").patch(path, { name: "x" })).status).toBe(404);
     expect((await as("owner").post(`${path}/archive`)).status).toBe(404);
   });
+
+  it("slug de un espacio archivado: 409 slug_archived con su id, y el Dueño lo restaura", async () => {
+    const { body: created } = await create("owner");
+    await as("owner").post(`/api/workspaces/${created.id}/archive`);
+
+    const taken = await create("owner", { slug: created.slug });
+    expect(taken.status).toBe(409);
+    expect(taken.body).toMatchObject({
+      message: "slug_archived",
+      workspaceId: created.id,
+    });
+
+    const archivedPath = `/api/accounts/${ids.accounts.A}/archived-workspaces`;
+    const list = await as("owner").get(archivedPath);
+    expect(list.status).toBe(200);
+    expect(list.body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: created.id, slug: created.slug }),
+      ]),
+    );
+
+    expect(
+      (await as("owner").post(`${archivedPath}/${created.id}/restore`)).status,
+    ).toBe(204);
+    expect(
+      (await as("owner").get(`/api/workspaces/${created.id}`)).status,
+    ).toBe(200);
+    // Ya no está archivado: restaurarlo otra vez da 404.
+    expect(
+      (await as("owner").post(`${archivedPath}/${created.id}/restore`)).status,
+    ).toBe(404);
+  });
+
+  it("archivados: solo el Dueño de la cuenta los ve y los restaura", async () => {
+    const { body: created } = await create("owner");
+    await as("owner").post(`/api/workspaces/${created.id}/archive`);
+    const archivedPath = `/api/accounts/${ids.accounts.A}/archived-workspaces`;
+    const restore = `${archivedPath}/${created.id}/restore`;
+
+    for (const user of ["collaborator", "client"] as const) {
+      expect((await as(user).get(archivedPath)).status).toBe(403);
+      expect((await as(user).post(restore)).status).toBe(403);
+    }
+    expect((await as("outsider").get(archivedPath)).status).toBe(404);
+    expect((await as("outsider").post(restore)).status).toBe(404);
+    // El Dueño de B no restaura un archivado de A desde su propia cuenta.
+    expect(
+      (
+        await as("outsider").post(
+          `/api/accounts/${ids.accounts.B}/archived-workspaces/${created.id}/restore`,
+        )
+      ).status,
+    ).toBe(404);
+    expect(
+      (await as("owner").get(`/api/workspaces/${created.id}`)).status,
+    ).toBe(404);
+  });
 });

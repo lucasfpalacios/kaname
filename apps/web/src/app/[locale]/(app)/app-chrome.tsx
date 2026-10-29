@@ -73,11 +73,14 @@ export function AppChrome({
   user,
   workspaces,
   defaultCollapsed,
+  isAccountOwner,
   children,
 }: {
   user: SessionUser;
   workspaces: WorkspaceSummary[];
   defaultCollapsed: boolean;
+  /** Soy Dueño de alguna cuenta: el menú de usuario muestra la configuración de la cuenta. */
+  isAccountOwner: boolean;
   children: ReactNode;
 }) {
   const t = useTranslations("Shell");
@@ -207,7 +210,7 @@ export function AppChrome({
                 void savePreferences({ theme: themeOf(theme) })
               }
             />
-            <UserMenuButton user={user} />
+            <UserMenuButton user={user} accountSettings={isAccountOwner} />
           </TopBarActions>
         </TopBar>
       }

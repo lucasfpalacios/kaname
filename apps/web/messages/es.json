@@ -42,7 +42,8 @@
     "unsupported_media_type": "No pudimos procesar el pedido. Recargá la página y probá de nuevo.",
     "slug_invalid": "Usá entre 2 y 48 letras minúsculas, números o guiones (por ejemplo, mi-tienda).",
     "slug_taken": "Ya hay un espacio con esa dirección en la cuenta.",
-    "color_invalid": "Usá un color con el formato #rrggbb."
+    "color_invalid": "Usá un color con el formato #rrggbb.",
+    "slug_archived": "Hay un espacio archivado con esa dirección."
   },
   "Roles": {
     "OWNER": "Dueño",
@@ -325,7 +326,8 @@
     "archiveConfirmTitle": "¿Archivar {name}?",
     "archiveConfirmBody": "Va a dejar de aparecer para todos sus miembros.",
     "archived": "{name} archivado",
-    "saveError": "No se pudieron guardar los cambios. Probá de nuevo."
+    "saveError": "No se pudieron guardar los cambios. Probá de nuevo.",
+    "restoreArchived": "Restaurar el espacio archivado"
   },
   "ModuleInfo": {
     "DASHBOARD": "Un tablero con los números del espacio: ventas, márgenes, stock y lo que tengas pendiente, con widgets que vas a poder ordenar.",
@@ -349,5 +351,19 @@
     "5": "Herramientas",
     "6": "Datos externos",
     "7": "Dashboards y admin"
+  },
+  "Account": {
+    "title": "Configuración de la cuenta",
+    "description": "Lo que es de la cuenta y no de un espacio. Solo lo ve el Dueño.",
+    "archived": "Espacios archivados",
+    "archivedDescription": "No aparecen en el inicio ni en el menú. Al restaurarlos vuelven con sus datos, su dirección y sus módulos.",
+    "archivedOn": "Archivado el {date}",
+    "restore": "Restaurar",
+    "restored": "Espacio {name} restaurado",
+    "restoreError": "No se pudo restaurar el espacio. Probá de nuevo.",
+    "empty": "No hay espacios archivados",
+    "emptyDescription": "Cuando archives un espacio desde su configuración, va a aparecer acá.",
+    "menu": "Configuración de la cuenta",
+    "restoredShort": "Espacio restaurado"
   }
 }

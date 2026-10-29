@@ -527,3 +527,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 - **Tema elegido en el login:** se guarda al entrar, igual que el idioma.
 - **Varios:** los links "Abrir espacio" incluyen el nombre del espacio para el lector de pantalla; los mensajes concuerdan ("Módulo … activado", "Espacio … archivado"); se quita del kit un export sin uso; y hay e2e de campos ignorados en el PATCH, de un miembro del espacio que no es miembro de la cuenta (403) y de `/api/me/accounts` sin sesión.
 **Descartado:** nombres de colores fijos en el kit: el kit no tiene textos.
+
+### 2026-10-29 · Override de qs
+**Por qué:** `pnpm audit` marcó `qs` <6.16.1 (GHSA-6pq8-jhm2-2vcw, DoS en `qs.stringify`). En producción express ya usa 6.16.1; la vulnerable llega solo por `supertest` (tests). Se fuerza `qs` 6.16.2 junto con los otros overrides de seguridad, y el ROADMAP (Fase 8) lo suma a los que hay que sacar cuando las dependencias lo traigan.
+**Descartado:** ignorarla por ser de tests: el audit tiene que quedar en cero para que una vulnerabilidad nueva no pase desapercibida.

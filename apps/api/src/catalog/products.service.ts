@@ -12,11 +12,13 @@ import {
   type newVariantSchema,
   type OptionValues,
   type productListQuerySchema,
+  type ProductListPage,
   type ProductOptions,
   type stockAdjustmentSchema,
   type updateProductSchema,
   type updateVariantSchema,
   variantNameOf,
+  type VariantView,
 } from "@kaname/shared";
 import type { z } from "zod";
 import { uniqueIndexOf } from "../common/prisma-errors.js";
@@ -32,26 +34,6 @@ type Tx = Prisma.TransactionClient;
 type NewVariant = z.output<typeof newVariantSchema>;
 
 const SKU_INDEX = "ProductVariant_workspaceId_sku_key";
-
-/** Una variante en las respuestas. Montos y cantidades, como string decimal. */
-export type VariantView = {
-  id: string;
-  name: string | null;
-  sku: string | null;
-  barcode: string | null;
-  optionValues: OptionValues;
-  costAmount: string;
-  costCurrency: string;
-  stock: string;
-  unit: string;
-  reorderPoint: string | null;
-  trackStock: boolean;
-  defaultSupplierId: string | null;
-  isDefault: boolean;
-  isActive: boolean;
-  /** Activa, con stock controlado y en o debajo de su punto de reposición. */
-  lowStock: boolean;
-};
 
 const isLow = (variant: ProductVariant) =>
   variant.isActive &&
@@ -99,7 +81,7 @@ export class ProductsService {
   async list(
     workspaceId: string,
     query: z.output<typeof productListQuerySchema>,
-  ) {
+  ): Promise<ProductListPage> {
     const where: Prisma.ProductWhereInput = { workspaceId };
     const and: Prisma.ProductWhereInput[] = [];
     if (query.q) {
@@ -146,7 +128,10 @@ export class ProductsService {
         where,
         include: {
           category: { select: { id: true, name: true } },
-          variants: true,
+          variants: {
+            include: { defaultSupplier: { select: { name: true } } },
+            orderBy: [{ isDefault: "desc" }, { createdAt: "asc" }],
+          },
         },
         orderBy: [{ name: "asc" }, { id: "asc" }],
         skip: (query.page - 1) * query.pageSize,
@@ -162,6 +147,13 @@ export class ProductsService {
         isActive: product.isActive,
         category: product.category,
         variantCount: product.variants.length,
+        // Con una sola variante, su SKU; con varias, cada una tiene el suyo.
+        sku: product.variants.length === 1 ? product.variants[0].sku : null,
+        // El menor costo de las variantes y si alguna tiene otro (para mostrar "desde").
+        cost: costSummary(product.variants),
+        supplier:
+          product.variants.find((variant) => variant.defaultSupplier)
+            ?.defaultSupplier?.name ?? null,
         // Suma del stock de las variantes que lo controlan.
         totalStock: product.variants
           .filter((variant) => variant.trackStock)
@@ -631,6 +623,29 @@ export class ProductsService {
       throw error;
     }
   }
+}
+
+/**
+ * El menor costo de las variantes en la moneda de la primera (el "desde" del listado) y si alguna
+ * tiene otro costo u otra moneda.
+ */
+function costSummary(variants: ProductVariant[]) {
+  const [first] = variants;
+  if (!first) return null;
+  const lowest = variants
+    .filter((variant) => variant.costCurrency === first.costCurrency)
+    .reduce((min, variant) =>
+      variant.costAmount.lessThan(min.costAmount) ? variant : min,
+    );
+  return {
+    amount: lowest.costAmount.toFixed(2),
+    currency: first.costCurrency,
+    varies: variants.some(
+      (variant) =>
+        variant.costCurrency !== first.costCurrency ||
+        !variant.costAmount.equals(first.costAmount),
+    ),
+  };
 }
 
 const toMovementView = (movement: {

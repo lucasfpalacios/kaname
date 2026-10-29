@@ -212,7 +212,11 @@ describe("Catálogo (Postgres)", () => {
       const created = await createProduct({
         options,
         combinations: [
-          { optionValues: { Idioma: "EN", Estado: "NM" }, initialStock: "3" },
+          {
+            optionValues: { Idioma: "EN", Estado: "NM" },
+            initialStock: "3",
+            costAmount: "120",
+          },
         ],
       });
       expect(created.status).toBe(201);
@@ -233,7 +237,7 @@ describe("Catálogo (Postgres)", () => {
 
       const generated = await as("owner").post(`${productPath}/variants`, {
         combinations: [
-          { optionValues: { Idioma: "ES", Estado: "NM" } },
+          { optionValues: { Idioma: "ES", Estado: "NM" }, costAmount: "80" },
           { optionValues: { Idioma: "ES", Estado: "LP" }, costAmount: "100" },
         ],
       });
@@ -241,6 +245,16 @@ describe("Catálogo (Postgres)", () => {
       expect(
         generated.body.variants.map((v: { name: string }) => v.name),
       ).toEqual(["EN · NM", "ES · NM", "ES · LP"]);
+
+      // En el listado, el costo es el menor de las variantes ("desde"), aunque no sea el primero.
+      const listed = await as("owner").get(
+        `${base()}/products?q=${encodeURIComponent(created.body.name)}`,
+      );
+      expect(listed.body.items[0].cost).toEqual({
+        amount: "80.00",
+        currency: "ARS",
+        varies: true,
+      });
 
       // Una que ya existe, o con valores que no están en las opciones.
       const again = await as("owner").post(`${productPath}/variants`, {
@@ -464,6 +478,14 @@ describe("Catálogo (Postgres)", () => {
       expect(supplies.body.items.map((p: { name: string }) => p.name)).toEqual([
         `${tag} B`,
       ]);
+
+      // Cada fila trae SKU (con una sola variante), costo y proveedor.
+      expect(byName.body.items[1]).toMatchObject({
+        sku: `${tag}-SKU`,
+        cost: { amount: "0.00", currency: "ARS", varies: false },
+        supplier: null,
+        variantCount: 1,
+      });
 
       const low = await list(`q=${tag}&lowStock=true`);
       expect(low.body.items).toEqual([

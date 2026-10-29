@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import {
+  type CategorySummary,
   type categorySchema,
   ErrorCode,
   type updateCategorySchema,
@@ -12,13 +13,6 @@ import {
 import type { z } from "zod";
 import { uniqueIndexOf } from "../common/prisma-errors.js";
 import { PrismaService } from "../prisma/prisma.service.js";
-
-export type CategorySummary = {
-  id: string;
-  name: string;
-  parentId: string | null;
-  productCount: number;
-};
 
 const NAME_INDEX = "Category_workspaceId_name_parentId_key";
 

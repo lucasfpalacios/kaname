@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { whenLocaleViewReady } from "./locale-transition";
 
 const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const DURATION_MS = 320;
@@ -25,15 +24,8 @@ export function useDecodeText(text: string, from: string | undefined) {
   useEffect(() => {
     if (!from || from === text || prefersReducedMotion()) return;
     const length = Math.max(text.length, from.length);
-    let start = 0;
-    let timer: ReturnType<typeof setInterval> | undefined;
-    let cancelled = false;
-    // Si hay un cambio de idioma en curso, arranca cuando la vista nueva ya se ve.
-    void whenLocaleViewReady().then(() => {
-      if (cancelled) return;
-      start = performance.now();
-      timer = setInterval(tick, FRAME_MS);
-    });
+    const start = performance.now();
+    const timer = setInterval(tick, FRAME_MS);
     function tick() {
       const progress = (performance.now() - start) / DURATION_MS;
       if (progress >= 1) {
@@ -52,7 +44,6 @@ export function useDecodeText(text: string, from: string | undefined) {
       setFrame(next);
     }
     return () => {
-      cancelled = true;
       clearInterval(timer);
       setFrame(null);
     };

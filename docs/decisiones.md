@@ -553,3 +553,7 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 **Descartado:**
 - Permitir stock negativo en los ajustes: un ajuste corrige un conteo, no adelanta una venta.
 - Reemplazar la variante default al generar combinaciones: se mantiene hasta que se borre, para no perder su stock ni su historial.
+
+### 2026-10-29 · El cambio de idioma vuelve a ser directo, sin transición de página
+**Por qué:** reemplaza las entradas de la cortina y del fundido del cambio de idioma. La página cambia de idioma directo, como cualquier navegación. El switch ES | EN se queda con la píldora que se desliza y la decodificación de las letras. Se borraron `lib/locale-transition.ts`, sus reglas y variables de `theme.css` (`--kaname-locale-*`, `data-locale-transition`) y la espera de la decodificación a la vista nueva, que ya no existe. El círculo del cambio de tema sigue igual.
+**Descartado:** dejar la cortina detrás de una opción: código y casos (React 19 sacando atributos de `<html>`, render congelado) para algo que no se va a usar.

@@ -2,7 +2,6 @@
 export { ThemeProvider, useTheme } from "./theme/theme-provider";
 export { cn } from "./lib/cn";
 export { formatChange, formatDate, formatMoney } from "./lib/format";
-export { revealLocaleChange } from "./lib/locale-transition";
 export type {
   DateFormat,
   MoneyCurrency,

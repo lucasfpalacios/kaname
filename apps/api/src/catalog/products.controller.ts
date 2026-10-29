@@ -80,6 +80,35 @@ export class ProductsController {
     return this.products.remove(workspace.workspace.id, productId);
   }
 
+  // Archivar es reversible: es editar, no eliminar (un Colaborador puede).
+  @Post(":productId/archive")
+  @RequirePermission(ModuleKey.PRODUCTS, "edit")
+  @HttpCode(200)
+  archive(
+    @CurrentWorkspace() workspace: Membership,
+    @Param("productId") productId: string,
+  ) {
+    return this.products.setProductActive(
+      workspace.workspace.id,
+      productId,
+      false,
+    );
+  }
+
+  @Post(":productId/restore")
+  @RequirePermission(ModuleKey.PRODUCTS, "edit")
+  @HttpCode(200)
+  restore(
+    @CurrentWorkspace() workspace: Membership,
+    @Param("productId") productId: string,
+  ) {
+    return this.products.setProductActive(
+      workspace.workspace.id,
+      productId,
+      true,
+    );
+  }
+
   /** Todas las combinaciones de las opciones y cuáles ya existen (para elegir cuáles crear). */
   @Get(":productId/combinations")
   @RequirePermission(ModuleKey.PRODUCTS, "view")

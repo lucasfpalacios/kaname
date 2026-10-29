@@ -53,6 +53,8 @@ export const ErrorCode = {
   quantityInvalid: "quantity_invalid",
   stockNegative: "stock_negative",
   stockNotTracked: "stock_not_tracked",
+  // Tiene movimientos de stock además del inicial: no se borra, se archiva.
+  hasHistory: "has_history",
   colorInvalid: "color_invalid",
 } as const;
 

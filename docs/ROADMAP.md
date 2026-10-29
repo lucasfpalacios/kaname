@@ -48,6 +48,7 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [ ] Listas de precios
 - [ ] Pedidos / ventas + pagos + descuento de stock
 - [ ] Compras / importaciones + ingreso de stock y costo
+- [ ] La regla "con historial no se borra, se archiva" de productos y variantes cuenta también sus ítems de pedidos, compras y presupuestos
 
 ## Fase 5 — Herramientas
 - [ ] Calculadora (motor de fórmulas + plantillas). Antes, FormulaEditor en el UI Kit con su story

@@ -60,7 +60,8 @@
     "last_variant": "A product needs at least one variant.",
     "quantity_invalid": "Enter a valid quantity (up to 3 decimals).",
     "stock_negative": "Stock can't go below zero.",
-    "stock_not_tracked": "This variant doesn't track stock."
+    "stock_not_tracked": "This variant doesn't track stock.",
+    "has_history": "It has stock movements: it can't be deleted. You can archive it."
   },
   "Roles": {
     "OWNER": "Owner",

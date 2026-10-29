@@ -556,4 +556,118 @@ describe("Catálogo (Postgres)", () => {
       expect((await as("owner").get(productPath)).status).toBe(200);
     });
   });
+
+  describe("historial, archivar y restaurar", () => {
+    it("sin historial (solo el stock inicial) se borra; con un ajuste, 409 has_history", async () => {
+      const fresh = await createProduct({ variant: { initialStock: "4" } });
+      expect(
+        (await as("owner").delete(`${base()}/products/${fresh.body.id}`))
+          .status,
+      ).toBe(204);
+
+      const used = await createProduct({ variant: { initialStock: "4" } });
+      const variantId = used.body.variants[0].id;
+      await as("owner").post(
+        `${base()}/variants/${variantId}/stock-adjustments`,
+        {
+          quantity: "-1",
+        },
+      );
+      const product = await as("owner").delete(
+        `${base()}/products/${used.body.id}`,
+      );
+      expect(product.status).toBe(409);
+      expect(product.body.message).toBe("has_history");
+      // Una nota "Stock inicial" escrita a mano no lo vuelve inicial.
+      const manual = await createProduct({});
+      await as("owner").post(
+        `${base()}/variants/${manual.body.variants[0].id}/stock-adjustments`,
+        { quantity: "1", note: "Stock inicial" },
+      );
+      expect(
+        (await as("owner").delete(`${base()}/products/${manual.body.id}`))
+          .status,
+      ).toBe(409);
+      // Sigue estando.
+      expect(
+        (await as("owner").get(`${base()}/products/${used.body.id}`)).status,
+      ).toBe(200);
+    });
+
+    it("una variante con historial no se borra; sin historial, sí", async () => {
+      const product = await createProduct({
+        options: [{ name: "Idioma", values: ["EN", "ES", "JP"] }],
+        combinations: [
+          { optionValues: { Idioma: "EN" }, initialStock: "2" },
+          { optionValues: { Idioma: "ES" } },
+          { optionValues: { Idioma: "JP" } },
+        ],
+      });
+      const [en, es] = product.body.variants;
+      await as("owner").post(`${base()}/variants/${en.id}/stock-adjustments`, {
+        quantity: "1",
+      });
+      const blocked = await as("owner").delete(`${base()}/variants/${en.id}`);
+      expect(blocked.status).toBe(409);
+      expect(blocked.body.message).toBe("has_history");
+      expect(
+        (await as("owner").delete(`${base()}/variants/${es.id}`)).status,
+      ).toBe(204);
+    });
+
+    it("archivar y restaurar: el listado los oculta salvo con includeArchived", async () => {
+      const tag = unique("archivo");
+      const product = await createProduct({
+        name: `${tag} producto`,
+        options: [{ name: "Estado", values: ["NM", "LP"] }],
+        combinations: [
+          { optionValues: { Estado: "NM" } },
+          { optionValues: { Estado: "LP" } },
+        ],
+      });
+      const productPath = `${base()}/products/${product.body.id}`;
+      const listed = async (query = "") =>
+        (await as("owner").get(`${base()}/products?q=${tag}${query}`)).body
+          .items.length;
+
+      const archived = await as("collaborator").post(`${productPath}/archive`);
+      expect(archived.status).toBe(200);
+      expect(archived.body.isActive).toBe(false);
+      expect(await listed()).toBe(0);
+      expect(await listed("&includeArchived=true")).toBe(1);
+      // Archivado, igual se ve el detalle.
+      expect((await as("owner").get(productPath)).status).toBe(200);
+
+      const restored = await as("owner").post(`${productPath}/restore`);
+      expect(restored.body.isActive).toBe(true);
+      expect(await listed()).toBe(1);
+
+      const variantPath = `${base()}/variants/${product.body.variants[1].id}`;
+      const variant = await as("owner").post(`${variantPath}/archive`);
+      expect(variant.status).toBe(200);
+      expect(variant.body.isActive).toBe(false);
+      expect(
+        (await as("owner").post(`${variantPath}/restore`)).body.isActive,
+      ).toBe(true);
+
+      // El PATCH ya no archiva: isActive se ignora.
+      await as("owner").patch(productPath, {
+        name: `${tag} renombrado`,
+        isActive: false,
+      });
+      expect((await as("owner").get(productPath)).body.isActive).toBe(true);
+
+      // El Cliente no archiva ni restaura.
+      expect((await as("client").post(`${productPath}/archive`)).status).toBe(
+        403,
+      );
+      expect((await as("client").post(`${variantPath}/restore`)).status).toBe(
+        403,
+      );
+      // Otra cuenta: 404.
+      expect((await as("outsider").post(`${productPath}/archive`)).status).toBe(
+        404,
+      );
+    });
+  });
 });

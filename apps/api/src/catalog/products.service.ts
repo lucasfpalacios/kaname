@@ -125,6 +125,7 @@ export class ProductsService {
       });
     }
     if (query.kind) where.kind = query.kind;
+    if (!query.includeArchived) where.isActive = true;
     if (query.lowStock) {
       and.push({
         variants: {
@@ -269,19 +270,36 @@ export class ProductsService {
           categoryId: input.categoryId,
           description: input.description,
           options: input.options,
-          isActive: input.isActive,
         },
       });
     });
     return this.get(workspaceId, product.id);
   }
 
-  /** Borra el producto con sus variantes (y sus movimientos de stock). */
+  /**
+   * Borra el producto con sus variantes. Si alguna tiene historial (movimientos de stock además
+   * del inicial), 409 has_history: se archiva en vez de borrarse.
+   */
   async remove(workspaceId: string, productId: string): Promise<void> {
-    const { count } = await this.prisma.product.deleteMany({
-      where: { id: productId, workspaceId },
+    const product = await this.findProduct(workspaceId, productId);
+    await this.prisma.$transaction(async (tx) => {
+      await this.assertNoHistory(tx, workspaceId, { productId: product.id });
+      await tx.product.delete({ where: { id: product.id } });
     });
-    if (count === 0) throw new NotFoundException(ErrorCode.notFound);
+  }
+
+  /** Archiva o restaura el producto (isActive). Los archivados no aparecen en el listado. */
+  async setProductActive(
+    workspaceId: string,
+    productId: string,
+    isActive: boolean,
+  ) {
+    const product = await this.findProduct(workspaceId, productId);
+    await this.prisma.product.update({
+      where: { id: product.id },
+      data: { isActive },
+    });
+    return this.get(workspaceId, product.id);
   }
 
   // --- Variantes ---
@@ -361,16 +379,34 @@ export class ProductsService {
     return toVariantView(updated);
   }
 
-  /** Borra una variante. La última de un producto no: el producto siempre tiene una. */
+  /**
+   * Borra una variante. Con historial, 409 has_history (se archiva). La última de un producto
+   * tampoco: el producto siempre tiene una.
+   */
   async removeVariant(workspaceId: string, variantId: string): Promise<void> {
     const variant = await this.findVariant(workspaceId, variantId);
     await this.prisma.$transaction(async (tx) => {
+      await this.assertNoHistory(tx, workspaceId, { id: variant.id });
       const siblings = await tx.productVariant.count({
         where: { productId: variant.productId, workspaceId },
       });
       if (siblings <= 1) throw new ConflictException(ErrorCode.lastVariant);
       await tx.productVariant.delete({ where: { id: variant.id } });
     });
+  }
+
+  /** Archiva o restaura una variante (isActive). */
+  async setVariantActive(
+    workspaceId: string,
+    variantId: string,
+    isActive: boolean,
+  ): Promise<VariantView> {
+    const variant = await this.findVariant(workspaceId, variantId);
+    const updated = await this.prisma.productVariant.update({
+      where: { id: variant.id },
+      data: { isActive },
+    });
+    return toVariantView(updated);
   }
 
   // --- Stock ---
@@ -433,6 +469,25 @@ export class ProductsService {
 
   // --- Ayudas ---
 
+  /**
+   * Historial de las variantes elegidas: movimientos de stock que no son el inicial. Cuando haya
+   * pedidos, compras y presupuestos (Fase 4), también cuentan sus ítems.
+   */
+  private async assertNoHistory(
+    tx: Tx,
+    workspaceId: string,
+    variants: Prisma.ProductVariantWhereInput,
+  ) {
+    const history = await tx.stockMovement.count({
+      where: {
+        workspaceId,
+        initial: false,
+        variant: { ...variants, workspaceId },
+      },
+    });
+    if (history > 0) throw new ConflictException(ErrorCode.hasHistory);
+  }
+
   private async findProduct(workspaceId: string, productId: string) {
     const product = await this.prisma.product.findFirst({
       where: { id: productId, workspaceId },
@@ -487,6 +542,7 @@ export class ProductsService {
           type: StockMovementType.ADJUSTMENT,
           quantity: stock,
           note: "Stock inicial",
+          initial: true,
         },
       });
     }

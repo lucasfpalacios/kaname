@@ -111,7 +111,10 @@ export type OptionValues = z.output<typeof optionValuesSchema>;
 
 // --- Variantes ---
 
-/** Lo editable de una variante. El stock no: cambia solo con ajustes (stock-adjustments). */
+/**
+ * Lo editable de una variante. El stock no: cambia solo con ajustes (stock-adjustments). Activa o
+ * archivada tampoco: se archiva y se restaura con sus propios endpoints.
+ */
 const variantFields = {
   sku: optionalText(64),
   barcode: optionalText(64),
@@ -125,7 +128,6 @@ const variantFields = {
   reorderPoint: quantity.nullable(),
   trackStock: z.boolean(ErrorCode.validationFailed),
   defaultSupplierId: id.nullable(),
-  isActive: z.boolean(ErrorCode.validationFailed),
 };
 
 /** Una variante nueva: sus datos y, si se quiere, el stock con el que arranca (como un ajuste). */
@@ -178,7 +180,6 @@ export const updateProductSchema = z
     categoryId: id.nullable(),
     description: optionalText(2000),
     options: productOptionsSchema,
-    isActive: z.boolean(ErrorCode.validationFailed),
   })
   .partial()
   .refine(
@@ -220,6 +221,8 @@ export const productListQuerySchema = z.object({
     .optional(),
   /** Solo productos con alguna variante activa en o debajo de su punto de reposición. */
   lowStock: flag.optional(),
+  /** Incluye los productos archivados (por defecto no aparecen). */
+  includeArchived: flag.optional(),
   page: z.coerce.number(ErrorCode.validationFailed).int().min(1).default(1),
   pageSize: z.coerce
     .number(ErrorCode.validationFailed)

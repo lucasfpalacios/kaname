@@ -45,6 +45,34 @@ export class VariantsController {
     return this.products.removeVariant(workspace.workspace.id, variantId);
   }
 
+  @Post(":variantId/archive")
+  @RequirePermission(ModuleKey.PRODUCTS, "edit")
+  @HttpCode(200)
+  archive(
+    @CurrentWorkspace() workspace: Membership,
+    @Param("variantId") variantId: string,
+  ) {
+    return this.products.setVariantActive(
+      workspace.workspace.id,
+      variantId,
+      false,
+    );
+  }
+
+  @Post(":variantId/restore")
+  @RequirePermission(ModuleKey.PRODUCTS, "edit")
+  @HttpCode(200)
+  restore(
+    @CurrentWorkspace() workspace: Membership,
+    @Param("variantId") variantId: string,
+  ) {
+    return this.products.setVariantActive(
+      workspace.workspace.id,
+      variantId,
+      true,
+    );
+  }
+
   // Ajustar el stock es editar el producto (no crear ni borrar).
   @Post(":variantId/stock-adjustments")
   @RequirePermission(ModuleKey.PRODUCTS, "edit")

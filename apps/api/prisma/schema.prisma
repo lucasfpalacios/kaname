@@ -482,6 +482,9 @@ model StockMovement {
   variantId   String
   type        StockMovementType
   quantity    Decimal           @db.Decimal(14, 3) // + entra / - sale
+  // El ajuste con el que nace la variante (su stock inicial). No cuenta como historial: una
+  // variante que solo tiene este movimiento se puede borrar.
+  initial     Boolean           @default(false)
   unitCost    Decimal?          @db.Decimal(14, 2)
   orderId     String?
   purchaseId  String?

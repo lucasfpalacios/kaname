@@ -60,7 +60,8 @@
     "last_variant": "Un producto necesita al menos una variante.",
     "quantity_invalid": "Ingresá una cantidad válida (hasta 3 decimales).",
     "stock_negative": "El stock no puede quedar negativo.",
-    "stock_not_tracked": "Esta variante no controla stock."
+    "stock_not_tracked": "Esta variante no controla stock.",
+    "has_history": "Tiene movimientos de stock: no se puede borrar. Podés archivarlo."
   },
   "Roles": {
     "OWNER": "Dueño",

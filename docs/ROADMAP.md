@@ -39,7 +39,7 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 
 ## Fase 3 — Catálogo
 - [ ] Reordenar módulos del sidebar con arrastrar y soltar en la configuración del espacio
-- [ ] Categorías, productos y variantes (CRUD, tabla, drawer de detalle)
+- [x] Categorías, productos y variantes (CRUD, tabla, drawer de detalle)
 - [ ] Proveedores
 - [ ] Recetas / insumos (para Disanza)
 

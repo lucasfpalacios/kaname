@@ -22,6 +22,7 @@ import type { ModuleKey, SessionUser, WorkspaceSummary } from "@kaname/shared";
 import { House, LayoutGrid, Settings } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
+import { QueryProvider } from "@/components/query-provider";
 import { Link, usePathname } from "@/i18n/navigation";
 import {
   moduleFromSegment,
@@ -250,7 +251,7 @@ export function AppChrome({
         closeLabel={tCommon("close")}
       />
       <SessionKeeper />
-      {children}
+      <QueryProvider>{children}</QueryProvider>
     </AppShell>
   );
 }

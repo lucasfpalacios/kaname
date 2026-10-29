@@ -370,5 +370,10 @@
   "Preferences": {
     "themeError": "No se pudo guardar el tema. En este navegador lo vas a seguir viendo igual.",
     "localeError": "No se pudo guardar el idioma. Probá de nuevo."
+  },
+  "LoadError": {
+    "title": "No pudimos cargar tus espacios",
+    "description": "Puede ser un problema de conexión o de la API. Tus datos están bien.",
+    "retry": "Reintentar"
   }
 }

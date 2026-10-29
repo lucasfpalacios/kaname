@@ -370,5 +370,10 @@
   "Preferences": {
     "themeError": "The theme couldn't be saved. You'll keep seeing it in this browser.",
     "localeError": "The language couldn't be saved. Try again."
+  },
+  "LoadError": {
+    "title": "We couldn't load your workspaces",
+    "description": "It may be a connection or API problem. Your data is fine.",
+    "retry": "Retry"
   }
 }

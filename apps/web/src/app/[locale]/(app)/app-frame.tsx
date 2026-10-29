@@ -8,6 +8,7 @@ import {
   SIDEBAR_COOKIE,
 } from "@/lib/workspaces/sidebar-cookie";
 import { AppChrome } from "./app-chrome";
+import { LoadError } from "./load-error";
 
 // Datos del shell, en el servidor: el usuario, sus espacios y si el sidebar estaba colapsado. Un
 // access vigente de una sesión revocada pasa el proxy pero no la API: ahí se va a /login, que
@@ -29,7 +30,8 @@ export async function AppFrame({ children }: { children: ReactNode }) {
         cookieStore.get(SIDEBAR_COOKIE)?.value,
       )}
     >
-      {children}
+      {/* Con sesión pero sin espacios es un error de carga, no "no tenés espacios". */}
+      {workspaces ? children : <LoadError />}
     </AppChrome>
   );
 }

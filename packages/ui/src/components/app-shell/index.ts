@@ -1,1 +1,6 @@
-export { AppShell, useAppShell, type AppShellProps } from "./app-shell";
+export {
+  AppShell,
+  useAppShell,
+  useOptionalAppShell,
+  type AppShellProps,
+} from "./app-shell";

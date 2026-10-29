@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown-menu";
+import { useOptionalAppShell } from "../app-shell";
 import { useSidebarCollapsed, useSidebarState } from "../sidebar";
 import { WorkspaceAvatar } from "../workspace-avatar";
 
@@ -61,7 +62,12 @@ export function WorkspaceSwitcher({
   className,
 }: WorkspaceSwitcherProps) {
   const collapsed = useSidebarCollapsed();
-  const { setHold } = useSidebarState();
+  const { state, setHold } = useSidebarState();
+  const shell = useOptionalAppShell();
+  // En el drawer de mobile, elegir un espacio lo cierra (como los ítems del sidebar).
+  const closeDrawer = () => {
+    if (state === "mobile") shell?.setMobileOpen(false);
+  };
   const current =
     workspaces.find((workspace) => workspace.id === currentId) ?? workspaces[0];
   if (!current) return null;
@@ -129,7 +135,7 @@ export function WorkspaceSwitcher({
             </>
           );
           return workspace.link ? (
-            <DropdownMenuItem key={workspace.id} asChild>
+            <DropdownMenuItem key={workspace.id} asChild onSelect={closeDrawer}>
               <Slot.Root aria-current={selected ? "page" : undefined}>
                 <Slot.Slottable>{workspace.link}</Slot.Slottable>
                 {content}
@@ -138,7 +144,10 @@ export function WorkspaceSwitcher({
           ) : (
             <DropdownMenuItem
               key={workspace.id}
-              onSelect={() => onSelect?.(workspace.id)}
+              onSelect={() => {
+                onSelect?.(workspace.id);
+                closeDrawer();
+              }}
             >
               {content}
             </DropdownMenuItem>

@@ -28,6 +28,11 @@ type AppShellContextValue = {
 
 const AppShellContext = createContext<AppShellContextValue | null>(null);
 
+/** Como useAppShell, pero null fuera de un AppShell (componentes que también se usan sueltos). */
+export function useOptionalAppShell() {
+  return useContext(AppShellContext);
+}
+
 export function useAppShell() {
   const context = useContext(AppShellContext);
   if (!context) throw new Error("useAppShell se usa dentro de <AppShell>.");

@@ -55,7 +55,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
             initials={workspaceInitials(workspace.name)}
             color={workspace.color}
           >
-            <Link href={workspacePath(workspace.slug)} />
+            <Link href={workspacePath(workspace.routeSlug)} />
           </WorkspaceTile>
         ))}
         {ownedAccounts.length > 0 && (

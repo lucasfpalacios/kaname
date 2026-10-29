@@ -41,12 +41,14 @@ export const getWorkspaces = cache(() =>
 );
 
 /**
- * El espacio de la URL (/w/[slug]), buscado entre los míos: si no es mío o no existe, null. El
- * slug es único por cuenta; si dos cuentas mías usan el mismo, gana el primero por nombre.
+ * El espacio de la URL (/w/[slug]), buscado entre los míos por su dirección (`routeSlug`, que
+ * calcula la API y desempata los slugs repetidos entre cuentas): si no es mío o no existe, null.
  */
-export const getWorkspaceBySlug = cache(async (slug: string) => {
+export const getWorkspaceBySlug = cache(async (routeSlug: string) => {
   const workspaces = await getWorkspaces();
-  return workspaces?.find((workspace) => workspace.slug === slug) ?? null;
+  return (
+    workspaces?.find((workspace) => workspace.routeSlug === routeSlug) ?? null
+  );
 });
 
 type AuthOptions = { registrationEnabled: boolean; googleEnabled: boolean };

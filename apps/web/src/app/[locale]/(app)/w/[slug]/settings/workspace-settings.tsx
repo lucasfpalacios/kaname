@@ -121,8 +121,10 @@ export function WorkspaceSettings({
               if (!result.ok) return result.error;
               toast({ title: t("saved"), variant: "success" });
               // Si cambió la dirección, la página pasa a la nueva.
-              if (result.data.slug !== workspace.slug) {
-                router.replace(`${workspacePath(result.data.slug)}/settings`);
+              if (result.data.routeSlug !== workspace.routeSlug) {
+                router.replace(
+                  `${workspacePath(result.data.routeSlug)}/settings`,
+                );
               }
               router.refresh();
               return null;

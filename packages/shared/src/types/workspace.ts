@@ -18,6 +18,11 @@ export type WorkspaceSummary = {
   accountId: string;
   name: string;
   slug: string;
+  /**
+   * Dirección en la web (/w/<routeSlug>): el slug, salvo que otro espacio que veo (de otra cuenta)
+   * lo comparta; ahí "slug--<sufijo del id>". La calcula la API.
+   */
+  routeSlug: string;
   type: WorkspaceType;
   /** Acento del espacio (#rrggbb) o null. */
   color: string | null;

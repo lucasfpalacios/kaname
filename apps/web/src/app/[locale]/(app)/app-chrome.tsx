@@ -55,7 +55,7 @@ function placeOf(pathname: string, workspaces: WorkspaceSummary[]): Place {
   if (pathname === "/general") return { kind: "general" };
   const match = /^\/w\/([^/]+)(?:\/([^/]+))?/.exec(pathname);
   const workspace = match
-    ? workspaces.find((item) => item.slug === decodeURIComponent(match[1]))
+    ? workspaces.find((item) => item.routeSlug === decodeURIComponent(match[1]))
     : undefined;
   if (!workspace) return { kind: "none" };
   const segment = match![2];
@@ -110,7 +110,7 @@ export function AppChrome({
       description: t(`types.${workspace.type}`),
       initials: workspaceInitials(workspace.name),
       color: workspace.color,
-      link: <Link href={workspacePath(workspace.slug)} />,
+      link: <Link href={workspacePath(workspace.routeSlug)} />,
     })),
   ];
 
@@ -136,7 +136,7 @@ export function AppChrome({
                 label={tModules(module)}
                 active={place.kind === "workspace" && place.module === module}
               >
-                <Link href={workspacePath(current.slug, module)} />
+                <Link href={workspacePath(current.routeSlug, module)} />
               </SidebarItem>
             ))}
           </SidebarGroup>
@@ -173,7 +173,7 @@ export function AppChrome({
               label={t("settings")}
               active={place.kind === "workspace" && place.settings}
             >
-              <Link href={`${workspacePath(current.slug)}/settings`} />
+              <Link href={`${workspacePath(current.routeSlug)}/settings`} />
             </SidebarItem>
           </ul>
         )}

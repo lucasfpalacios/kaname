@@ -286,4 +286,46 @@ describe("Alta y configuración de espacios (Postgres)", () => {
       (await as("owner").get(`/api/workspaces/${created.id}`)).status,
     ).toBe(404);
   });
+
+  it("mismo slug en otra cuenta: está permitido y mi espacio se queda con la dirección", async () => {
+    const tienda = (
+      await as("owner").get(`/api/workspaces/${ids.workspaces.tienda}`)
+    ).body;
+    // El Dueño de B crea un espacio con la misma dirección que "Tienda" de A.
+    const other = await as("outsider").post("/api/workspaces", {
+      accountId: ids.accounts.B,
+      name: "A Tienda de B",
+      slug: tienda.slug,
+      type: "BUSINESS",
+    });
+    expect(other.status).toBe(201);
+    expect(other.body.routeSlug).toBe(tienda.slug);
+
+    // El dueño de A es Cliente en ese espacio de B: ve los dos.
+    const clientRole = await prisma.role.findFirstOrThrow({
+      where: { accountId: ids.accounts.B, systemKey: "CLIENT" },
+    });
+    await prisma.workspaceMember.create({
+      data: {
+        workspaceId: other.body.id,
+        userId: ids.users.owner.id,
+        roleId: clientRole.id,
+      },
+    });
+
+    const list = (await as("owner").get("/api/workspaces")).body as {
+      id: string;
+      routeSlug: string;
+    }[];
+    const routeOf = (id: string) => list.find((w) => w.id === id)?.routeSlug;
+    expect(routeOf(ids.workspaces.tienda)).toBe(tienda.slug);
+    expect(routeOf(other.body.id)).toBe(
+      `${tienda.slug}--${other.body.id.slice(-6)}`,
+    );
+    // El GET de uno solo da la misma dirección.
+    expect(
+      (await as("owner").get(`/api/workspaces/${other.body.id}`)).body
+        .routeSlug,
+    ).toBe(`${tienda.slug}--${other.body.id.slice(-6)}`);
+  });
 });

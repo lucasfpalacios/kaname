@@ -57,7 +57,7 @@ export function NewWorkspaceTile({ accounts }: { accounts: AccountSummary[] }) {
             if (!result.ok) return result.error;
             setOpen(false);
             toast({ title: t("created"), variant: "success" });
-            router.push(workspacePath(result.data.slug));
+            router.push(workspacePath(result.data.routeSlug));
             router.refresh();
             return null;
           }}

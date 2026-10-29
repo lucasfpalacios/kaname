@@ -49,6 +49,7 @@ export function moduleFromSegment(segment: string): ModuleKey | null {
   );
 }
 
+/** Ruta de un espacio por su dirección (`routeSlug`, no el slug a secas). */
 export function workspacePath(slug: string, module: ModuleKey = "DASHBOARD") {
   const segment = MODULE_SEGMENT[module];
   return segment ? `/w/${slug}/${segment}` : `/w/${slug}`;

@@ -215,7 +215,8 @@ export function AppChrome({
       <PreferencesSync locale={user.locale} theme={user.theme} />
       <Toaster
         label={tCommon("notification")}
-        viewportLabel={tCommon("notifications")}
+        // Radix reemplaza {hotkey} por el atajo (F8): va literal en el texto traducido.
+        viewportLabel={tCommon("notifications", { hotkey: "{hotkey}" })}
         closeLabel={tCommon("close")}
       />
       <SessionKeeper />

@@ -48,6 +48,8 @@ export function WorkspaceSettings({
   // Un guardado de módulos a la vez: mientras hay uno en curso, los switches no responden.
   const [savingModule, setSavingModule] = useState<ModuleKey | null>(null);
   const [archiving, setArchiving] = useState(false);
+  // Controlado: se cierra antes de navegar (la página queda oculta tal como está).
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   async function toggleModule(module: ModuleKey, enabled: boolean) {
     if (savingModule) return;
@@ -83,6 +85,7 @@ export function WorkspaceSettings({
       toast({ title: t("saveError"), variant: "destructive" });
       return;
     }
+    setConfirmOpen(false);
     toast({ title: t("archived", { name: workspace.name }) });
     router.push("/");
     router.refresh();
@@ -164,7 +167,7 @@ export function WorkspaceSettings({
           <CardDescription>{t("archiveDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <Dialog>
+          <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
             <DialogTrigger asChild>
               <Button variant="destructive">
                 <Archive />

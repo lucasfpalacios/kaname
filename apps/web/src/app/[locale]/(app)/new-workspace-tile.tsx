@@ -11,7 +11,7 @@ import {
 } from "@kaname/ui";
 import type { AccountSummary } from "@kaname/shared";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { DialogContent } from "@/components/overlays";
 import { useRouter } from "@/i18n/navigation";
 import { createWorkspace, restoreWorkspace } from "@/lib/workspaces/api";
@@ -25,6 +25,14 @@ export function NewWorkspaceTile({ accounts }: { accounts: AccountSummary[] }) {
   const tAccount = useTranslations("Account");
   const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  // Next conserva oculta la página al navegar y la vuelve a mostrar tal como quedó: si se fue
+  // con el diálogo abierto (o cerrándose), al volver tiene que estar cerrado. Los efectos de
+  // layout corren al montar y cada vez que la página vuelve a mostrarse.
+  useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setOpen(false);
+  }, []);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

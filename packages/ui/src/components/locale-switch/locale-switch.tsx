@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "../../lib/cn";
 import { useDecodeText } from "../../lib/use-decode-text";
 import { SegmentedControl } from "../segmented-control";
@@ -23,14 +23,12 @@ export type LocaleSwitchProps = {
   className?: string;
 };
 
-// Último cambio hecho con el switch. Al cambiar de idioma la app suele volver a montar el switch
-// (cambia la URL); con esto, el switch nuevo arranca la píldora y las letras desde el idioma de
-// antes, así la animación se ve igual. Vale solo un momento después del cambio.
+// Último cambio hecho con el switch. Al cambiar de idioma la app monta el árbol del idioma nuevo
+// o, si ya lo visitó, vuelve a mostrar el que Next dejó oculto (con su switch tal como quedó).
+// Con esto, ese switch anima la píldora y las letras desde el idioma de antes. Vale un momento.
 let lastChange: { from: string; to: string; at: number } | null = null;
 const CHANGE_WINDOW_MS = 2500;
 
-// Sin efectos secundarios: se llama desde el inicializador del estado (en modo estricto, dos
-// veces). El cambio se descarta después de montar.
 function recentChange(value: string) {
   const change = lastChange;
   if (!change || change.to !== value) return undefined;
@@ -53,34 +51,40 @@ export function LocaleSwitch({
   disabled,
   className,
 }: LocaleSwitchProps) {
-  // Idioma desde el que se anima este montaje o este cambio (undefined: sin animación).
-  const [from, setFrom] = useState<string | undefined>(() =>
-    recentChange(value),
-  );
+  // Animación en curso: desde qué idioma, y una clave que la reinicia.
+  const [animation, setAnimation] = useState<{ from: string; key: number }>();
   const previous = useRef(value);
   const shortOf = (target: string | undefined) =>
     options.find((option) => option.value === target)?.short;
+  const animate = (from: string) =>
+    setAnimation((current) => ({ from, key: (current?.key ?? 0) + 1 }));
 
-  useEffect(() => {
-    // Ya montado (y animado si correspondía): el cambio no se vuelve a usar.
-    if (lastChange?.to === previous.current) lastChange = null;
+  useLayoutEffect(() => {
+    // Al montar y cada vez que el árbol vuelve a mostrarse (los efectos de layout corren en los
+    // dos casos, antes de pintar). En modo estricto corre dos veces: la segunda ya no encuentra
+    // el cambio.
+    const from = recentChange(value);
+    if (!from) return;
+    lastChange = null;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    animate(from);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    // Mismo componente, otro valor (sin volver a montar): anima desde el anterior.
-    if (previous.current !== value) {
-      // lastChange queda: si este switch se desmonta enseguida (cambia la URL), el que lo
-      // reemplaza lo usa para animar desde el idioma anterior.
-      setFrom(previous.current);
-      previous.current = value;
-    }
+    // Mismo switch, otro valor (sin cambiar de árbol): anima desde el anterior.
+    if (previous.current === value) return;
+    const from = previous.current;
+    previous.current = value;
+    animate(from);
   }, [value]);
 
   return (
     <SegmentedControl
       label={label}
       value={value}
-      animateFrom={from}
+      animateFrom={animation?.from}
+      animationKey={animation?.key}
       disabled={disabled}
       className={cn(className)}
       onValueChange={(next) => {
@@ -90,12 +94,17 @@ export function LocaleSwitch({
       options={options.map((option) => ({
         value: option.value,
         label: option.name,
-        content: (
-          <DecodedLabel
-            text={option.short}
-            from={option.value === value ? shortOf(from) : undefined}
-          />
-        ),
+        content:
+          option.value === value ? (
+            // La clave reinicia la decodificación aunque se repita el mismo cambio.
+            <DecodedLabel
+              key={animation?.key}
+              text={option.short}
+              from={shortOf(animation?.from)}
+            />
+          ) : (
+            <DecodedLabel text={option.short} />
+          ),
       }))}
     />
   );

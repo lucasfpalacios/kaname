@@ -8,4 +8,5 @@ export {
   type DataTableFilter,
   type DataTableLabels,
   type DataTableProps,
+  type DataTableServerState,
 } from "./data-table";

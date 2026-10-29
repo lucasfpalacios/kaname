@@ -56,9 +56,10 @@ import {
 } from "../table";
 
 // Tabla de datos sobre TanStack Table 9: orden por columna, búsqueda, filtros por columna,
-// paginación y selección con acciones masivas. Todo en el cliente; para listas que no entran en
-// memoria hará falta el modo manual (server-side). Las columnas llevan funciones de render, así
-// que la página que la usa es un componente cliente.
+// paginación y selección con acciones masivas. Por defecto todo pasa en el cliente. Con `server`,
+// la búsqueda, los filtros y la página los resuelve quien la usa (por ejemplo la API) y la tabla
+// solo muestra la página que recibe; ahí no se ordena por columna (ordenaría solo esa página). Las
+// columnas llevan funciones de render, así que la página que la usa es un componente cliente.
 
 export type DataTableColumnMeta = {
   /**
@@ -155,6 +156,28 @@ export type DataTableLabels<TData = never> = {
   rowsPerPage: string;
 };
 
+/**
+ * Modo servidor: la tabla muestra `data` tal cual (una página) y avisa los cambios de búsqueda,
+ * filtros y página. Los filtros se identifican por su `columnId` (no hace falta una columna con
+ * ese id).
+ */
+export type DataTableServerState = {
+  /** Filas que cumplen la búsqueda y los filtros, en total (no solo esta página). */
+  total: number;
+  /** Página actual, desde 1. */
+  page: number;
+  pageSize: number;
+  onPageChange: (page: number) => void;
+  onPageSizeChange?: (pageSize: number) => void;
+  /** Texto de la búsqueda tal como se escribe (quien la usa decide cuándo buscar). */
+  search: string;
+  onSearchChange: (search: string) => void;
+  /** Valor elegido de cada filtro, por su columnId (undefined: todos). */
+  filterValues: Record<string, string | undefined>;
+  onFilterChange: (columnId: string, value: string | undefined) => void;
+  onClearFilters: () => void;
+};
+
 export type DataTableProps<TData extends RowData> = {
   columns: DataTableColumnDef<TData>[];
   data: TData[];
@@ -177,6 +200,8 @@ export type DataTableProps<TData extends RowData> = {
   loading?: boolean;
   /** Lo que se muestra cuando `data` está vacío (un EmptyState con acción). */
   emptyState?: ReactNode;
+  /** Búsqueda, filtros y paginación del servidor (ver DataTableServerState). */
+  server?: DataTableServerState;
   className?: string;
 };
 
@@ -202,6 +227,7 @@ export function DataTable<TData extends RowData>({
   pageSizeOptions,
   loading = false,
   emptyState,
+  server,
   className,
 }: DataTableProps<TData>) {
   const { selectAll, selectRow } = labels;
@@ -247,22 +273,41 @@ export function DataTable<TData extends RowData>({
     getRowId: (row) => getRowId(row),
     globalFilterFn: "includesText",
     enableRowSelection: enableSelection,
-    initialState: { pagination: { pageIndex: 0, pageSize } },
+    // En modo servidor, lo que llega ya es la página buscada y filtrada.
+    manualFiltering: Boolean(server),
+    manualPagination: Boolean(server),
+    enableSorting: !server,
+    initialState: {
+      pagination: { pageIndex: 0, pageSize: server?.pageSize ?? pageSize },
+    },
   });
 
   const { globalFilter, columnFilters, pagination } = table.state;
   const selectedRows = table.getSelectedRowModel().rows;
-  const filtered = Boolean(globalFilter) || columnFilters.length > 0;
-  const total = table.getFilteredRowModel().rows.length;
-  const from = total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
-  const to = Math.min(total, (pagination.pageIndex + 1) * pagination.pageSize);
-  const pageCount = Math.max(1, table.getPageCount());
+  const filtered = server
+    ? Boolean(server.search) ||
+      Object.values(server.filterValues).some((value) => value !== undefined)
+    : Boolean(globalFilter) || columnFilters.length > 0;
+  const total = server ? server.total : table.getFilteredRowModel().rows.length;
+  const pageIndex = server ? server.page - 1 : pagination.pageIndex;
+  const currentPageSize = server ? server.pageSize : pagination.pageSize;
+  const from = total === 0 ? 0 : pageIndex * currentPageSize + 1;
+  const to = Math.min(total, (pageIndex + 1) * currentPageSize);
+  const pageCount = server
+    ? Math.max(1, Math.ceil(server.total / server.pageSize))
+    : Math.max(1, table.getPageCount());
+  const canPrevious = server ? server.page > 1 : table.getCanPreviousPage();
+  const canNext = server ? server.page < pageCount : table.getCanNextPage();
   const columnCount = allColumns.length;
-  // Sin datos no hay qué buscar ni filtrar; sin filas visibles no hay qué paginar.
-  const hasData = loading || data.length > 0;
+  // Sin datos (y sin filtros) no hay qué buscar ni filtrar; sin filas visibles no hay qué paginar.
+  const hasData = loading || data.length > 0 || filtered;
   const showFooter = !loading && total > 0;
 
   const clearFilters = () => {
+    if (server) {
+      server.onClearFilters();
+      return;
+    }
     table.resetGlobalFilter(true);
     table.resetColumnFilters(true);
   };
@@ -270,7 +315,7 @@ export function DataTable<TData extends RowData>({
 
   let body: ReactNode;
   if (loading) {
-    body = Array.from({ length: pagination.pageSize }, (_, index) => (
+    body = Array.from({ length: Math.min(currentPageSize, 10) }, (_, index) => (
       <TableRow key={index} className="hover:bg-transparent">
         {table.getAllLeafColumns().map((column) => (
           <TableCell key={column.id}>
@@ -283,7 +328,7 @@ export function DataTable<TData extends RowData>({
     body = (
       <TableRow className="hover:bg-transparent">
         <TableCell colSpan={columnCount} className="p-0">
-          {data.length === 0 ? (
+          {data.length === 0 && !filtered ? (
             (emptyState ?? <EmptyState variant="plain" title={labels.empty} />)
           ) : (
             <EmptyState
@@ -339,22 +384,33 @@ export function DataTable<TData extends RowData>({
                 type="search"
                 aria-label={labels.search}
                 placeholder={labels.search}
-                value={String(globalFilter ?? "")}
-                onChange={(event) => table.setGlobalFilter(event.target.value)}
+                value={server ? server.search : String(globalFilter ?? "")}
+                onChange={(event) =>
+                  server
+                    ? server.onSearchChange(event.target.value)
+                    : table.setGlobalFilter(event.target.value)
+                }
                 className={controlGroupInput}
               />
             </label>
             {filters.map((filter) => {
-              const column = table.getColumn(filter.columnId);
+              const column = server
+                ? undefined
+                : table.getColumn(filter.columnId);
               const value =
-                (column?.getFilterValue() as string | undefined) ?? ALL;
+                (server
+                  ? server.filterValues[filter.columnId]
+                  : (column?.getFilterValue() as string | undefined)) ?? ALL;
+              const setValue = (next: string) => {
+                const chosen = next === ALL ? undefined : next;
+                if (server) server.onFilterChange(filter.columnId, chosen);
+                else column?.setFilterValue(chosen);
+              };
               return (
                 <Select
                   key={filter.columnId}
                   value={value}
-                  onValueChange={(next) =>
-                    column?.setFilterValue(next === ALL ? undefined : next)
-                  }
+                  onValueChange={setValue}
                 >
                   <SelectTrigger
                     aria-label={filter.label}
@@ -467,8 +523,12 @@ export function DataTable<TData extends RowData>({
               <div className="flex items-center gap-2">
                 <span>{labels.rowsPerPage}</span>
                 <Select
-                  value={String(pagination.pageSize)}
-                  onValueChange={(next) => table.setPageSize(Number(next))}
+                  value={String(currentPageSize)}
+                  onValueChange={(next) =>
+                    server
+                      ? server.onPageSizeChange?.(Number(next))
+                      : table.setPageSize(Number(next))
+                  }
                 >
                   <SelectTrigger
                     aria-label={labels.rowsPerPage}
@@ -488,7 +548,7 @@ export function DataTable<TData extends RowData>({
             )}
             <span className="tabular-nums">
               {labels.pageOf({
-                page: pagination.pageIndex + 1,
+                page: pageIndex + 1,
                 count: pageCount,
               })}
             </span>
@@ -497,8 +557,12 @@ export function DataTable<TData extends RowData>({
                 label={labels.previousPage}
                 variant="secondary"
                 size="sm"
-                disabled={!table.getCanPreviousPage()}
-                onClick={() => table.previousPage()}
+                disabled={!canPrevious}
+                onClick={() =>
+                  server
+                    ? server.onPageChange(server.page - 1)
+                    : table.previousPage()
+                }
               >
                 <ChevronLeft />
               </IconButton>
@@ -506,8 +570,12 @@ export function DataTable<TData extends RowData>({
                 label={labels.nextPage}
                 variant="secondary"
                 size="sm"
-                disabled={!table.getCanNextPage()}
-                onClick={() => table.nextPage()}
+                disabled={!canNext}
+                onClick={() =>
+                  server
+                    ? server.onPageChange(server.page + 1)
+                    : table.nextPage()
+                }
               >
                 <ChevronRight />
               </IconButton>

@@ -9,7 +9,7 @@ import {
   Tag,
   Trash2,
 } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { storyMessages } from "../../stories/messages";
 import { storyIntlLocale } from "../../stories/story-row";
 import {
@@ -317,4 +317,61 @@ export const Vacio: Story = {
   render: (_args, { globals }) => (
     <ProductTable locale={globals.locale} empty />
   ),
+};
+
+// Modo servidor: la búsqueda, los filtros y la página los resuelve "la API" (acá, un filtro sobre
+// los productos de ejemplo). La tabla recibe solo la página y el total; no ordena por columna.
+function ServerTable({ locale }: { locale: unknown }) {
+  const { p, labels, columns, filters } = useProductTable(locale);
+  const [search, setSearch] = useState("");
+  const [filterValues, setFilterValues] = useState<
+    Record<string, string | undefined>
+  >({});
+  const [page, setPage] = useState(1);
+  const pageSize = 3;
+  const matching = products.filter(
+    (product) =>
+      (!search ||
+        `${product.name} ${product.sku}`
+          .toLowerCase()
+          .includes(search.toLowerCase())) &&
+      (!filterValues.category || product.category === filterValues.category) &&
+      (!filterValues.supplier || product.supplier === filterValues.supplier),
+  );
+  return (
+    <DataTable
+      columns={columns}
+      data={matching.slice((page - 1) * pageSize, page * pageSize)}
+      labels={labels}
+      getRowId={(product) => product.id}
+      filters={filters}
+      server={{
+        total: matching.length,
+        page,
+        pageSize,
+        onPageChange: setPage,
+        search,
+        onSearchChange: (value) => {
+          setSearch(value);
+          setPage(1);
+        },
+        filterValues,
+        onFilterChange: (columnId, value) => {
+          setFilterValues((current) => ({ ...current, [columnId]: value }));
+          setPage(1);
+        },
+        onClearFilters: () => {
+          setSearch("");
+          setFilterValues({});
+          setPage(1);
+        },
+      }}
+      emptyState={<EmptyState variant="plain" title={p.empty} />}
+    />
+  );
+}
+
+export const ModoServidor: Story = {
+  name: "Modo servidor",
+  render: (_args, { globals }) => <ServerTable locale={globals.locale} />,
 };

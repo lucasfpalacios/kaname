@@ -13,6 +13,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  WORKSPACE_COLOR_SUGGESTIONS,
   WorkspaceColorField,
 } from "@kaname/ui";
 import {
@@ -62,6 +63,7 @@ export function WorkspaceForm({
   onRestore?: (workspaceId: string, accountId: string) => Promise<boolean>;
 }) {
   const t = useTranslations("Workspace");
+  const tColors = useTranslations("Workspace.colors");
   const errorMessage = useErrorMessage();
   const id = useId();
   const { form, fieldError, formError } = useZodForm(
@@ -285,6 +287,12 @@ export function WorkspaceForm({
               form.clearErrors("color");
             }}
             onValidityChange={setColorValid}
+            colorNames={Object.fromEntries(
+              WORKSPACE_COLOR_SUGGESTIONS.map((color) => [
+                color,
+                tColors(color.slice(1) as Parameters<typeof tColors>[0]),
+              ]),
+            )}
             inputRef={field.ref}
             error={fieldError("color")}
             labels={{

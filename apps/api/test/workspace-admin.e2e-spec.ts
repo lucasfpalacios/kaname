@@ -328,4 +328,48 @@ describe("Alta y configuración de espacios (Postgres)", () => {
         .routeSlug,
     ).toBe(`${tienda.slug}--${other.body.id.slice(-6)}`);
   });
+
+  it("PATCH ignora los campos que no se editan (cuenta, archivado, id)", async () => {
+    const { body: created } = await create("owner");
+    const path = `/api/workspaces/${created.id}`;
+    const response = await as("owner").patch(path, {
+      name: "Solo el nombre",
+      accountId: ids.accounts.B,
+      archivedAt: new Date().toISOString(),
+      id: "otro-id",
+    });
+    expect(response.status).toBe(200);
+    expect(response.body).toMatchObject({
+      id: created.id,
+      name: "Solo el nombre",
+      accountId: ids.accounts.A,
+      archivedAt: null,
+    });
+  });
+
+  it("miembro del espacio sin ser miembro de la cuenta: no es Dueño (403 al editar)", async () => {
+    const { body: created } = await create("owner");
+    // Un usuario de otra cuenta, sumado solo al espacio (sin AccountMember en A).
+    const ownerRole = await prisma.role.findFirstOrThrow({
+      where: { accountId: ids.accounts.A, systemKey: "OWNER" },
+    });
+    await prisma.workspaceMember.create({
+      data: {
+        workspaceId: created.id,
+        userId: ids.users.outsider.id,
+        roleId: ownerRole.id,
+      },
+    });
+    const path = `/api/workspaces/${created.id}`;
+    const seen = await as("outsider").get(path);
+    expect(seen.status).toBe(200);
+    expect(seen.body.accountRole).toBeNull();
+    expect((await as("outsider").patch(path, { name: "x" })).status).toBe(403);
+    expect((await as("outsider").post(`${path}/archive`)).status).toBe(403);
+  });
+
+  it("/api/me/accounts sin sesión: 401", async () => {
+    const response = await request(app.getHttpServer()).get("/api/me/accounts");
+    expect(response.status).toBe(401);
+  });
 });

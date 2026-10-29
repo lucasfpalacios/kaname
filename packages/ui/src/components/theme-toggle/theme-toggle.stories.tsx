@@ -10,7 +10,11 @@ import { ThemeToggle, type ThemeToggleProps } from "./theme-toggle";
 const meta = {
   title: "Layout/ThemeToggle",
   component: ThemeToggle,
-  args: { label: "", labels: { light: "", dark: "", system: "" } },
+  args: {
+    label: "",
+    labels: { light: "", dark: "", system: "" },
+    cycleLabel: () => "",
+  },
 } satisfies Meta<typeof ThemeToggle>;
 
 export default meta;
@@ -45,6 +49,8 @@ function toggleProps(locale: unknown): ThemeToggleProps {
   return {
     label: t.shell.theme,
     labels: { light: t.light, dark: t.dark, system: t.shell.system },
+    cycleLabel: (current, next) =>
+      `${t.shell.theme}: ${current}. ${t.shell.themeNext} ${next}`,
   };
 }
 

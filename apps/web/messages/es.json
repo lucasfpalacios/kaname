@@ -12,7 +12,8 @@
     "label": "Tema",
     "light": "Claro",
     "dark": "Oscuro",
-    "system": "Sistema"
+    "system": "Sistema",
+    "cycle": "Tema: {current}. Tocá para pasar a {next}"
   },
   "LocaleSwitcher": {
     "label": "Idioma",
@@ -43,7 +44,8 @@
     "slug_invalid": "Usá entre 2 y 48 letras minúsculas, números o guiones (por ejemplo, mi-tienda).",
     "slug_taken": "Ya hay un espacio con esa dirección en la cuenta.",
     "color_invalid": "Usá un color con el formato #rrggbb.",
-    "slug_archived": "Hay un espacio archivado con esa dirección."
+    "slug_archived": "Hay un espacio archivado con esa dirección.",
+    "conflict": "Alguien guardó un cambio al mismo tiempo. Probá de nuevo."
   },
   "Roles": {
     "OWNER": "Dueño",
@@ -319,16 +321,26 @@
     "modules": "Módulos",
     "modulesDescription": "Los módulos apagados desaparecen del menú del espacio. Sus datos no se borran.",
     "alwaysOn": "Siempre activo: es la página del espacio.",
-    "moduleOn": "{module} activado",
-    "moduleOff": "{module} apagado",
+    "moduleOn": "Módulo {module} activado",
+    "moduleOff": "Módulo {module} apagado",
     "archive": "Archivar espacio",
     "archiveDescription": "El espacio deja de aparecer en el inicio y en el menú, y su dirección da 404. Los datos quedan guardados.",
     "archiveConfirmTitle": "¿Archivar {name}?",
     "archiveConfirmBody": "Va a dejar de aparecer para todos sus miembros.",
-    "archived": "{name} archivado",
+    "archived": "Espacio {name} archivado",
     "saveError": "No se pudieron guardar los cambios. Probá de nuevo.",
     "restoreArchived": "Restaurar el espacio archivado",
-    "colorAnnounce": "Color elegido: {color}"
+    "colorAnnounce": "Color elegido: {color}",
+    "colors": {
+      "1e50a2": "Azul ruri",
+      "3d6bd1": "Azul",
+      "2a9d8f": "Verde azulado",
+      "2e7d5b": "Verde",
+      "c88a35": "Ámbar",
+      "e07a3f": "Naranja",
+      "c94f7c": "Rosa intenso",
+      "f09199": "Rosa momo"
+    }
   },
   "ModuleInfo": {
     "DASHBOARD": "Un tablero con los números del espacio: ventas, márgenes, stock y lo que tengas pendiente, con widgets que vas a poder ordenar.",

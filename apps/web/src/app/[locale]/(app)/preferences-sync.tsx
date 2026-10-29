@@ -9,7 +9,9 @@ import {
   markPreferencesApplied,
   preferencesAppliedFor,
   savePreferences,
+  saveTheme,
   takeLocaleChosen,
+  takeThemeChosen,
 } from "@/lib/preferences/preferences";
 
 const CHOICE: Record<Theme, ThemeChoice> = {
@@ -49,7 +51,14 @@ export function PreferencesSync({
     // Ya se aplicaron en esta pestaña: este es otro árbol (por ejemplo, el de otro idioma).
     if (preferencesAppliedFor(userId)) return;
     markPreferencesApplied(userId);
-    if (currentTheme !== CHOICE[theme]) setTheme(CHOICE[theme]);
+    // Un tema elegido en el login gana: se guarda en vez de aplicar el del usuario.
+    if (takeThemeChosen()) {
+      if (currentTheme !== CHOICE[theme]) {
+        void saveTheme(themeOf(currentTheme as ThemeChoice));
+      }
+    } else if (currentTheme !== CHOICE[theme]) {
+      setTheme(CHOICE[theme]);
+    }
     if (takeLocaleChosen()) {
       if (currentLocale !== locale)
         void savePreferences({ locale: currentLocale as Locale });

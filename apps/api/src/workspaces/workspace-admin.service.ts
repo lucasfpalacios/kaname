@@ -24,9 +24,31 @@ import { WorkspaceAccessRepository } from "./workspace-access.repository.js";
 
 type Created = z.output<typeof createWorkspaceSchema>;
 
-const slugTaken = (error: unknown) =>
-  error instanceof Prisma.PrismaClientKnownRequestError &&
-  error.code === "P2002";
+/** Índice único que violó un P2002 (con el adapter de pg viene en driverAdapterError). */
+function uniqueIndexOf(error: unknown): string | null {
+  if (
+    !(error instanceof Prisma.PrismaClientKnownRequestError) ||
+    error.code !== "P2002"
+  ) {
+    return null;
+  }
+  const meta = error.meta as
+    | { driverAdapterError?: { cause?: { constraint?: { index?: string } } } }
+    | undefined;
+  return meta?.driverAdapterError?.cause?.constraint?.index ?? "desconocido";
+}
+
+const SLUG_INDEX = "Workspace_accountId_slug_key";
+
+/** El slug ya está en la cuenta (y no otro conflicto de unicidad). */
+const slugTaken = (error: unknown) => uniqueIndexOf(error) === SLUG_INDEX;
+
+/** Cualquier otro conflicto de unicidad: 409 con su código, nunca como slug_taken. */
+function otherConflict(error: unknown) {
+  return uniqueIndexOf(error)
+    ? new ConflictException(ErrorCode.conflict)
+    : null;
+}
 
 const notFound = () => new NotFoundException(ErrorCode.notFound);
 
@@ -107,9 +129,10 @@ export class WorkspaceAdminService {
       });
       return (await this.access.findMembership(userId, workspace.id))!;
     } catch (error) {
-      if (slugTaken(error))
+      if (slugTaken(error)) {
         throw await this.slugConflict(input.accountId, input.slug);
-      throw error;
+      }
+      throw otherConflict(error) ?? error;
     }
   }
 
@@ -134,7 +157,7 @@ export class WorkspaceAdminService {
           fields.slug,
         );
       }
-      throw error;
+      throw otherConflict(error) ?? error;
     }
     return (await this.access.findMembership(userId, workspaceId))!;
   }

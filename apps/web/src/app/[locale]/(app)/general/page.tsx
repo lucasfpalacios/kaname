@@ -86,6 +86,7 @@ export default async function GeneralPage({
                     <Button asChild variant="ghost" size="sm">
                       <Link href={workspacePath(workspace.routeSlug)}>
                         {t("openWorkspace")}
+                        <span className="sr-only"> {workspace.name}</span>
                         <ArrowRight />
                       </Link>
                     </Button>

@@ -31,6 +31,8 @@ export const ErrorCode = {
   slugTaken: "slug_taken",
   // El slug lo usa un espacio archivado de la cuenta: se puede restaurar (la respuesta trae su id).
   slugArchived: "slug_archived",
+  // Otro cambio guardó lo mismo al mismo tiempo (un conflicto de unicidad que no es el slug).
+  conflict: "conflict",
   colorInvalid: "color_invalid",
 } as const;
 

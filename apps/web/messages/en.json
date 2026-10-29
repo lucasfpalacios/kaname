@@ -12,7 +12,8 @@
     "label": "Theme",
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "system": "System",
+    "cycle": "Theme: {current}. Tap to switch to {next}"
   },
   "LocaleSwitcher": {
     "label": "Language",
@@ -43,7 +44,8 @@
     "slug_invalid": "Use 2 to 48 lowercase letters, numbers or hyphens (for example, my-store).",
     "slug_taken": "There's already a workspace with that address in the account.",
     "color_invalid": "Use a color in the #rrggbb format.",
-    "slug_archived": "There's an archived workspace with that address."
+    "slug_archived": "There's an archived workspace with that address.",
+    "conflict": "Someone saved a change at the same time. Try again."
   },
   "Roles": {
     "OWNER": "Owner",
@@ -319,16 +321,26 @@
     "modules": "Modules",
     "modulesDescription": "Disabled modules disappear from the workspace menu. Their data isn't deleted.",
     "alwaysOn": "Always on: it's the workspace page.",
-    "moduleOn": "{module} enabled",
-    "moduleOff": "{module} disabled",
+    "moduleOn": "Module {module} enabled",
+    "moduleOff": "Module {module} disabled",
     "archive": "Archive workspace",
     "archiveDescription": "The workspace stops showing up on the home screen and in the menu, and its address returns 404. The data is kept.",
     "archiveConfirmTitle": "Archive {name}?",
     "archiveConfirmBody": "It will stop showing up for all its members.",
-    "archived": "{name} archived",
+    "archived": "Workspace {name} archived",
     "saveError": "The changes couldn't be saved. Try again.",
     "restoreArchived": "Restore the archived workspace",
-    "colorAnnounce": "Chosen color: {color}"
+    "colorAnnounce": "Chosen color: {color}",
+    "colors": {
+      "1e50a2": "Ruri blue",
+      "3d6bd1": "Blue",
+      "2a9d8f": "Teal",
+      "2e7d5b": "Green",
+      "c88a35": "Amber",
+      "e07a3f": "Orange",
+      "c94f7c": "Deep pink",
+      "f09199": "Momo pink"
+    }
   },
   "ModuleInfo": {
     "DASHBOARD": "A board with the workspace's numbers: sales, margins, stock and what's pending, with widgets you'll be able to arrange.",

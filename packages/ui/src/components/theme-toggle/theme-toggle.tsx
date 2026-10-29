@@ -16,6 +16,11 @@ export type ThemeToggleProps = {
   label: string;
   /** Nombre de cada opción: aria-label y tooltip de su ícono. */
   labels: { light: string; dark: string; system: string };
+  /**
+   * Texto del botón de pantallas chicas (aria-label y tooltip), con el tema actual y el que sigue:
+   * ("Tema: Claro. Tocá para pasar a Oscuro"). Lo arma la app: el kit no compone textos.
+   */
+  cycleLabel: (current: string, next: string) => string;
   /** Después de cambiar el tema (para guardarlo, por ejemplo en el usuario). */
   onThemeChange?: (theme: ThemeChoice) => void;
   className?: string;
@@ -37,6 +42,7 @@ const subscribe = () => () => {};
 export function ThemeToggle({
   label,
   labels,
+  cycleLabel,
   onThemeChange,
   className,
 }: ThemeToggleProps) {
@@ -88,15 +94,16 @@ export function ThemeToggle({
         <TooltipTrigger asChild>
           <IconButton
             data-slot="theme-toggle-cycle"
-            // "Tema: Oscuro": el botón dice qué tema hay; al tocarlo pasa al siguiente.
-            label={`${label}: ${labels[shown]}`}
+            label={cycleLabel(labels[shown], labels[nextChoice])}
             className={cn("sm:hidden", className)}
             onClick={(event) => changeTheme(nextChoice, event.currentTarget)}
           >
             <CurrentIcon />
           </IconButton>
         </TooltipTrigger>
-        <TooltipContent>{labels[nextChoice]}</TooltipContent>
+        <TooltipContent>
+          {cycleLabel(labels[shown], labels[nextChoice])}
+        </TooltipContent>
       </Tooltip>
     </>
   );

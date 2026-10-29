@@ -29,11 +29,29 @@ export const WORKSPACE_COLOR_SUGGESTIONS = [
 
 const NONE = "none";
 
+// Luminancia relativa (WCAG) de un #rrggbb: decide si el tilde va negro o blanco sobre el color.
+function luminance(hex: string) {
+  const [r, g, b] = [1, 3, 5].map((start) => {
+    const channel = parseInt(hex.slice(start, start + 2), 16) / 255;
+    return channel <= 0.03928
+      ? channel / 12.92
+      : ((channel + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+// Contraste del tilde con el fondo: el blanco gana sobre colores oscuros y el negro sobre claros
+// (el umbral es donde los dos contrastes se igualan).
+const tickClass = (hex: string) =>
+  luminance(hex) > 0.179 ? "text-black" : "text-white";
+
 export type WorkspaceColorFieldProps = {
   /** #rrggbb, o null para el acento por defecto del tema. */
   value: string | null;
   onChange: (color: string | null) => void;
   suggestions?: string[];
+  /** Nombre de cada sugerencia ("#3d6bd1" → "Azul"), para el lector de pantalla y el tooltip. */
+  colorNames?: Record<string, string>;
   labels: {
     /** Título del campo ("Color del espacio"). */
     legend: string;
@@ -69,6 +87,7 @@ export function WorkspaceColorField({
   value,
   onChange,
   suggestions = WORKSPACE_COLOR_SUGGESTIONS,
+  colorNames = {},
   labels,
   preview,
   error,
@@ -131,17 +150,18 @@ export function WorkspaceColorField({
           <RadioGroupPrimitive.Item
             key={color}
             value={color}
-            aria-label={color}
-            title={color}
+            aria-label={colorNames[color] ?? color}
+            title={colorNames[color] ?? color}
             // El color del espacio va inline: es un dato, no un token.
             style={{ backgroundColor: color }}
             className={cn(
-              "flex size-9 cursor-pointer items-center justify-center rounded-full border-2 border-transparent text-white data-[state=checked]:border-foreground",
+              "flex size-9 cursor-pointer items-center justify-center rounded-full border-2 border-transparent data-[state=checked]:border-foreground",
+              tickClass(color),
               focusRing,
             )}
           >
             <RadioGroupPrimitive.Indicator>
-              <Check aria-hidden="true" className="size-4 drop-shadow" />
+              <Check aria-hidden="true" className="size-4" />
             </RadioGroupPrimitive.Indicator>
           </RadioGroupPrimitive.Item>
         ))}

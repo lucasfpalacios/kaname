@@ -15,29 +15,37 @@ export async function savePreferences(input: PreferencesInput) {
   }
 }
 
-// Idioma elegido sin sesión (en el login o el registro). Se anota en la pestaña y, al entrar,
-// PreferencesSync lo guarda en el usuario en vez de aplicar el guardado. sessionStorage sobrevive
+// Idioma y tema elegidos sin sesión (en el login o el registro). Se anotan en la pestaña y, al
+// entrar, PreferencesSync los guarda en el usuario en vez de aplicar los guardados. sessionStorage sobrevive
 // a la vuelta del login con Google, que pasa por otra página en la misma pestaña.
 const CHOSEN_LOCALE = "kaname:locale-chosen";
+const CHOSEN_THEME = "kaname:theme-chosen";
 
-export function markLocaleChosen() {
+function mark(key: string) {
   try {
-    sessionStorage.setItem(CHOSEN_LOCALE, "1");
+    sessionStorage.setItem(key, "1");
   } catch {
-    // Sin storage (modo privado estricto): queda el idioma guardado.
+    // Sin storage (modo privado estricto): queda la preferencia guardada.
   }
 }
 
-/** true si se eligió un idioma sin sesión; lo borra (sirve una vez). */
-export function takeLocaleChosen(): boolean {
+function take(key: string): boolean {
   try {
-    const chosen = sessionStorage.getItem(CHOSEN_LOCALE) === "1";
-    sessionStorage.removeItem(CHOSEN_LOCALE);
+    const chosen = sessionStorage.getItem(key) === "1";
+    sessionStorage.removeItem(key);
     return chosen;
   } catch {
     return false;
   }
 }
+
+export const markLocaleChosen = () => mark(CHOSEN_LOCALE);
+/** true si se eligió un idioma sin sesión; lo borra (sirve una vez). */
+export const takeLocaleChosen = () => take(CHOSEN_LOCALE);
+
+// Lo mismo con el tema elegido en el login.
+export const markThemeChosen = () => mark(CHOSEN_THEME);
+export const takeThemeChosen = () => take(CHOSEN_THEME);
 
 // Guardado del tema en curso. El cambio de idioma lo espera antes de navegar: el árbol del idioma
 // nuevo arranca con las preferencias del servidor, y si el tema todavía no llegó (o falló) traería

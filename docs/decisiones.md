@@ -518,3 +518,12 @@ Cada entrada: qué se decidió, por qué y qué se descartó. Se agrega al final
 ### 2026-10-28 · Error al cargar los espacios: estado propio con "Reintentar"
 **Por qué:** si `/api/workspaces` fallaba, la web lo trataba como una lista vacía: "Todavía no tenés espacios" en el inicio y 404 en espacios válidos. Ahora, con sesión y sin espacios por un error, el shell muestra "No pudimos cargar tus espacios" con "Reintentar", que vuelve a pedir los datos del servidor (`router.refresh`) sin recargar la página. En el mismo cambio, elegir un espacio en el selector del drawer de mobile lo cierra, como ya hacían los ítems del sidebar (`useOptionalAppShell` en el kit, para que el selector siga funcionando fuera de un AppShell).
 **Descartado:** una página `error.tsx` de Next: el error no es una excepción de render sino una respuesta de la API, y así el shell (menú, idioma, tema) sigue disponible.
+
+### 2026-10-28 · Pulido de la revisión de la Fase 2
+**Por qué:** cierra los hallazgos bajos de la revisión.
+- **Conflictos únicos:** la API distingue el índice violado (con el adapter de pg viene en `driverAdapterError.cause.constraint.index`). Solo el del slug responde `slug_taken` o `slug_archived`; cualquier otro, 409 `conflict` con su propio texto.
+- **Colores sugeridos:** tienen nombre accesible y tooltip por props (`colorNames`), y el tilde va negro o blanco según la luminancia del color (contraste de al menos 4,8:1 en las ocho sugerencias).
+- **Tema en mobile:** el botón recibe el texto armado por la app (`cycleLabel`, "Tema: Claro. Tocá para pasar a Oscuro"), el mismo para el aria-label y el tooltip.
+- **Tema elegido en el login:** se guarda al entrar, igual que el idioma.
+- **Varios:** los links "Abrir espacio" incluyen el nombre del espacio para el lector de pantalla; los mensajes concuerdan ("Módulo … activado", "Espacio … archivado"); se quita del kit un export sin uso; y hay e2e de campos ignorados en el PATCH, de un miembro del espacio que no es miembro de la cuenta (403) y de `/api/me/accounts` sin sesión.
+**Descartado:** nombres de colores fijos en el kit: el kit no tiene textos.

@@ -2,10 +2,7 @@
 export { ThemeProvider, useTheme } from "./theme/theme-provider";
 export { cn } from "./lib/cn";
 export { formatChange, formatDate, formatMoney } from "./lib/format";
-export {
-  canAnimateLocaleChange,
-  fadeLocaleChange,
-} from "./lib/locale-transition";
+export { fadeLocaleChange } from "./lib/locale-transition";
 export type {
   DateFormat,
   MoneyCurrency,

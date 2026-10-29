@@ -1,25 +1,33 @@
 "use client";
 
 import { Alert, Button, FormField, PasswordInput } from "@kaname/ui";
+import { resetPasswordSchema } from "@kaname/shared";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { z } from "zod";
 import { useErrorMessage } from "@/components/use-error-message";
 import { useLoginPath } from "@/components/use-login-path";
+import { applyApiError, useZodForm } from "@/components/use-zod-form";
 import { Link } from "@/i18n/navigation";
 import { readApiError } from "@/lib/api/errors";
 
 // Contraseña nueva con el token del link. Al cargar, el token sale de la barra de direcciones
 // (queda solo en memoria) para que no quede en el historial ni se comparta por error.
+// Solo la contraseña: el token no es un campo, viaja aparte.
+const passwordSchema = z.object({
+  password: resetPasswordSchema.shape.password,
+});
+
 export function ResetForm({ token }: { token: string }) {
   const t = useTranslations("Auth");
   const errorMessage = useErrorMessage();
   const router = useRouter();
   const loginPath = useLoginPath();
-  const [pending, setPending] = useState(false);
   const [tokenInvalid, setTokenInvalid] = useState(!token);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [passwordError, setPasswordError] = useState<string>();
+  const { form, fieldError, formError } = useZodForm(passwordSchema, {
+    password: "",
+  });
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -29,41 +37,30 @@ export function ResetForm({ token }: { token: string }) {
     }
   }, []);
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    setPending(true);
-    setFormError(null);
-    setPasswordError(undefined);
+  const onSubmit = form.handleSubmit(async ({ password }) => {
     try {
       const response = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ token, password: form.get("password") }),
+        body: JSON.stringify({ token, password }),
       });
       if (response.ok) {
         router.replace(`${loginPath()}?reset=1`);
         return;
       }
       const error = await readApiError(response);
-      const passwordIssue = error.issues.find(
-        (item) => item.path === "password",
-      );
       if (
         error.code === "reset_token_invalid" ||
         error.issues.some((item) => item.path === "token")
       ) {
         setTokenInvalid(true);
-      } else if (passwordIssue) {
-        setPasswordError(errorMessage(passwordIssue.code));
       } else {
-        setFormError(errorMessage(error.code));
+        applyApiError(form, error, ["password"]);
       }
     } catch {
-      setFormError(t("genericError"));
+      form.setError("root.server", { message: "unknown" });
     }
-    setPending(false);
-  }
+  });
 
   if (tokenInvalid) {
     return (
@@ -79,23 +76,32 @@ export function ResetForm({ token }: { token: string }) {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
+    <form
+      onSubmit={(event) => void onSubmit(event)}
+      noValidate
+      className="flex flex-col gap-5"
+    >
       {formError && <Alert variant="destructive">{formError}</Alert>}
       <FormField
         label={t("newPassword")}
         description={t("passwordHelp")}
-        error={passwordError}
+        error={fieldError("password")}
         required
       >
         <PasswordInput
-          name="password"
+          {...form.register("password")}
           autoComplete="new-password"
           showLabel={t("showPassword")}
           hideLabel={t("hidePassword")}
           autoFocus
         />
       </FormField>
-      <Button type="submit" size="lg" loading={pending} className="w-full">
+      <Button
+        type="submit"
+        size="lg"
+        loading={form.formState.isSubmitting}
+        className="w-full"
+      >
         {t("saveNewPassword")}
       </Button>
     </form>

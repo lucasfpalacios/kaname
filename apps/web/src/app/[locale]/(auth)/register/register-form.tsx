@@ -1,65 +1,58 @@
 "use client";
 
 import { Alert, Button, FormField, Input, PasswordInput } from "@kaname/ui";
+import { registerSchema } from "@kaname/shared";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useState } from "react";
+import { applyApiError, useZodForm } from "@/components/use-zod-form";
 import { readApiError } from "@/lib/api/errors";
-import { useErrorMessage } from "@/components/use-error-message";
 
 // Registro (solo si la API tiene REGISTRATION_ENABLED=true). Crea la cuenta e inicia la sesión.
 export function RegisterForm({ next }: { next: string }) {
   const t = useTranslations("Auth");
-  const errorMessage = useErrorMessage();
   const router = useRouter();
-  const [pending, setPending] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const { form, fieldError, formError } = useZodForm(registerSchema, {
+    name: "",
+    email: "",
+    password: "",
+  });
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    setPending(true);
-    setFormError(null);
-    setFieldErrors({});
+  const onSubmit = form.handleSubmit(async (values) => {
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(form)),
+        body: JSON.stringify(values),
       });
       if (response.ok) {
         router.replace(next);
         router.refresh();
         return;
       }
-      const error = await readApiError(response);
-      if (error.code === "validation_failed") {
-        setFieldErrors(
-          Object.fromEntries(
-            error.issues.map((issue) => [issue.path, errorMessage(issue.code)]),
-          ),
-        );
-      } else if (error.code === "email_taken") {
-        setFieldErrors({ email: errorMessage(error.code) });
-      } else {
-        setFormError(errorMessage(error.code));
-      }
+      applyApiError(
+        form,
+        await readApiError(response),
+        ["name", "email", "password"],
+        { email_taken: "email" },
+      );
     } catch {
-      setFormError(t("genericError"));
+      form.setError("root.server", { message: "unknown" });
     }
-    setPending(false);
-  }
+  });
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
+    <form
+      onSubmit={(event) => void onSubmit(event)}
+      noValidate
+      className="flex flex-col gap-5"
+    >
       {formError && <Alert variant="destructive">{formError}</Alert>}
-      <FormField label={t("name")} error={fieldErrors.name} required>
-        <Input name="name" autoComplete="name" autoFocus />
+      <FormField label={t("name")} error={fieldError("name")} required>
+        <Input {...form.register("name")} autoComplete="name" autoFocus />
       </FormField>
-      <FormField label={t("email")} error={fieldErrors.email} required>
+      <FormField label={t("email")} error={fieldError("email")} required>
         <Input
-          name="email"
+          {...form.register("email")}
           type="email"
           autoComplete="email"
           placeholder={t("emailPlaceholder")}
@@ -68,17 +61,22 @@ export function RegisterForm({ next }: { next: string }) {
       <FormField
         label={t("password")}
         description={t("passwordHelp")}
-        error={fieldErrors.password}
+        error={fieldError("password")}
         required
       >
         <PasswordInput
-          name="password"
+          {...form.register("password")}
           autoComplete="new-password"
           showLabel={t("showPassword")}
           hideLabel={t("hidePassword")}
         />
       </FormField>
-      <Button type="submit" size="lg" loading={pending} className="w-full">
+      <Button
+        type="submit"
+        size="lg"
+        loading={form.formState.isSubmitting}
+        className="w-full"
+      >
         {t("createAccount")}
       </Button>
     </form>

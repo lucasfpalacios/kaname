@@ -2,74 +2,60 @@
 
 import { Alert, Button, FormField, Input, PasswordInput } from "@kaname/ui";
 import { ArrowRight } from "lucide-react";
+import { loginSchema } from "@kaname/shared";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { readApiError } from "@/lib/api/errors";
-import { useErrorMessage } from "@/components/use-error-message";
+import { applyApiError, useZodForm } from "@/components/use-zod-form";
 
 // Formulario de login. Postea a /api/auth/login (Next lo reenvía a la API), que deja las cookies
 // de sesión, y vuelve a la página que se había pedido (`next`).
 export function LoginForm({ next }: { next: string }) {
   const t = useTranslations("Auth");
-  const errorMessage = useErrorMessage();
   const router = useRouter();
-  const [pending, setPending] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const { form, fieldError, formError } = useZodForm(loginSchema, {
+    email: "",
+    password: "",
+  });
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    setPending(true);
-    setFormError(null);
-    setFieldErrors({});
+  const onSubmit = form.handleSubmit(async (values) => {
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          email: form.get("email"),
-          password: form.get("password"),
-        }),
+        body: JSON.stringify(values),
       });
       if (response.ok) {
         router.replace(next);
         router.refresh();
         return;
       }
-      const error = await readApiError(response);
-      if (error.code === "validation_failed") {
-        setFieldErrors(
-          Object.fromEntries(
-            error.issues.map((issue) => [issue.path, errorMessage(issue.code)]),
-          ),
-        );
-      } else {
-        setFormError(errorMessage(error.code));
-      }
+      applyApiError(form, await readApiError(response), ["email", "password"]);
     } catch {
-      setFormError(t("genericError"));
+      form.setError("root.server", { message: "unknown" });
     }
-    setPending(false);
-  }
+  });
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
+    <form
+      onSubmit={(event) => void onSubmit(event)}
+      noValidate
+      className="flex flex-col gap-5"
+    >
       {formError && <Alert variant="destructive">{formError}</Alert>}
-      <FormField label={t("email")} error={fieldErrors.email} required>
+      <FormField label={t("email")} error={fieldError("email")} required>
         <Input
-          name="email"
+          {...form.register("email")}
           type="email"
           autoComplete="username"
           placeholder={t("emailPlaceholder")}
           autoFocus
         />
       </FormField>
-      <FormField label={t("password")} error={fieldErrors.password} required>
+      <FormField label={t("password")} error={fieldError("password")} required>
         <PasswordInput
-          name="password"
+          {...form.register("password")}
           autoComplete="current-password"
           showLabel={t("showPassword")}
           hideLabel={t("hidePassword")}
@@ -81,7 +67,12 @@ export function LoginForm({ next }: { next: string }) {
       >
         {t("forgotPassword")}
       </Link>
-      <Button type="submit" size="lg" loading={pending} className="w-full">
+      <Button
+        type="submit"
+        size="lg"
+        loading={form.formState.isSubmitting}
+        className="w-full"
+      >
         {t("signIn")}
         <ArrowRight />
       </Button>

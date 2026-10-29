@@ -2,7 +2,7 @@
 
 import { Check } from "lucide-react";
 import { RadioGroup as RadioGroupPrimitive } from "radix-ui";
-import { useId, useState } from "react";
+import { type Ref, useId, useState } from "react";
 import { cn } from "../../lib/cn";
 import { focusRing } from "../../lib/focus-ring";
 import { Badge } from "../badge";
@@ -57,6 +57,8 @@ export type WorkspaceColorFieldProps = {
    * válido: el formulario tiene que bloquear el guardado (si no, guardaría otro color).
    */
   onValidityChange?: (valid: boolean) => void;
+  /** Ref del campo del color propio: el formulario lleva el foco ahí si el color tiene error. */
+  inputRef?: Ref<HTMLInputElement>;
   disabled?: boolean;
   className?: string;
 };
@@ -71,6 +73,7 @@ export function WorkspaceColorField({
   preview,
   error,
   onValidityChange,
+  inputRef,
   disabled,
   className,
 }: WorkspaceColorFieldProps) {
@@ -146,6 +149,7 @@ export function WorkspaceColorField({
       <div className="flex max-w-56 flex-col gap-2">
         <Label htmlFor={`${id}-custom`}>{labels.custom}</Label>
         <Input
+          ref={inputRef}
           id={`${id}-custom`}
           value={text}
           placeholder="#3d6bd1"
@@ -164,11 +168,11 @@ export function WorkspaceColorField({
             else if (valid) choose(next.toLowerCase());
           }}
         />
-        {shownError && (
-          <p id={`${id}-error`} className="text-sm text-destructive">
-            {shownError}
-          </p>
-        )}
+        {/* El renglón del error está siempre: si aparece al salir del campo (por ejemplo, al
+            apretar Guardar), no corre lo de abajo y el clic no se pierde. */}
+        <p id={`${id}-error`} className="min-h-5 text-sm text-destructive">
+          {shownError}
+        </p>
       </div>
       <div className="flex flex-col gap-2">
         <p className="text-xs font-medium tracking-label text-muted-foreground uppercase">

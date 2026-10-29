@@ -1,62 +1,59 @@
 "use client";
 
 import { Alert, Button, FormField, Input } from "@kaname/ui";
+import { forgotPasswordSchema } from "@kaname/shared";
 import { useTranslations } from "next-intl";
-import { type FormEvent, useState } from "react";
-import { useErrorMessage } from "@/components/use-error-message";
+import { useState } from "react";
+import { applyApiError, useZodForm } from "@/components/use-zod-form";
 import { readApiError } from "@/lib/api/errors";
 
 // Pide el link de recuperación. La API responde lo mismo exista o no el email, y acá se muestra
 // el mismo mensaje en los dos casos.
 export function ForgotForm() {
   const t = useTranslations("Auth");
-  const errorMessage = useErrorMessage();
-  const [pending, setPending] = useState(false);
   const [sent, setSent] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [emailError, setEmailError] = useState<string>();
+  const { form, fieldError, formError } = useZodForm(forgotPasswordSchema, {
+    email: "",
+  });
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    setPending(true);
-    setFormError(null);
-    setEmailError(undefined);
+  const onSubmit = form.handleSubmit(async (values) => {
     try {
       const response = await fetch("/api/auth/forgot-password", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email: form.get("email") }),
+        body: JSON.stringify(values),
       });
-      if (response.ok) {
-        setSent(true);
-      } else {
-        const error = await readApiError(response);
-        const issue = error.issues.find((item) => item.path === "email");
-        if (issue) setEmailError(errorMessage(issue.code));
-        else setFormError(errorMessage(error.code));
-      }
+      if (response.ok) setSent(true);
+      else applyApiError(form, await readApiError(response), ["email"]);
     } catch {
-      setFormError(t("genericError"));
+      form.setError("root.server", { message: "unknown" });
     }
-    setPending(false);
-  }
+  });
 
   if (sent) return <Alert variant="success">{t("forgotSent")}</Alert>;
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
+    <form
+      onSubmit={(event) => void onSubmit(event)}
+      noValidate
+      className="flex flex-col gap-5"
+    >
       {formError && <Alert variant="destructive">{formError}</Alert>}
-      <FormField label={t("email")} error={emailError} required>
+      <FormField label={t("email")} error={fieldError("email")} required>
         <Input
-          name="email"
+          {...form.register("email")}
           type="email"
           autoComplete="email"
           placeholder={t("emailPlaceholder")}
           autoFocus
         />
       </FormField>
-      <Button type="submit" size="lg" loading={pending} className="w-full">
+      <Button
+        type="submit"
+        size="lg"
+        loading={form.formState.isSubmitting}
+        className="w-full"
+      >
         {t("sendLink")}
       </Button>
     </form>

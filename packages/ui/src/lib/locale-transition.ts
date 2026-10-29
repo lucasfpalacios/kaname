@@ -1,13 +1,15 @@
-// Cambio de idioma con fundido, desenfoque y una escala leve: el contenido viejo se desenfoca, se
-// achica y se desvanece mientras el nuevo aparece enfocándose (~450 ms), con View Transitions. Los
-// keyframes y sus valores (variables --kaname-locale-*) están en theme.css.
-// Las dos vistas son la página entera en el mismo lugar, así que nada se mueve. Sin soporte de View
+// Cambio de idioma con una cortina horizontal (View Transitions): la vista nueva se revela con una
+// franja que nace en el switch y se abre hasta cubrir la pantalla, con el borde del lado al que va
+// la píldora adelante (ES → EN, el derecho; EN → ES, el izquierdo). La vista vieja queda quieta
+// debajo. Duración y easing: variables --kaname-locale-* de theme.css. Sin soporte de View
 // Transitions o con prefers-reduced-motion, el idioma cambia al instante.
 
 /** Atributo en <html> mientras dura la transición: activa la animación de theme.css. */
 const ACTIVE_ATTRIBUTE = "data-locale-transition";
 /** Tope para esperar el idioma nuevo: la navegación pide la página al servidor. */
 const APPLY_TIMEOUT_MS = 2000;
+/** Parte de la duración en la que el borde que va adelante llega a su lado de la pantalla. */
+const LEAD = 0.55;
 
 /** La transición en curso: mientras actualiza, el render está congelado. */
 let current: ViewTransition | null = null;
@@ -51,16 +53,51 @@ function waitForLang(locale: string): Promise<void> {
   });
 }
 
+/** Duración (ms) y easing de la cortina, de las variables de theme.css. */
+function curtainTiming() {
+  const style = getComputedStyle(document.documentElement);
+  // En "ms" o en "s": el minificador del build puede pasar 450ms a .45s.
+  const raw = style.getPropertyValue("--kaname-locale-duration").trim();
+  const duration = parseFloat(raw) * (raw.endsWith("ms") ? 1 : 1000);
+  const easing = style.getPropertyValue("--kaname-locale-easing").trim();
+  return {
+    duration: Number.isFinite(duration) ? duration : 450,
+    easing: easing || "ease-in-out",
+  };
+}
+
 /**
- * Cambia el idioma con el fundido. `apply` navega al idioma nuevo (router.replace con el locale);
- * `target` es el idioma que va a quedar en <html lang>.
+ * clip-path de la franja: nace como una línea en `x` y se abre. El borde del lado de `direction`
+ * llega a su lado de la pantalla en LEAD de la duración; el otro, al final.
  */
-export function fadeLocaleChange({
+function curtainFrames(x: number, direction: "left" | "right") {
+  const width = window.innerWidth;
+  const inset = (left: number, right: number) =>
+    `inset(0px ${Math.max(right, 0)}px 0px ${Math.max(left, 0)}px)`;
+  const leftAtLead = direction === "left" ? 0 : x * (1 - LEAD);
+  const rightAtLead = direction === "right" ? 0 : (width - x) * (1 - LEAD);
+  return [
+    { clipPath: inset(x, width - x), offset: 0 },
+    { clipPath: inset(leftAtLead, rightAtLead), offset: LEAD },
+    { clipPath: inset(0, 0), offset: 1 },
+  ];
+}
+
+/**
+ * Cambia el idioma con la cortina. `apply` navega al idioma nuevo (router.replace con el locale);
+ * `target` es el idioma que va a quedar en <html lang>; `origin.x` es el centro del switch y
+ * `direction`, hacia dónde va la píldora.
+ */
+export function revealLocaleChange({
   apply,
   target,
+  origin,
+  direction,
 }: {
   apply: () => void;
   target: string;
+  origin: { x: number };
+  direction: "left" | "right";
 }) {
   if (!canAnimateLocaleChange()) {
     apply();
@@ -72,10 +109,18 @@ export function fadeLocaleChange({
     apply();
     await waitForLang(target);
     // El layout raíz vuelve a montar <html> con el idioma nuevo y React le saca los atributos que
-    // no son suyos: sin esto, las animaciones de theme.css no se aplicarían.
+    // no son suyos: sin esto, las reglas de theme.css no se aplicarían.
     root.setAttribute(ACTIVE_ATTRIBUTE, "");
   });
   current = transition;
+  transition.ready
+    .then(() => {
+      root.animate(curtainFrames(origin.x, direction), {
+        ...curtainTiming(),
+        pseudoElement: "::view-transition-new(root)",
+      });
+    })
+    .catch(() => undefined);
   transition.finished
     .finally(() => {
       root.removeAttribute(ACTIVE_ATTRIBUTE);

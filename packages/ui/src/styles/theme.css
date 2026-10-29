@@ -96,38 +96,23 @@
 }
 
 /*
- * Cambio de idioma (lib/locale-transition.ts): el contenido viejo se desenfoca, se achica apenas y
- * se desvanece, y el nuevo aparece enfocándose desde un poco más grande, en el mismo lugar. Con
- * prefers-reduced-motion no se arranca la transición (el idioma cambia al instante).
- * Para ajustar la animación, solo estas variables.
+ * Cambio de idioma (lib/locale-transition.ts): la vista nueva se revela con una franja que nace en
+ * el switch y se abre hasta cubrir la pantalla (el clip-path lo anima JavaScript, como el círculo
+ * del tema). La vista vieja queda quieta debajo, sin fundido. Con prefers-reduced-motion no se
+ * arranca la transición (el idioma cambia al instante).
+ * Para ajustar la animación, solo estas variables (las lee lib/locale-transition.ts).
  */
 :root {
   --kaname-locale-duration: 450ms;
-  --kaname-locale-blur: 8px;
-  --kaname-locale-scale-out: 0.98;
-  --kaname-locale-scale-in: 1.02;
+  --kaname-locale-easing: ease-in-out;
 }
 
-[data-locale-transition]::view-transition-old(root) {
-  animation: kaname-locale-out var(--kaname-locale-duration) ease-in both;
+[data-locale-transition]::view-transition-old(root),
+[data-locale-transition]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 [data-locale-transition]::view-transition-new(root) {
-  animation: kaname-locale-in var(--kaname-locale-duration) ease-out both;
-}
-
-@keyframes kaname-locale-out {
-  to {
-    opacity: 0;
-    filter: blur(var(--kaname-locale-blur));
-    transform: scale(var(--kaname-locale-scale-out));
-  }
-}
-
-@keyframes kaname-locale-in {
-  from {
-    opacity: 0;
-    filter: blur(var(--kaname-locale-blur));
-    transform: scale(var(--kaname-locale-scale-in));
-  }
+  z-index: 1;
 }

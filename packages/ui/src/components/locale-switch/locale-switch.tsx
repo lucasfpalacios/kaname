@@ -16,7 +16,8 @@ export type LocaleSwitchOption = {
 export type LocaleSwitchProps = {
   options: LocaleSwitchOption[];
   value: string;
-  onValueChange: (value: string) => void;
+  /** `item` es el segmento presionado (la cortina del cambio de idioma sale de ahí). */
+  onValueChange: (value: string, item: HTMLElement | null) => void;
   /** aria-label del grupo ("Idioma"). */
   label: string;
   disabled?: boolean;
@@ -87,9 +88,9 @@ export function LocaleSwitch({
       animationKey={animation?.key}
       disabled={disabled}
       className={cn(className)}
-      onValueChange={(next) => {
+      onValueChange={(next, item) => {
         lastChange = { from: value, to: next, at: Date.now() };
-        onValueChange(next);
+        onValueChange(next, item);
       }}
       options={options.map((option) => ({
         value: option.value,

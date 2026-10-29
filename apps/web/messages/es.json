@@ -45,7 +45,22 @@
     "slug_taken": "Ya hay un espacio con esa dirección en la cuenta.",
     "color_invalid": "Usá un color con el formato #rrggbb.",
     "slug_archived": "Hay un espacio archivado con esa dirección.",
-    "conflict": "Alguien guardó un cambio al mismo tiempo. Probá de nuevo."
+    "conflict": "Alguien guardó un cambio al mismo tiempo. Probá de nuevo.",
+    "category_invalid": "Esa categoría no existe en este espacio.",
+    "category_name_taken": "Ya hay una categoría con ese nombre en el mismo lugar.",
+    "category_depth": "Las categorías tienen un solo nivel: elegí una categoría principal como padre.",
+    "category_has_children": "La categoría tiene subcategorías: movelas o borralas primero.",
+    "supplier_invalid": "Ese proveedor no existe en este espacio.",
+    "sku_taken": "Ya hay una variante con ese SKU en el espacio.",
+    "options_invalid": "Revisá las opciones: nombres y valores sin repetir.",
+    "options_in_use": "Hay variantes que usan valores que estás quitando.",
+    "combination_invalid": "Esa combinación no corresponde a las opciones del producto.",
+    "combination_exists": "Esa combinación ya existe.",
+    "combination_required": "Elegí al menos una combinación.",
+    "last_variant": "Un producto necesita al menos una variante.",
+    "quantity_invalid": "Ingresá una cantidad válida (hasta 3 decimales).",
+    "stock_negative": "El stock no puede quedar negativo.",
+    "stock_not_tracked": "Esta variante no controla stock."
   },
   "Roles": {
     "OWNER": "Dueño",

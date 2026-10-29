@@ -4,6 +4,7 @@ export * from "./schemas/money.js";
 export * from "./schemas/auth.js";
 export * from "./schemas/preferences.js";
 export * from "./schemas/workspace.js";
+export * from "./schemas/catalog.js";
 export * from "./types/workspace.js";
 export * from "./utils/next-path.js";
 export * from "./utils/proxy-headers.js";

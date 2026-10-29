@@ -457,6 +457,9 @@ model ProductVariant {
 
   @@index([productId])
   @@index([workspaceId])
+  // SKU único por espacio. Los null no chocan entre sí (Postgres los trata como distintos): una
+  // variante sin SKU es válida.
+  @@unique([workspaceId, sku])
 }
 
 // Receta / BOM: un producto final (combo Disanza) consume insumos

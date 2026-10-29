@@ -18,25 +18,12 @@ import {
   SystemRoleKey,
 } from "../generated/prisma/client.js";
 import type { z } from "zod";
+import { uniqueIndexOf } from "../common/prisma-errors.js";
 import { PrismaService } from "../prisma/prisma.service.js";
 import type { Membership } from "./membership.js";
 import { WorkspaceAccessRepository } from "./workspace-access.repository.js";
 
 type Created = z.output<typeof createWorkspaceSchema>;
-
-/** Índice único que violó un P2002 (con el adapter de pg viene en driverAdapterError). */
-function uniqueIndexOf(error: unknown): string | null {
-  if (
-    !(error instanceof Prisma.PrismaClientKnownRequestError) ||
-    error.code !== "P2002"
-  ) {
-    return null;
-  }
-  const meta = error.meta as
-    | { driverAdapterError?: { cause?: { constraint?: { index?: string } } } }
-    | undefined;
-  return meta?.driverAdapterError?.cause?.constraint?.index ?? "desconocido";
-}
 
 const SLUG_INDEX = "Workspace_accountId_slug_key";
 

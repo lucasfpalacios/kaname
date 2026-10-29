@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { APP_GUARD } from "@nestjs/core";
 import { AccessTokenGuard } from "./auth/access-token.guard.js";
 import { AuthModule } from "./auth/auth.module.js";
+import { CatalogModule } from "./catalog/catalog.module.js";
 import { validateEnv } from "./config/env.js";
 import { HealthController } from "./health/health.controller.js";
 import { MeModule } from "./me/me.module.js";
@@ -18,6 +19,7 @@ import { WorkspacesModule } from "./workspaces/workspaces.module.js";
     AuthModule,
     WorkspacesModule,
     MeModule,
+    CatalogModule,
   ],
   controllers: [HealthController],
   // Guards globales, en este orden: sesión (salvo @Public()), membresía del espacio

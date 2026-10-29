@@ -45,7 +45,22 @@
     "slug_taken": "There's already a workspace with that address in the account.",
     "color_invalid": "Use a color in the #rrggbb format.",
     "slug_archived": "There's an archived workspace with that address.",
-    "conflict": "Someone saved a change at the same time. Try again."
+    "conflict": "Someone saved a change at the same time. Try again.",
+    "category_invalid": "That category doesn't exist in this workspace.",
+    "category_name_taken": "There's already a category with that name in the same place.",
+    "category_depth": "Categories have a single level: pick a top-level category as parent.",
+    "category_has_children": "The category has subcategories: move or delete them first.",
+    "supplier_invalid": "That supplier doesn't exist in this workspace.",
+    "sku_taken": "There's already a variant with that SKU in the workspace.",
+    "options_invalid": "Check the options: names and values can't repeat.",
+    "options_in_use": "Some variants use values you're removing.",
+    "combination_invalid": "That combination doesn't match the product's options.",
+    "combination_exists": "That combination already exists.",
+    "combination_required": "Pick at least one combination.",
+    "last_variant": "A product needs at least one variant.",
+    "quantity_invalid": "Enter a valid quantity (up to 3 decimals).",
+    "stock_negative": "Stock can't go below zero.",
+    "stock_not_tracked": "This variant doesn't track stock."
   },
   "Roles": {
     "OWNER": "Owner",

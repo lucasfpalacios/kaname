@@ -1,12 +1,18 @@
 import {
+  combinationsOf,
   createWorkspaceSchema,
   Currency,
   ErrorCode,
   ModuleKey,
   moneySchema,
+  newVariantSchema,
+  productListQuerySchema,
+  productOptionsSchema,
   signedMoneySchema,
   slugify,
+  stockAdjustmentSchema,
   updateWorkspaceSchema,
+  variantNameOf,
 } from "@kaname/shared";
 
 describe("@kaname/shared", () => {
@@ -90,6 +96,75 @@ describe("schemas de espacios", () => {
     );
     expect(updateWorkspaceSchema.parse({ color: null }).color).toBeNull();
     expect(updateWorkspaceSchema.safeParse({ color: "red" }).success).toBe(
+      false,
+    );
+  });
+});
+
+describe("schemas del catálogo", () => {
+  const options = [
+    { name: "Idioma", values: ["EN", "ES"] },
+    { name: "Estado", values: ["NM", "LP"] },
+  ];
+
+  it("combinationsOf arma todas las combinaciones en orden", () => {
+    expect(combinationsOf(options)).toEqual([
+      { Idioma: "EN", Estado: "NM" },
+      { Idioma: "EN", Estado: "LP" },
+      { Idioma: "ES", Estado: "NM" },
+      { Idioma: "ES", Estado: "LP" },
+    ]);
+    expect(combinationsOf([])).toEqual([{}]);
+    expect(variantNameOf(options, { Estado: "LP", Idioma: "ES" })).toBe(
+      "ES · LP",
+    );
+  });
+
+  it("opciones: sin nombres ni valores repetidos (sin importar mayúsculas)", () => {
+    expect(productOptionsSchema.safeParse(options).success).toBe(true);
+    expect(
+      productOptionsSchema.safeParse([
+        { name: "Idioma", values: ["EN"] },
+        { name: "idioma", values: ["ES"] },
+      ]).success,
+    ).toBe(false);
+    expect(
+      productOptionsSchema.safeParse([{ name: "Idioma", values: ["EN", "en"] }])
+        .success,
+    ).toBe(false);
+    expect(
+      productOptionsSchema.safeParse([{ name: "Idioma", values: [] }]).success,
+    ).toBe(false);
+  });
+
+  it("montos y cantidades como string decimal; el ajuste no puede ser cero", () => {
+    expect(newVariantSchema.safeParse({ costAmount: "10.5" }).success).toBe(
+      true,
+    );
+    expect(newVariantSchema.safeParse({ costAmount: "10.555" }).success).toBe(
+      false,
+    );
+    expect(newVariantSchema.safeParse({ costAmount: 10 }).success).toBe(false);
+    expect(newVariantSchema.safeParse({ initialStock: "1.250" }).success).toBe(
+      true,
+    );
+    expect(stockAdjustmentSchema.safeParse({ quantity: "-2" }).success).toBe(
+      true,
+    );
+    expect(stockAdjustmentSchema.safeParse({ quantity: "0.000" }).success).toBe(
+      false,
+    );
+  });
+
+  it("listado: valores por defecto y límites de la paginación", () => {
+    expect(productListQuerySchema.parse({})).toMatchObject({
+      page: 1,
+      pageSize: 25,
+    });
+    expect(
+      productListQuerySchema.parse({ lowStock: "true", page: "2" }),
+    ).toMatchObject({ lowStock: true, page: 2 });
+    expect(productListQuerySchema.safeParse({ pageSize: "101" }).success).toBe(
       false,
     );
   });

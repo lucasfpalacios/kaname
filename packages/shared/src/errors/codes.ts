@@ -33,6 +33,26 @@ export const ErrorCode = {
   slugArchived: "slug_archived",
   // Otro cambio guardó lo mismo al mismo tiempo (un conflicto de unicidad que no es el slug).
   conflict: "conflict",
+  // Catálogo. Una categoría o un proveedor que no es del espacio (o no existe): el mismo código.
+  categoryInvalid: "category_invalid",
+  categoryNameTaken: "category_name_taken",
+  // Las categorías tienen un solo nivel: el padre tiene que ser una categoría raíz, y una
+  // categoría con subcategorías no puede pasar a ser hija.
+  categoryDepth: "category_depth",
+  categoryHasChildren: "category_has_children",
+  supplierInvalid: "supplier_invalid",
+  skuTaken: "sku_taken",
+  optionsInvalid: "options_invalid",
+  // Cambiar las opciones dejaría variantes con valores que ya no existen.
+  optionsInUse: "options_in_use",
+  combinationInvalid: "combination_invalid",
+  combinationExists: "combination_exists",
+  // Un producto con opciones necesita al menos una combinación al crearse.
+  combinationRequired: "combination_required",
+  lastVariant: "last_variant",
+  quantityInvalid: "quantity_invalid",
+  stockNegative: "stock_negative",
+  stockNotTracked: "stock_not_tracked",
   colorInvalid: "color_invalid",
 } as const;
 

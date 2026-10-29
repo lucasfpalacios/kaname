@@ -1,4 +1,5 @@
 import type { PreferencesInput, Theme } from "@kaname/shared";
+import { LOCALE_COOKIE, type Locale } from "@/i18n/locale";
 import { apiFetch } from "@/lib/api/browser";
 
 // Preferencias del usuario desde el navegador (solo con sesión).
@@ -40,6 +41,14 @@ function take(key: string): boolean {
 }
 
 export const markLocaleChosen = () => mark(CHOSEN_LOCALE);
+/** true si se eligió un idioma sin sesión, sin borrarlo (el login lo consulta). */
+export function isLocaleChosen(): boolean {
+  try {
+    return sessionStorage.getItem(CHOSEN_LOCALE) === "1";
+  } catch {
+    return false;
+  }
+}
 /** true si se eligió un idioma sin sesión; lo borra (sirve una vez). */
 export const takeLocaleChosen = () => take(CHOSEN_LOCALE);
 
@@ -47,29 +56,21 @@ export const takeLocaleChosen = () => take(CHOSEN_LOCALE);
 export const markThemeChosen = () => mark(CHOSEN_THEME);
 export const takeThemeChosen = () => take(CHOSEN_THEME);
 
-// Guardado del tema en curso. El cambio de idioma lo espera antes de navegar: el árbol del idioma
-// nuevo arranca con las preferencias del servidor, y si el tema todavía no llegó (o falló) traería
-// el anterior.
-let pendingTheme: Promise<boolean> | null = null;
-
 /** Guarda el tema en el usuario. Devuelve false si falló. */
-export function saveTheme(theme: Theme): Promise<boolean> {
-  const save = savePreferences({ theme });
-  pendingTheme = save;
-  void save.finally(() => {
-    if (pendingTheme === save) pendingTheme = null;
-  });
-  return save;
-}
+export const saveTheme = (theme: Theme) => savePreferences({ theme });
 
-/** Espera el guardado del tema en curso (si hay uno). */
-export function waitForThemeSave(): Promise<boolean> {
-  return pendingTheme ?? Promise.resolve(true);
+/**
+ * Fija el idioma de los próximos pedidos (i18n/request.ts lo lee). Un año: es la preferencia del
+ * navegador; con sesión, la del usuario se vuelve a aplicar al entrar (PreferencesSync).
+ */
+export function setLocaleCookie(locale: Locale) {
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `${LOCALE_COOKIE}=${locale}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
 }
 
 // Las preferencias guardadas se aplican una vez por pestaña y usuario (al entrar, por ejemplo desde
-// otro equipo). Después manda lo que la persona cambia en esta pestaña: un árbol de idioma nuevo no
-// vuelve a aplicar lo del servidor, que puede estar atrasado.
+// otro equipo). Después manda lo que la persona cambia en esta pestaña: una vuelta a renderizar
+// con datos del servidor atrasados no las vuelve a aplicar.
 const APPLIED_FOR = "kaname:preferences-applied";
 
 export function preferencesAppliedFor(userId: string): boolean {
@@ -84,6 +85,6 @@ export function markPreferencesApplied(userId: string) {
   try {
     sessionStorage.setItem(APPLIED_FOR, userId);
   } catch {
-    // Sin storage: se vuelven a aplicar en cada árbol nuevo, como antes.
+    // Sin storage: se vuelven a aplicar cada vez que se monta el shell.
   }
 }

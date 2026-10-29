@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { loginPath, localeOfPath } from "./login-path";
+import { loginPath } from "./login-path";
 import { safeNextPath } from "./next-path";
 import { accessTokenExpiry, isAccessFresh, parseSetCookie } from "./tokens";
 
@@ -63,10 +63,8 @@ describe("parseSetCookie", () => {
 });
 
 describe("loginPath", () => {
-  it("respeta el idioma (español sin prefijo)", () => {
-    expect(loginPath("es")).toBe("/login");
-    expect(loginPath("en", "/en/ui-kit")).toBe("/en/login?next=%2Fen%2Fui-kit");
-    expect(localeOfPath("/en/ui-kit")).toBe("en");
-    expect(localeOfPath("/ui-kit")).toBe("es");
+  it("sin idioma en la URL, con el destino codificado", () => {
+    expect(loginPath()).toBe("/login");
+    expect(loginPath("/w/tank?x=1")).toBe("/login?next=%2Fw%2Ftank%3Fx%3D1");
   });
 });

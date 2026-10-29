@@ -34,8 +34,7 @@ type IdTokenClaims = {
 };
 
 export type GoogleCallbackResult =
-  | { ok: true; tokens: AuthTokens; next: string }
-  | { ok: false; code: string; locale: "es" | "en" };
+  { ok: true; tokens: AuthTokens; next: string } | { ok: false; code: string };
 
 class GoogleLoginError extends Error {
   constructor(readonly code: string) {
@@ -77,12 +76,8 @@ export class GoogleAuthService {
   start(
     credentials: GoogleCredentials,
     next: string | undefined,
-    locale: string | undefined,
   ): { url: string; sealedState: string } {
-    const data = newOAuthState(
-      safeNextPath(next, locale === "en" ? "/en" : "/"),
-      locale === "en" ? "en" : "es",
-    );
+    const data = newOAuthState(safeNextPath(next, "/"));
     const url = new URL(GOOGLE_AUTHORIZE_URL);
     url.search = new URLSearchParams({
       client_id: credentials.clientId,
@@ -108,7 +103,6 @@ export class GoogleAuthService {
     userAgent: string | undefined,
   ): Promise<GoogleCallbackResult> {
     const data = openOAuthState(sealedState, this.secret());
-    const locale = data?.locale ?? "es";
     try {
       if (!data || !query.state || !sameValue(query.state, data.state)) {
         throw new GoogleLoginError(ErrorCode.oauthFailed);
@@ -128,9 +122,9 @@ export class GoogleAuthService {
       return { ok: true, tokens, next: data.next };
     } catch (error) {
       if (error instanceof GoogleLoginError)
-        return { ok: false, code: error.code, locale };
+        return { ok: false, code: error.code };
       this.logger.error(`Login con Google: ${String(error)}`);
-      return { ok: false, code: ErrorCode.oauthFailed, locale };
+      return { ok: false, code: ErrorCode.oauthFailed };
     }
   }
 

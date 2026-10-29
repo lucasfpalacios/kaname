@@ -56,7 +56,7 @@ export class PasswordResetService {
         to: user.email,
         name: user.name,
         locale: user.locale,
-        url: this.resetUrl(token, user.locale),
+        url: this.resetUrl(token),
         minutes: RESET_TOKEN_TTL_MINUTES,
       }),
     );
@@ -92,9 +92,9 @@ export class PasswordResetService {
     );
   }
 
-  private resetUrl(token: string, locale: string) {
+  // La URL no lleva el idioma: la página sale en el de la cookie del navegador.
+  private resetUrl(token: string) {
     const base = this.config.get("WEB_URL", { infer: true }).replace(/\/$/, "");
-    const prefix = locale === "es" ? "" : `/${locale}`;
-    return `${base}${prefix}/reset-password?token=${encodeURIComponent(token)}`;
+    return `${base}/reset-password?token=${encodeURIComponent(token)}`;
   }
 }

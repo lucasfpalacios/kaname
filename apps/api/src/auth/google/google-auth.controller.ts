@@ -51,14 +51,10 @@ export class GoogleAuthController {
   @Public()
   @Get()
   @UseGuards(ThrottlerGuard)
-  start(
-    @Query("next") next: string | undefined,
-    @Query("locale") locale: string | undefined,
-    @Res() res: Response,
-  ) {
+  start(@Query("next") next: string | undefined, @Res() res: Response) {
     const credentials = this.google.credentials();
     if (!credentials) throw new NotFoundException(ErrorCode.notFound);
-    const { url, sealedState } = this.google.start(credentials, next, locale);
+    const { url, sealedState } = this.google.start(credentials, next);
     res.cookie(STATE_COOKIE, sealedState, {
       ...this.stateCookie(),
       maxAge: OAUTH_STATE_TTL_SECONDS * 1000,
@@ -96,7 +92,6 @@ export class GoogleAuthController {
       res.redirect(302, result.next);
       return;
     }
-    const login = result.locale === "en" ? "/en/login" : "/login";
-    res.redirect(302, `${login}?error=${encodeURIComponent(result.code)}`);
+    res.redirect(302, `/login?error=${encodeURIComponent(result.code)}`);
   }
 }

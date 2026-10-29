@@ -92,8 +92,7 @@ function useGoogleApp(context: () => TestContext) {
   return { state, http, start, callback, claims, loginWith };
 }
 
-const errorRedirect = (code: string, locale: "es" | "en" = "es") =>
-  `${locale === "en" ? "/en/login" : "/login"}?error=${code}`;
+const errorRedirect = (code: string) => `/login?error=${code}`;
 
 function expectNoSession(response: request.Response) {
   const cookies = cookiesOf(response);
@@ -300,19 +299,19 @@ export function googleLoginTests(name: string, context: () => TestContext) {
       expectNoSession(failed);
     });
 
-    it("idioma y destino: el error vuelve al login en inglés y un destino externo se descarta", async () => {
-      const email = `nadie-en-${Date.now()}@kaname.test`;
-      const closed = await loginWith({ email }, { locale: "en" });
+    it("destino: el error vuelve al login y un destino externo se descarta", async () => {
+      const email = `nadie-${Date.now()}@kaname.test`;
+      const closed = await loginWith({ email });
       expect(closed.headers.location).toBe(
-        errorRedirect(ErrorCode.googleRegistrationClosed, "en"),
+        errorRedirect(ErrorCode.googleRegistrationClosed),
       );
 
       const existing = await state.ctx.createUser(PASSWORD);
       const external = await loginWith(
         { email: existing },
-        { next: "//evil.example", locale: "en" },
+        { next: "//evil.example" },
       );
-      expect(external.headers.location).toBe("/en");
+      expect(external.headers.location).toBe("/");
     });
 
     it("options: informa que el login con Google está activo", async () => {

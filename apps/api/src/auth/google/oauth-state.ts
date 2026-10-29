@@ -7,13 +7,12 @@ import {
 
 // Datos que viajan del inicio del login con Google al callback en una cookie httpOnly firmada
 // (HMAC-SHA256): el state (contra CSRF), el nonce (contra la reutilización del id_token), el
-// code_verifier de PKCE, el destino y el idioma. La firma impide que alguien los cambie.
+// code_verifier de PKCE y el destino. La firma impide que alguien los cambie.
 export type OAuthState = {
   state: string;
   nonce: string;
   codeVerifier: string;
   next: string;
-  locale: "es" | "en";
   /** Vencimiento, en ms. */
   expiresAt: number;
 };
@@ -22,13 +21,12 @@ export const OAUTH_STATE_TTL_SECONDS = 10 * 60;
 
 const random = () => randomBytes(32).toString("base64url");
 
-export function newOAuthState(next: string, locale: "es" | "en"): OAuthState {
+export function newOAuthState(next: string): OAuthState {
   return {
     state: random(),
     nonce: random(),
     codeVerifier: random(),
     next,
-    locale,
     expiresAt: Date.now() + OAUTH_STATE_TTL_SECONDS * 1000,
   };
 }

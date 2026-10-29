@@ -3,7 +3,7 @@
 export const ACCESS_COOKIE = "kaname_access";
 export const REFRESH_COOKIE = "kaname_refresh";
 
-/** Rutas para quien no tiene sesión: con sesión, vuelven al inicio (sin el prefijo de idioma). */
+/** Rutas para quien no tiene sesión: con sesión, vuelven al inicio. */
 export const GUEST_PATHS = ["/login", "/register"];
 
 /** Rutas abiertas con o sin sesión: el link de recuperación sirve aunque haya una sesión abierta. */

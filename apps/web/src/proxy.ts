@@ -1,5 +1,4 @@
 import { CLIENT_IP_HEADER, PROXY_SECRET_HEADER } from "@kaname/shared";
-import createMiddleware from "next-intl/middleware";
 import { type NextRequest, NextResponse } from "next/server";
 import {
   ACCESS_COOKIE,
@@ -12,9 +11,9 @@ import { clientIp, clientIpHeaders } from "./lib/auth/client-ip";
 import { safeNextPath } from "./lib/auth/next-path";
 import { refreshSession } from "./lib/auth/server-refresh";
 import { isAccessFresh, parseSetCookie } from "./lib/auth/tokens";
-import { routing, type Locale } from "./i18n/routing";
+import { isLocale, LOCALE_COOKIE, type Locale } from "./i18n/locale";
 
-// Proxy de Next (antes "middleware"). Hace tres cosas:
+// Proxy de Next (antes "middleware"). Hace cuatro cosas:
 // 1. /api/*: deja pasar el pedido a la API (el rewrite está en next.config.ts) con la IP real
 //    del cliente en un header propio y el secreto compartido (lib/auth/client-ip.ts), así la API
 //    no confía en nada que mande el cliente.
@@ -22,9 +21,10 @@ import { routing, type Locale } from "./i18n/routing";
 //    token, ver lib/auth/server-refresh.ts). Las cookies nuevas van al navegador y también al
 //    render de este mismo pedido.
 // 3. Rutas: sin sesión, todo lo que no sea /login o /register va a /login?next=...; con sesión,
-//    /login vuelve al destino. /forgot-password y /reset-password se abren siempre. Después, el
-//    idioma (next-intl).
-const intl = createMiddleware(routing);
+//    /login vuelve al destino. /forgot-password y /reset-password se abren siempre.
+// 4. URLs viejas con el idioma (/en/...): redirigen a la misma ruta sin prefijo. El idioma ya no va
+//    en la URL (sale de la cookie, ver i18n/request.ts); si no había cookie, el de la URL vieja
+//    queda guardado.
 
 type Session =
   | { kind: "active" }
@@ -37,28 +37,27 @@ export default async function proxy(request: NextRequest) {
     return forwardToApi(request);
   }
 
-  const locale = localeOf(pathname);
-  const path = stripLocale(pathname, locale);
+  const legacy = legacyLocale(pathname);
+  if (legacy) return redirectLegacy(request, legacy);
+
   // Recuperación de contraseña: sin sesión y sin redirigir; no hace falta renovar nada.
-  if (OPEN_PATHS.includes(path)) {
-    const response = intl(request);
+  if (OPEN_PATHS.includes(pathname)) {
+    const response = NextResponse.next();
     // El link trae el token en la URL: ningún pedido de esa página (ni las fuentes que se
     // precargan antes de la meta) lo manda como Referer. El header aplica desde el primer byte.
-    if (path === "/reset-password") {
+    if (pathname === "/reset-password") {
       response.headers.set("Referrer-Policy", "no-referrer");
     }
     return response;
   }
 
-  const isPublic = GUEST_PATHS.includes(path);
+  const isPublic = GUEST_PATHS.includes(pathname);
   const session = await resolveSession(request, { verify: isPublic });
 
   if (isPublic) {
-    if (session.kind === "none") return withSession(intl(request), session);
-    const next = safeNextPath(
-      request.nextUrl.searchParams.get("next"),
-      localized("/", locale),
-    );
+    if (session.kind === "none")
+      return withSession(NextResponse.next(), session);
+    const next = safeNextPath(request.nextUrl.searchParams.get("next"), "/");
     return withSession(
       NextResponse.redirect(new URL(next, request.url)),
       session,
@@ -66,11 +65,27 @@ export default async function proxy(request: NextRequest) {
   }
 
   if (session.kind === "none") {
-    const login = new URL(localized("/login", locale), request.url);
+    const login = new URL("/login", request.url);
     login.searchParams.set("next", pathname + search);
     return withSession(NextResponse.redirect(login), session);
   }
-  return withSession(intl(request), session);
+  return withSession(NextResponse.next(), session);
+}
+
+function redirectLegacy(request: NextRequest, locale: Locale) {
+  const url = request.nextUrl.clone();
+  url.pathname = url.pathname.slice(locale.length + 1) || "/";
+  const response = NextResponse.redirect(url, 308);
+  if (!request.cookies.has(LOCALE_COOKIE)) {
+    response.cookies.set({
+      name: LOCALE_COOKIE,
+      value: locale,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: "lax",
+    });
+  }
+  return response;
 }
 
 function forwardToApi(request: NextRequest) {
@@ -144,26 +159,13 @@ function withSession(response: NextResponse, session: Session) {
   return response;
 }
 
-function localeOf(pathname: string): Locale {
+/**
+ * Idioma del primer segmento de una URL vieja ("/en/w/tank" → "en"); null si no tiene. Antes el
+ * inglés iba con /en (y /es también llegaba a español).
+ */
+function legacyLocale(pathname: string): Locale | null {
   const segment = pathname.split("/")[1];
-  return (
-    routing.locales.find((locale) => locale === segment) ??
-    routing.defaultLocale
-  );
-}
-
-function stripLocale(pathname: string, locale: Locale) {
-  const prefix = `/${locale}`;
-  if (pathname === prefix) return "/";
-  return pathname.startsWith(`${prefix}/`)
-    ? pathname.slice(prefix.length)
-    : pathname;
-}
-
-// Español sin prefijo, inglés con /en (localePrefix: "as-needed").
-function localized(path: string, locale: Locale) {
-  if (locale === routing.defaultLocale) return path;
-  return path === "/" ? `/${locale}` : `/${locale}${path}`;
+  return isLocale(segment) ? segment : null;
 }
 
 export const config = {

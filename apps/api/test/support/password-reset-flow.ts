@@ -90,8 +90,9 @@ export function passwordResetTests(name: string, context: () => Context) {
 
       const english = await enMail;
       expect(english.subject).toBe("Reset your Kaname password");
+      // Sin el idioma en la URL: la página sale en el del navegador.
       expect(english.text).toMatch(
-        /localhost:3000\/en\/reset-password\?token=/,
+        /http:\/\/localhost:3000\/reset-password\?token=/,
       );
     });
 

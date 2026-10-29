@@ -31,13 +31,14 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [x] Pantalla Login (claro/oscuro, es/en)
 - [x] Revisión de seguridad de la fase y correcciones (sesiones, aislamiento, rate limits, CSRF, headers, dependencias)
 
-## Fase 2 — Esqueleto de la app
+## Fase 2 — Esqueleto de la app ✅
 - [x] Layout: top bar + sidebar + selector de espacio (shell con datos reales, URLs con slug, preferencias de tema e idioma en el usuario)
 - [x] Inicio (launcher con botones de espacios + "General") y vista General con las tarjetas de cada espacio (métricas y eventos vacíos hasta que existan sus módulos)
 - [x] Crear / editar espacio y activar módulos (solo el Dueño de la cuenta; archivar con confirmación)
-- [ ] Reordenar módulos del sidebar con arrastrar y soltar en la configuración del espacio
+- [x] Revisión de la fase y correcciones (permisos, aislamiento, formularios con react-hook-form, accesibilidad, animaciones, espacios archivados)
 
 ## Fase 3 — Catálogo
+- [ ] Reordenar módulos del sidebar con arrastrar y soltar en la configuración del espacio
 - [ ] Categorías, productos y variantes (CRUD, tabla, drawer de detalle)
 - [ ] Proveedores
 - [ ] Recetas / insumos (para Disanza)
@@ -65,6 +66,7 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [ ] Panel Admin: usuarios, invitaciones, roles y matriz de permisos. Antes, PermissionsMatrix en el UI Kit con su story
   - [ ] Invitaciones: validar que el rol de la membresía sea de la misma cuenta que el espacio
 - [ ] Registro de actividad
+  - [ ] Escribir en ActivityLog al crear, editar, archivar y restaurar espacios
 
 ## Antes de abrir el registro
 - [ ] Verificar el email al registrarse
@@ -76,4 +78,4 @@ Cada componente: variantes con `cva`, tipado, accesible, probado en claro/oscuro
 - [ ] Rate limit con Upstash Redis: hoy vive en memoria, se pierde en cada reinicio y no se comparte entre instancias
 - [ ] `PROXY_SHARED_SECRET` configurado en Vercel y en Render (el mismo en los dos; sin él la API no arranca en producción)
 - [ ] `NEST_URL` definida en Vercel al momento del build: el destino del reenvío de `/api/*` se fija al compilar la web
-- [ ] Sacar los overrides de body-parser, multer y fast-uri cuando Nest y Prisma traigan las versiones corregidas
+- [ ] Sacar los overrides de body-parser, multer, fast-uri y qs cuando Nest, Prisma y supertest traigan las versiones corregidas

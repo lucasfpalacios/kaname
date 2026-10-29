@@ -45,21 +45,28 @@ export function WorkspaceSettings({
   const tCommon = useTranslations("Common");
   const router = useRouter();
   const [modules, setModules] = useState<ModuleKey[]>(workspace.modules);
+  // Un guardado de módulos a la vez: mientras hay uno en curso, los switches no responden.
+  const [savingModule, setSavingModule] = useState<ModuleKey | null>(null);
   const [archiving, setArchiving] = useState(false);
 
   async function toggleModule(module: ModuleKey, enabled: boolean) {
+    if (savingModule) return;
     const previous = modules;
-    // Se respeta el orden actual; uno que se activa va al final.
+    // Se respeta el orden actual; uno que se activa va al final. El switch cambia enseguida y,
+    // al terminar, la pantalla toma la lista que devolvió la API (o vuelve a la anterior).
     const next = enabled
       ? [...modules, module]
       : modules.filter((item) => item !== module);
     setModules(next);
+    setSavingModule(module);
     const result = await updateWorkspace(workspace.id, { modules: next });
+    setSavingModule(null);
     if (!result.ok) {
       setModules(previous);
       toast({ title: t("saveError"), variant: "destructive" });
       return;
     }
+    setModules(result.data.modules);
     toast({
       title: t(enabled ? "moduleOn" : "moduleOff", {
         module: tModules(module),
@@ -140,7 +147,7 @@ export function WorkspaceSettings({
               label={tModules(module)}
               description={module === "DASHBOARD" ? t("alwaysOn") : undefined}
               checked={module === "DASHBOARD" || modules.includes(module)}
-              disabled={module === "DASHBOARD"}
+              disabled={module === "DASHBOARD" || savingModule !== null}
               onCheckedChange={(enabled) => void toggleModule(module, enabled)}
             />
           ))}

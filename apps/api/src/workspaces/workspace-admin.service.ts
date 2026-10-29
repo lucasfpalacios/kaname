@@ -30,6 +30,36 @@ const slugTaken = (error: unknown) =>
 // Alta, configuración y archivado de espacios. Solo el Dueño de la cuenta (AccountMember OWNER):
 // un Colaborador o un Cliente del espacio recibe 403. El espacio de la ruta ya lo validó
 // WorkspaceGuard (miembro, no archivado); acá se valida la cuenta.
+type Tx = Prisma.TransactionClient;
+
+/**
+ * Deja activos exactamente `modules`, en ese orden, con el resumen siempre activo y primero. Bloquea
+ * la fila del espacio hasta el final de la transacción: dos guardados simultáneos se hacen uno
+ * detrás del otro (gana el último completo, sin mezclar filas de los dos). Son tres operaciones
+ * en vez de un upsert por módulo: crear las filas que falten y un UPDATE con el estado y el orden.
+ */
+async function saveModules(tx: Tx, workspaceId: string, modules: ModuleKey[]) {
+  const enabled = [
+    ModuleKey.DASHBOARD,
+    ...new Set(modules.filter((module) => module !== ModuleKey.DASHBOARD)),
+  ];
+  await tx.$executeRaw`SELECT 1 FROM "Workspace" WHERE "id" = ${workspaceId} FOR UPDATE`;
+  await tx.workspaceModule.createMany({
+    data: Object.values(ModuleKey).map((module) => ({
+      workspaceId,
+      module,
+      enabled: false,
+    })),
+    skipDuplicates: true,
+  });
+  // Los activos toman su posición en la lista; los apagados quedan al final.
+  await tx.$executeRaw`
+    UPDATE "WorkspaceModule"
+    SET "enabled" = "module"::text = ANY(${enabled}::text[]),
+        "sortOrder" = COALESCE(array_position(${enabled}::text[], "module"::text) - 1, ${enabled.length})
+    WHERE "workspaceId" = ${workspaceId}`;
+}
+
 @Injectable()
 export class WorkspaceAdminService {
   constructor(
@@ -97,25 +127,7 @@ export class WorkspaceAdminService {
     try {
       await this.prisma.$transaction(async (tx) => {
         await tx.workspace.update({ where: { id: workspaceId }, data: fields });
-        if (modules) {
-          // El resumen es la página del espacio: siempre activo y primero.
-          const enabled = [
-            ModuleKey.DASHBOARD,
-            ...modules.filter((module) => module !== ModuleKey.DASHBOARD),
-          ];
-          for (const module of Object.values(ModuleKey)) {
-            const index = enabled.indexOf(module);
-            const data = {
-              enabled: index >= 0,
-              sortOrder: index >= 0 ? index : enabled.length,
-            };
-            await tx.workspaceModule.upsert({
-              where: { workspaceId_module: { workspaceId, module } },
-              update: data,
-              create: { workspaceId, module, ...data },
-            });
-          }
-        }
+        if (modules) await saveModules(tx, workspaceId, modules);
       });
     } catch (error) {
       if (slugTaken(error)) throw new ConflictException(ErrorCode.slugTaken);

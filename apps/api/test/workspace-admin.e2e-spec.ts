@@ -179,6 +179,28 @@ describe("Alta y configuración de espacios (Postgres)", () => {
     expect(taken.status).toBe(409);
   });
 
+  it("guardados de módulos en paralelo: queda exactamente una de las listas, sin mezclar", async () => {
+    const { body: created } = await create("owner");
+    const path = `/api/workspaces/${created.id}`;
+    const lists = [
+      ["PRODUCTS", "ORDERS"],
+      ["CUSTOMERS", "CALENDAR", "QUOTES"],
+      ["SUPPLIERS"],
+      ["ORDERS", "PRODUCTS", "PRICE_LISTS", "CALCULATOR"],
+      [],
+    ];
+    const responses = await Promise.all(
+      lists.map((modules) => as("owner").patch(path, { modules })),
+    );
+    expect(responses.map((response) => response.status)).toEqual(
+      lists.map(() => 200),
+    );
+    const final = (await as("owner").get(path)).body.modules;
+    expect(lists.map((modules) => ["DASHBOARD", ...modules])).toContainEqual(
+      final,
+    );
+  });
+
   it("un Colaborador o un Cliente no puede editar ni archivar; alguien de otra cuenta recibe 404", async () => {
     const path = `/api/workspaces/${ids.workspaces.tienda}`;
     for (const user of ["collaborator", "client"] as const) {

@@ -327,7 +327,8 @@
     "archiveConfirmBody": "It will stop showing up for all its members.",
     "archived": "{name} archived",
     "saveError": "The changes couldn't be saved. Try again.",
-    "restoreArchived": "Restore the archived workspace"
+    "restoreArchived": "Restore the archived workspace",
+    "colorAnnounce": "Chosen color: {color}"
   },
   "ModuleInfo": {
     "DASHBOARD": "A board with the workspace's numbers: sales, margins, stock and what's pending, with widgets you'll be able to arrange.",

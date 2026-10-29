@@ -327,7 +327,8 @@
     "archiveConfirmBody": "Va a dejar de aparecer para todos sus miembros.",
     "archived": "{name} archivado",
     "saveError": "No se pudieron guardar los cambios. Probá de nuevo.",
-    "restoreArchived": "Restaurar el espacio archivado"
+    "restoreArchived": "Restaurar el espacio archivado",
+    "colorAnnounce": "Color elegido: {color}"
   },
   "ModuleInfo": {
     "DASHBOARD": "Un tablero con los números del espacio: ventas, márgenes, stock y lo que tengas pendiente, con widgets que vas a poder ordenar.",

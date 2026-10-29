@@ -10,7 +10,14 @@ const meta = {
   args: {
     value: null,
     onChange: () => undefined,
-    labels: { legend: "", none: "", custom: "", preview: "" },
+    labels: {
+      legend: "",
+      none: "",
+      custom: "",
+      preview: "",
+      invalid: "",
+      announce: () => "",
+    },
     preview: { name: "", initials: "", badge: "" },
   },
 } satisfies Meta<typeof WorkspaceColorField>;
@@ -44,6 +51,8 @@ function Field({
         none: s.colorNone,
         custom: s.colorCustom,
         preview: s.colorPreview,
+        invalid: s.colorInvalid,
+        announce: (value) => `${s.colorLegend}: ${value ?? s.colorNone}`,
       }}
       preview={{ name: "Disanza", initials: "DZ", badge: s.owner }}
     />

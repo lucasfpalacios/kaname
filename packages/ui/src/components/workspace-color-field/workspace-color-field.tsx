@@ -43,11 +43,20 @@ export type WorkspaceColorFieldProps = {
     custom: string;
     /** Título de la vista previa ("Vista previa"). */
     preview: string;
+    /** Error del color propio que no es #rrggbb ("Usá un color con el formato #rrggbb."). */
+    invalid: string;
+    /** Lo que anuncia el lector al elegir un color ("Color elegido: #3d6bd1" / "...por defecto"). */
+    announce: (color: string | null) => string;
   };
   /** Lo que muestra la vista previa con el acento elegido. */
   preview: { name: string; initials: string; badge: string };
-  /** Error ya traducido (color inválido). */
+  /** Error ya traducido que viene del formulario (por ejemplo, de la API). */
   error?: string;
+  /**
+   * Avisa si el color propio escrito es válido. Mientras no lo es, `value` sigue siendo el último
+   * válido: el formulario tiene que bloquear el guardado (si no, guardaría otro color).
+   */
+  onValidityChange?: (valid: boolean) => void;
   disabled?: boolean;
   className?: string;
 };
@@ -61,13 +70,25 @@ export function WorkspaceColorField({
   labels,
   preview,
   error,
+  onValidityChange,
   disabled,
   className,
 }: WorkspaceColorFieldProps) {
   const id = useId();
   const [text, setText] = useState(value ?? "");
+  // El error del texto se muestra al salir del campo, no mientras se escribe.
+  const [blurred, setBlurred] = useState(false);
+  // Solo cambia al elegir un color (no al escribir el nombre de la vista previa ni a medio color).
+  const [announced, setAnnounced] = useState("");
   const selected = value === null ? NONE : value.toLowerCase();
   const textInvalid = text !== "" && !isWorkspaceColor(text);
+  const shownError =
+    error ?? (blurred && textInvalid ? labels.invalid : undefined);
+
+  function choose(color: string | null) {
+    onChange(color);
+    setAnnounced(labels.announce(color));
+  }
 
   return (
     <fieldset
@@ -84,7 +105,9 @@ export function WorkspaceColorField({
         onValueChange={(next) => {
           const color = next === NONE ? null : next;
           setText(color ?? "");
-          onChange(color);
+          setBlurred(false);
+          onValidityChange?.(true);
+          choose(color);
         }}
         className="flex flex-wrap gap-2"
       >
@@ -129,18 +152,21 @@ export function WorkspaceColorField({
           maxLength={7}
           spellCheck={false}
           autoComplete="off"
-          aria-invalid={textInvalid || Boolean(error) || undefined}
-          aria-describedby={error ? `${id}-error` : undefined}
+          aria-invalid={Boolean(shownError) || undefined}
+          aria-describedby={shownError ? `${id}-error` : undefined}
+          onBlur={() => setBlurred(true)}
           onChange={(event) => {
             const next = event.target.value.trim();
             setText(next);
-            if (next === "") onChange(null);
-            else if (isWorkspaceColor(next)) onChange(next.toLowerCase());
+            const valid = next === "" || isWorkspaceColor(next);
+            onValidityChange?.(valid);
+            if (next === "") choose(null);
+            else if (valid) choose(next.toLowerCase());
           }}
         />
-        {error && (
+        {shownError && (
           <p id={`${id}-error`} className="text-sm text-destructive">
-            {error}
+            {shownError}
           </p>
         )}
       </div>
@@ -150,7 +176,6 @@ export function WorkspaceColorField({
         </p>
         <WorkspaceAccent
           color={value}
-          aria-live="polite"
           className="flex items-center gap-3 rounded-md border border-border bg-background p-3"
         >
           <WorkspaceAvatar initials={preview.initials} />
@@ -163,6 +188,9 @@ export function WorkspaceColorField({
           <ModuleKanji module="DASHBOARD" size="lg" />
         </WorkspaceAccent>
       </div>
+      <span role="status" className="sr-only">
+        {announced}
+      </span>
     </fieldset>
   );
 }

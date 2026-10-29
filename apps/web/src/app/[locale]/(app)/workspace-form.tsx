@@ -73,6 +73,8 @@ export function WorkspaceForm({
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   // Espacio archivado que usa la dirección elegida (slug_archived).
   const [archivedId, setArchivedId] = useState<string | null>(null);
+  // El color propio escrito no es #rrggbb: no se puede guardar (se guardaría el anterior).
+  const [colorValid, setColorValid] = useState(true);
 
   const set = <K extends keyof WorkspaceFormValues>(
     key: K,
@@ -85,6 +87,11 @@ export function WorkspaceForm({
     setFormError(null);
     setFieldErrors({});
     setArchivedId(null);
+    if (!colorValid) {
+      setFieldErrors({ color: errorMessage("color_invalid") });
+      setPending(false);
+      return;
+    }
     const error = await onSubmit(values);
     setPending(false);
     if (!error) return;
@@ -227,12 +234,16 @@ export function WorkspaceForm({
       <WorkspaceColorField
         value={values.color}
         onChange={(color) => set("color", color)}
+        onValidityChange={setColorValid}
         error={fieldErrors.color}
         labels={{
           legend: t("colorLegend"),
           none: t("colorNone"),
           custom: t("colorCustom"),
           preview: t("colorPreview"),
+          invalid: errorMessage("color_invalid"),
+          announce: (color) =>
+            t("colorAnnounce", { color: color ?? t("colorNone") }),
         }}
         preview={{
           name: values.name || t("namePlaceholder"),
